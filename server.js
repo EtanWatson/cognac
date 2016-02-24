@@ -15,13 +15,13 @@ app.use(webpackDevMiddleware(webpack(WebpackConfig),{
 var fs = require('fs'),
     path = require('path');
 
-fs.readdirSync(__dirname).forEach(function(file){
-    if(fs.statSync(path.join(__dirname,file)).isDirectory()&& file==="public"){
-        console.log(file);
-        app.use(rewrite('/'+file+'/*','/'+file+'/index.html'))
-    }
-});
-
+//fs.readdirSync(__dirname).forEach(function(file){
+//    if(fs.statSync(path.join(__dirname,file)).isDirectory()&& file==="public"){
+//        console.log(file);
+//        app.use(rewrite('/'+file+'/*','/'+file+'/index.html'))
+//    }
+//});
+app.use(rewrite("/public/*","/public/index.html"));
 app.use(express.static(__dirname+"/public/"));
 
 app.listen(8080,function(){

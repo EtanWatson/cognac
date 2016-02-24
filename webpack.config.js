@@ -4,37 +4,41 @@ var fs = require('fs'),
 
 module.exports = {
     devtool:'inline-source-map',
-    //entry : fs.readdirSync(__dirname).reduce(function(entries,dir){
-    //    if(fs.statSync(path.join(__dirname,dir)).isDirectory){
-    //        entries[dir] = path.join(__dirname,dir,'app.js');
-    //    }
-    //    return entries
-    //},{}),
-    entry:{
-       app: './src/app.js'
-    },
+    entry:
+        [
+            'webpack-dev-server/client/?http://127.0.0.1:9090',
+            'webpack/hot/only-dev-server',
+             './src/app.js'
+        ],
     output:{
-        path:__dirname+'/_bulid_',
+        path:__dirname+'/public/',
         filename:'[name].js',
         chunkFilename:'[id].chunk.js',
-        publicPath:'/_build_/'
+        publicPath:'http://127.0.0.1:9090/public/'
     },
-
+    resolve:{
+        root:[process.cwd()+'/src', process.cwd() + '/node_modules'],
+        extensions:['', '.js', '.css', '.scss', '.ejs', '.png', '.jpg']
+    },
     module:{
       loaders:[
           {test:/\.js$/, exclude:/node_modules/,loader:'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0'},
-          {test:/\.css$/,loader:'style!css'}
+          {test:/\.css$/,loader:'style!css'},
+          {test: /\.scss$/, loader: 'style!css!scss'},
+          {
+              test: /.*\.(gif|png|jpe?g|svg)$/i,
+              loaders: [
+                  'file?hash=sha512&digest=hex&name=[hash].[ext]',
+                  'image-webpack?{progressive:true, optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}}'
+              ]
+          }
       ]
     },
-    //resolve:{
-    //    alias:{
-    //        'react-router':path.join(__dirname,'..','moudles')
-    //    }
-    //},
     plugins:[
         new webpack.optimize.CommonsChunkPlugin('shared.js'),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-        })
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ]
 };

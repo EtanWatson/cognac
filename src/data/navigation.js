@@ -1,4 +1,4 @@
- let navArray = [
+ const navArray = [
     {
         name:"taskManage",
         aliasName:"任务管理"

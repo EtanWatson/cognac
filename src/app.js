@@ -1,12 +1,40 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Router,Route,IndexRoute,Link,IndexLink,browserHistory} from 'react-router';
-//import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord} from './components/navItem';
+import {Grid,Row,Col} from 'react-bootstrap';
+//import './img/icon/'
+import  './css/common';
+import './css/header';
+import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord} from './components/navItem';
+import {Header} from './components/headerItem'
+import {OperationItem} from './components/operationItem'
+import {Content} from './components/contentItem'
 const App = React.createClass({
     render(){
         return(
             <div>
-                <NavMenu  />
+                <Grid>
+                    <Row className="show-grid">
+                        <Col xs={4} md={4} lg={4}>
+                            <div>
+                                <NavMenu />
+                                {this.props.children}
+                            </div>
+                         </Col>
+                        <Col xs={8} md={8} lg={8}>
+                            <div>
+                                <Header />
+                            </div>
+                            <div>
+                                <OperationItem />
+                            </div>
+                            <div>
+                                <Content />
+                            </div>
+                        </Col>
+                     </Row>
+                 </Grid>
+
             </div>
         )
     }
@@ -16,58 +44,29 @@ const NavMenu = React.createClass({
     render(){
         return(
             <div>
-                <ul>
-                   <li><IndexLink to="/">职员信息</IndexLink></li>
-                   <li><Link to="/vehicleRecord">车辆档案</Link></li>
-                   <li><Link to="/taskManage">任务管理</Link></li>
-                   <li><Link to="/maintenance">维修保养</Link></li>
-                   <li><Link to="/leaveRecord">事假记录</Link></li>
-                </ul>
+                <div>
+                    <img src="" />
+                </div>
+                <div>
+                   <div>车队管理系统</div>
+                   <div><IndexLink to="/">职员信息</IndexLink></div>
+                   <div><Link to="/vehicleRecord">车辆档案</Link></div>
+                   <div><Link to="/taskManage">任务管理</Link></div>
+                   <div><Link to="/maintenance">维修保养</Link></div>
+                   <div><Link to="/leaveRecord">事假记录</Link></div>
+                </div>
             </div>
         )
-    }
-});
-//任务管理
-const TaskManage = React.createClass({
-    render(){
-        return <div>TaskManage</div>
-    }
-});
-//职员信息
-const StaffInfo = React.createClass({
-    render(){
-        console.log("StaffInfo is called");
-        return <div>StaffInfo</div>
-    }
-});
-//车辆档案
-const VehicleRecord = React.createClass({
-    render(){
-        console.log("VehicleRecord is called");
-        return <div>VehicleRecord</div>
-    }
-});
-//维修保养
-const Maintenance = React.createClass({
-    render(){
-        console.log("Maintenance is called");
-        return <div>VehicleRecord</div>
-    }
-});
-//病事假记录
-const LeaveRecord = React.createClass({
-    render(){
-        return <div>VehicleRecord</div>
     }
 });
 render((
     <Router history={browserHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={StaffInfo}/>
-            <Route path="taskManage" component={TaskManage}/>
-            <Route path="vehicleRecord" component={VehicleRecord}/>
-            <Route path="maintenance" component={Maintenance}/>
-            <Route path="leaveRecord" component={LeaveRecord}/>
+            <Route path="/taskManage" component={TaskManage}/>
+            <Route path="/vehicleRecord" component={VehicleRecord}/>
+            <Route path="/maintenance" component={Maintenance}/>
+            <Route path="/leaveRecord" component={LeaveRecord}/>
         </Route>
     </Router>
 ), document.getElementById('content'));

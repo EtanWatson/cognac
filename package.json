@@ -27,11 +27,21 @@
     "webpack-dev-middleware": "^1.5.1"
   },
   "devDependencies": {
-    "express-urlrewrite": "^1.2.0"
+    "compression": "^1.6.1",
+    "css-loader": "^0.23.1",
+    "express-urlrewrite": "^1.2.0",
+    "file-loader": "^0.8.5",
+    "file-type": "^3.7.0",
+    "if-env": "^1.0.0",
+    "react-bootstrap": "^0.28.3",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "webpack-dev-server --inline --content-base public/ --history-api-fallback --port 9090"
   },
   "repository": {
     "type": "git",
