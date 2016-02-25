@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {render} from 'react-dom';
+import {Router,Route,IndexRoute,Link,IndexLink,browserHistory} from 'react-router';
 import BackboneReactMixin from 'backbone-react-component';
 //任务管理
 const TaskManage = React.createClass({
@@ -62,4 +63,66 @@ const LeaveRecord = React.createClass({
         )
     }
 });
-export{TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord}
+const NavMenu = React.createClass({
+    render(){
+        return(
+            <div className="nav-item-layout">
+                <div className="logo">
+                    <img src="/img/icon/icon_logo.png" />
+                </div>
+                <div>
+                    <div className="title">车队管理系统</div>
+                    <div className="link-box">
+                        <IndexLink to="/" className="">
+                            <div className="link-icon">
+                                <div className="staff-icon icon"></div>
+                                <div className="text">职员信息</div>
+                            </div>
+                        </IndexLink>
+                    </div>
+                    <div className="link-box">
+                        <Link to="/vehicleRecord" className="link-style">
+                            <div className="link-icon">
+                                <div className="vechicle-icon icon"></div>
+                                <div className="text">车辆档案</div>
+                            </div>
+                        </Link>
+                    </div>
+                    <div className="link-box">
+                        <Link to="/taskManage" className="link-style">
+                            <div className="link-icon">
+                                <div className="task-icon icon"></div>
+                                <div className="text">任务管理</div>
+                            </div>
+                        </Link>
+                    </div>
+                    <div className="link-box">
+                        <Link to="/maintenance" className="link-style">
+                            <div className="link-icon">
+                                <div className="maintenance-icon icon"></div>
+                                <div className="text">维修保养</div>
+                            </div>
+                        </Link>
+                    </div>
+                    <div className="link-box">
+                        <Link to="/leaveRecord" className="link-style">
+                           <div className="link-icon">
+                            <div className="leave-record-icon icon"></div>
+                            <div className="text">事假记录</div>
+                           </div>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+});
+//render((
+//    <Router history={browserHistory}>
+//        <Route path="/taskManage" component={TaskManage}/>
+//        <Route path="/vehicleRecord" component={VehicleRecord}/>
+//        <Route path="/maintenance" component={Maintenance}/>
+//        <Route path="/leaveRecord" component={LeaveRecord}/>
+//    </Router>
+//), document.getElementById('content'));
+export{TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu}

@@ -1,0 +1,36 @@
+body {
+  height: 100%;
+  font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif; }
+  body button:hover {
+    text-decoration: none !important; }
+  body button:active {
+    border: none !important; }
+  body button:focus {
+    text-decoration: none !important; }
+  body button {
+    padding: 5px !important; }
+  body h2 {
+    font-size: 20px;
+    color: #000000; }
+  body h3 {
+    color: #2aa2dd;
+    font-size: 18px; }
+  body h4 {
+    color: #2e3c52;
+    font-size: 14px; }
+  body h5 {
+    color: #425a73;
+    font-size: 12px; }
+  body .global-layout {
+    min-width: 1024px; }
+    body .global-layout .right-layout {
+      left: 135px;
+      position: relative;
+      text-align: left;
+      z-index: 1; }
+    body .global-layout .left-layout {
+      padding: 0;
+      position: fixed;
+      z-index: 2; }
+
+/*# sourceMappingURL=common.css.map */

@@ -1,0 +1,10 @@
+.modal-container {
+  position: relative; }
+
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute; }
+
+.modal-body {
+  border: 16px solid #E6E5ED; }
+
+/*# sourceMappingURL=tool.css.map */

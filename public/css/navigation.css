@@ -1,0 +1,47 @@
+body {
+  color: #9e9fb1;
+  text-align: center; }
+  body a {
+    color: #9e9fb1;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    height: 70px; }
+  body a:hover {
+    color: #ffffff;
+    text-decoration: none;
+    background-image: url("/img/icon/nav_btn_pressed.png"); }
+  body a:active {
+    color: #ffffff; }
+  body a:focus {
+    color: #ffffff; }
+  body .nav-item-layout {
+    background-color: #2d3c51;
+    width: 149px; }
+    body .nav-item-layout .logo {
+      padding-top: 45px;
+      padding-bottom: 69px; }
+    body .nav-item-layout .title {
+      margin-bottom: 31px; }
+    body .nav-item-layout .link-box .link-icon {
+      padding: 17% 0 17% 0; }
+      body .nav-item-layout .link-box .link-icon .icon {
+        width: 14px;
+        display: inline-block;
+        height: 13px;
+        background-repeat: no-repeat; }
+      body .nav-item-layout .link-box .link-icon .text {
+        padding-left: 10px;
+        display: inline-block; }
+      body .nav-item-layout .link-box .link-icon .staff-icon {
+        background-image: url("/img/icon/icon_people_default.png"); }
+      body .nav-item-layout .link-box .link-icon .vechicle-icon {
+        background-image: url("/img/icon/icon_people_default.png"); }
+      body .nav-item-layout .link-box .link-icon .task-icon {
+        background-image: url("/img/icon/icon_service_default.png"); }
+      body .nav-item-layout .link-box .link-icon .maintenance-icon {
+        background-image: url("/img/icon/icon_service_default.png"); }
+      body .nav-item-layout .link-box .link-icon .leave-record-icon {
+        background-image: url("/img/icon/icon_sick_leave_default.png"); }
+
+/*# sourceMappingURL=navigation.css.map */

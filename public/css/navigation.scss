@@ -1,0 +1,63 @@
+body{
+  color:#9e9fb1;
+  text-align: center;
+  a{
+    color:#9e9fb1;
+    text-decoration:none;
+    display: block;
+    width: 100%;
+    height: 70px;
+  }
+  a:hover{
+    color: #ffffff;
+    text-decoration:none;
+    background-image: url("/img/icon/nav_btn_pressed.png");
+  }
+  a:active{
+    color: #ffffff;
+  }
+  a:focus{
+    color: #ffffff;
+  }
+  .nav-item-layout{
+    background-color: #2d3c51;
+    width: 149px;
+    .logo{
+      padding-top: 45px;
+      padding-bottom: 69px;
+    }
+    .title{
+      margin-bottom: 31px;
+    }
+    .link-box{
+      .link-icon{
+        padding: 17% 0 17% 0;
+        .icon{
+          width: 14px;
+          display: inline-block;
+          height: 13px;
+          background-repeat: no-repeat;
+        }
+        .text{
+          padding-left: 10px;
+          display: inline-block;
+        }
+        .staff-icon{
+          background-image: url("/img/icon/icon_people_default.png");
+        }
+        .vechicle-icon{
+          background-image: url("/img/icon/icon_people_default.png");
+        }
+        .task-icon{
+          background-image: url("/img/icon/icon_service_default.png");
+        }
+        .maintenance-icon{
+          background-image: url("/img/icon/icon_service_default.png");
+        }
+        .leave-record-icon{
+          background-image: url("/img/icon/icon_sick_leave_default.png");
+        }
+      }
+    }
+  }
+}

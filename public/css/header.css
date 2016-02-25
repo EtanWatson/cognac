@@ -1,0 +1,20 @@
+body .header-content {
+  background-color: #FAFAFC;
+  color: #000000; }
+  body .header-content ul {
+    margin-bottom: 0px; }
+  body .header-content .header-text {
+    border-bottom: 1px solid #e2e2e4; }
+  body .header-content h2 {
+    margin-top: 0; }
+  body .header-content .headerOperationSpace {
+    margin-left: 20%; }
+  body .header-content .header-img {
+    background-image: url("/img/icon/icon_user_head_have.png");
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    position: relative;
+    top: 6px; }
+
+/*# sourceMappingURL=header.css.map */

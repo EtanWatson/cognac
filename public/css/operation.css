@@ -1,0 +1,25 @@
+body .operation {
+  background-color: #FAFAFC;
+  margin-bottom: 0; }
+  body .operation h5 {
+    color: #22384D; }
+  body .operation .tooltip-inner {
+    background-color: #b0b4c0;
+    width: 200px;
+    position: relative;
+    left: -62px; }
+  body .operation .batch-btn {
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    margin: 8px; }
+  body .operation .select-all-btn {
+    background-image: url("/img/icon/icon_select all_default.png"); }
+  body .operation .send-message-btn {
+    background-image: url("/img/icon/icon_send_pressed.png"); }
+  body .operation .delete-item-btn {
+    background-image: url("/img/icon/icon_delete_default.png"); }
+  body .operation .print-item-btn {
+    background-image: url("/img/icon/icon_print_default.png"); }
+
+/*# sourceMappingURL=operation.css.map */

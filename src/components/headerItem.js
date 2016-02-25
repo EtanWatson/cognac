@@ -4,12 +4,12 @@
 import React from 'react';
 import {render} from 'react-dom';
 import BackboneReactMixin from 'backbone-react-component';
-
+import {Button} from 'react-bootstrap';
 //系统设置组件
 const SysTemSetting = React.createClass({
     render(){
         return(
-            <h4>系统设置</h4>
+            <Button bsStyle="link"><h5>系统设置</h5></Button>
         )
     }
 });
@@ -20,7 +20,7 @@ const Admin = React.createClass({
            <div>
                <ul className = "list-inline">
                    <li className = "header-img"></li>
-                   <li>管理员</li>
+                   <li><Button bsStyle="link"><h5>管理员</h5></Button></li>
                </ul>
            </div>
        )
@@ -30,7 +30,7 @@ const LoginOut = React.createClass({
    render(){
        return(
            <div>
-               <h4>退出</h4>
+               <Button bsStyle="link"><h5>退出</h5></Button>
            </div>
        )
    }
@@ -39,24 +39,22 @@ const Header = React.createClass({
     render(){
         return (
             <div>
-                <div>
-                    <ul className="list-inline">
+                <div className="header-content">
+                    <ul className="list-inline header-text">
                         <li>
                             <h2>长江电动汽车</h2>
                         </li>
                         <li>
                             <h4>车队管理系统</h4>
                         </li>
-                    </ul>
-                    <ul className="list-inline">
-                        <li>
+                        <li className="headerOperationSpace">
                             <SysTemSetting />
                         </li>
                         <li>
                             <Admin />
                         </li>
                         <li>
-                            <h4>|</h4>
+                            <h5>|</h5>
                         </li>
                         <li>
                             <LoginOut />
