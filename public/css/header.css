@@ -1,14 +1,15 @@
 body .header-content {
   background-color: #FAFAFC;
+  padding-left: 2%;
   color: #000000; }
   body .header-content ul {
-    margin-bottom: 0px; }
+    margin-bottom: 0; }
   body .header-content .header-text {
     border-bottom: 1px solid #e2e2e4; }
   body .header-content h2 {
-    margin-top: 0; }
+    margin-top: 10px; }
   body .header-content .headerOperationSpace {
-    margin-left: 20%; }
+    float: right; }
   body .header-content .header-img {
     background-image: url("/img/icon/icon_user_head_have.png");
     border-radius: 50%;

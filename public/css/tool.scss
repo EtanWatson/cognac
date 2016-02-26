@@ -1,12 +1,80 @@
-.modal-container {
-  position: relative;
-}
-.modal-container .modal, .modal-container .modal-backdrop {
-  position: absolute;
-}
-.modal-body{
-  border: 16px solid #E6E5ED;
-}
+
 .modal-dialog{
   //text-align: right;
+  width: 600px !important;
+  .modal-body{
+    .is-outage{
+      text-align: right;
+    }
+    label{
+      text-align: right;
+      > span{
+        color: #425a73;
+        font-size: 12px;
+      }
+    }
+    border: 16px solid #E6E5ED;
+    padding: 0;
+    .dialog-header{
+      padding: 20px;
+      border-bottom: 10px solid #E6E5ED;
+      .upload-icon{
+        position: relative;
+        top: -70px;
+        left: 60px;
+      }
+      input[type=file]{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 58px;
+        height: 58px;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+        filter: alpha(opacity=0);
+        -moz-opacity: 0;
+        -khtml-opacity: 0;
+        opacity: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    }
+    .dialog-body-up{
+      height: 250px;
+      padding: 20px;
+      border-bottom: 10px solid #E6E5ED;
+      .icheckbox_minimal-green{
+        position: absolute !important;
+        right: -33px;
+      }
+    }
+    .dialog-body-down{
+
+    }
+    .dialog-footer{
+      height: 50px;
+      margin-bottom: 0;
+      background-color:#E6E5ED;
+      .footer-btn{
+        position: relative;
+        top: 18px;
+        button:hover, input[type=button]:hover, input[type=reset]:hover, input[type=submit]:hover{
+          background-color: #2aa2de;
+        }
+        button{
+          width: 96px;
+        }
+      }
+      .btn-left{
+        text-align: left;
+      }
+      .btn-middle{
+        text-align: center;
+      }
+      .btn-right{
+        text-align: right;
+      }
+    }
+  }
 }

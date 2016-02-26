@@ -9,18 +9,26 @@ body {
     text-decoration: none !important; }
   body button {
     padding: 5px !important; }
+  body button {
+    outline: none !important; }
   body h2 {
     font-size: 20px;
-    color: #000000; }
+    color: #000000;
+    font-weight: 700; }
   body h3 {
     color: #2aa2dd;
-    font-size: 18px; }
+    font-size: 18px;
+    font-weight: 600; }
   body h4 {
     color: #2e3c52;
-    font-size: 14px; }
+    font-size: 14px;
+    font-weight: 600; }
   body h5 {
     color: #425a73;
-    font-size: 12px; }
+    font-size: 12px;
+    font-weight: 600; }
+  body h5:hover {
+    color: #2aa2dd; }
   body .global-layout {
     min-width: 1024px; }
     body .global-layout .right-layout {
@@ -29,8 +37,11 @@ body {
       text-align: left;
       z-index: 1; }
     body .global-layout .left-layout {
+      height: 100%;
       padding: 0;
       position: fixed;
       z-index: 2; }
+      body .global-layout .left-layout > div {
+        height: 100%; }
 
 /*# sourceMappingURL=common.css.map */

@@ -1,10 +1,60 @@
-.modal-container {
-  position: relative; }
-
-.modal-container .modal, .modal-container .modal-backdrop {
-  position: absolute; }
-
-.modal-body {
-  border: 16px solid #E6E5ED; }
+.modal-dialog {
+  width: 600px !important; }
+  .modal-dialog .modal-body {
+    border: 16px solid #E6E5ED;
+    padding: 0; }
+    .modal-dialog .modal-body .is-outage {
+      text-align: right; }
+    .modal-dialog .modal-body label {
+      text-align: right; }
+      .modal-dialog .modal-body label > span {
+        color: #425a73;
+        font-size: 12px; }
+    .modal-dialog .modal-body .dialog-header {
+      padding: 20px;
+      border-bottom: 10px solid #E6E5ED; }
+      .modal-dialog .modal-body .dialog-header .upload-icon {
+        position: relative;
+        top: -70px;
+        left: 60px; }
+      .modal-dialog .modal-body .dialog-header input[type=file] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 58px;
+        height: 58px;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+        filter: alpha(opacity=0);
+        -moz-opacity: 0;
+        -khtml-opacity: 0;
+        opacity: 0;
+        background: none;
+        border: none;
+        cursor: pointer; }
+    .modal-dialog .modal-body .dialog-body-up {
+      height: 250px;
+      padding: 20px;
+      border-bottom: 10px solid #E6E5ED; }
+      .modal-dialog .modal-body .dialog-body-up .icheckbox_minimal-green {
+        position: absolute !important;
+        right: -33px; }
+    .modal-dialog .modal-body .dialog-footer {
+      height: 50px;
+      margin-bottom: 0;
+      background-color: #E6E5ED; }
+      .modal-dialog .modal-body .dialog-footer .footer-btn {
+        position: relative;
+        top: 18px; }
+        .modal-dialog .modal-body .dialog-footer .footer-btn button:hover, .modal-dialog .modal-body .dialog-footer .footer-btn input[type=button]:hover, .modal-dialog .modal-body .dialog-footer .footer-btn input[type=reset]:hover, .modal-dialog .modal-body .dialog-footer .footer-btn input[type=submit]:hover {
+          background-color: #2aa2de; }
+        .modal-dialog .modal-body .dialog-footer .footer-btn button {
+          width: 96px; }
+      .modal-dialog .modal-body .dialog-footer .btn-left {
+        text-align: left; }
+      .modal-dialog .modal-body .dialog-footer .btn-middle {
+        text-align: center; }
+      .modal-dialog .modal-body .dialog-footer .btn-right {
+        text-align: right; }
 
 /*# sourceMappingURL=tool.css.map */

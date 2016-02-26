@@ -11,23 +11,33 @@ body{
   button{
     padding: 5px !important;
   }
+  button{
+    outline: none !important;
+  }
   height: 100%;
   font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
   h2{
     font-size: 20px;
     color: #000000;
+    font-weight: 700;
   }
   h3{
     color: #2aa2dd;
     font-size: 18px;
+    font-weight: 600;
   }
   h4{
     color: #2e3c52;
     font-size: 14px;
+    font-weight: 600;
   }
   h5{
     color: #425a73;
     font-size: 12px;
+    font-weight: 600;
+  }
+  h5:hover{
+    color: #2aa2dd;
   }
   .global-layout{
     min-width: 1024px;
@@ -38,6 +48,10 @@ body{
         z-index: 1;
       }
       .left-layout{
+        height: 100%;
+        > div{
+          height: 100%;
+        }
         padding: 0;
         position: fixed;
         z-index: 2;

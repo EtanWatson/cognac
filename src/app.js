@@ -2,9 +2,6 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Router,Route,IndexRoute,Link,IndexLink,browserHistory} from 'react-router';
 import {Grid,Row,Col} from 'react-bootstrap';
-//import './img/icon/'
-//import  './css/common';
-//import './css/header';
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './components/navItem';
 import {Header} from './components/headerItem'
 import {OperationItem} from './components/operationItem'

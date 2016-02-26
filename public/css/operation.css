@@ -1,8 +1,17 @@
+body .operationItem {
+  clear: both;
+  padding-left: 2%;
+  background-color: #FAFAFC; }
 body .operation {
-  background-color: #FAFAFC;
   margin-bottom: 0; }
+  body .operation .list-inline > li {
+    padding-right: 0px; }
   body .operation h5 {
-    color: #22384D; }
+    color: #22384D;
+    position: relative;
+    top: -1px; }
+  body .operation h5:hover {
+    color: #2aa2dd; }
   body .operation .tooltip-inner {
     background-color: #b0b4c0;
     width: 200px;
@@ -13,6 +22,21 @@ body .operation {
     width: 15px;
     height: 15px;
     margin: 8px; }
+  body .operation .operation-item-icon {
+    width: 13px;
+    height: 13px; }
+  body .operation .add-item-icon {
+    background-image: url("/img/icon/icon_add_default.png"); }
+  body .operation .add-item-icon-hover {
+    background-image: url("/img/icon/icon_add_pressed.png"); }
+  body .operation .list-item-icon {
+    background-image: url("/img/icon/icon_card_default.png"); }
+  body .operation .list-item-icon-hover {
+    background-image: url("/img/icon/icon_card_pressed.png"); }
+  body .operation .batch-item-icon {
+    background-image: url("/img/icon/icon_batch_deffault.png"); }
+  body .operation .batch-item-icon-hover {
+    background-image: url("/img/icon/icon_batch_pressed.png"); }
   body .operation .select-all-btn {
     background-image: url("/img/icon/icon_select all_default.png"); }
   body .operation .send-message-btn {
@@ -21,5 +45,32 @@ body .operation {
     background-image: url("/img/icon/icon_delete_default.png"); }
   body .operation .print-item-btn {
     background-image: url("/img/icon/icon_print_default.png"); }
+  body .operation .type-color {
+    width: 12px;
+    height: 12px; }
+  body .operation .type-color.driver {
+    background-color: #f0c22f; }
+  body .operation .type-color.manager {
+    background-color: #ef4c4f; }
+  body .operation .type-color.other {
+    background-color: #28d3db; }
+  body .operation .search-item {
+    position: relative;
+    top: 10px;
+    width: 20%; }
+    body .operation .search-item .innerSearchIcon {
+      width: 13px;
+      height: 13px;
+      background-image: url("/img/icon/icon_search.png");
+      background-repeat: no-repeat; }
+    body .operation .search-item .form-group {
+      margin-bottom: 0; }
+      body .operation .search-item .form-group .input-group-addon {
+        background-color: #ffffff; }
+  body .operation .outage-record-text {
+    font-size: 12px;
+    color: #425a73;
+    font-weight: 600;
+    padding-left: 10px; }
 
 /*# sourceMappingURL=operation.css.map */

@@ -1,22 +1,42 @@
 /**
  * 操作区组件
  */
+import $ from 'jquery'
 import React from 'react';
 import {render} from 'react-dom';
 import ReactDOM from 'react-dom';
-import {Button,Tooltip,Overlay} from 'react-bootstrap';
+import {Button,Tooltip,Overlay,Input,Collapse,Well} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
-import {ModalDialog} from './toolComponents/ModelConponents'
+import {ModalDialog} from './toolComponents/ModelConponents';
+import {Checkbox,Radio} from 'react-icheck';
 //添加
 const AddItem = React.createClass({
     getInitialState(){
-      return {lgShow:false};
+      return {
+          lgShow:false,
+          isHover:false
+
+      };
+    },
+    handleMouseEnter:function(event){
+        $('.add-item-icon').removeClass('add-item-icon').addClass('add-item-icon-hover');
+    },
+    handleMouseLeave:function(){
+        $('.add-item-icon-hover').removeClass('add-item-icon-hover').addClass('add-item-icon');
     },
     render(){
         let lgClose = () => this.setState({lgShow:false});
         return(
             <li>
-                <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}><h5>添加</h5></Button>
+                <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}>
+                   <ul className = 'list-inline' onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+                        <li className = "add-item-icon operation-item-icon">
+                        </li>
+                        <li>
+                            <h5>添加</h5>
+                        </li>
+                   </ul>
+                </Button>
                 <ModalDialog show={this.state.lgShow} onHide={lgClose}/>
             </li>
         )
@@ -24,10 +44,21 @@ const AddItem = React.createClass({
 });
 //列表
 const ListItem =React.createClass({
+    handleMouseEnter:function(event){
+        $('.list-item-icon').removeClass('list-item-icon').addClass('list-item-icon-hover');
+    },
+    handleMouseLeave:function(){
+        $('.list-item-icon-hover').removeClass('list-item-icon-hover').addClass('list-item-icon');
+    },
     render(){
         return(
             <li>
-                <Button bsStyle="link"><h5>列表展示</h5></Button>
+                <Button bsStyle="link">
+                    <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+                        <li className = "list-item-icon operation-item-icon"></li>
+                        <li><h5>列表展示</h5></li>
+                     </ul>
+                </Button>
             </li>
         )
     }
@@ -41,6 +72,12 @@ const BatchOperation = React.createClass({
       this.setState({
           show: !this.state.show
       })
+    },
+    handleMouseEnter:function(event){
+        $('.batch-item-icon').removeClass('batch-item-icon').addClass('batch-item-icon-hover');
+    },
+    handleMouseLeave:function(){
+        $('.batch-item-icon-hover').removeClass('batch-item-icon-hover').addClass('batch-item-icon');
     },
     render(){
         const tooltip =
@@ -59,7 +96,14 @@ const BatchOperation = React.createClass({
         };
         return(
             <li style={{position: 'relative' }}>
-                <Button bsStyle="link" ref="target" onClick={this.toggle}><h5>批量删除</h5></Button>
+                <Button bsStyle="link" ref="target" onClick={this.toggle}>
+                    <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+                        <li className = "batch-item-icon operation-item-icon"></li>
+                        <li>
+                            <h5>批量操作</h5>
+                        </li>
+                    </ul>
+                </Button>
                 <Overlay {...sharedProps} placement="bottom">
                     {tooltip}
                 </Overlay>
@@ -111,7 +155,7 @@ const CarType = React.createClass({
     render(){
         return(
             <li>
-                <ul list-inline>
+                <ul className="list-inline">
                     <Driver />
                     <Manager />
                     <Other />
@@ -124,7 +168,14 @@ const CarType = React.createClass({
 const Driver = React.createClass({
     render(){
         return(
-            <li></li>
+            <li>
+                <Button bsStyle="link">
+                    <ul className="list-inline">
+                        <li className = "type-color driver"></li>
+                        <li className = "type-text"><h5>司机</h5></li>
+                     </ul>
+                </Button>
+            </li>
         )
     }
 });
@@ -132,7 +183,14 @@ const Driver = React.createClass({
 const Manager = React.createClass({
     render(){
         return(
-            <li></li>
+            <li>
+                <Button bsStyle="link">
+                    <ul className = "list-inline">
+                        <li className ="type-color manager"></li>
+                        <li className ="type-text"><h5>管理</h5></li>
+                    </ul>
+                </Button>
+            </li>
         )
     }
 });
@@ -140,16 +198,48 @@ const Manager = React.createClass({
 const Other = React.createClass({
    render(){
        return(
-           <li></li>
+           <li>
+               <Button bsStyle="link">
+                   <ul className="list-inline">
+                       <li className = "type-color other"></li>
+                       <li className = "type-text"><h5>其他</h5></li>
+                   </ul>
+                </Button>
+           </li>
        )
    }
 });
 //搜索
+const innerSearchIcon = <div className="innerSearchIcon"></div>;
 const Search = React.createClass({
     render(){
         return(
-            <li>
-                <h5>搜索</h5>
+            <li className = "search-item">
+                <Input type = "text"  bsSize="small" addonBefore={innerSearchIcon}></Input>
+            </li>
+
+        )
+    }
+});
+//高级搜索
+const AdvancedSearchIcon = React.createClass({
+    getInitialState(){
+        return {open:false}
+    },
+    render(){
+        return(
+            <li className = "advanced-search-item">
+                    <Button  bsStyle="link" onClick={ ()=> this.setState({ open: !this.state.open })}>
+                        <h5>高级搜索</h5>
+                    </Button>
+                {/*<Collapse in={this.state.open}>
+                    <div>
+                        <Well>
+                            Hello
+                        </Well>
+                    </div>
+                </Collapse>
+                */}
             </li>
         )
     }
@@ -159,7 +249,11 @@ const OutageRecord = React.createClass({
     render(){
         return(
             <li>
-                <h5>显示停用记录</h5>
+                <Checkbox
+                    checkboxClass="icheckbox_minimal-green"
+                    increaseArea="20%"
+                    label="<span class='outage-record-text'>显示停用记录</span>"
+                    />
             </li>
         )
     }
@@ -174,6 +268,7 @@ const OperationItem= React.createClass({
                 <BatchOperation />
                 <CarType />
                 <Search />
+                <AdvancedSearchIcon />
                 <OutageRecord />
             </ul>
         )

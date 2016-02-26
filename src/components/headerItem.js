@@ -42,22 +42,30 @@ const Header = React.createClass({
                 <div className="header-content">
                     <ul className="list-inline header-text">
                         <li>
-                            <h2>长江电动汽车</h2>
-                        </li>
-                        <li>
-                            <h4>车队管理系统</h4>
+                            <ul className = "list-inline">
+                                <li>
+                                    <h2>长江电动汽车</h2>
+                                </li>
+                                <li>
+                                    <h4>车队管理系统</h4>
+                                </li>
+                            </ul>
                         </li>
                         <li className="headerOperationSpace">
-                            <SysTemSetting />
-                        </li>
-                        <li>
-                            <Admin />
-                        </li>
-                        <li>
-                            <h5>|</h5>
-                        </li>
-                        <li>
-                            <LoginOut />
+                            <ul className = "list-inline">
+                                <li>
+                                    <SysTemSetting />
+                                 </li>
+                                <li>
+                                    <Admin />
+                                </li>
+                                <li>
+                                    <h5>|</h5>
+                                </li>
+                                <li>
+                                    <LoginOut />
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

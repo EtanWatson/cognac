@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+  overflow: hidden; }
+
 body {
   color: #9e9fb1;
   text-align: center; }
@@ -16,6 +20,7 @@ body {
   body a:focus {
     color: #ffffff; }
   body .nav-item-layout {
+    height: 100%;
     background-color: #2d3c51;
     width: 149px; }
     body .nav-item-layout .logo {

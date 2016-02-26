@@ -1,18 +1,20 @@
 body{
   .header-content{
     background-color: #FAFAFC;
+    padding-left: 2%;
     ul{
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
     .header-text{
       border-bottom: 1px solid #e2e2e4;
     }
     color: #000000;
     h2{
-      margin-top: 0;
+      margin-top: 10px;
     }
     .headerOperationSpace{
-      margin-left: 20%;
+      //margin-left: 20%;
+      float: right;
     }
     .header-img{
       background-image:url('/img/icon/icon_user_head_have.png') ;
