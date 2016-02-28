@@ -13,8 +13,7 @@ import {Checkbox,Radio} from 'react-icheck';
 const AddItem = React.createClass({
     getInitialState(){
       return {
-          lgShow:false,
-          isHover:false
+          lgShow:false
 
       };
     },
@@ -263,13 +262,22 @@ const OperationItem= React.createClass({
     render(){
         return(
             <ul className="list-inline operation">
-                <AddItem />
-                <ListItem />
-                <BatchOperation />
-                <CarType />
-                <Search />
-                <AdvancedSearchIcon />
-                <OutageRecord />
+                <li className = "left-item">
+                    <ul className = "list-inline">
+                        <AddItem />
+                        <ListItem />
+                        <BatchOperation />
+                    </ul>
+                </li>
+                <li className = "right-item">
+                    <ul className = "list-inline">
+                        <CarType />
+                        <Search />
+                        <AdvancedSearchIcon />
+                        <OutageRecord />
+                    </ul>
+                </li>
+
             </ul>
         )
     }

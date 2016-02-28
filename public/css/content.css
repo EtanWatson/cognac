@@ -1,4 +1,15 @@
 .content {
-  background-color: #E6E5ED; }
+  clear : both;
+  background-color: #E6E5ED;
+
+}
+.content .card-style{
+  margin-left: 2%;
+  width: 20%;
+  background-color: #FFFFFF;
+}
+.content .card-style h5{
+  color: #425a73;
+}
 
 /*# sourceMappingURL=content.css.map */

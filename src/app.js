@@ -12,13 +12,13 @@ const App = React.createClass({
             <div className="global-layout">
                 <Grid>
                     <Row className="show-grid">
-                        <Col xs={1} md={1} lg={1} className="left-layout">
+                        <Col md={1} lg={1} className="left-layout">
                             <div>
                                 <NavMenu />
                                 {this.props.children}
                             </div>
                          </Col>
-                        <Col xs={11} md={11} lg={11} className="right-layout">
+                        <Col md={11} lg={11} className="right-layout">
                             <div>
                                 <Header />
                             </div>
