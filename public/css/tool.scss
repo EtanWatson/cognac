@@ -1,10 +1,11 @@
 
 .modal-dialog{
-  //text-align: right;
   width: 600px !important;
   .modal-body{
     .is-outage{
       text-align: right;
+      position: relative;
+      left: 35px;
     }
     label{
       text-align: right;
@@ -18,6 +19,14 @@
     .dialog-header{
       padding: 20px;
       border-bottom: 10px solid #E6E5ED;
+      .dialog-up-file{
+        width: 25%;
+      }
+      .dialog-header-content{
+        width: 45%;
+        top: 40px;
+        position: relative;
+      }
       .upload-icon{
         position: relative;
         top: -70px;
@@ -41,16 +50,39 @@
       }
     }
     .dialog-body-up{
-      height: 250px;
+      height: 305px;
       padding: 20px;
       border-bottom: 10px solid #E6E5ED;
       .icheckbox_minimal-green{
         position: absolute !important;
-        right: -33px;
+        right: -18px;
+      }
+      .sex-box{
+        position: relative;
+        .sex-radio{
+          position: absolute;
+          top: -116px;
+          left: 30px;
+          .sex-select{
+            >div{
+              width: 90px;
+              label:first-child{
+                position: relative;
+                right: 10px;
+              }
+            }
+          }
+        }
+      }
+      .up-right{
+        >div:last-child{
+          position: relative;
+          right: 22px;
+        }
       }
     }
     .dialog-body-down{
-
+      padding: 20px;
     }
     .dialog-footer{
       height: 50px;
@@ -76,5 +108,40 @@
         text-align: right;
       }
     }
+    .input-space{
+      margin-bottom: 10px;
+    }
+    .remark-input,.remark-label{
+      position: relative;
+      right: 10px;
+    }
+    .control-label{
+      position: relative;
+      top: 5px;
+    }
+    .input-wrapper{
+      padding-left: 0;
+    }
+    .input-wrapper.phone{
+      padding-right: 0;
+    }
+  }
+  .star{
+    background-image: url("/img/icon/star.png");
+    background-repeat: no-repeat;
+    background-position: 40% 41%;
+  }
+  .star.id{
+    background-position: 32% 41%;
+  }
+  .star.sex{
+
+  }
+  .star.code{
+    background-position: 62% 41%;
+  }
+  .star.sex{
+    width: 34px;
+    background-position: 0 41%;
   }
 }

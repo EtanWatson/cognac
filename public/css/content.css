@@ -1,15 +1,57 @@
 .content {
-  clear : both;
-  background-color: #E6E5ED;
-
-}
-.content .card-style{
-  margin-left: 2%;
-  width: 20%;
-  background-color: #FFFFFF;
-}
-.content .card-style h5{
-  color: #425a73;
-}
+  position: relative;
+  padding-top: 132px;
+  left: 20px; }
+  .content .card-style {
+    margin-left: 2%;
+    width: 182px;
+    background: #ffffff;
+    position: relative; }
+    .content .card-style .list-inline {
+      padding-left: 12%; }
+    .content .card-style h5 {
+      color: #425a73; }
+    .content .card-style .card-select-img {
+      position: absolute;
+      left: 146px;
+      cursor: pointer; }
+    .content .card-style .header-img {
+      position: relative;
+      top: -20px; }
+    .content .card-style .header-left {
+      padding-left: 8%; }
+      .content .card-style .header-left .circle {
+        width: 13px;
+        height: 13px;
+        border-radius: 13px;
+        border: 2px solid #44c281; }
+      .content .card-style .header-left .status {
+        position: relative;
+        top: -2px; }
+    .content .card-style ul {
+      margin-bottom: 0; }
+    .content .card-style .footer-img {
+      position: relative; }
+      .content .card-style .footer-img .type-icon {
+        position: absolute;
+        top: 30px;
+        left: 155px; }
+    .content .card-style .default-style {
+      width: 100%;
+      position: relative; }
+      .content .card-style .default-style .operation-in-card {
+        background: rgba(255, 255, 255, 0.5);
+        position: absolute;
+        top: -58px;
+        padding-left: 10px;
+        width: 100%;
+        height: 58px;
+        left: 5px; }
+    .content .card-style .item-close {
+      display: none; }
+    .content .card-style .item-open {
+      display: block; }
+  .content .card-style.isHover {
+    box-shadow: 2px 3px 2px 3px; }
 
 /*# sourceMappingURL=content.css.map */

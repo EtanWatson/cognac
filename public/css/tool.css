@@ -4,7 +4,9 @@
     border: 16px solid #E6E5ED;
     padding: 0; }
     .modal-dialog .modal-body .is-outage {
-      text-align: right; }
+      text-align: right;
+      position: relative;
+      left: 35px; }
     .modal-dialog .modal-body label {
       text-align: right; }
       .modal-dialog .modal-body label > span {
@@ -13,6 +15,12 @@
     .modal-dialog .modal-body .dialog-header {
       padding: 20px;
       border-bottom: 10px solid #E6E5ED; }
+      .modal-dialog .modal-body .dialog-header .dialog-up-file {
+        width: 25%; }
+      .modal-dialog .modal-body .dialog-header .dialog-header-content {
+        width: 45%;
+        top: 40px;
+        position: relative; }
       .modal-dialog .modal-body .dialog-header .upload-icon {
         position: relative;
         top: -70px;
@@ -33,12 +41,28 @@
         border: none;
         cursor: pointer; }
     .modal-dialog .modal-body .dialog-body-up {
-      height: 250px;
+      height: 305px;
       padding: 20px;
       border-bottom: 10px solid #E6E5ED; }
       .modal-dialog .modal-body .dialog-body-up .icheckbox_minimal-green {
         position: absolute !important;
-        right: -33px; }
+        right: -18px; }
+      .modal-dialog .modal-body .dialog-body-up .sex-box {
+        position: relative; }
+        .modal-dialog .modal-body .dialog-body-up .sex-box .sex-radio {
+          position: absolute;
+          top: -116px;
+          left: 30px; }
+          .modal-dialog .modal-body .dialog-body-up .sex-box .sex-radio .sex-select > div {
+            width: 90px; }
+            .modal-dialog .modal-body .dialog-body-up .sex-box .sex-radio .sex-select > div label:first-child {
+              position: relative;
+              right: 10px; }
+      .modal-dialog .modal-body .dialog-body-up .up-right > div:last-child {
+        position: relative;
+        right: 22px; }
+    .modal-dialog .modal-body .dialog-body-down {
+      padding: 20px; }
     .modal-dialog .modal-body .dialog-footer {
       height: 50px;
       margin-bottom: 0;
@@ -56,5 +80,28 @@
         text-align: center; }
       .modal-dialog .modal-body .dialog-footer .btn-right {
         text-align: right; }
+    .modal-dialog .modal-body .input-space {
+      margin-bottom: 10px; }
+    .modal-dialog .modal-body .remark-input, .modal-dialog .modal-body .remark-label {
+      position: relative;
+      right: 10px; }
+    .modal-dialog .modal-body .control-label {
+      position: relative;
+      top: 5px; }
+    .modal-dialog .modal-body .input-wrapper {
+      padding-left: 0; }
+    .modal-dialog .modal-body .input-wrapper.phone {
+      padding-right: 0; }
+  .modal-dialog .star {
+    background-image: url("/img/icon/star.png");
+    background-repeat: no-repeat;
+    background-position: 40% 41%; }
+  .modal-dialog .star.id {
+    background-position: 32% 41%; }
+  .modal-dialog .star.code {
+    background-position: 62% 41%; }
+  .modal-dialog .star.sex {
+    width: 34px;
+    background-position: 0 41%; }
 
 /*# sourceMappingURL=tool.css.map */

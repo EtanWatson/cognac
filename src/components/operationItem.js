@@ -14,7 +14,6 @@ const AddItem = React.createClass({
     getInitialState(){
       return {
           lgShow:false
-
       };
     },
     handleMouseEnter:function(event){

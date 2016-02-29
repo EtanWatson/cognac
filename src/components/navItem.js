@@ -65,6 +65,20 @@ const LeaveRecord = React.createClass({
 });
 const NavMenu = React.createClass({
     render(){
+        var navArrayValue = this.props.navArray;
+        var items = navArrayValue.map(function(item){
+            return(
+                <div className="link-box">
+                    <Link to={"/"+item.name} className="link-style">
+                        <div className = "link-icon">
+                            <div className ={item.icon+" icon"}></div>
+                            <div className = "text">{item.aliasName}</div>
+                        </div>
+                    </Link>
+                </div>
+
+            )
+        });
         return(
             <div className="nav-item-layout">
                 <div className="logo">
@@ -72,57 +86,10 @@ const NavMenu = React.createClass({
                 </div>
                 <div>
                     <div className="title">车队管理系统</div>
-                    <div className="link-box">
-                        <IndexLink to="/" className="">
-                            <div className="link-icon">
-                                <div className="staff-icon icon"></div>
-                                <div className="text">职员信息</div>
-                            </div>
-                        </IndexLink>
-                    </div>
-                    <div className="link-box">
-                        <Link to="/vehicleRecord" className="link-style">
-                            <div className="link-icon">
-                                <div className="vechicle-icon icon"></div>
-                                <div className="text">车辆档案</div>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="link-box">
-                        <Link to="/taskManage" className="link-style">
-                            <div className="link-icon">
-                                <div className="task-icon icon"></div>
-                                <div className="text">任务管理</div>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="link-box">
-                        <Link to="/maintenance" className="link-style">
-                            <div className="link-icon">
-                                <div className="maintenance-icon icon"></div>
-                                <div className="text">维修保养</div>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="link-box">
-                        <Link to="/leaveRecord" className="link-style">
-                           <div className="link-icon">
-                            <div className="leave-record-icon icon"></div>
-                            <div className="text">事假记录</div>
-                           </div>
-                        </Link>
-                    </div>
+                    {items}
                 </div>
-            </div>
+             </div>
         )
     }
 });
-//render((
-//    <Router history={browserHistory}>
-//        <Route path="/taskManage" component={TaskManage}/>
-//        <Route path="/vehicleRecord" component={VehicleRecord}/>
-//        <Route path="/maintenance" component={Maintenance}/>
-//        <Route path="/leaveRecord" component={LeaveRecord}/>
-//    </Router>
-//), document.getElementById('content'));
 export{TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu}

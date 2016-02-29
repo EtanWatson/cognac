@@ -1,24 +1,29 @@
  const navArray = [
     {
         name:"taskManage",
-        aliasName:"任务管理"
+        aliasName:"任务管理",
+        icon:"task-icon"
     },
     {
         name:"staffInfo",
-        aliasName:"职员信息"
+        aliasName:"职员信息",
+        icon:"staff-icon"
     },
     {
         name:"vehicleRecord",
-        aliasName:"车辆档案"
+        aliasName:"车辆档案",
+        icon:"vehicle-icon"
 
     },
     {
         name:"maintenance",
-        aliasName:"维修保养"
+        aliasName:"维修保养",
+        icon:"maintenance-icon"
     },
     {
-        name:"LeaveRecord",
-        aliasName:"事假记录"
+        name:"leaveRecord",
+        aliasName:"事假记录",
+        icon:"leave-icon"
     }
  ];
  export{navArray};

@@ -1,4 +1,8 @@
 body{
+
+  .container{
+
+  }
   button:hover{
     text-decoration: none !important;
   }
@@ -42,10 +46,22 @@ body{
   .global-layout{
     min-width: 1024px;
       .right-layout{
-        left: 135px;
         position: relative;
         text-align: left;
         z-index: 1;
+        .header-fixed{
+            position: fixed;
+            z-index: 3;
+            width: 100%;
+            background-color: #FFFFFF;
+            right: 0;
+        }
+        .content-relative{
+          position: relative;
+          left: 134px;
+          clear: both;
+          background-color: #E6E5ED;
+        }
       }
       .left-layout{
         height: 100%;
@@ -56,5 +72,23 @@ body{
         position: fixed;
         z-index: 2;
       }
+  }
+  #page-content{
+    height: 100%;
+    .global-layout{
+      height: 100%;
+      .container-fluid{
+        height: 100%;
+        .show-grid{
+          height: 100%;
+          .right-layout{
+              height: 100%;
+            .content-relative{
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
   }
 }

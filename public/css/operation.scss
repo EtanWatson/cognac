@@ -1,12 +1,10 @@
 body{
-  .operationItem{
+  .operation{
     clear: both;
     padding-left: 2%;
     background-color:#FAFAFC;
-  }
-  .operation{
     .list-inline>li{
-      padding-right: 0px;
+      //padding-right: 0;
     }
     margin-bottom: 0;
     h5{
@@ -17,13 +15,21 @@ body{
     h5:hover{
       color: #2aa2dd;
     }
-    .tooltip-inner{
-      background-color: #b0b4c0;
-      width: 200px;
-      position: relative;
-      left: -62px;
+    #deleteBatch{
+      top: 41.2px !important;
+      .tooltip-inner{
+        background-color: #b0b4c0;
+        width: 200px;
+        position: relative;
+        left: -62px;
+      }
+      .tooltip-arrow{
+        border-bottom-color: #b0b4c0 !important;
+      }
     }
     .left-item{
+      position: relative;
+      left: 134px;
       .batch-btn{
         background-repeat: no-repeat;
         width: 15px;
@@ -66,7 +72,10 @@ body{
       }
     }
     .right-item{
-       float:right;
+      float: right;
+      width: 590px;
+      position: relative;
+      top: -2px;
       .type-color{
         width: 12px;
         height: 12px;

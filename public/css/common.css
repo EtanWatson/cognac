@@ -16,7 +16,7 @@ body {
     color: #000000;
     font-weight: 700; }
   body h3 {
-    color: #2aa2dd;
+    color: #000000;
     font-size: 18px;
     font-weight: 600; }
   body h4 {
@@ -32,10 +32,20 @@ body {
   body .global-layout {
     min-width: 1024px; }
     body .global-layout .right-layout {
-      left: 135px;
       position: relative;
       text-align: left;
       z-index: 1; }
+      body .global-layout .right-layout .header-fixed {
+        position: fixed;
+        z-index: 3;
+        width: 100%;
+        background-color: #FFFFFF;
+        right: 0; }
+      body .global-layout .right-layout .content-relative {
+        position: relative;
+        left: 134px;
+        clear: both;
+        background-color: #E6E5ED; }
     body .global-layout .left-layout {
       height: 100%;
       padding: 0;
@@ -43,5 +53,17 @@ body {
       z-index: 2; }
       body .global-layout .left-layout > div {
         height: 100%; }
+  body #page-content {
+    height: 100%; }
+    body #page-content .global-layout {
+      height: 100%; }
+      body #page-content .global-layout .container-fluid {
+        height: 100%; }
+        body #page-content .global-layout .container-fluid .show-grid {
+          height: 100%; }
+          body #page-content .global-layout .container-fluid .show-grid .right-layout {
+            height: 100%; }
+            body #page-content .global-layout .container-fluid .show-grid .right-layout .content-relative {
+              height: 100%; }
 
 /*# sourceMappingURL=common.css.map */

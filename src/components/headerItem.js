@@ -41,7 +41,7 @@ const Header = React.createClass({
             <div>
                 <div className="header-content">
                     <ul className="list-inline header-text">
-                        <li>
+                        <li className="header-title-left">
                             <ul className = "list-inline">
                                 <li>
                                     <h2>长江电动汽车</h2>
