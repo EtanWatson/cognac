@@ -145,3 +145,26 @@
     background-position: 0 41%;
   }
 }
+.ant-modal-container{
+  .underline-input{
+    border: 0;
+    border-bottom: 1px solid #cfd0d4;
+    border-radius: 0;
+    width: 95%;
+  }
+  .plus-icon{
+    cursor: pointer;
+  }
+  .input-tip{
+    text-align: left;
+    padding-top:5px;
+  }
+  .input-textarea{
+    textarea{
+      height: 320px;
+    }
+  }
+  .send-btn{
+    padding-top: 3%;
+  }
+}

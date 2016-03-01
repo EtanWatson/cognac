@@ -3,8 +3,9 @@
  */
 import React from 'react';
 import {render} from 'react-dom';
-import {Button} from 'react-bootstrap';
+import {Button,ButtonToolbar,Glyphicon} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
+import {tableJson} from '../data/listData'
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
 
 const HoverItem = React.createClass({
@@ -94,18 +95,67 @@ const Card = React.createClass({
        )
    }
 });
+const ListShow = React.createClass({
+   getInitialState(){
+        return{
+            listData:tableJson
+        }
+   },
+   render(){
+       let fromData = this.state.listData;
+       let fromHead = fromData.map(function(data){
+           return(
+              <th>{data.name}</th>
+           )
+       });
+       let fromBody = fromData.map(function(data){
+          return(
+              <td>{data.value}</td>
+          )
+       });
+       return(
+                <table className = "list-style" align = "center">
+                    <thead>
+                        <tr>
+                            <th className = "menu">
+                                <ButtonToolbar>
+                                    <Button  bsStyle="link"><Glyphicon glyph="align-justify" /></Button>
+                                </ButtonToolbar>
+                            </th>
+                            <th className = "select-all">
+                                <Button bsStyle="link">
+                                    全选
+                                </Button>
+                            </th>
+                            {fromHead}
+                         </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            {fromBody}
+                        </tr>
+                    </tbody>
+                </table>
+       )
+   }
+});
 const Content = React.createClass({
     render(){
         return (
             <div id="content" className="content">
-                <ul className = "list-inline">
+                <ListShow />
+                {/**<ul className = "list-inline">
                     <li>
                         <Card />
                     </li>
                     <li>
                         <Card />
                     </li>
-                </ul>
+                </ul>**/}
             </div>
         )
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
+import  'antd/lib/index.css';
 import {Router,Route,IndexRoute,Link,IndexLink,browserHistory} from 'react-router';
 import {Grid,Row,Col} from 'react-bootstrap';
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './components/navItem';

@@ -104,4 +104,19 @@
     width: 34px;
     background-position: 0 41%; }
 
+.ant-modal-container .underline-input {
+  border: 0;
+  border-bottom: 1px solid #cfd0d4;
+  border-radius: 0;
+  width: 95%; }
+.ant-modal-container .plus-icon {
+  cursor: pointer; }
+.ant-modal-container .input-tip {
+  text-align: left;
+  padding-top: 5px; }
+.ant-modal-container .input-textarea textarea {
+  height: 320px; }
+.ant-modal-container .send-btn {
+  padding-top: 3%; }
+
 /*# sourceMappingURL=tool.css.map */

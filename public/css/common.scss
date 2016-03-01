@@ -3,21 +3,6 @@ body{
   .container{
 
   }
-  button:hover{
-    text-decoration: none !important;
-  }
-  button:active{
-    border: none !important;
-  }
-  button:focus{
-    text-decoration: none !important;
-  }
-  button{
-    padding: 5px !important;
-  }
-  button{
-    outline: none !important;
-  }
   height: 100%;
   font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
   h2{
@@ -45,6 +30,21 @@ body{
   }
   .global-layout{
     min-width: 1024px;
+    button:hover{
+      text-decoration: none !important;
+    }
+    button:active{
+      border: none !important;
+    }
+    button:focus{
+      text-decoration: none !important;
+    }
+    button{
+      padding: 5px !important;
+    }
+    button{
+      outline: none !important;
+    }
       .right-layout{
         position: relative;
         text-align: left;

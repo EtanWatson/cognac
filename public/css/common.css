@@ -1,16 +1,6 @@
 body {
   height: 100%;
   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif; }
-  body button:hover {
-    text-decoration: none !important; }
-  body button:active {
-    border: none !important; }
-  body button:focus {
-    text-decoration: none !important; }
-  body button {
-    padding: 5px !important; }
-  body button {
-    outline: none !important; }
   body h2 {
     font-size: 20px;
     color: #000000;
@@ -31,6 +21,16 @@ body {
     color: #2aa2dd; }
   body .global-layout {
     min-width: 1024px; }
+    body .global-layout button:hover {
+      text-decoration: none !important; }
+    body .global-layout button:active {
+      border: none !important; }
+    body .global-layout button:focus {
+      text-decoration: none !important; }
+    body .global-layout button {
+      padding: 5px !important; }
+    body .global-layout button {
+      outline: none !important; }
     body .global-layout .right-layout {
       position: relative;
       text-align: left;

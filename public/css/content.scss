@@ -72,4 +72,21 @@
   .card-style.isHover{
     box-shadow: 2px 3px 2px 3px;
   }
+  .list-style{
+    .menu{
+      background-color: #2d3c51 !important;
+    }
+    .select-all{
+      background-color: #f8e71c !important;
+    }
+    th{
+      background-color: #2aa2dd;
+      color: #FFFFFF;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    td{
+      color: #2e3c52;
+    }
+  }
 }

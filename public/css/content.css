@@ -53,5 +53,16 @@
       display: block; }
   .content .card-style.isHover {
     box-shadow: 2px 3px 2px 3px; }
+  .content .list-style .menu {
+    background-color: #2d3c51 !important; }
+  .content .list-style .select-all {
+    background-color: #f8e71c !important; }
+  .content .list-style th {
+    background-color: #2aa2dd;
+    color: #FFFFFF;
+    font-size: 12px;
+    line-height: 16px; }
+  .content .list-style td {
+    color: #2e3c52; }
 
 /*# sourceMappingURL=content.css.map */

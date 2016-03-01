@@ -30,6 +30,9 @@ body{
     .left-item{
       position: relative;
       left: 134px;
+      .send-message{
+        display: inline-block;
+      }
       .batch-btn{
         background-repeat: no-repeat;
         width: 15px;

@@ -5,6 +5,7 @@ import $ from 'jquery'
 import React from 'react';
 import {render} from 'react-dom';
 import ReactDOM from 'react-dom';
+import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon} from 'antd';
 import {Button,Tooltip,Overlay,Input,Collapse,Well} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
 import {ModalDialog} from './toolComponents/ModelConponents';
@@ -122,9 +123,51 @@ const SelectAll = React.createClass({
 });
 //发送信息
 const SendMessage = React.createClass({
+   getInitialState(){
+     return {visible : false};
+   },
+    showModal(){
+      this.setState({
+         visible:true
+      });
+    },
+    handleOK(){
+      this.setState({
+          visible : false
+      });
+    },
+    handleCancel(){
+        this.setState({
+            visible: false
+        });
+    },
    render(){
        return(
-           <Button bsStyle="link" className="send-message-btn batch-btn"></Button>
+           <div className = "send-message">
+               <Button bsStyle="link" className="send-message-btn batch-btn" onClick={this.showModal}></Button>
+               <Modal  visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel} footer="" closable={false}>
+                   <Row>
+                       <Col span = "4"><span>短信接收人员:</span></Col>
+                       <Col span ="16"><AntInput className = "underline-input" /></Col>
+                       <Col span ="4"><Icon type="plus-circle-o" className="plus-icon" /></Col>
+                   </Row>
+                   <Row type="flex" justify="start">
+                       <Col span ="16" offset="4" className = "input-tip"><span className = "">使用"@姓名"可以快速添加短信内容</span></Col>
+                   </Row>
+                   <Row>
+                       <Col span = "4"><span>消息内容:</span></Col>
+                       <Col span ="16" className = "input-textarea" ><AntInput type="textarea" placeholder="随便写" /></Col>
+                   </Row>
+                   <Row>
+                       <Col span = "4"><span>消息创建人:</span></Col>
+                       <Col span ="4" ><div className = "">张三</div></Col>
+                   </Row>
+                   <Row className = "send-btn">
+                       <Col span = "4"><AntButton type="primary" onClick = {this.handleOK}>发送</AntButton></Col>
+                       <Col span = "4" offset="16"><AntButton type="primary" onClick ={this.handleCancel}>退出</AntButton></Col>
+                   </Row>
+               </Modal>
+           </div>
        )
    }
 });

@@ -21,6 +21,8 @@ body .operation {
   body .operation .left-item {
     position: relative;
     left: 134px; }
+    body .operation .left-item .send-message {
+      display: inline-block; }
     body .operation .left-item .batch-btn {
       background-repeat: no-repeat;
       width: 15px;
