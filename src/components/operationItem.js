@@ -10,6 +10,7 @@ import {Button,Tooltip,Overlay,Input,Collapse,Well} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
 import {ModalDialog} from './toolComponents/ModelConponents';
 import {Checkbox,Radio} from 'react-icheck';
+import {SearchInput} from "./toolComponents/selectAutoCompletion"
 //添加
 const AddItem = React.createClass({
     getInitialState(){
@@ -43,19 +44,37 @@ const AddItem = React.createClass({
 });
 //列表
 const ListItem =React.createClass({
+    getInitialState(){
+        return{
+            showWay:false
+        }
+    },
     handleMouseEnter:function(event){
         $('.list-item-icon').removeClass('list-item-icon').addClass('list-item-icon-hover');
     },
     handleMouseLeave:function(){
         $('.list-item-icon-hover').removeClass('list-item-icon-hover').addClass('list-item-icon');
     },
+    handleClick(){
+        this.state.showWay? this.setState({showWay:false}):this.setState({showWay:true});
+        if(this.state.showWay){
+            $('.card-show').removeClass('is-display');
+            $('.list-show').addClass('is-display');
+            PubSub.publish('showWay','card');
+        }else{
+            $('.list-show').removeClass('is-display');
+            $('.card-show').addClass('is-display');
+            PubSub.publish('showWay','list');
+        }
+    },
     render(){
         return(
             <li>
-                <Button bsStyle="link">
+                <Button bsStyle="link" onClick = {this.handleClick}>
                     <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                         <li className = "list-item-icon operation-item-icon"></li>
-                        <li><h5>列表展示</h5></li>
+                        <li className = 'list-show is-display'><h5>列表展示</h5></li>
+                        <li className = "card-show"><h5>卡片展示</h5></li>
                      </ul>
                 </Button>
             </li>
@@ -124,7 +143,9 @@ const SelectAll = React.createClass({
 //发送信息
 const SendMessage = React.createClass({
    getInitialState(){
-     return {visible : false};
+     return {visible : false,
+              selectVisible:false
+     };
    },
     showModal(){
       this.setState({
@@ -141,6 +162,19 @@ const SendMessage = React.createClass({
             visible: false
         });
     },
+    handleIconClick(){
+        if(this.state.selectVisible){
+           $('.search-select').addClass('is-display');
+            this.setState({
+                selectVisible:false
+            })
+        }else{
+            $('.search-select').removeClass('is-display');
+            this.setState({
+                selectVisible:true
+            })
+        }
+    },
    render(){
        return(
            <div className = "send-message">
@@ -149,7 +183,14 @@ const SendMessage = React.createClass({
                    <Row>
                        <Col span = "4"><span>短信接收人员:</span></Col>
                        <Col span ="16"><AntInput className = "underline-input" /></Col>
-                       <Col span ="4"><Icon type="plus-circle-o" className="plus-icon" /></Col>
+                       <Col span ="4" className = "plus-icon-box">
+                           <Icon type="plus-circle-o" className="plus-icon" onClick={this.handleIconClick} />
+                           <div className="search-select is-display" >
+                                <div className = "search-select-title">添加新的联系人</div>
+                                <SearchInput placeholder="搜索关键字" />
+                                <AntButton type="primary" size="large">确认添加</AntButton>
+                           </div>
+                       </Col>
                    </Row>
                    <Row type="flex" justify="start">
                        <Col span ="16" offset="4" className = "input-tip"><span className = "">使用"@姓名"可以快速添加短信内容</span></Col>
@@ -158,10 +199,11 @@ const SendMessage = React.createClass({
                        <Col span = "4"><span>消息内容:</span></Col>
                        <Col span ="16" className = "input-textarea" ><AntInput type="textarea" placeholder="随便写" /></Col>
                    </Row>
-                   <Row>
+                   <Row className = "send-message-er-box">
                        <Col span = "4"><span>消息创建人:</span></Col>
-                       <Col span ="4" ><div className = "">张三</div></Col>
+                       <Col span ="4" ><div className = "send-message-er">张三</div></Col>
                    </Row>
+
                    <Row className = "send-btn">
                        <Col span = "4"><AntButton type="primary" onClick = {this.handleOK}>发送</AntButton></Col>
                        <Col span = "4" offset="16"><AntButton type="primary" onClick ={this.handleCancel}>退出</AntButton></Col>

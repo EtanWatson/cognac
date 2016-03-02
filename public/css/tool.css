@@ -108,9 +108,25 @@
   border: 0;
   border-bottom: 1px solid #cfd0d4;
   border-radius: 0;
-  width: 95%; }
-.ant-modal-container .plus-icon {
-  cursor: pointer; }
+  width: 100%; }
+.ant-modal-container .plus-icon-box {
+  text-align: left; }
+  .ant-modal-container .plus-icon-box .plus-icon {
+    cursor: pointer; }
+  .ant-modal-container .plus-icon-box .search-select {
+    padding: 4px;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: -5px;
+    border: 1px solid #cfd0d4;
+    height: 308px;
+    left: 20px;
+    width: 150px; }
+    .ant-modal-container .plus-icon-box .search-select .search-select-title {
+      text-align: center;
+      padding-bottom: 4px; }
+    .ant-modal-container .plus-icon-box .search-select .ant-input-group-wrap > button {
+      top: 0; }
 .ant-modal-container .input-tip {
   text-align: left;
   padding-top: 5px; }
@@ -118,5 +134,9 @@
   height: 320px; }
 .ant-modal-container .send-btn {
   padding-top: 3%; }
+.ant-modal-container .send-message-er-box {
+  padding-top: 3%; }
+  .ant-modal-container .send-message-er-box .send-message-er {
+    border-bottom: 1px solid #cfd0d4; }
 
 /*# sourceMappingURL=tool.css.map */

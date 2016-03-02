@@ -10,9 +10,10 @@ import {Content} from './components/contentItem';
 import {navArray} from "./data/navigation";
 const App = React.createClass({
     render(){
+        let {content} = this.props
         return(
             <div className="global-layout">
-                <Grid fluid = "true">
+                <Grid fluid ={true}>
                     <Row className="show-grid">
                         <Col xs={1} md={1} lg={1} className="left-layout">
                             <div>
@@ -26,7 +27,7 @@ const App = React.createClass({
                                 <OperationItem className = "operationItem"/>
                             </div>
                             <div className = "content-relative">
-                                <Content />
+                                {content || <TaskManage />}
                             </div>
                         </Col>
                      </Row>
@@ -38,10 +39,11 @@ const App = React.createClass({
 render((
     <Router history={browserHistory}>
         <Route path="/" component={App}>
-            <Route path="/taskManage" component={TaskManage}/>
-            <Route path="/vehicleRecord" component={VehicleRecord}/>
-            <Route path="/maintenance" component={Maintenance}/>
-            <Route path="/leaveRecord" component={LeaveRecord}/>
+            <Route path="/taskManage" components={App}/>
+            <Route path="/staffInfo" components={{content:StaffInfo}}/>
+            <Route path="/vehicleRecord" components={{content:VehicleRecord}}/>
+            <Route path="/maintenance" components={{content:Maintenance}}/>
+            <Route path="/leaveRecord" components={{content:LeaveRecord}}/>
         </Route>
     </Router>
 ), document.getElementById('page-content'));

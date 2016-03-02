@@ -72,7 +72,14 @@
   .card-style.isHover{
     box-shadow: 2px 3px 2px 3px;
   }
-  .list-style{
+  .table-box{
+    width: 98%;
+    .choose-table-header{
+      width: 60px;
+      button{
+        //background-color:#2d3c51;
+      }
+    }
     .menu{
       background-color: #2d3c51 !important;
     }

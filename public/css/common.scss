@@ -3,6 +3,9 @@ body{
   .container{
 
   }
+  .is-display{
+    display: none;
+  }
   height: 100%;
   font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;
   h2{
@@ -24,6 +27,8 @@ body{
     color: #425a73;
     font-size: 12px;
     font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   h5:hover{
     color: #2aa2dd;

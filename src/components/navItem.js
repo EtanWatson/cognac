@@ -3,15 +3,17 @@
  */
 import React from 'react';
 import {render} from 'react-dom';
+import 'pubsub-js';
 import {Router,Route,IndexRoute,Link,IndexLink,browserHistory} from 'react-router';
 import BackboneReactMixin from 'backbone-react-component';
+import {Content} from './contentItem'
 //任务管理
 const TaskManage = React.createClass({
     render(){
         return (
             <div>
-            <div>TaskManage</div>
-            {this.props.children}
+                <div>TaskManage</div>
+                {this.props.children}
             </div>
         )
     }
@@ -19,12 +21,8 @@ const TaskManage = React.createClass({
 //职员信息
 const StaffInfo = React.createClass({
     render(){
-        console.log("StaffInfo is called");
         return (
-            <div>
-                <div>StaffInfo</div>
-                {this.props.children}
-            </div>
+            <Content />
         )
     }
 });
@@ -63,12 +61,16 @@ const LeaveRecord = React.createClass({
         )
     }
 });
+
 const NavMenu = React.createClass({
     render(){
         var navArrayValue = this.props.navArray;
+        var i =1;
+
         var items = navArrayValue.map(function(item){
+            i+=1;
             return(
-                <div className="link-box">
+                <div className="link-box" key={i}>
                     <Link to={"/"+item.name} className="link-style">
                         <div className = "link-icon">
                             <div className ={item.icon+" icon"}></div>
@@ -80,7 +82,7 @@ const NavMenu = React.createClass({
             )
         });
         return(
-            <div className="nav-item-layout">
+            <div className="nav-item-layout" >
                 <div className="logo">
                     <img src="/img/icon/icon_logo.png" />
                 </div>

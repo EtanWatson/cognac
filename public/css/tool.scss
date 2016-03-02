@@ -150,10 +150,32 @@
     border: 0;
     border-bottom: 1px solid #cfd0d4;
     border-radius: 0;
-    width: 95%;
+    width: 100%;
   }
-  .plus-icon{
-    cursor: pointer;
+  .plus-icon-box{
+    text-align: left;
+    .plus-icon{
+      cursor: pointer;
+    }
+    .search-select{
+      .search-select-title{
+        text-align: center;
+        padding-bottom: 4px;
+      }
+      padding: 4px;
+      background-color: #FFFFFF;
+      position: absolute;
+      top: -5px;
+      border: 1px solid #cfd0d4;
+      height: 308px;
+      left: 20px;
+      width: 150px;
+      .ant-input-group-wrap{
+        >button{
+          top: 0;
+        }
+      }
+    }
   }
   .input-tip{
     text-align: left;
@@ -166,5 +188,11 @@
   }
   .send-btn{
     padding-top: 3%;
+  }
+  .send-message-er-box{
+    padding-top: 3%;
+    .send-message-er{
+      border-bottom:1px solid #cfd0d4;
+    }
   }
 }

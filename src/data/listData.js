@@ -1,18 +1,31 @@
 /**
  * 列表显示模拟数据
  */
-const tableJson =[
+import React from 'react';
+import {render} from 'react-dom';
+import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon} from 'antd';
+const columns = [
     {
-        name:"编码",
-        value:"编码"
+        title:<AntButton size="small"><Icon type="menu-fold" /></AntButton>,
+        className:"choose-table-header"
     },
     {
-        name:"姓名",
-        value:"姓名"
-    },
+    title: '姓名',
+    dataIndex: 'name'},
     {
-        name:"所在部门",
-        value:"所在部门"
-    }
-];
-export{tableJson}
+    title: '年龄',
+    dataIndex: 'age'},
+    {
+    title: '住址',
+    dataIndex: 'address'
+}];
+const data =[];
+for(let i = 0; i < 46 ; i++ ){
+    data.push({
+        key:i,
+        name:`李大嘴${i}`,
+        age:32,
+        address:`西湖区${i}`
+    })
+}
+export{columns,data}

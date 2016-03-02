@@ -5,9 +5,9 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Button,ButtonToolbar,Glyphicon} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
-import {tableJson} from '../data/listData'
+import {columns,data} from '../data/listData'
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
-
+import {Button as AntButton,Table,Icon,Row,Col} from 'antd';
 const HoverItem = React.createClass({
    render(){
        return(
@@ -98,64 +98,87 @@ const Card = React.createClass({
 const ListShow = React.createClass({
    getInitialState(){
         return{
-            listData:tableJson
-        }
+            selectedRowKeys: [],
+            loading: false
+        };
+   },
+   start(){
+     this.setState({
+         loading: true
+     });
+    //模拟ajax请求，完成以后清空
+     setTimeout(() =>{
+         this.setState({
+            selectedRowKeys:[],
+             loading:false
+         });
+     },1000)
+   },
+   onSelectChange(selectedRowKeys){
+     console.log('selectedRowKeys changed: ', selectedRowKeys);
+     this.setState({
+       selectedRowKeys
+     });
    },
    render(){
-       let fromData = this.state.listData;
-       let fromHead = fromData.map(function(data){
-           return(
-              <th>{data.name}</th>
-           )
-       });
-       let fromBody = fromData.map(function(data){
-          return(
-              <td>{data.value}</td>
-          )
-       });
+       const {loading,selectedRowKeys} = this.state;
+       const rowSelection ={
+           selectedRowKeys,
+           onChange: this.onSelectChange
+       };
+       const hasSelected = selectedRowKeys.length > 0;
        return(
-                <table className = "list-style" align = "center">
-                    <thead>
-                        <tr>
-                            <th className = "menu">
-                                <ButtonToolbar>
-                                    <Button  bsStyle="link"><Glyphicon glyph="align-justify" /></Button>
-                                </ButtonToolbar>
-                            </th>
-                            <th className = "select-all">
-                                <Button bsStyle="link">
-                                    全选
-                                </Button>
-                            </th>
-                            {fromHead}
-                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            {fromBody}
-                        </tr>
-                    </tbody>
-                </table>
+           <div className = "table-box">
+               <Row>
+                    <Col span = "24">
+                        <Table rowSelection={rowSelection} columns={columns} dataSource={data}
+                            />
+                    </Col>
+               </Row>
+           </div>
        )
    }
 });
 const Content = React.createClass({
+
+    getInitialState(){
+      return{
+          showWay:'card'
+      }
+    },
+    componentDidMount(){
+        this.pubsub_token = PubSub.subscribe('showWay',function(topic,showWay){
+            console.log(Object);
+            this.setState({
+                showWay:showWay
+            })
+        }.bind(this));
+    },
+    componentWillUnMount(){
+        PubSub.unsubscribe(this.pubsub_token);
+    },
     render(){
+        var handleShowWay=function(){
+                if(this.state.showWay=='card'){
+                    return(
+                        <ul className = "list-inline">
+                            <li>
+                                <Card />
+                            </li>
+                            <li>
+                                <Card />
+                            </li>
+                        </ul>
+                    )
+                }else{
+                    return(
+                        <ListShow />
+                    )
+                }
+            }.bind(this);
         return (
             <div id="content" className="content">
-                <ListShow />
-                {/**<ul className = "list-inline">
-                    <li>
-                        <Card />
-                    </li>
-                    <li>
-                        <Card />
-                    </li>
-                </ul>**/}
+                {handleShowWay()}
             </div>
         )
     }
