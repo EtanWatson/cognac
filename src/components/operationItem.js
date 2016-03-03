@@ -27,6 +27,7 @@ const AddItem = React.createClass({
     render(){
         let lgClose = () => this.setState({lgShow:false});
         return(
+
             <li>
                 <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}>
                    <ul className = 'list-inline' onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
@@ -73,9 +74,10 @@ const ListItem =React.createClass({
                 <Button bsStyle="link" onClick = {this.handleClick}>
                     <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                         <li className = "list-item-icon operation-item-icon"></li>
-                        <li className = 'list-show is-display'><h5>列表展示</h5></li>
-                        <li className = "card-show"><h5>卡片展示</h5></li>
+                        <li className = 'list-show is-display'><h5>切换展示</h5></li>
+                        <li className = "card-show"><h5>切换展示</h5></li>
                      </ul>
+
                 </Button>
             </li>
         )
@@ -89,7 +91,8 @@ const BatchOperation = React.createClass({
     toggle(){
       this.setState({
           show: !this.state.show
-      })
+      });
+      PubSub.publish('batchOperation',!this.state.show);
     },
     handleMouseEnter:function(event){
         $('.batch-item-icon').removeClass('batch-item-icon').addClass('batch-item-icon-hover');
@@ -132,10 +135,22 @@ const BatchOperation = React.createClass({
 //批量删除子组件
 //全选
 const SelectAll = React.createClass({
+    getInitialState(){
+        return{
+            //设置为false与预期结果相反
+            isAllSelect:true
+        }
+    },
+    handleClick(){
+      this.setState({
+         isAllSelect:!this.state.isAllSelect
+      });
+      PubSub.publish('selectAll',this.state.isAllSelect)
+    },
     render(){
         return(
             <li>
-                <Button bsStyle="link" className="select-all-btn batch-btn"></Button>
+                <Button bsStyle="link" className="select-all-btn batch-btn" onClick={this.handleClick}></Button>
             </li>
         )
     }
@@ -225,10 +240,14 @@ const DeleteItem = React.createClass({
 });
 //打印
 const PrintItem = React.createClass({
+    //点击打印以后，隐藏app主页，显示打印页面,发布全局事件
+    handleClick(){
+        PubSub.publish('print-show','');
+    },
     render(){
         return(
             <li>
-                <Button  bsStyle="link" className="print-item-btn batch-btn"></Button>
+                <Button  bsStyle="link" className="print-item-btn batch-btn" onClick={this.handleClick}></Button>
             </li>
         )
     }

@@ -8,7 +8,8 @@ module.exports = {
         [
             'webpack-dev-server/client/?http://127.0.0.1:9090',
             'webpack/hot/only-dev-server',
-             './src/app.js'
+             './src/app.js',
+            './src/print.js'
         ],
     output:{
         path:__dirname+'/public/',

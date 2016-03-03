@@ -11,17 +11,23 @@ body{
   h2{
     font-size: 20px;
     color: #000000;
+    margin-top: 20px;
+    margin-bottom: 10px;
     font-weight: 700;
   }
   h3{
     color: #000000;
     font-size: 18px;
     font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
   h4{
     color: #2e3c52;
     font-size: 14px;
     font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   h5{
     color: #425a73;
@@ -89,7 +95,7 @@ body{
           .right-layout{
               height: 100%;
             .content-relative{
-              height: 100%;
+              //height: 100%;
             }
           }
         }

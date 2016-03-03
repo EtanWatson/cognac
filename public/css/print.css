@@ -1,0 +1,18 @@
+#print-content .print-header {
+  color: #FFFFFF;
+  background-color: #2e3c52;
+  padding: 20px; }
+  #print-content .print-header .print-header-left {
+    text-align: left; }
+    #print-content .print-header .print-header-left .print-icon {
+      display: inline-block; }
+    #print-content .print-header .print-header-left .print-btn {
+      display: inline-block;
+      cursor: pointer;
+      padding-left: 5px; }
+  #print-content .print-header .print-header-right {
+    text-align: right; }
+    #print-content .print-header .print-header-right .print-out {
+      cursor: pointer; }
+
+/*# sourceMappingURL=print.css.map */

@@ -6,15 +6,21 @@ body {
   body h2 {
     font-size: 20px;
     color: #000000;
+    margin-top: 20px;
+    margin-bottom: 10px;
     font-weight: 700; }
   body h3 {
     color: #000000;
     font-size: 18px;
-    font-weight: 600; }
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 10px; }
   body h4 {
     color: #2e3c52;
     font-size: 14px;
-    font-weight: 600; }
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 10px; }
   body h5 {
     color: #425a73;
     font-size: 12px;
@@ -67,7 +73,5 @@ body {
           height: 100%; }
           body #page-content .global-layout .container-fluid .show-grid .right-layout {
             height: 100%; }
-            body #page-content .global-layout .container-fluid .show-grid .right-layout .content-relative {
-              height: 100%; }
 
 /*# sourceMappingURL=common.css.map */

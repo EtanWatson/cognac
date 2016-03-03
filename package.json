@@ -43,6 +43,7 @@
     "pubsub-js": "^1.5.3",
     "querystring": "^0.2.0",
     "rctui": "^0.5.2",
+    "react-addons-create-fragment": "^0.14.7",
     "react-bootstrap": "^0.28.3",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",

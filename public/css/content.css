@@ -2,44 +2,53 @@
   position: relative;
   padding-top: 132px;
   left: 20px; }
-  .content .card-style {
+  .content .card-container > li {
+    margin-bottom: 20px; }
+  .content .card-container .card-style {
     margin-left: 2%;
     width: 182px;
     background: #ffffff;
     position: relative; }
-    .content .card-style .list-inline {
+    .content .card-container .card-style .list-inline {
       padding-left: 12%; }
-    .content .card-style h5 {
+    .content .card-container .card-style h5 {
       color: #425a73; }
-    .content .card-style .card-select-img {
+    .content .card-container .card-style .card-select-img {
+      height: 36px;
+      width: 36px;
       position: absolute;
       left: 146px;
       cursor: pointer; }
-    .content .card-style .header-img {
+    .content .card-container .card-style .header-img {
       position: relative;
       top: -20px; }
-    .content .card-style .header-left {
+    .content .card-container .card-style .header-left {
       padding-left: 8%; }
-      .content .card-style .header-left .circle {
+      .content .card-container .card-style .header-left .circle {
         width: 13px;
         height: 13px;
         border-radius: 13px;
         border: 2px solid #44c281; }
-      .content .card-style .header-left .status {
+      .content .card-container .card-style .header-left .status {
         position: relative;
         top: -2px; }
-    .content .card-style ul {
+    .content .card-container .card-style ul {
       margin-bottom: 0; }
-    .content .card-style .footer-img {
+    .content .card-container .card-style .footer-img {
       position: relative; }
-      .content .card-style .footer-img .type-icon {
+      .content .card-container .card-style .footer-img .type-icon {
         position: absolute;
         top: 30px;
         left: 155px; }
-    .content .card-style .default-style {
+      .content .card-container .card-style .footer-img .type-text {
+        top: 35px;
+        left: 25px;
+        color: #fff;
+        position: absolute; }
+    .content .card-container .card-style .default-style {
       width: 100%;
       position: relative; }
-      .content .card-style .default-style .operation-in-card {
+      .content .card-container .card-style .default-style .operation-in-card {
         background: rgba(255, 255, 255, 0.5);
         position: absolute;
         top: -58px;
@@ -47,11 +56,11 @@
         width: 100%;
         height: 58px;
         left: 5px; }
-    .content .card-style .item-close {
+    .content .card-container .card-style .item-close {
       display: none; }
-    .content .card-style .item-open {
+    .content .card-container .card-style .item-open {
       display: block; }
-  .content .card-style.isHover {
+  .content .card-container .card-style.isHover {
     box-shadow: 2px 3px 2px 3px; }
   .content .table-box {
     width: 98%; }

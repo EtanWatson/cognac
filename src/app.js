@@ -9,8 +9,17 @@ import {OperationItem} from './components/operationItem';
 import {Content} from './components/contentItem';
 import {navArray} from "./data/navigation";
 const App = React.createClass({
+
+    componentDidMount(){
+      PubSub.subscribe('print-show',function(topic,printData){
+          $('#page-content').addClass('is-display');
+      }.bind(this));
+      PubSub.subscribe('print-hide',function(topic){
+          $('#page-content').removeClass('is-display');
+      })
+    },
     render(){
-        let {content} = this.props
+        let {content} = this.props;
         return(
             <div className="global-layout">
                 <Grid fluid ={true}>

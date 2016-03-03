@@ -7,6 +7,7 @@ import BackboneReactMixin from 'backbone-react-component';
 import {Button} from 'react-bootstrap';
 //系统设置组件
 const SysTemSetting = React.createClass({
+
     render(){
         return(
             <Button bsStyle="link"><h5>系统设置</h5></Button>
