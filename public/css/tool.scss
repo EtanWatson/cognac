@@ -195,4 +195,118 @@
       border-bottom:1px solid #cfd0d4;
     }
   }
+//edit table
+  .editModal{
+    .ant-modal-content{
+       border: 16px solid #E6E5ED;
+      .ant-modal-body{
+        padding:0;
+        .edit-form{
+          .up-info{
+            border-bottom: 10px solid #E6e5ed;
+            .header-icon{
+              padding: 20px;
+            }
+            .header-right{
+              text-align: left;
+              .right{
+                display: inline-block;
+              }
+              .right.icon{
+                width: 15px;
+                height: 15px;
+                position: relative;
+              }
+              .type-icon{
+                  top: 4px;
+                  margin-right: 5px;
+                  background-repeat: no-repeat;
+                  background-image: url("/img/icon/icon_people_default.png");
+              }
+              .type-text{
+              }
+              .status-icon{
+                top: 5px;
+                background-repeat: no-repeat;
+                background-image: url("/img/icon/icon_trip_normal.png");
+              }
+              .status-text{
+              }
+            }
+          }
+          .middle-info{
+            padding: 6px;
+            border-bottom: 10px solid #E6E5ED;
+            .isOutage{
+              position: relative;
+              right: 55px;
+            }
+            .ant-collapse{
+              background-color: #FFFFFF;
+              border-radius:0;
+              border: none;
+              > .ant-collapse-item > .ant-collapse-header .arrow:before{
+                content:"";
+              }
+               .ant-collapse-header[aria-expanded="false"] .anticon-circle-down{
+                  font-size: 20px;
+                  font-size: 7px \9;
+                  transform: scale(0.58333333) rotate(180deg);
+                  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=-0.0000000000000001837, M12=1, M21=-1, M22=-0.0000000000000001837)";
+                  zoom: 1;
+                  font-style: normal;
+                  vertical-align: baseline;
+                  text-align: center;
+                  text-transform: none;
+                  text-rendering: auto;
+                  line-height: 1;
+                  position: absolute;
+                  color: #666;
+                  display: inline-block;
+                  margin-right: 8px;
+                  line-height: 40px;
+                  content: "\E611";
+                  vertical-align: middle;
+                  transition: transform 0.24s ease;
+                  top: 0;
+                  right: 16px;
+                  top: 16px \9;
+                  right: 0 \9;
+              }
+              .ant-collapse-header[aria-expanded="true"] .anticon-circle-down{
+                  display: inline-block;
+                  font-size: 20px;
+                  font-size: 7px \9;
+                  transform: scale(0.58333333) rotate(360deg);
+                  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0.00000000000000024493, M21=-0.00000000000000024493, M22=1)";
+                  zoom: 1;
+                  font-style: normal;
+                  vertical-align: baseline;
+                  text-align: center;
+                  text-transform: none;
+                  text-rendering: auto;
+                  line-height: 1;
+                  position: absolute;
+                  color: #666;
+                  display: inline-block;
+                  margin-right: 8px;
+                  line-height: 40px;
+                  content: "\E611";
+                  vertical-align: middle;
+                  transition: transform 0.24s ease;
+                  top: 0;
+                  right: 16px;
+                  top: 16px \9;
+                  right: 0 \9;
+              }
+            }
+
+          }
+          .footer-info{
+
+          }
+        }
+      }
+    }
+  }
 }

@@ -4,29 +4,32 @@ for(let i = 0 ; i < 50 ; i ++){
     vehicleInfo.push({
         key:i,
         type:`${i%3}`,
-        name:`赵日天${i}`,
+        name:`车${i}`,
         headerImage:'/img/icon/icon_user_head_50_50_have_1.png',
         status:`${i%3}`,
-        section:{   name:'部门',
-            value:`车队${i}`
+        info_one:{   name:'车牌号',
+            value:`京A${i}`
         },
-        phone:{
-            name:'手机',
-            value:'132123212323'
+        info_two:{
+            name:'车辆类型',
+            value:'客车'
         },
-        driverCar:{
-            name:'准驾车型',
-            value:'A1'
+        info_three:{
+            name:'标签',
+            value:'早班车'
         },
 
-        driverCode:{
-            name:'驾驶证号',
-            value:'2312321321'
+        info_four:{
+            name:'座位数',
+            value:i
         },
-        more:{
+        info_five:{
             name:'备注',
-            value:'hello'
+            value:'不带宠物'
         }
     })
 }
-export{vehicleInfo}
+let vehicleTypeText=[
+  '客车','货车','其他'
+];
+export{vehicleInfo,vehicleTypeText}

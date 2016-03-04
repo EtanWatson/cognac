@@ -7,8 +7,8 @@ import 'pubsub-js';
 import {Router,Route,IndexRoute,Link,IndexLink,browserHistory} from 'react-router';
 import BackboneReactMixin from 'backbone-react-component';
 import {Content} from './contentItem'
-import {staffInfo} from '../data/cardData';
-import {vehicleInfo} from '../data/vehicleInfo';
+import {staffInfo,staffTypeText} from '../data/cardData';
+import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
 //任务管理
 const TaskManage = React.createClass({
     render(){
@@ -24,8 +24,9 @@ const TaskManage = React.createClass({
 //职员信息
 const StaffInfo = React.createClass({
     render(){
+        console.log(staffTypeText);
         return (
-            <Content staffInfo = {staffInfo}/>
+            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText}/>
         )
     }
 
@@ -34,7 +35,7 @@ const StaffInfo = React.createClass({
 const VehicleRecord = React.createClass({
     render(){
         return (
-           <Content vehicleInfo ={vehicleInfo}/>
+           <Content cardInfo={vehicleInfo} typeTextInfo={vehicleTypeText}/>
         )
     }
 });

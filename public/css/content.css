@@ -4,64 +4,70 @@
   left: 20px; }
   .content .card-container > li {
     margin-bottom: 20px; }
-  .content .card-container .card-style {
-    margin-left: 2%;
-    width: 182px;
-    background: #ffffff;
-    position: relative; }
-    .content .card-container .card-style .list-inline {
-      padding-left: 12%; }
-    .content .card-container .card-style h5 {
-      color: #425a73; }
-    .content .card-container .card-style .card-select-img {
-      height: 36px;
-      width: 36px;
-      position: absolute;
-      left: 146px;
-      cursor: pointer; }
-    .content .card-container .card-style .header-img {
-      position: relative;
-      top: -20px; }
-    .content .card-container .card-style .header-left {
-      padding-left: 8%; }
-      .content .card-container .card-style .header-left .circle {
-        width: 13px;
-        height: 13px;
-        border-radius: 13px;
-        border: 2px solid #44c281; }
-      .content .card-container .card-style .header-left .status {
+  .content .card-container .card-container-space {
+    margin: 0;
+    padding: 0; }
+    .content .card-container .card-container-space .card-style {
+      margin-right: 20px;
+      margin-bottom: 20px;
+      margin-left: 2%;
+      width: 182px;
+      background: #ffffff;
+      position: relative; }
+      .content .card-container .card-container-space .card-style .list-inline {
+        padding-left: 12%; }
+      .content .card-container .card-container-space .card-style h5 {
+        color: #425a73; }
+      .content .card-container .card-container-space .card-style .card-select-img {
+        height: 36px;
+        width: 36px;
+        position: absolute;
+        left: 146px;
+        cursor: pointer; }
+      .content .card-container .card-container-space .card-style .header-img {
         position: relative;
-        top: -2px; }
-    .content .card-container .card-style ul {
-      margin-bottom: 0; }
-    .content .card-container .card-style .footer-img {
-      position: relative; }
-      .content .card-container .card-style .footer-img .type-icon {
-        position: absolute;
-        top: 30px;
-        left: 155px; }
-      .content .card-container .card-style .footer-img .type-text {
-        top: 35px;
-        left: 25px;
-        color: #fff;
-        position: absolute; }
-    .content .card-container .card-style .default-style {
-      width: 100%;
-      position: relative; }
-      .content .card-container .card-style .default-style .operation-in-card {
-        background: rgba(255, 255, 255, 0.5);
-        position: absolute;
-        top: -58px;
-        padding-left: 10px;
+        top: -20px; }
+      .content .card-container .card-container-space .card-style .header-left {
+        width: 60%;
+        padding-left: 8%; }
+        .content .card-container .card-container-space .card-style .header-left .circle {
+          width: 13px;
+          height: 13px;
+          border-radius: 13px;
+          border: 2px solid #44c281; }
+        .content .card-container .card-container-space .card-style .header-left .status {
+          position: relative;
+          top: -2px; }
+      .content .card-container .card-container-space .card-style ul {
+        margin-bottom: 0; }
+      .content .card-container .card-container-space .card-style .footer-img {
+        position: relative; }
+        .content .card-container .card-container-space .card-style .footer-img .type-icon {
+          position: absolute;
+          top: 30px;
+          left: 155px; }
+        .content .card-container .card-container-space .card-style .footer-img .type-text {
+          top: 35px;
+          left: 25px;
+          color: #fff;
+          position: absolute; }
+      .content .card-container .card-container-space .card-style .default-style {
         width: 100%;
-        height: 58px;
-        left: 5px; }
-    .content .card-container .card-style .item-close {
-      display: none; }
-    .content .card-container .card-style .item-open {
-      display: block; }
-  .content .card-container .card-style.isHover {
-    box-shadow: 2px 3px 2px 3px; }
+        position: relative; }
+        .content .card-container .card-container-space .card-style .default-style .operation-in-card {
+          background: rgba(255, 255, 255, 0.5);
+          position: absolute;
+          top: -58px;
+          padding-left: 10px;
+          width: 100%;
+          height: 58px;
+          left: 5px; }
+      .content .card-container .card-container-space .card-style .item-close {
+        display: none; }
+      .content .card-container .card-container-space .card-style .item-open {
+        display: block; }
+    .content .card-container .card-container-space .card-style.isHover {
+      box-shadow: 2px 3px 2px 3px; }
   .content .table-box {
     width: 98%; }
     .content .table-box .choose-table-header {
