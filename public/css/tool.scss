@@ -167,7 +167,7 @@
       position: absolute;
       top: -5px;
       border: 1px solid #cfd0d4;
-      height: 308px;
+      height: 365px;
       left: 20px;
       width: 150px;
       .ant-input-group-wrap{
@@ -196,7 +196,7 @@
     }
   }
 //edit table
-  .editModal{
+  .editModal,.addModal{
     .ant-modal-content{
        border: 16px solid #E6E5ED;
       .ant-modal-body{

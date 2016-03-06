@@ -9,7 +9,11 @@ import {OperationItem} from './components/operationItem';
 import {Content} from './components/contentItem';
 import {navArray} from "./data/navigation";
 const App = React.createClass({
-
+    getInitialState(){
+        return{
+            pageShow:'staff'
+        }
+    },
     componentDidMount(){
       PubSub.subscribe('print-show',function(topic,printData){
           $('#page-content').addClass('is-display');
@@ -17,6 +21,11 @@ const App = React.createClass({
       PubSub.subscribe('print-hide',function(topic){
           $('#page-content').removeClass('is-display');
       })
+    },
+    handleChildChange(pageShow){
+        this.setState({
+           pageShow:pageShow
+        })
     },
     render(){
         let {content} = this.props;
@@ -26,14 +35,20 @@ const App = React.createClass({
                     <Row className="show-grid">
                         <Col xs={1} md={1} lg={1} className="left-layout">
                             <div>
-                                <NavMenu navArray={ navArray } />
+                                <NavMenu navArray={ navArray } pageShow={this.state.pageShow}
+                                         callbackParent={this.handleChildChange}
+                                    />
                                 {this.props.children}
                             </div>
                          </Col>
                         <Col xs={11} md={11} lg={11} className="right-layout">
                             <div className = "header-fixed">
-                                <Header />
-                                <OperationItem className = "operationItem"/>
+                                <Header pageShow={this.state.pageShow}
+                                        callbackParent={this.handleChildChange}
+                                    />
+                                <OperationItem className = "operationItem"
+                                    pageShow={this.state.pageShow}
+                                    />
                             </div>
                             <div className = "content-relative">
                                 {content || <TaskManage />}

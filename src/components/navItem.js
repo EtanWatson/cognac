@@ -23,8 +23,11 @@ const TaskManage = React.createClass({
 
 //职员信息
 const StaffInfo = React.createClass({
+    //在render之前，发布事件
+    componentDidMount(){
+        PubSub.publish('content-show','staff');
+    },
     render(){
-        console.log(staffTypeText);
         return (
             <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText}/>
         )
@@ -33,6 +36,10 @@ const StaffInfo = React.createClass({
 });
 //车辆档案
 const VehicleRecord = React.createClass({
+    //在render之前，发布事件
+    componentDidMount(){
+      PubSub.publish('content-show','vehicle')
+    },
     render(){
         return (
            <Content cardInfo={vehicleInfo} typeTextInfo={vehicleTypeText}/>
@@ -64,13 +71,22 @@ const LeaveRecord = React.createClass({
 });
 
 const NavMenu = React.createClass({
+    getInitialState(){
+      return{
+
+      }
+    },
+    handleClick(){
+        this.props.callbackParent(name);
+    },
     render(){
         var navArrayValue = this.props.navArray;
+        var showPage = this.props.pageShow;
         var items = navArrayValue.map(function(item){
             return(
                 <div className="link-box" key={item.key}>
                     <Link to={"/"+item.name} className="link-style">
-                        <div className = "link-icon">
+                        <div className = "link-icon" >
                             <div className ={item.icon+" icon"}></div>
                             <div className = "text">{item.aliasName}</div>
                         </div>
@@ -78,7 +94,7 @@ const NavMenu = React.createClass({
                 </div>
 
             )
-        });
+        }.bind(this));
         return(
             <div className="nav-item-layout" >
                 <div className="logo">

@@ -84,7 +84,8 @@ const Card = React.createClass({
            isSelect:false,
            isSelectAll:false,
 
-           isDelete:false
+           isDelete:false,
+           isLook:false
        }
    } ,
     componentDidMount(){
@@ -155,6 +156,14 @@ const Card = React.createClass({
             isDelete:isDelete
         })
     },
+    handleDoubleClick(){
+        this.setState({
+
+        })
+    },
+    onChildChangeLook(){
+
+    },
    render(){
        var handleToggleBatch = function(){
              if(this.state.toggleBatch){
@@ -213,7 +222,9 @@ const Card = React.createClass({
            )
        }else{
            return(
-               <div className ={"card-style "+this.state.isHover} onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
+               <div className ={"card-style "+this.state.isHover}
+                    onDoubleClick={this.handleDoubleClick}
+                    onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
                    <ul className = "list-inline">
                        {handleToggleBatch()}
                        <li className = "header-img">
@@ -251,6 +262,7 @@ const Card = React.createClass({
                    <div  className ={"default-style "+this.state.isOpen}>
                        <HoverItem cardInfo={this.state.item} callbackParent={this.onChildDeleteChange}/>
                    </div>
+                   <EditDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook}/>
                </div>
            )
        }

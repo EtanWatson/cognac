@@ -12,6 +12,7 @@ import {ModalDialog} from './toolComponents/ModelConponents';
 import {Checkbox,Radio} from 'react-icheck';
 import {SearchInput} from './toolComponents/selectAutoCompletion';
 import {SendMessageDialog} from './toolComponents/dialogConponents'
+import {AddDialog} from './toolComponents/dialogConponents';
 //添加
 const AddItem = React.createClass({
     getInitialState(){
@@ -25,10 +26,12 @@ const AddItem = React.createClass({
     handleMouseLeave:function(){
         $('.add-item-icon-hover').removeClass('add-item-icon-hover').addClass('add-item-icon');
     },
+    onChildChangeAdd(){
+
+    },
     render(){
         let lgClose = () => this.setState({lgShow:false});
         return(
-
             <li>
                 <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}>
                    <ul className = 'list-inline' onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
@@ -39,7 +42,7 @@ const AddItem = React.createClass({
                         </li>
                    </ul>
                 </Button>
-                <ModalDialog show={this.state.lgShow} onHide={lgClose}/>
+                <AddDialog isAdd={this.state.lgShow} callbackParent = {this.onChildChangeAdd}/>
             </li>
         )
     }
@@ -87,7 +90,17 @@ const ListItem =React.createClass({
 //批量操作
 const BatchOperation = React.createClass({
     getInitialState(){
-      return {show:false}
+      return {
+          show:false,
+          contentShow:'staff'
+      }
+    },
+    componentWillMount(){
+        this.pubsub_token = PubSub.subscribe('content-show',function(topic,contentShow){
+            this.setState({
+                contentShow:contentShow
+            })
+        }.bind(this))
     },
     toggle(){
       this.setState({
@@ -102,15 +115,28 @@ const BatchOperation = React.createClass({
         $('.batch-item-icon-hover').removeClass('batch-item-icon-hover').addClass('batch-item-icon');
     },
     render(){
-        const tooltip =
-            <Tooltip id="deleteBatch">
-                <ul className="list-inline">
-                    <SelectAll />
-                    <SendMessage />
-                    <DeleteItem />
-                    <PrintItem />
-                </ul>
-            </Tooltip>;
+        let tooltip ='';
+        if(this.state.contentShow ==='staff'){
+            tooltip =
+                <Tooltip id="deleteBatch">
+                    <ul className="list-inline">
+                        <SelectAll />
+                        <SendMessage />
+                        <DeleteItem />
+                        <PrintItem />
+                    </ul>
+                </Tooltip>;
+        }else{
+             tooltip =
+                 <Tooltip id="deleteBatch">
+                 <ul className="list-inline">
+                     <SelectAll />
+                     <DeleteItem />
+                     <PrintItem />
+                 </ul>
+             </Tooltip>;
+        }
+
         const sharedProps = {
             show: this.state.show,
             container: this,
@@ -179,6 +205,10 @@ const SendMessage = React.createClass({
 });
 //删除
 const DeleteItem = React.createClass({
+    //点击删除以后，将选中的item删除
+    handleClick(){
+        PubSub.publish('delete-item','');
+    },
     render(){
         return(
             <li>
@@ -222,7 +252,7 @@ const Driver = React.createClass({
             <li>
                 <Button bsStyle="link">
                     <ul className="list-inline">
-                        <li className = "type-color driver"></li>
+                        <li className = "type-color driver">223</li>
                         <li className = "type-text"><h5>司机</h5></li>
                      </ul>
                 </Button>
@@ -237,7 +267,7 @@ const Manager = React.createClass({
             <li>
                 <Button bsStyle="link">
                     <ul className = "list-inline">
-                        <li className ="type-color manager"></li>
+                        <li className ="type-color manager">223</li>
                         <li className ="type-text"><h5>管理</h5></li>
                     </ul>
                 </Button>
@@ -252,7 +282,7 @@ const Other = React.createClass({
            <li>
                <Button bsStyle="link">
                    <ul className="list-inline">
-                       <li className = "type-color other"></li>
+                       <li className = "type-color other">223</li>
                        <li className = "type-text"><h5>其他</h5></li>
                    </ul>
                 </Button>
