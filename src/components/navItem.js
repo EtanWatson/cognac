@@ -73,11 +73,14 @@ const LeaveRecord = React.createClass({
 const NavMenu = React.createClass({
     getInitialState(){
       return{
-
+            pageShow:''
       }
     },
+    componentWillReceiveProps(nextProps){
+        console.log((nextProps.pageShow));
+    },
     handleClick(){
-        this.props.callbackParent(name);
+
     },
     render(){
         var navArrayValue = this.props.navArray;
@@ -85,9 +88,10 @@ const NavMenu = React.createClass({
         var items = navArrayValue.map(function(item){
             return(
                 <div className="link-box" key={item.key}>
-                    <Link to={"/"+item.name} className="link-style">
+                    <Link to={"/"+item.name} className="link-style" onClick={this.handleClick}>
                         <div className = "link-icon" >
-                            <div className ={item.icon+" icon"}></div>
+                            <div className ={item.icon+" icon default"}></div>
+                            <div className ={item.icon+"-press press is-display"}></div>
                             <div className = "text">{item.aliasName}</div>
                         </div>
                     </Link>

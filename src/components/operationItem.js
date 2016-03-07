@@ -26,11 +26,12 @@ const AddItem = React.createClass({
     handleMouseLeave:function(){
         $('.add-item-icon-hover').removeClass('add-item-icon-hover').addClass('add-item-icon');
     },
-    onChildChangeAdd(){
-
+    onChildChangeAdd(isSubmit){
+        this.setState({
+            lgShow:false
+        })
     },
     render(){
-        let lgClose = () => this.setState({lgShow:false});
         return(
             <li>
                 <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}>
@@ -42,7 +43,7 @@ const AddItem = React.createClass({
                         </li>
                    </ul>
                 </Button>
-                <AddDialog isAdd={this.state.lgShow} callbackParent = {this.onChildChangeAdd}/>
+                <AddDialog isAdd={this.state.lgShow} callbackParentOfAdd = {this.onChildChangeAdd}/>
             </li>
         )
     }
@@ -92,21 +93,32 @@ const BatchOperation = React.createClass({
     getInitialState(){
       return {
           show:false,
-          contentShow:'staff'
+          pageShow:'staff'
       }
     },
     componentWillMount(){
-        this.pubsub_token = PubSub.subscribe('content-show',function(topic,contentShow){
-            this.setState({
-                contentShow:contentShow
-            })
-        }.bind(this))
+        this.setState({
+          pageShow: this.props.pageShow
+        });
+        //this.pubsub_token = PubSub.subscribe('content-show',function(topic,contentShow){
+        //    this.setState({
+        //        contentShow:contentShow
+        //    })
+        //}.bind(this))
     },
     toggle(){
       this.setState({
           show: !this.state.show
       });
-      PubSub.publish('batchOperation',!this.state.show);
+
+      if(this.props.pageShow=='staff'){
+          console.log('staff-publish');
+          PubSub.publish('batchOperationStaff',!this.state.show);
+      }else{
+          alert('test');
+          console.log('vehicle-publish');
+          PubSub.publish('batchOperationVehicle',!this.state.show);
+      }
     },
     handleMouseEnter:function(event){
         $('.batch-item-icon').removeClass('batch-item-icon').addClass('batch-item-icon-hover');
@@ -116,7 +128,7 @@ const BatchOperation = React.createClass({
     },
     render(){
         let tooltip ='';
-        if(this.state.contentShow ==='staff'){
+        if(this.props.pageShow==='staff'){
             tooltip =
                 <Tooltip id="deleteBatch">
                     <ul className="list-inline">
@@ -136,7 +148,6 @@ const BatchOperation = React.createClass({
                  </ul>
              </Tooltip>;
         }
-
         const sharedProps = {
             show: this.state.show,
             container: this,
@@ -194,11 +205,16 @@ const SendMessage = React.createClass({
             isSendMessage:true
         })
     },
+    handleChildChange(){
+
+    },
    render(){
        return(
            <div className = "send-message">
                <Button bsStyle="link" className="send-message-btn batch-btn" onClick={this.handleSendMessage}></Button>
-               <SendMessageDialog isSendMessage={this.state.isSendMessage}/>
+               <SendMessageDialog isSendMessage={this.state.isSendMessage}
+                   callbackParent={this.handleChildChange}
+                   />
            </div>
        )
    }
@@ -348,7 +364,7 @@ const OperationItem= React.createClass({
                     <ul className = "list-inline">
                         <AddItem />
                         <ListItem />
-                        <BatchOperation />
+                        <BatchOperation pageShow={this.props.pageShow}/>
                     </ul>
                 </li>
                 <li className = "right-item">

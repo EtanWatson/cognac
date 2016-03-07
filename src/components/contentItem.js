@@ -8,7 +8,8 @@ import BackboneReactMixin from 'backbone-react-component';
 import {columns,data} from '../data/listData';
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
 import {Button as AntButton,Table,Icon,Row,Col,Modal} from 'antd';
-import {EditDialog,SendMessageDialog} from './toolComponents/dialogConponents';
+import {EditDialog,SendMessageDialog,LookDialog} from './toolComponents/dialogConponents';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 const confirm = Modal.confirm;
 const HoverItem = React.createClass({
    getInitialState(){
@@ -18,6 +19,11 @@ const HoverItem = React.createClass({
             isSendMessage:false
         };
    },
+    componentWillReceiveProps(nextProps){
+      if(nextProps.passLookEdit){
+          this.handleEditClick()
+      }
+    },
    handleEditClick(){
         this.setState({
             isEdit:true
@@ -33,10 +39,10 @@ const HoverItem = React.createClass({
                self.setState({
                    isDelete:true
                });
-               self.props.callbackParent(true);
+               self.props.callbackParent('delete');
            },
            onCancel(){
-               self.props.callbackParent(false);
+               self.props.callbackParent('noDelete');
            }
        })
    },
@@ -46,9 +52,11 @@ const HoverItem = React.createClass({
         })
    },
    onChildChangeEdit(isEdit){
+       console.log('关闭编辑回调:'+isEdit);
         this.setState({
-            isEdit:isEdit
-        })
+            isEdit:false
+        });
+       this.props.callbackParent(isEdit);
    },
    onChildChangeSendMessage(isSendMessage){
        this.setState({
@@ -56,6 +64,7 @@ const HoverItem = React.createClass({
        })
    },
    render(){
+       console.log('鼠标滑入卡片时的cardInfo:'+this.props.cardInfo);
        return(
            <ul className = "list-inline operation-in-card">
                 <li>
@@ -67,8 +76,8 @@ const HoverItem = React.createClass({
                 <li>
                     <Button  bsStyle="link" onClick={this.handleDeleteClick}><img src="/img/icon/icon_delete.png" /></Button>
                 </li>
-               <EditDialog isEdit={this.state.isEdit} callbackParent = {this.onChildChangeEdit}/>
-               <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.onChildChangeSendMessage}/>
+               <EditDialog isEdit={this.state.isEdit} cardInfo={this.props.cardInfo} callbackParent = {this.onChildChangeEdit}/>
+               <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.onChildChangeSendMessage} />
            </ul>
        )
    }
@@ -85,16 +94,24 @@ const Card = React.createClass({
            isSelectAll:false,
 
            isDelete:false,
-           isLook:false
+           isLook:false,
+           passLookEdit:false
        }
    } ,
     componentDidMount(){
-        this.pubsub_token = PubSub.subscribe('batchOperation',function(topic,isToggle){
+        this.pubsub_tokenBatchVehicle = PubSub.subscribe('batchOperationVehicle',function(topic,isToggle){
+            console.log('test');
             this.setState({
                 toggleBatch:isToggle
             })
         }.bind(this));
-        this.pubsub_token = PubSub.subscribe('selectAll',function(topic,isSelectAll){
+        this.pubsub_tokenBatchStaff= PubSub.subscribe('batchOperationStaff',function(topic,isToggle){
+            console.log('test');
+            this.setState({
+                toggleBatch:isToggle
+            })
+        }.bind(this));
+        this.pubsub_tokenAll = PubSub.subscribe('selectAll',function(topic,isSelectAll){
             if(!isSelectAll){
                 this.setState({
                     selectIcon:'/img/icon/card_icon_defailt.png',
@@ -109,6 +126,10 @@ const Card = React.createClass({
         }.bind(this));
     },
     componentWillUnMount(){
+        alert('willMount');
+        PubSub.unsubscribe(this.pubsub_tokenBatchVehicle);
+        PubSub.unsubscribe(this.pubsub_tokenBatchStaff);
+        PubSub.unsubscribe(this.pubsub_tokenAll);
     },
     handleMouseOver(){
         this.setState({
@@ -150,35 +171,63 @@ const Card = React.createClass({
         }
 
     },
-    onChildDeleteChange(isDelete){
-        console.log('callbackParent is be called!');
-        this.setState({
-            isDelete:isDelete
-        })
+    onChildChange(isChange){
+        console.log('卡片事件回调:isChange：'+isChange);
+        switch (isChange){
+            case 'delete':
+                this.setState({
+                   isDelete:true
+                });
+                break;
+            case 'no-delete':
+                this.setState({
+                    isDelete:false
+                });
+                break;
+            case 'edit':
+                this.setState({
+                    passLookEdit:false
+                });
+                break;
+            case 'noEdit':{
+                this.setState({
+                    passLookEdit:false
+                })
+            }
+        }
     },
     handleDoubleClick(){
         this.setState({
-
+            isLook:true
         })
     },
-    onChildChangeLook(){
-
+    onChildChangeLook(isChange){
+        this.setState({
+            isLook:false
+        });
+        console.log('contentComPassLookEdit:'+isChange);
+        if(isChange=='isEdit'){
+            console.log('用户点击了编辑');
+            this.setState({
+                passLookEdit:true
+            })
+        }
+    },
+    handleToggleBatch(){
+        if(this.state.toggleBatch){
+            return(
+                <img  className = "card-select-img" src={this.state.selectIcon}
+                      onMouseEnter={this.handleMouseEnterIcon}
+                      onMouseLeave={this.handleMouseLeaveIcon}
+                      onClick={this.handleClickIcon}/>
+            )
+        }else{
+            return(
+                <img className = "card-select-img is-display" src="/img/icon/card_icon_defailt.png" />
+            )
+        }
     },
    render(){
-       var handleToggleBatch = function(){
-             if(this.state.toggleBatch){
-                 return(
-                     <img  className = "card-select-img" src={this.state.selectIcon}
-                           onMouseEnter={this.handleMouseEnterIcon}
-                           onMouseLeave={this.handleMouseLeaveIcon}
-                           onClick={this.handleClickIcon}/>
-                 )
-             }else{
-                 return(
-                     <img className = "card-select-img is-display" src="/img/icon/card_icon_defailt.png" />
-                 )
-             }
-       }.bind(this);
        var staffType = function(){
          var type = this.props.item.type;
          var typeText = this.props.typeTextInfo;
@@ -226,14 +275,19 @@ const Card = React.createClass({
                     onDoubleClick={this.handleDoubleClick}
                     onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
                    <ul className = "list-inline">
-                       {handleToggleBatch()}
+                       {this.handleToggleBatch()}
                        <li className = "header-img">
                            <img src = {item.headerImage}/>
                        </li>
                        <li className = "header-left">
                            <h3 className = "name">{item.name}</h3>
                            <ul className = "list-inline">
-                               <li className = "circle"></li>
+                               <li className = "circle circle-g">
+                                    <img src="/img/icon/icon_trip_normal.png" />
+                               </li>
+                               <li className = "circle-r is-display">
+                                   <img src="/img/icon/icon_trip_leave.png" />
+                               </li>
                                <li className = "status"><h5>{item.status}</h5></li>
                            </ul>
                        </li>
@@ -260,9 +314,9 @@ const Card = React.createClass({
                    </ul>
                    {staffType()}
                    <div  className ={"default-style "+this.state.isOpen}>
-                       <HoverItem cardInfo={this.state.item} callbackParent={this.onChildDeleteChange}/>
+                       <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit}/>
                    </div>
-                   <EditDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook}/>
+                   <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} cardInfo={item}/>
                </div>
            )
        }
@@ -294,6 +348,9 @@ const ListShow = React.createClass({
        selectedRowKeys
      });
    },
+   handleRowClick(){
+
+   },
    render(){
        const {loading,selectedRowKeys} = this.state;
        const rowSelection ={
@@ -301,14 +358,50 @@ const ListShow = React.createClass({
            onChange: this.onSelectChange
        };
        const hasSelected = selectedRowKeys.length > 0;
+       function format(cell, row){
+           return '<i class="glyphicon glyphicon-usd"></i> ' + cell;
+       }
+       //Row select setting
+       var selectRowProp = {
+           mode: "checkbox",  //checkbox for multi select, radio for single select.
+           clickToSelect: true,   //click row will trigger a selection on that row.
+           bgColor: "rgb(238, 193, 213)"   //selected row background color
+       };
+       var products = [{
+           id: 1,
+           name: "Item name 1",
+           price: 100
+       },{
+           id: 2,
+           name: "Item name 2",
+           price: 100
+       },];
        return(
-           <div className = "table-box">
-               <Row>
-                    <Col span = "24">
-                        <Table rowSelection={rowSelection} columns={columns} dataSource={data}
-                            />
-                    </Col>
-               </Row>
+           //<div className = "table-box">
+           //    <Row>
+           //         <Col span = "24">
+           //             <Table rowSelection={rowSelection} columns={columns} dataSource={data}
+           //                    pagination={false} onRowClick={this.handleRowClick} bordered useFixedHeader={true}
+           //                 />
+           //         </Col>
+           //    </Row>
+           //</div>
+           <div>
+               <BootstrapTable
+                   data={productLong}
+                   striped={true}
+                   hover={true}
+                   condensed={true}
+                   pagination={true}
+                   selectRow={selectRowProp}
+                   insertRow={true}
+                   deleteRow={true}
+                   columnFilter={true}
+                   search={true}>
+                   <TableHeaderColumn dataField="id" isKey={true} dataAlign="right" dataSort={true}>Product ID</TableHeaderColumn>
+                   <TableHeaderColumn dataField="name" dataSort={true}>Product Name</TableHeaderColumn>
+                   <TableHeaderColumn dataField="price" dataAlign="center" dataFormat={format}>Product Price</TableHeaderColumn>
+               </BootstrapTable>
            </div>
        )
    }
@@ -322,27 +415,17 @@ const Content = React.createClass({
       }
     },
     componentDidMount(){
-
         this.pubsub_token = PubSub.subscribe('showWay',function(topic,showWay){
             this.setState({
                 showWay:showWay
             })
         }.bind(this));
-        var documentHeight = $(document).height();
-        var windowHeight = $(window).height();
-        if(documentHeight <= windowHeight){
-
-            $('.content-relative').css({
-                height:'100%'
-            })
-        }else{
-            $('.content-relative').css({
-                height:''
-            })
-        }
     },
     componentWillUnMount(){
         PubSub.unsubscribe(this.pubsub_token);
+    },
+    handleGoTop(){
+        $('.content-relative').animate({scrollTop:0},1000);
     },
     render(){
         var cardInfo= this.props.cardInfo;
@@ -360,6 +443,9 @@ const Content = React.createClass({
                                     )
                                 })
                             }
+                            <div className = 'go-top' onClick={this.handleGoTop}>
+                                <img src='/img/icon/icon_top.png' />
+                            </div>
                         </ul>
                     )
                 }else{

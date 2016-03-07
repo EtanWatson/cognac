@@ -1,4 +1,5 @@
 body {
+  overflow: hidden;
   height: 100%;
   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif; }
   body .is-display {
@@ -55,7 +56,10 @@ body {
         position: relative;
         left: 134px;
         clear: both;
-        background-color: #E6E5ED; }
+        background-color: #E6E5ED;
+        overflow: auto;
+        height: 100%;
+        padding-left: 20px; }
     body .global-layout .left-layout {
       height: 100%;
       padding: 0;

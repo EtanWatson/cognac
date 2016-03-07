@@ -17,11 +17,13 @@ body {
     body .nav-item-layout a:hover {
       color: #ffffff;
       text-decoration: none;
-      background-image: url("/img/icon/nav_btn_pressed.png"); }
+      background-color: #40516b; }
     body .nav-item-layout a:active {
       color: #ffffff; }
     body .nav-item-layout a:focus {
-      color: #ffffff; }
+      color: #ffffff;
+      background-image: url("/img/icon/nav_btn_pressed.png");
+      outline: 0; }
     body .nav-item-layout .logo {
       padding-top: 45px;
       padding-bottom: 69px; }

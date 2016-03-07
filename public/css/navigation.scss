@@ -18,13 +18,16 @@ body{
     a:hover{
       color: #ffffff;
       text-decoration:none;
-      background-image: url("/img/icon/nav_btn_pressed.png");
+      background-color:#40516b;
     }
     a:active{
       color: #ffffff;
+
     }
     a:focus{
       color: #ffffff;
+      background-image: url("/img/icon/nav_btn_pressed.png");
+      outline: 0;
     }
     .logo{
       padding-top: 45px;
@@ -80,13 +83,5 @@ body{
         background-image: url("/img/icon/icon_sick_leave_pressed.png");
       }
     }
-    //.link-box:focus{
-    //  .staff-icon{
-    //    background-image: url("/img/icon/icon_people_pressed.png");
-    //  }
-    //  .vechicle-icon{
-    //    background-image: url("/img/icon/icon_car_pressed.png");
-    //  }
-    //}
   }
 }

@@ -1,150 +1,3 @@
-
-.modal-dialog{
-  width: 600px !important;
-  .modal-body{
-    .is-outage{
-      text-align: right;
-      position: relative;
-      left: 35px;
-    }
-    label{
-      text-align: right;
-      > span{
-        color: #425a73;
-        font-size: 12px;
-      }
-    }
-    border: 16px solid #E6E5ED;
-    padding: 0;
-    .dialog-header{
-      padding: 20px;
-      border-bottom: 10px solid #E6E5ED;
-      .dialog-up-file{
-        width: 25%;
-      }
-      .dialog-header-content{
-        width: 45%;
-        top: 40px;
-        position: relative;
-      }
-      .upload-icon{
-        position: relative;
-        top: -70px;
-        left: 60px;
-      }
-      input[type=file]{
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        width: 58px;
-        height: 58px;
-        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
-        filter: alpha(opacity=0);
-        -moz-opacity: 0;
-        -khtml-opacity: 0;
-        opacity: 0;
-        background: none;
-        border: none;
-        cursor: pointer;
-      }
-    }
-    .dialog-body-up{
-      height: 305px;
-      padding: 20px;
-      border-bottom: 10px solid #E6E5ED;
-      .icheckbox_minimal-green{
-        position: absolute !important;
-        right: -18px;
-      }
-      .sex-box{
-        position: relative;
-        .sex-radio{
-          position: absolute;
-          top: -116px;
-          left: 30px;
-          .sex-select{
-            >div{
-              width: 90px;
-              label:first-child{
-                position: relative;
-                right: 10px;
-              }
-            }
-          }
-        }
-      }
-      .up-right{
-        >div:last-child{
-          position: relative;
-          right: 22px;
-        }
-      }
-    }
-    .dialog-body-down{
-      padding: 20px;
-    }
-    .dialog-footer{
-      height: 50px;
-      margin-bottom: 0;
-      background-color:#E6E5ED;
-      .footer-btn{
-        position: relative;
-        top: 18px;
-        button:hover, input[type=button]:hover, input[type=reset]:hover, input[type=submit]:hover{
-          background-color: #2aa2de;
-        }
-        button{
-          width: 96px;
-        }
-      }
-      .btn-left{
-        text-align: left;
-      }
-      .btn-middle{
-        text-align: center;
-      }
-      .btn-right{
-        text-align: right;
-      }
-    }
-    .input-space{
-      margin-bottom: 10px;
-    }
-    .remark-input,.remark-label{
-      position: relative;
-      right: 10px;
-    }
-    .control-label{
-      position: relative;
-      top: 5px;
-    }
-    .input-wrapper{
-      padding-left: 0;
-    }
-    .input-wrapper.phone{
-      padding-right: 0;
-    }
-  }
-  .star{
-    background-image: url("/img/icon/star.png");
-    background-repeat: no-repeat;
-    background-position: 40% 41%;
-  }
-  .star.id{
-    background-position: 32% 41%;
-  }
-  .star.sex{
-
-  }
-  .star.code{
-    background-position: 62% 41%;
-  }
-  .star.sex{
-    width: 34px;
-    background-position: 0 41%;
-  }
-}
 .ant-modal-container{
   .underline-input{
     border: 0;
@@ -196,12 +49,18 @@
     }
   }
 //edit table
-  .editModal,.addModal{
+  .edit-modal,.add-modal,.look-modal{
+    button{
+      border-radius: 0;
+    }
     .ant-modal-content{
        border: 16px solid #E6E5ED;
       .ant-modal-body{
         padding:0;
-        .edit-form{
+        .edit-form,.add-form,.look-form{
+          .ant-form-item{
+            margin-bottom: 0px;
+          }
           .up-info{
             border-bottom: 10px solid #E6e5ed;
             .header-icon{
@@ -299,6 +158,9 @@
                   top: 16px \9;
                   right: 0 \9;
               }
+              .anticon-circle-down:before{
+                color: #7ed21e;
+              }
             }
 
           }
@@ -307,6 +169,22 @@
           }
         }
       }
+    }
+  }
+  .add-modal{
+    .add-form{
+      .up-info-header-img{
+        padding: 20px;
+      }
+      .up-info-header-text{
+        padding-top: 25px;
+        padding-bottom: 25px;
+      }
+    }
+  }
+  .edit-modal,.add-modal,.send-message-modal{
+    button{
+      border-radius: 0;
     }
   }
 }

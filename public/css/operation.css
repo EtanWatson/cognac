@@ -55,12 +55,11 @@ body .operation {
     float: right;
     width: 650px;
     position: relative;
-    top: -2px; }
+    top: -4px; }
     body .operation .right-item .type-color {
       width: 25px;
       height: 20px;
-      padding: 0 !important;
-    }
+      padding: 0 !important; }
     body .operation .right-item .type-color.driver {
       background-color: #f0c22f; }
     body .operation .right-item .type-color.manager {

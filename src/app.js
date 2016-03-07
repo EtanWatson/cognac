@@ -24,18 +24,18 @@ const App = React.createClass({
     },
     handleChildChange(pageShow){
         this.setState({
-           pageShow:pageShow
+
         })
     },
     render(){
-        let {content} = this.props;
+        let {content,page} = this.props;
         return(
             <div className="global-layout">
                 <Grid fluid ={true}>
                     <Row className="show-grid">
                         <Col xs={1} md={1} lg={1} className="left-layout">
                             <div>
-                                <NavMenu navArray={ navArray } pageShow={this.state.pageShow}
+                                <NavMenu navArray={ navArray } pageShow={page.type}
                                          callbackParent={this.handleChildChange}
                                     />
                                 {this.props.children}
@@ -43,11 +43,11 @@ const App = React.createClass({
                          </Col>
                         <Col xs={11} md={11} lg={11} className="right-layout">
                             <div className = "header-fixed">
-                                <Header pageShow={this.state.pageShow}
+                                <Header pageShow={page.type}
                                         callbackParent={this.handleChildChange}
                                     />
                                 <OperationItem className = "operationItem"
-                                    pageShow={this.state.pageShow}
+                                    pageShow={page.type}
                                     />
                             </div>
                             <div className = "content-relative">
@@ -64,10 +64,10 @@ render((
     <Router history={browserHistory}>
         <Route path="/" component={App}>
             <Route path="/taskManage" components={App}/>
-            <Route path="/staffInfo" components={{content:StaffInfo}}/>
-            <Route path="/vehicleRecord" components={{content:VehicleRecord}}/>
-            <Route path="/maintenance" components={{content:Maintenance}}/>
-            <Route path="/leaveRecord" components={{content:LeaveRecord}}/>
+            <Route path="/staffInfo" components={{content:StaffInfo,page:'staff'}}/>
+            <Route path="/vehicleRecord" components={{content:VehicleRecord,page:'vehicle'}}/>
+            <Route path="/maintenance" components={{content:Maintenance,page:'maintenance'}}/>
+            <Route path="/leaveRecord" components={{content:LeaveRecord,page:'leaveRecord'}}/>
         </Route>
     </Router>
 ), document.getElementById('page-content'));
