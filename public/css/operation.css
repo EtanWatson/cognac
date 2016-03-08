@@ -30,7 +30,8 @@ body .operation {
       margin: 8px; }
     body .operation .left-item .operation-item-icon {
       width: 13px;
-      height: 13px; }
+      height: 13px;
+      background-repeat: no-repeat; }
     body .operation .left-item .add-item-icon {
       background-image: url("/img/icon/icon_add_default.png"); }
     body .operation .left-item .add-item-icon-hover {
@@ -43,6 +44,10 @@ body .operation {
       background-image: url("/img/icon/icon_batch_deffault.png"); }
     body .operation .left-item .batch-item-icon-hover {
       background-image: url("/img/icon/icon_batch_pressed.png"); }
+    body .operation .left-item .delete-item-icon {
+      background-image: url("/img/icon/icon_delete_default.png"); }
+    body .operation .left-item .print-item-icon {
+      background-image: url("/img/icon/icon_print_default.png"); }
     body .operation .left-item .select-all-btn {
       background-image: url("/img/icon/icon_select all_default.png"); }
     body .operation .left-item .send-message-btn {

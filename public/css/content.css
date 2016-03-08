@@ -74,24 +74,31 @@
     bottom: 35px;
     right: 5%;
     cursor: pointer; }
-  .content .table-box {
-    width: 98%; }
-    .content .table-box .choose-table-header {
-      width: 60px; }
-    .content .table-box .menu {
-      background-color: #2d3c51 !important; }
-    .content .table-box .select-all {
-      background-color: #f8e71c !important; }
-    .content .table-box th {
-      background-color: #2aa2dd;
-      color: #FFFFFF;
-      font-size: 12px;
-      line-height: 16px; }
-    .content .table-box td {
-      color: #2e3c52; }
-    .content .table-box tbody tr:nth-child(odd) {
-      background-color: #eee; }
-    .content .table-box tbody tr:nth-child(even) {
-      background-color: #f9f9f9; }
+  .content .content-table .table-header {
+    background-color: #32a3db;
+    color: #FFFFFF; }
+  .content .content-table .all-select {
+    background-color: #f8e71d;
+    color: #000;
+    cursor: pointer; }
+  .content .content-table .select-dialog-cell {
+    background-color: #2d3d4c;
+    cursor: pointer; }
+  .content .content-table .item-click {
+    background-color: #D1e9f5; }
+  .content .content-table .anticon-caret-right:before {
+    color: #30a3dc; }
+
+.table-popover {
+  width: 100px;
+  background-color: #d0eaf7;
+  z-index: 3; }
+  .table-popover .ant-popover-content {
+    padding: 8px 4px; }
+    .table-popover .ant-popover-content .popover-check-menu > label {
+      padding: 2px 0; }
+
+.table-popover-hidden {
+  display: none; }
 
 /*# sourceMappingURL=content.css.map */

@@ -96,34 +96,42 @@
       cursor: pointer;
     }
   }
-
-  .table-box{
-    width: 98%;
-    .choose-table-header{
-      width: 60px;
-    }
-    .menu{
-      background-color: #2d3c51 !important;
-    }
-    .select-all{
-      background-color: #f8e71c !important;
-    }
-    th{
-      background-color: #2aa2dd;
-      color: #FFFFFF;
-      font-size: 12px;
-      line-height: 16px;
-    }
-    td{
-      color: #2e3c52;
-    }
-    tbody{
-      tr:nth-child(odd){
-        background-color: #eee;
+  .content-table{
+      .table-header{
+          background-color: #32a3db;
+          color: #FFFFFF;
       }
-      tr:nth-child(even){
-        background-color: #f9f9f9;
+      .all-select{
+        background-color:#f8e71d;
+        color: #000;
+        cursor: pointer;
+      }
+      .select-dialog-cell{
+        background-color:#2d3d4c;
+        cursor: pointer;
+      }
+    .item-click{
+      background-color:#D1e9f5;
+    }
+    .anticon-caret-right:before{
+      color: #30a3dc;
+    }
+  }
+}
+//ÆøÅÝ¸¡³Á
+.table-popover{
+  width: 100px;
+  background-color: rgb(208, 234, 247);
+  z-index: 3;
+  .ant-popover-content{
+    padding: 8px 4px;
+    .popover-check-menu{
+      >label{
+        padding:2px 0
       }
     }
   }
+}
+.table-popover-hidden{
+  display: none;
 }

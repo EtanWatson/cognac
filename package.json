@@ -36,6 +36,7 @@
     "express-urlrewrite": "^1.2.0",
     "file-loader": "^0.8.5",
     "file-type": "^3.7.0",
+    "fixed-data-table": "^0.6.0",
     "if-env": "^1.0.0",
     "install": "^0.5.4",
     "jsonp": "^0.2.0",

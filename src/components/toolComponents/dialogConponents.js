@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import {render} from 'react-dom';
-import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload} from 'antd';
+import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload,Menu} from 'antd';
 import {SearchInput} from "./selectAutoCompletion"
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
@@ -857,4 +857,41 @@ const LookDialog = React.createClass({
         )
     }
 });
-export{EditDialog,SendMessageDialog,AddDialog,LookDialog}
+//checkbox下来框
+const popoverCheckMenu = (
+    <div className = 'popover-check-menu'>
+        <label>
+            <Checkbox />
+            测试框一
+        </label>
+        <label>
+            <Checkbox  />
+            测试框二
+        </label>
+        <label>
+            <Checkbox />
+            测试框三
+        </label>
+        <label>
+            <Checkbox />
+            测试框三
+        </label>
+        <label>
+            <Checkbox />
+            测试框三
+        </label>
+        <label>
+            <Checkbox />
+            测试框三
+        </label>
+        <label>
+            <Checkbox />
+            测试框三
+        </label>
+        <label>
+            <Checkbox />
+            测试框三
+        </label>
+    </div>
+);
+export{EditDialog,SendMessageDialog,AddDialog,LookDialog,popoverCheckMenu}

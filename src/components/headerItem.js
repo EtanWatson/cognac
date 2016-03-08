@@ -5,12 +5,13 @@ import React from 'react';
 import {render} from 'react-dom';
 import BackboneReactMixin from 'backbone-react-component';
 import {Button} from 'react-bootstrap';
+import {Link} from 'react-router';
 //系统设置组件
 const SysTemSetting = React.createClass({
 
     render(){
         return(
-            <Button bsStyle="link"><h5>系统设置</h5></Button>
+            <Link to="/setting"><Button bsStyle="link"><h5>系统设置</h5></Button></Link>
         )
     }
 });

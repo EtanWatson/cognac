@@ -42,6 +42,7 @@ body{
       .operation-item-icon{
         width: 13px;
         height: 13px;
+        background-repeat: no-repeat;
       }
       .add-item-icon{
         background-image: url("/img/icon/icon_add_default.png");
@@ -60,6 +61,12 @@ body{
       }
       .batch-item-icon-hover{
         background-image: url("/img/icon/icon_batch_pressed.png");
+      }
+      .delete-item-icon{
+        background-image: url("/img/icon/icon_delete_default.png");
+      }
+      .print-item-icon{
+        background-image: url("/img/icon/icon_print_default.png");
       }
       .select-all-btn{
         background-image: url("/img/icon/icon_select all_default.png");

@@ -24,7 +24,7 @@ body{
       color: #ffffff;
 
     }
-    a:focus{
+    a.click{
       color: #ffffff;
       background-image: url("/img/icon/nav_btn_pressed.png");
       outline: 0;
@@ -67,21 +67,36 @@ body{
       }
     }
     .link-box:hover{
-      .staff-icon{
+      .staff-icon.default{
         background-image: url("/img/icon/icon_people_pressed.png");
       }
-      .vehicle-icon{
+      .vehicle-icon.default{
         background-image: url("/img/icon/icon_car_pressed.png");
       }
-      .task-icon{
+      .task-icon.default{
         background-image: url("/img/icon/icon_task_pressed.png");
       }
-      .maintenance-icon{
+      .maintenance-icon.default{
         background-image: url("/img/icon/icon_service_pressed.png");
       }
-      .leave-icon{
+      .leave-icon.default{
         background-image: url("/img/icon/icon_sick_leave_pressed.png");
       }
+    }
+    .staff-icon-press{
+      background-image: url("/img/icon/icon_people_pressed.png");
+    }
+    .vehicle-icon-press{
+      background-image: url("/img/icon/icon_car_pressed.png");
+    }
+    .task-icon-press{
+      background-image: url("/img/icon/icon_task_pressed.png");
+    }
+    .maintenance-icon-press{
+      background-image: url("/img/icon/icon_service_pressed.png");
+    }
+    .leave-icon-press{
+      background-image: url("/img/icon/icon_sick_leave_pressed.png");
     }
   }
 }

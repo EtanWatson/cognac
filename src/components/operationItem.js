@@ -67,10 +67,12 @@ const ListItem =React.createClass({
             $('.card-show').removeClass('is-display');
             $('.list-show').addClass('is-display');
             PubSub.publish('showWay','card');
+            this.props.callbackParent('card')
         }else{
             $('.list-show').removeClass('is-display');
             $('.card-show').addClass('is-display');
             PubSub.publish('showWay','list');
+            this.props.callbackParent('list');
         }
     },
     render(){
@@ -100,25 +102,12 @@ const BatchOperation = React.createClass({
         this.setState({
           pageShow: this.props.pageShow
         });
-        //this.pubsub_token = PubSub.subscribe('content-show',function(topic,contentShow){
-        //    this.setState({
-        //        contentShow:contentShow
-        //    })
-        //}.bind(this))
     },
     toggle(){
       this.setState({
           show: !this.state.show
       });
-
-      if(this.props.pageShow=='staff'){
-          console.log('staff-publish');
-          PubSub.publish('batchOperationStaff',!this.state.show);
-      }else{
-          alert('test');
-          console.log('vehicle-publish');
-          PubSub.publish('batchOperationVehicle',!this.state.show);
-      }
+      PubSub.publish('batchOperation',!this.state.show);
     },
     handleMouseEnter:function(event){
         $('.batch-item-icon').removeClass('batch-item-icon').addClass('batch-item-icon-hover');
@@ -221,28 +210,96 @@ const SendMessage = React.createClass({
 });
 //删除
 const DeleteItem = React.createClass({
+    getInitialState(){
+        return{
+            isListShow:false
+        }
+    },
     //点击删除以后，将选中的item删除
     handleClick(){
         PubSub.publish('delete-item','');
     },
+    componentDidMount(){
+        if(this.props.showList){
+            this.setState({
+                isListShow:true
+            })
+        }else{
+            this.setState({
+                isListShow:false
+            })
+        }
+    },
     render(){
+        var isListShow = function(){
+          if(this.state.isListShow){
+              return(
+                  <Button  bsStyle="link" className="">
+                      <ul className = "list-inline">
+                          <li className = "delete-item-icon operation-item-icon"></li>
+                          <li>
+                              <h5>刪除</h5>
+                          </li>
+                      </ul>
+                  </Button>
+              )
+          }else{
+              return(
+                  <Button  bsStyle="link" className="delete-item-btn batch-btn"></Button>
+              )
+          }
+        }.bind(this);
         return(
             <li>
-                <Button  bsStyle="link" className="delete-item-btn batch-btn"></Button>
+                {isListShow()}
             </li>
         )
     }
 });
 //打印
 const PrintItem = React.createClass({
+    getInitialState(){
+        return{
+            isListShow:false
+        }
+    },
     //点击打印以后，隐藏app主页，显示打印页面,发布全局事件
     handleClick(){
         PubSub.publish('print-show','');
     },
+    componentDidMount(){
+        if(this.props.showList){
+            this.setState({
+                isListShow:true
+            })
+        }else{
+            this.setState({
+                isListShow:false
+            })
+        }
+    },
     render(){
+        var isListShow = function(){
+            if(this.state.isListShow){
+                return(
+                    <Button  bsStyle="link" className=""  onClick={this.handleClick}>
+                        <ul className = "list-inline">
+                            <li className = "print-item-icon operation-item-icon"></li>
+                            <li>
+                                <h5>打印</h5>
+                            </li>
+                        </ul>
+                    </Button>
+                )
+            }else{
+                return(
+                    <Button  bsStyle="link" className="print-item-btn batch-btn" onClick={this.handleClick}></Button>
+                )
+            }
+        }.bind(this);
         return(
             <li>
-                <Button  bsStyle="link" className="print-item-btn batch-btn" onClick={this.handleClick}></Button>
+                {isListShow()}
             </li>
         )
     }
@@ -357,14 +414,35 @@ const OutageRecord = React.createClass({
 });
 //导航栏组件
 const OperationItem= React.createClass({
+    getInitialState(){
+      return{
+          cardShow:true,
+          batchBtn:<BatchOperation />,
+          printBtn:  ''
+      }
+    },
+    childListChange(showWay){
+        if(showWay=='card'){
+         this.setState({
+             batchBtn:<BatchOperation />,
+             printBtn:  ''
+         })
+        }else{
+            this.setState({
+                batchBtn:<DeleteItem showList={true}/>,
+                printBtn:<PrintItem showList={true}/>
+            })
+        }
+    },
     render(){
         return(
             <ul className="list-inline operation">
                 <li className = "left-item">
                     <ul className = "list-inline">
                         <AddItem />
-                        <ListItem />
-                        <BatchOperation pageShow={this.props.pageShow}/>
+                        <ListItem callbackParent={this.childListChange}/>
+                        {this.state.batchBtn}
+                        {this.state.printBtn}
                     </ul>
                 </li>
                 <li className = "right-item">

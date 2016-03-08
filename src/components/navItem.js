@@ -79,19 +79,31 @@ const NavMenu = React.createClass({
     componentWillReceiveProps(nextProps){
         console.log((nextProps.pageShow));
     },
-    handleClick(){
-
+    handleClick(e){
+        //e.preventDefault();
+        let linkBox = $('.link-box');
+        let aDefault =  $(linkBox).find('.link-style');
+        $(aDefault).removeClass('click');
+        let press = $(linkBox).find('.press');
+        let defaultStatus = $(linkBox ).find('.default');
+        $(press).addClass('is-display');
+        $(defaultStatus).removeClass('is-display');
+        let thisPress = $(e.target).parents('.link-box').find('.press');
+        let thisDefault= $(e.target).parents('.link-box').find('.default');
+        let aClick= $(e.target).parents('.link-box').find('.link-style').addClass('click');
+        $(thisDefault).addClass('is-display');
+        $(thisPress).removeClass('is-display')
     },
     render(){
         var navArrayValue = this.props.navArray;
         var showPage = this.props.pageShow;
         var items = navArrayValue.map(function(item){
             return(
-                <div className="link-box" key={item.key}>
+                <div className="link-box" key={item.key} >
                     <Link to={"/"+item.name} className="link-style" onClick={this.handleClick}>
                         <div className = "link-icon" >
                             <div className ={item.icon+" icon default"}></div>
-                            <div className ={item.icon+"-press press is-display"}></div>
+                            <div className ={item.icon+"-press icon press is-display"}></div>
                             <div className = "text">{item.aliasName}</div>
                         </div>
                     </Link>

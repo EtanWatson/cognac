@@ -7,9 +7,11 @@ import {Button,ButtonToolbar,Glyphicon} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
 import {columns,data} from '../data/listData';
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
-import {Button as AntButton,Table,Icon,Row,Col,Modal} from 'antd';
-import {EditDialog,SendMessageDialog,LookDialog} from './toolComponents/dialogConponents';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
+import {Button as AntButton,Icon,Row,Col,Modal,Checkbox,Popover} from 'antd';
+import {EditDialog,SendMessageDialog,LookDialog,popoverCheckMenu} from './toolComponents/dialogConponents';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import FixedDataTable from 'fixed-data-table';
+const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
 const HoverItem = React.createClass({
    getInitialState(){
@@ -99,36 +101,32 @@ const Card = React.createClass({
        }
    } ,
     componentDidMount(){
-        this.pubsub_tokenBatchVehicle = PubSub.subscribe('batchOperationVehicle',function(topic,isToggle){
-            console.log('test');
-            this.setState({
-                toggleBatch:isToggle
-            })
-        }.bind(this));
-        this.pubsub_tokenBatchStaff= PubSub.subscribe('batchOperationStaff',function(topic,isToggle){
-            console.log('test');
-            this.setState({
-                toggleBatch:isToggle
-            })
+        this.pubsub_tokenBatch = PubSub.subscribe('batchOperation',function(topic,isToggle){
+            if(this.isMounted()){
+                this.setState({
+                    toggleBatch:isToggle
+                })
+            }
         }.bind(this));
         this.pubsub_tokenAll = PubSub.subscribe('selectAll',function(topic,isSelectAll){
-            if(!isSelectAll){
-                this.setState({
-                    selectIcon:'/img/icon/card_icon_defailt.png',
-                    isSelect:true
-                })
-            }else{
-                this.setState({
-                    selectIcon:'/img/icon/card_icon_pressed.png',
-                    isSelect:true
-                })
+            if(this.isMounted){
+                if(!isSelectAll){
+                    this.setState({
+                        selectIcon:'/img/icon/card_icon_defailt.png',
+                        isSelect:true
+                    })
+                }else{
+                    this.setState({
+                        selectIcon:'/img/icon/card_icon_pressed.png',
+                        isSelect:true
+                    })
+                }
             }
         }.bind(this));
     },
     componentWillUnMount(){
         alert('willMount');
-        PubSub.unsubscribe(this.pubsub_tokenBatchVehicle);
-        PubSub.unsubscribe(this.pubsub_tokenBatchStaff);
+        PubSub.unsubscribe(this.pubsub_tokenBatch);
         PubSub.unsubscribe(this.pubsub_tokenAll);
     },
     handleMouseOver(){
@@ -327,7 +325,11 @@ const ListShow = React.createClass({
    getInitialState(){
         return{
             selectedRowKeys: [],
-            loading: false
+            loading: false,
+            allChecked:false,
+            allCheckClassName:"is-display",
+            oneChecked:false,
+            dataValue:0
         };
    },
    start(){
@@ -348,9 +350,23 @@ const ListShow = React.createClass({
        selectedRowKeys
      });
    },
-   handleRowClick(){
-
+   handleRowClick(e){
+       let tableCell = $('.content-table').find('.table-cell');
+       $(tableCell).removeClass('item-click');
+       $(tableCell).find('.icon').addClass('is-display');
+       let thisTableCell = $(e.target).parents('.fixedDataTableCellGroupLayout_cellGroup').find('.table-cell');
+       $(thisTableCell).addClass('item-click');
+       $(thisTableCell).find('.icon').removeClass('is-display');
    },
+   handleDoubleClick(){
+   },
+    handleSelectAll(){
+      this.state.allChecked?this.setState({allChecked:false,allCheckClassName:'is-display'}):this.setState({allChecked:true,allCheckClassName:''})
+    },
+    handelCheckboxChange(e) {
+        e.preventDefault();
+      this.state.oneChecked?this.setState({oneChecked:false,allCheckClassName:'is-display'}):this.setState({oneChecked:true,allCheckClassName:''})
+    },
    render(){
        const {loading,selectedRowKeys} = this.state;
        const rowSelection ={
@@ -358,55 +374,59 @@ const ListShow = React.createClass({
            onChange: this.onSelectChange
        };
        const hasSelected = selectedRowKeys.length > 0;
-       function format(cell, row){
-           return '<i class="glyphicon glyphicon-usd"></i> ' + cell;
-       }
-       //Row select setting
-       var selectRowProp = {
-           mode: "checkbox",  //checkbox for multi select, radio for single select.
-           clickToSelect: true,   //click row will trigger a selection on that row.
-           bgColor: "rgb(238, 193, 213)"   //selected row background color
-       };
-       var products = [{
-           id: 1,
-           name: "Item name 1",
-           price: 100
-       },{
-           id: 2,
-           name: "Item name 2",
-           price: 100
-       },];
+
+       const TextCell = ({rowIndex,data,col,...props})=>(
+           <Cell className = "table-cell text-name" {...props}>
+               {data[rowIndex][col]}
+           </Cell>
+       );
        return(
-           //<div className = "table-box">
-           //    <Row>
-           //         <Col span = "24">
-           //             <Table rowSelection={rowSelection} columns={columns} dataSource={data}
-           //                    pagination={false} onRowClick={this.handleRowClick} bordered useFixedHeader={true}
-           //                 />
-           //         </Col>
-           //    </Row>
-           //</div>
-           <div>
-               <BootstrapTable
-                   data={productLong}
-                   striped={true}
-                   hover={true}
-                   condensed={true}
-                   pagination={true}
-                   selectRow={selectRowProp}
-                   insertRow={true}
-                   deleteRow={true}
-                   columnFilter={true}
-                   search={true}>
-                   <TableHeaderColumn dataField="id" isKey={true} dataAlign="right" dataSort={true}>Product ID</TableHeaderColumn>
-                   <TableHeaderColumn dataField="name" dataSort={true}>Product Name</TableHeaderColumn>
-                   <TableHeaderColumn dataField="price" dataAlign="center" dataFormat={format}>Product Price</TableHeaderColumn>
-               </BootstrapTable>
+           <div className = 'content-table' style={{textAlign:'center'}}>
+               <Table
+                   rowHeight={50}
+                   rowsCount={data.length}
+                   width={1024}
+                   height={500}
+                   headerHeight={50}
+                   onRowClick={this.handleRowClick}
+                   onRowDoubleClick={this.handleDoubleClick}
+                   >
+                   <Column
+                       header={<Cell className='table-header select-dialog-cell'>
+                                    <Popover prefixCls="table-popover" placement="bottomLeft" overlay={popoverCheckMenu} trigger='click'>
+                                          <Icon type="menu-fold" className='select-dialog'/>
+                                    </Popover >
+                                </Cell>}
+                       cell={<Cell className ='table-cell'><Icon type="caret-right"  className ='icon is-display'/></Cell>}
+                       width={50}
+                       className = ''
+                       />
+                   <Column
+                       header={<Cell className = 'all-select table-header' onClick={this.handleSelectAll}>全选</Cell>}
+                       cell={<Cell className ='table-cell'><div className ={this.state.allCheckClassName} data-value={this.state.dataValue} onClick={this.handelCheckboxChange}><Icon type="check" /></div></Cell>}
+                       width={50}
+
+                       />
+                   <Column
+                       header={<Cell className = "table-header">编码</Cell>}
+                       cell={<TextCell data={data} col="key" />}
+                       flexGrow={2}
+                       width={100}
+                       className = ''
+                       />
+                   <Column
+                       header={<Cell className = "header-name table-header">姓名</Cell>}
+                       cell={<TextCell data={data} col="name" />}
+                       flexGrow={2}
+                       width={100}
+                       />
+               </Table>
            </div>
        )
    }
 });
 const Content = React.createClass({
+
     getInitialState(){
       return{
           showWay:'card',
@@ -428,6 +448,7 @@ const Content = React.createClass({
         $('.content-relative').animate({scrollTop:0},1000);
     },
     render(){
+
         var cardInfo= this.props.cardInfo;
         var typeText = this.props.typeTextInfo;
         var handleShowWay=function(){
