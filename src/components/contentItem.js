@@ -13,6 +13,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import FixedDataTable from 'fixed-data-table';
 const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
+//card hover状态
 const HoverItem = React.createClass({
    getInitialState(){
         return{
@@ -54,7 +55,7 @@ const HoverItem = React.createClass({
         })
    },
    onChildChangeEdit(isEdit){
-       console.log('关闭编辑回调:'+isEdit);
+       //console.log('关闭编辑回调:'+isEdit);
         this.setState({
             isEdit:false
         });
@@ -66,7 +67,7 @@ const HoverItem = React.createClass({
        })
    },
    render(){
-       console.log('鼠标滑入卡片时的cardInfo:'+this.props.cardInfo);
+       //console.log('鼠标滑入卡片时的cardInfo:'+this.props.cardInfo);
        return(
            <ul className = "list-inline operation-in-card">
                 <li>
@@ -78,13 +79,14 @@ const HoverItem = React.createClass({
                 <li>
                     <Button  bsStyle="link" onClick={this.handleDeleteClick}><img src="/img/icon/icon_delete.png" /></Button>
                 </li>
-               <EditDialog isEdit={this.state.isEdit} cardInfo={this.props.cardInfo} callbackParent = {this.onChildChangeEdit}/>
+               <EditDialog isEdit={this.state.isEdit} cardInfo={this.props.cardInfo} pageShow={this.props.pageShow} callbackParent = {this.onChildChangeEdit}  />
                <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.onChildChangeSendMessage} />
            </ul>
+
        )
    }
 });
-
+//card显示组件
 const Card = React.createClass({
    getInitialState(){
        return {
@@ -125,7 +127,7 @@ const Card = React.createClass({
         }.bind(this));
     },
     componentWillUnMount(){
-        alert('willMount');
+        //alert('willMount');
         PubSub.unsubscribe(this.pubsub_tokenBatch);
         PubSub.unsubscribe(this.pubsub_tokenAll);
     },
@@ -170,7 +172,7 @@ const Card = React.createClass({
 
     },
     onChildChange(isChange){
-        console.log('卡片事件回调:isChange：'+isChange);
+        //console.log('卡片事件回调:isChange：'+isChange);
         switch (isChange){
             case 'delete':
                 this.setState({
@@ -203,9 +205,10 @@ const Card = React.createClass({
         this.setState({
             isLook:false
         });
-        console.log('contentComPassLookEdit:'+isChange);
+        //console.log('contentComPassLookEdit:'+isChange);
         if(isChange=='isEdit'){
-            console.log('用户点击了编辑');
+            //console.log('用户点击了编辑');
+
             this.setState({
                 passLookEdit:true
             })
@@ -268,6 +271,7 @@ const Card = React.createClass({
                <span></span>
            )
        }else{
+           //console.log("card pageShow："+this.props.pageShow);
            return(
                <div className ={"card-style "+this.state.isHover}
                     onDoubleClick={this.handleDoubleClick}
@@ -312,15 +316,16 @@ const Card = React.createClass({
                    </ul>
                    {staffType()}
                    <div  className ={"default-style "+this.state.isOpen}>
-                       <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit}/>
+                       <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit} pageShow = {this.props.pageShow}/>
                    </div>
-                   <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} cardInfo={item}/>
+                   <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} cardInfo={item} pageShow = {this.props.pageShow}/>
                </div>
            )
        }
 
    }
 });
+//列表显示组件
 const ListShow = React.createClass({
    getInitialState(){
         return{
@@ -345,7 +350,7 @@ const ListShow = React.createClass({
      },1000)
    },
    onSelectChange(selectedRowKeys){
-     console.log('selectedRowKeys changed: ', selectedRowKeys);
+     //console.log('selectedRowKeys changed: ', selectedRowKeys);
      this.setState({
        selectedRowKeys
      });
@@ -425,8 +430,8 @@ const ListShow = React.createClass({
        )
    }
 });
+//內容主容器
 const Content = React.createClass({
-
     getInitialState(){
       return{
           showWay:'card',
@@ -448,9 +453,10 @@ const Content = React.createClass({
         $('.content-relative').animate({scrollTop:0},1000);
     },
     render(){
-
         var cardInfo= this.props.cardInfo;
         var typeText = this.props.typeTextInfo;
+        var pageShow = this.props.pageShow;
+        //console.log('content pageShow：'+pageShow);
         var handleShowWay=function(){
                 if(this.state.showWay=='card'){
                     return(
@@ -459,7 +465,7 @@ const Content = React.createClass({
                                 cardInfo.map(function(item){
                                     return(
                                         <li key={item.key} className = "card-container-space">
-                                            <Card item={item} typeTextInfo={typeText}/>
+                                            <Card item={item} typeTextInfo={typeText} pageShow = {pageShow}/>
                                         </li>
                                     )
                                 })

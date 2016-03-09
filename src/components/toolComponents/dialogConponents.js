@@ -9,10 +9,17 @@ import {SearchInput} from "./selectAutoCompletion"
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
+//form的整体布局
+const formItemLayout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 14 }
+};
 let EditTable = React.createClass({
+    componentDidMount(){
+    },
     handleSubmit(e) {
         e.preventDefault();
-        console.log('收到表单值：', this.props.form.getFieldsValue());
+        //console.log('收到表单值：', this.props.form.getFieldsValue());
         this.props.callbackParentOfEdit('edit');
     },
     handleCancel(){
@@ -20,11 +27,8 @@ let EditTable = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
-        const formItemLayout = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 14 }
-        };
         let cardInfo = this.props.cardInfo;
+        //console.log('editDialog cardInfo：'+cardInfo);
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'edit-form'>
                <div className = "up-info">
@@ -221,8 +225,267 @@ let EditTable = React.createClass({
         );
     }
 });
-
 EditTable = Form.create()(EditTable);
+
+let EditTableVehicle = React.createClass({
+    componentDidMount(){
+    },
+    handleSubmit(e) {
+        e.preventDefault();
+        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        this.props.callbackParentOfEdit('edit');
+    },
+    handleCancel(){
+        this.props.callbackParentOfEdit('noEdit');
+    },
+    render() {
+        const { getFieldProps } = this.props.form;
+        let cardInfo = this.props.cardInfo;
+        return (
+            <Form horizontal onSubmit={this.handleSubmit} className = 'add-form'>
+                <div className = "up-info">
+                    <Row type = 'flex' justify="center">
+                        <Col span = "8">
+                            <div className = "header-icon">
+                                <img src= "/img/icon/icon_user_head_50_50_have_9.png" />
+                            </div>
+                        </Col>
+                        <Col span = "16" className="header-right">
+                            <h3>{cardInfo.name}</h3>
+                            <Row type = "flex">
+                                <Col span = "4">
+                                    <div className = "type-text right">车牌号：</div>
+                                </Col>
+                                <Col span = "12">
+                                    <div className = "status-text right">ABCDEFG</div>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </div>
+                <div className = "middle-info">
+                    <Row type = 'flex' justify="center">
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆品牌：">
+                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                            </FormItem>
+                        </Col>
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="司机：" >
+                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆型号：">
+                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                            </FormItem>
+                        </Col>
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="司机手机：">
+                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆类型：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所在部门：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="标签：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所属车主：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="颜色：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车主手机：" >
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="载重（吨）：" >
+                                <AntInput type="text" placeholder="" {...getFieldProps('more')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所属车队：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="座位数：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="油卡编号：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="油耗：" >
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="电卡编号：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label={<div><p>续航里程：</p><p>（电车）</p></div>}>
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆状态：">
+                                <Select defaultValue="0">
+                                    <Option value="0">可用</Option>
+                                    <Option value="1">不可用</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="初始里程：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="是否停用：" >
+                                <label className = "isOutage">
+                                    <Checkbox {...getFieldProps('outage')} />
+                                </label>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="发动机号：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车架号：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入单位：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入价格：" >
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入日期："  >
+                                <DatePicker  />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                wrapperCol={{span:14,offset:8}}
+                                label="备注：">
+                                <AntInput  type="textarea" placeholder="随便写" id="textarea-more" name="textarea" className = 'vehicle-more' />
+                            </FormItem>
+
+                        </Col>
+                    </Row>
+                </div>
+                <div className = "footer-info" style={{backgroundColor:'#E6E5ED'}}>
+                    <Row type="flex" justify="space-around">
+                        <Col span = '8'>
+                            <AntButton type="primary" htmlType="submit" onClick={this.handleSubmit}>保存并添加</AntButton>
+                        </Col>
+                        <Col span = '8'>
+                            <AntButton type="primary" htmlType="submit" onClick={this.handleSubmit}>保存</AntButton>
+                        </Col>
+                        <Col span = '8'>
+                            <AntButton type ="primary" onClick={this.handleCancel}>退出</AntButton>
+                        </Col>
+                    </Row>
+                </div>
+            </Form>
+        );
+    }
+});
+EditTableVehicle = Form.create()(EditTableVehicle);
 const EditDialog = React.createClass({
     getInitialState(){
       return{
@@ -256,21 +519,37 @@ const EditDialog = React.createClass({
         this.props.callbackParent(isChange);
     },
     render(){
+        let{pageShow,cardInfo} = this.props;
+        //console.log('editItem pageShow:'+pageShow);
+        var editTable = function(){
+            switch (pageShow){
+                case 'staff':
+                    return(<EditTable
+                        visible={this.state.visible}
+                        callbackParentOfEdit={this.handleChildrenChange}
+                        cardInfo = {cardInfo}/>);
+                    break;
+                case 'vehicle':
+                    return(<EditTableVehicle
+                        visible={this.state.visible}
+                        callbackParentOfEdit={this.handleChildrenChange}
+                        cardInfo={cardInfo}
+                        />);
+                    break;
+            }
+        }.bind(this);
         return(
             <Modal  visible={this.state.visible}  footer="" closable={false} className = "edit-modal">
-                <EditTable
-                    visible={this.state.visible}
-                    callbackParentOfEdit={this.handleChildrenChange}
-                    cardInfo={this.props.cardInfo}
-                    />
+                {editTable()}
             </Modal>
         )
     }
 });
+//添加条目table(staff)
 let AddTable = React.createClass({
     handleSubmit(e) {
         e.preventDefault();
-        console.log('收到表单值：', this.props.form.getFieldsValue());
+        //console.log('收到表单值：', this.props.form.getFieldsValue());
         this.props.callbackParentOfAdd(true);
     },
     handleCancel(){
@@ -278,10 +557,6 @@ let AddTable = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
-        const formItemLayout = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 14 }
-        };
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'add-form'>
                 <div className = "up-info">
@@ -301,12 +576,12 @@ let AddTable = React.createClass({
                         <Col span = '12' className = 'up-info-header-text'>
                             <FormItem
                                 {...formItemLayout}
-                                label="姓名：" labelCol={{span: 8}} required>
+                                label="姓名："  required>
                                 <AntInput type="text" {...getFieldProps('name')} placeholder="" value="" />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
-                                label="职务：" labelCol={{span: 8}} required>
+                                label="职务："  required>
                                 <AntInput type="text" {...getFieldProps('job')} placeholder="" value="" />
                             </FormItem>
                         </Col>
@@ -317,7 +592,7 @@ let AddTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label="编码：" labelCol={{span: 8}} required>
+                                label="编码：" required>
                                 <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
                             </FormItem>
                         </Col>
@@ -327,7 +602,7 @@ let AddTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label="所在部门：" labelCol={{span: 8}}>
+                                label="所在部门：">
                                 <AntInput type="text" {...getFieldProps('section')} placeholder="" />
                             </FormItem>
                         </Col>
@@ -346,7 +621,7 @@ let AddTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="身份证号：" labelCol={{span: 8}} required>
+                                label="身份证号："  required>
                                 <AntInput type="text" placeholder="" {...getFieldProps('id')} />
                             </FormItem>
                         </Col>
@@ -356,7 +631,7 @@ let AddTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="家庭住址：" labelCol={{span: 8}}>
+                                label="家庭住址：">
                                 <AntInput type="text" placeholder="" {...getFieldProps('address')} />
                             </FormItem>
                         </Col>
@@ -366,7 +641,7 @@ let AddTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="入职日期：" labelCol={{span: 8}} >
+                                label="入职日期：" >
                                 <DatePicker  />
                             </FormItem>
                         </Col>
@@ -382,7 +657,7 @@ let AddTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="备注：" labelCol={{span: 8}} required>
+                                label="备注：" required>
                                 <AntInput type="text" placeholder="" {...getFieldProps('more')} />
                             </FormItem>
                         </Col>
@@ -392,7 +667,7 @@ let AddTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="是否停用:" labelCol={{span: 8}}>
+                                label="是否停用:">
                                 <label className = "isOutage">
                                     <Checkbox {...getFieldProps('outage')} />
                                 </label>
@@ -411,7 +686,7 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="驾驶证号：" labelCol={{span: 8}} required>
+                                        label="驾驶证号：" required>
                                         <AntInput type="text" placeholder="" {...getFieldProps('driver-id')} />
                                     </FormItem>
                                 </Col>
@@ -421,7 +696,7 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="有效期限：" labelCol={{span: 8}} required>
+                                        label="有效期限：" required>
                                         <DatePicker  />
                                     </FormItem>
                                 </Col>
@@ -431,7 +706,7 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="发证机关：" labelCol={{span: 8}} required>
+                                        label="发证机关：" required>
                                         <AntInput type="text" placeholder="" {...getFieldProps('issue-office')} />
                                     </FormItem>
                                 </Col>
@@ -441,7 +716,7 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="年审到期：" labelCol={{span: 8}} required>
+                                        label="年审到期：" required>
                                         <DatePicker  />
                                     </FormItem>
                                 </Col>
@@ -451,7 +726,7 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="领证日期：" labelCol={{span: 8}} required>
+                                        label="领证日期："  required>
                                         <DatePicker  />
                                     </FormItem>
                                 </Col>
@@ -461,7 +736,7 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="准驾车型：" labelCol={{span: 8}} required>
+                                        label="准驾车型：" required>
                                         <DatePicker  />
                                     </FormItem>
                                 </Col>
@@ -487,8 +762,275 @@ let AddTable = React.createClass({
         );
     }
 });
-
+//添加条目table(staff)
 AddTable = Form.create()(AddTable);
+//添加条目table(Vehicle)
+let AddTableOfVehicle = React.createClass({
+    handleSubmit(e) {
+        e.preventDefault();
+        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        this.props.callbackParentOfAdd(true);
+    },
+    handleCancel(){
+        this.props.callbackParentOfAdd(false);
+    },
+    render() {
+        const { getFieldProps } = this.props.form;
+        return (
+            <Form horizontal onSubmit={this.handleSubmit} className = 'add-form'>
+                <div className = "up-info">
+                    <Row type = 'flex' justify="center">
+                        <Col span = '8' className = 'up-info-header-img'>
+                            <FormItem>
+                                <Upload name="logo" action="/upload.do" listType="picture" onChange={this.handleUpload}
+                                    {...getFieldProps('upload', {
+                                        valuePropName: 'fileList',
+                                        normalize: this.normFile
+                                    })}
+                                    >
+                                    <img src="/img/icon/icon_userpic.png" />
+                                </Upload>
+                            </FormItem>
+                        </Col>
+                        <Col span = '12' className = 'up-info-header-text'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆编码：" >
+                                <AntInput type="text" {...getFieldProps('carCode')} placeholder="" value="" />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车牌号：" >
+                                <AntInput type="text" {...getFieldProps('carNum')} placeholder="" value="" />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                </div>
+                <div className = "middle-info">
+                    <Row type = 'flex' justify="center">
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆品牌：">
+                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                            </FormItem>
+                        </Col>
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="司机：" >
+                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆型号：">
+                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                            </FormItem>
+                        </Col>
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="司机手机：">
+                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆类型：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所在部门：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="标签：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所属车主：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="颜色：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车主手机：" >
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="载重（吨）：" >
+                                <AntInput type="text" placeholder="" {...getFieldProps('more')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所属车队：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="座位数：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="油卡编号：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="油耗：" >
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="电卡编号：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label={<div><p>续航里程：</p><p>（电车）</p></div>}>
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆状态：">
+                                <Select defaultValue="0">
+                                    <Option value="0">可用</Option>
+                                    <Option value="1">不可用</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="初始里程：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="是否停用：" >
+                                <label className = "isOutage">
+                                    <Checkbox {...getFieldProps('outage')} />
+                                </label>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="发动机号：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车架号：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入单位：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入价格：" >
+                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入日期："  >
+                                <DatePicker  />
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                wrapperCol={{span:14,offset:8}}
+                                label="备注：">
+                                <AntInput  type="textarea" placeholder="随便写" id="textarea-more" name="textarea" className = 'vehicle-more' />
+                            </FormItem>
+
+                        </Col>
+                    </Row>
+                </div>
+                <div className = "footer-info" style={{backgroundColor:'#E6E5ED'}}>
+                    <Row type="flex" justify="space-around">
+                        <Col span = '8'>
+                            <AntButton type="primary" htmlType="submit" onClick={this.handleSubmit}>保存并添加</AntButton>
+                        </Col>
+                        <Col span = '8'>
+                            <AntButton type="primary" htmlType="submit" onClick={this.handleSubmit}>保存</AntButton>
+                        </Col>
+                        <Col span = '8'>
+                            <AntButton type ="primary" onClick={this.handleCancel}>退出</AntButton>
+                        </Col>
+                    </Row>
+                </div>
+            </Form>
+        );
+    }
+});
+//添加条目table(Vehicle)
+AddTableOfVehicle = Form.create()(AddTableOfVehicle);
+//添加条目窗口
 const AddDialog  = React.createClass({
     getInitialState(){
         return{
@@ -512,18 +1054,33 @@ const AddDialog  = React.createClass({
         this.props.callbackParentOfAdd(false);
     },
     render(){
+        //console.log('addItem pageShow:'+this.props.pageShow);
+        let pageShow = this.props.pageShow;
+        var addTable = function(){
+            switch (pageShow){
+                case 'staff':
+                       return(<AddTable
+                                    visible={this.state.visible}
+                                    callbackParentOfAdd={this.handleChildrenChange}
+                                 />);
+                        break;
+                case 'vehicle':
+                        return(<AddTableOfVehicle
+                                        visible={this.state.visible}
+                                        callbackParentOfAdd={this.handleChildrenChange}
+                                    />);
+                        break;
+            }
+        }.bind(this);
         return(
             <Modal  visible={this.state.visible}  footer="" closable={false} className = "add-modal">
-                <AddTable
-                    visible={this.state.visible}
-                    callbackParentOfAdd={this.handleChildrenChange}
-                    />
+                {addTable()}
             </Modal>
         )
     }
 
 });
-
+//发送消息窗口
 const SendMessageDialog = React.createClass({
     getInitialState(){
         return {
@@ -604,6 +1161,7 @@ const SendMessageDialog = React.createClass({
         )
     }
 });
+//查看信息table（staff）
 let LookTable = React.createClass({
     handleEdit(e) {
         e.preventDefault();
@@ -615,10 +1173,6 @@ let LookTable = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
-        const formItemLayout = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 14 }
-        };
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'look-form'>
                 <div className = "up-info">
@@ -648,8 +1202,8 @@ let LookTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label="编码：" labelCol={{span: 8}} required>
-                                <AntInput type="text" {...getFieldProps('code')} placeholder="请输入密码" value="01" />
+                                label="编码：" required>
+                                <p>编码</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'></Col>
@@ -658,18 +1212,15 @@ let LookTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label="所在部门：" labelCol={{span: 8}}>
-                                <AntInput type="text" {...getFieldProps('section')} placeholder="请输入密码" />
+                                label="所在部门：" >
+                                <p>所在部门</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="性别：" required>
-                                <RadioGroup {...getFieldProps('gender', { initialValue: 'female' })}>
-                                    <Radio value="male">男的</Radio>
-                                    <Radio value="female">女的</Radio>
-                                </RadioGroup>
+                                <p>性别</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -677,8 +1228,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="身份证号：" labelCol={{span: 8}} required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('id')} />
+                                label="身份证号：" required>
+                                <p>身份证号</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -687,8 +1238,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="家庭住址：" labelCol={{span: 8}}>
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                label="家庭住址：">
+                                <p>家庭住址</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -697,15 +1248,15 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="入职日期：" labelCol={{span: 8}} >
-                                <DatePicker  />
+                                label="入职日期：">
+                                <p>入职日期</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="手机：" required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <p>手机</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -713,8 +1264,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="备注：" labelCol={{span: 8}} required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('more')} />
+                                label="备注：" required>
+                                <p>备注</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -723,9 +1274,9 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="是否停用:" labelCol={{span: 8}}>
+                                label="是否停用:">
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('outage')} />
+                                    <Checkbox {...getFieldProps('outage')} defaultChecked={false} disabled/>
                                 </label>
                             </FormItem>
                         </Col>
@@ -742,8 +1293,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="驾驶证号：" labelCol={{span: 8}} required>
-                                        <AntInput type="text" placeholder="" {...getFieldProps('driver-id')} />
+                                        label="驾驶证号："  required>
+                                        <p>驾驶证号</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -752,8 +1303,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="有效期限：" labelCol={{span: 8}} required>
-                                        <DatePicker  />
+                                        label="有效期限：" required>
+                                        <p>有效期限</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -762,8 +1313,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="发证机关：" labelCol={{span: 8}} required>
-                                        <AntInput type="text" placeholder="" {...getFieldProps('issue-office')} />
+                                        label="发证机关："  required>
+                                        <p>发证机关</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -772,8 +1323,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="年审到期：" labelCol={{span: 8}} required>
-                                        <DatePicker  />
+                                        label="年审到期："  required>
+                                        <p>年审到期</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -782,8 +1333,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="领证日期：" labelCol={{span: 8}} required>
-                                        <DatePicker  />
+                                        label="领证日期：" required>
+                                        <p>领证日期</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -792,8 +1343,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="准驾车型：" labelCol={{span: 8}} required>
-                                        <DatePicker  />
+                                        label="准驾车型："  required>
+                                        <p>准驾车型</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -821,8 +1372,268 @@ let LookTable = React.createClass({
         );
     }
 });
-
 LookTable = Form.create()(LookTable);
+//查看信息table (vehicle)
+let LookTableVehicle = React.createClass({
+    handleEdit(e) {
+        e.preventDefault();
+        //PubSub.publish('join-edit',this);
+        this.props.callbackParentOfLook('isEdit');
+    },
+    handleCancel(){
+        this.props.callbackParentOfLook(false);
+    },
+    render() {
+        const { getFieldProps } = this.props.form;
+        return (
+            <Form horizontal onSubmit={this.handleSubmit} className = 'look-form'>
+                <div className = "up-info">
+                    <Row type = 'flex' justify="center">
+                        <Col span = "8">
+                            <div className = "header-icon">
+                                <img src= "/img/icon/icon_user_head_50_50_have_9.png" />
+                            </div>
+                        </Col>
+                        <Col span = "16" className="header-right">
+                            <h3>赵日天</h3>
+                            <Row type = "flex">
+                                <Col span = "4">
+                                    <div className = "type-text right">车牌号：</div>
+                                </Col>
+                                <Col span = "12">
+                                    <div className = "status-text right">ABCDEFG</div>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </div>
+                <div className = "middle-info">
+                    <Row type = 'flex' justify="center">
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆品牌：">
+                                <p>车辆品牌</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="司机：" >
+                                <p>司机</p>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆型号：">
+                                <p>车辆型号</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = '12'>
+                            <FormItem
+                                {...formItemLayout}
+                                label="司机手机：">
+                                <p>司机手机</p>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆类型：">
+                                <p>车辆类型</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所在部门：">
+                                <p>所在部门</p>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = 'flex' justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="标签：">
+                                <p>标签</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所属车主：">
+                                <p>所属车主</p>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="颜色：">
+                                <p>颜色</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车主手机：" >
+                                <p>车主手机</p>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="载重（吨）：" >
+                                <p>载重（吨）</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="所属车队：">
+                                <p>所属车队</p>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="座位数：">
+                                <p>座位数</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="油卡编号：">
+                                <p>油卡编号</p>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="油耗：" >
+                                <p>油耗</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="电卡编号：">
+                                <p>电卡编号</p>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label={<div><p>续航里程：</p><p>（电车）</p></div>}>
+                                <p>续航里程</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="车辆状态：">
+                                <Select defaultValue="0" disabled>
+                                    <Option value="0">可用</Option>
+                                    <Option value="1">不可用</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="初始里程：">
+                                <p>初始里程</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="是否停用：" >
+                                <label className = "isOutage">
+                                    <Checkbox {...getFieldProps('outage')} defaultChecked={false} disabled />
+                                </label>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row type = "flex" justify="center">
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                label="发动机号：">
+                                <p>发动机号</p>
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="车架号：">
+                                <p>车架号</p>
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入单位：">
+                                <p>购入单位</p>
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入价格：" >
+                                <p>购入价格</p>
+                            </FormItem>
+                            <FormItem
+                                {...formItemLayout}
+                                label="购入日期："  >
+                                <p>购入日期</p>
+                            </FormItem>
+                        </Col>
+                        <Col span = "12">
+                            <FormItem
+                                {...formItemLayout}
+                                wrapperCol={{span:14,offset:8}}
+                                label="备注：">
+                                <AntInput  type="textarea" placeholder="随便写" id="textarea-more" name="textarea" className = 'vehicle-more' />
+                            </FormItem>
+
+                        </Col>
+                    </Row>
+                </div>
+                <div className = "footer-info" style={{backgroundColor:'#E6E5ED'}}>
+                    <Row type='flex' justify="space-around">
+                        <Col span = '6'>
+                            <AntButton type="primary" htmlType="submit" onClick={this.handleEdit}>编辑</AntButton>
+                        </Col>
+                        <Col span = '6'>
+                            <AntButton type ="primary" onClick={this.handleCancel}>出车记录</AntButton>
+                        </Col>
+                        <Col span = '6'>
+                            <AntButton type ="primary" onClick={this.handleCancel}>维保记录</AntButton>
+                        </Col>
+                        <Col span = '6'>
+                            <AntButton type ="primary" onClick={this.handleCancel}>退出</AntButton>
+                        </Col>
+                    </Row>
+                </div>
+            </Form>
+        );
+    }
+});
+LookTableVehicle = Form.create()(LookTableVehicle);
+//查看信息弹窗
 const LookDialog = React.createClass({
     getInitialState(){
         return{
@@ -843,21 +1654,37 @@ const LookDialog = React.createClass({
         this.setState({
             visible:false
         });
-        console.log('isChangeLookOfEdit');
+        //console.log('isChangeLookOfEdit');
         this.props.callbackParent(isChange);
     },
     render(){
+        //console.log("LookDialog pageShow:"+this.props.pageShow);
+        let pageShow = this.props.pageShow;
+        var lookTable = function(){
+            switch (pageShow){
+                case 'staff':
+                    return(<LookTable
+                        visible={this.state.visible}
+                        callbackParentOfLook={this.handleChildrenChange}
+                        />);
+                    break;
+                case 'vehicle':
+                    return(<LookTableVehicle
+                        visible={this.state.visible}
+                        callbackParentOfLook={this.handleChildrenChange}
+                        />);
+                    break;
+            }
+        }.bind(this);
         return(
             <Modal  visible={this.state.visible}  footer="" closable={false} className = "look-modal">
-                <LookTable
-                    visible={this.state.visible}
-                    callbackParentOfLook={this.handleChildrenChange}
-                    />
+                {lookTable()}
             </Modal>
         )
     }
 });
-//checkbox下来框
+
+//checkbox下拉框(列表)
 const popoverCheckMenu = (
     <div className = 'popover-check-menu'>
         <label>

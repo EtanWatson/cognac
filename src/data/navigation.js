@@ -31,4 +31,25 @@
         icon:"leave-icon"
     }
  ];
- export{navArray};
+ const settingNavArray = [
+     {
+         key:'1',
+         name:"driverSetting",
+         aliasName:"司机信息",
+         icon:"task-icon"
+     },
+     {
+         key:'2',
+         name:"staffSetting",
+         aliasName:"职员信息",
+         icon:"staff-icon"
+     },
+     {
+         key:'3',
+         name:"vehicleSetting",
+         aliasName:"车辆档案",
+         icon:"vehicle-icon"
+
+     }
+ ];
+ export{navArray,settingNavArray};

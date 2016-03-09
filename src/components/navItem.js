@@ -9,6 +9,7 @@ import BackboneReactMixin from 'backbone-react-component';
 import {Content} from './contentItem'
 import {staffInfo,staffTypeText} from '../data/cardData';
 import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
+import {navArray,settingNavArray} from '../data/navigation'
 //任务管理
 const TaskManage = React.createClass({
     render(){
@@ -25,11 +26,11 @@ const TaskManage = React.createClass({
 const StaffInfo = React.createClass({
     //在render之前，发布事件
     componentDidMount(){
-        PubSub.publish('content-show','staff');
+        //PubSub.publish('content-show','staff');
     },
     render(){
         return (
-            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText}/>
+            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'}/>
         )
     }
 
@@ -38,11 +39,11 @@ const StaffInfo = React.createClass({
 const VehicleRecord = React.createClass({
     //在render之前，发布事件
     componentDidMount(){
-      PubSub.publish('content-show','vehicle')
+      //PubSub.publish('content-show','vehicle')
     },
     render(){
         return (
-           <Content cardInfo={vehicleInfo} typeTextInfo={vehicleTypeText}/>
+           <Content cardInfo={vehicleInfo} typeTextInfo={vehicleTypeText} pageShow={'vehicle'}/>
         )
     }
 });
@@ -73,11 +74,44 @@ const LeaveRecord = React.createClass({
 const NavMenu = React.createClass({
     getInitialState(){
       return{
-            pageShow:''
+            pageShow:'',
+            normal : true,
+            isSetting : false,
+            navData : navArray,
+            baseUrl : ''
       }
     },
+    componentDidMount(){
+      //直接在local中输入 /setting时候调用
+      // alert('navComponent Mount');
+      switch (this.props.pageShow){
+            case 'setting':
+                this.setState({
+                    navData : settingNavArray,
+                    baseUrl : '/setting'
+                });
+                break;
+            default:
+                this.setState({
+                    navData : navArray
+                });
+                break;
+        }
+    },
     componentWillReceiveProps(nextProps){
-        console.log((nextProps.pageShow));
+        switch (nextProps.pageShow){
+            case 'setting':
+                this.setState({
+                   navData : settingNavArray,
+                   baseUrl : '/setting'
+                });
+                break;
+            default:
+                this.setState({
+                    navData : navArray
+                });
+                break;
+        }
     },
     handleClick(e){
         //e.preventDefault();
@@ -95,12 +129,12 @@ const NavMenu = React.createClass({
         $(thisPress).removeClass('is-display')
     },
     render(){
-        var navArrayValue = this.props.navArray;
-        var showPage = this.props.pageShow;
+        var navArrayValue = this.state.navData;
+        //var showPage = this.props.pageShow;
         var items = navArrayValue.map(function(item){
             return(
                 <div className="link-box" key={item.key} >
-                    <Link to={"/"+item.name} className="link-style" onClick={this.handleClick}>
+                    <Link to={this.state.baseUrl+"/"+item.name} className="link-style" onClick={this.handleClick}>
                         <div className = "link-icon" >
                             <div className ={item.icon+" icon default"}></div>
                             <div className ={item.icon+"-press icon press is-display"}></div>
@@ -108,7 +142,6 @@ const NavMenu = React.createClass({
                         </div>
                     </Link>
                 </div>
-
             )
         }.bind(this));
         return(

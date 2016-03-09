@@ -43,7 +43,7 @@ const AddItem = React.createClass({
                         </li>
                    </ul>
                 </Button>
-                <AddDialog isAdd={this.state.lgShow} callbackParentOfAdd = {this.onChildChangeAdd}/>
+                <AddDialog isAdd={this.state.lgShow} callbackParentOfAdd = {this.onChildChangeAdd} pageShow={this.props.pageShow}/>
             </li>
         )
     }
@@ -416,45 +416,72 @@ const OutageRecord = React.createClass({
 const OperationItem= React.createClass({
     getInitialState(){
       return{
-          cardShow:true,
-          batchBtn:<BatchOperation />,
-          printBtn:  ''
+          cardShow:true
       }
     },
     childListChange(showWay){
         if(showWay=='card'){
          this.setState({
-             batchBtn:<BatchOperation />,
-             printBtn:  ''
+             cardShow : true
          })
         }else{
             this.setState({
-                batchBtn:<DeleteItem showList={true}/>,
-                printBtn:<PrintItem showList={true}/>
+                cardShow : false
             })
         }
     },
     render(){
+        let pageShow = this.props.pageShow;
+        var isCardShowContent = function(){
+          if(this.state.cardShow){
+              return(
+                      <BatchOperation pageShow = {pageShow}/>
+              )
+          }else{
+              return(
+                  <ul className = 'list-inline' style={{display:'inline-block'}}>
+                      <DeleteItem showList={true}/>
+                      <PrintItem showList={true}/>
+                  </ul>
+              )
+          }
+        }.bind(this);
+        //console.log('operation pageShow:'+this.props.pageShow);
+        var operaShowWay = function(){
+            switch(pageShow){
+                case 'staff':
+                case 'vehicle':
+                    return(
+                        <ul className="list-inline operation">
+                            <li className = "left-item">
+                                <ul className = "list-inline">
+                                    <AddItem pageShow={this.props.pageShow}/>
+                                    <ListItem callbackParent={this.childListChange}/>
+                                    {isCardShowContent()}
+                                </ul>
+                            </li>
+                            <li className = "right-item">
+                                <ul className = "list-inline">
+                                    <CarType />
+                                    <Search />
+                                    <AdvancedSearchIcon />
+                                    <OutageRecord />
+                                </ul>
+                            </li>
+                        </ul>
+                    );
+                    break;
+                case 'setting':
+                    return(
+                        <span></span>
+                    );
+                    break;
+            }
+        }.bind(this);
         return(
-            <ul className="list-inline operation">
-                <li className = "left-item">
-                    <ul className = "list-inline">
-                        <AddItem />
-                        <ListItem callbackParent={this.childListChange}/>
-                        {this.state.batchBtn}
-                        {this.state.printBtn}
-                    </ul>
-                </li>
-                <li className = "right-item">
-                    <ul className = "list-inline">
-                        <CarType />
-                        <Search />
-                        <AdvancedSearchIcon />
-                        <OutageRecord />
-                    </ul>
-                </li>
-
-            </ul>
+            <div>
+                {operaShowWay()}
+            </div>
         )
     }
 });

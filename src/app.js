@@ -7,8 +7,7 @@ import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from
 import {Header} from './components/headerItem';
 import {OperationItem} from './components/operationItem';
 import {Content} from './components/contentItem';
-import {Setting} from './components/setting';
-import {navArray} from "./data/navigation";
+import {Setting,StaffSetting,VehicleSetting} from './components/setting';
 const App = React.createClass({
     getInitialState(){
         return{
@@ -36,7 +35,7 @@ const App = React.createClass({
                     <Row className="show-grid">
                         <Col xs={1} md={1} lg={1} className="left-layout">
                             <div>
-                                <NavMenu navArray={ navArray } pageShow={page?page.type:'task'}
+                                <NavMenu  pageShow={page?page.type:'task'}
                                          callbackParent={this.handleChildChange}
                                     />
                                 {this.props.children}
@@ -64,12 +63,16 @@ const App = React.createClass({
 render((
     <Router history={browserHistory}>
         <Route path="/" component={App}>
-            <Route path="/taskManage" components={App}/>
-            <Route path="/staffInfo" components={{content:StaffInfo,page:'staff'}}/>
-            <Route path="/vehicleRecord" components={{content:VehicleRecord,page:'vehicle'}}/>
-            <Route path="/maintenance" components={{content:Maintenance,page:'maintenance'}}/>
-            <Route path="/leaveRecord" components={{content:LeaveRecord,page:'leaveRecord'}}/>
-            <Route path="/setting" components={{content:Setting,page:'setting'}}/>
+            <Route path="taskManage" components={App}/>
+            <Route path="staffInfo" components={{content:StaffInfo,page:'staff'}}/>
+            <Route path="vehicleRecord" components={{content:VehicleRecord,page:'vehicle'}}/>
+            <Route path="maintenance" components={{content:Maintenance,page:'maintenance'}}/>
+            <Route path="leaveRecord" components={{content:LeaveRecord,page:'leaveRecord'}}/>
+            <Route path="setting" components={{content:Setting,page:'setting'}}>
+                <Route path = 'driverSetting' component ={Setting}/>
+                <Route path = 'staffSetting' component = {StaffSetting}/>
+                <Route path = 'vehicleSetting' component ={VehicleSetting}/>
+            </Route>
         </Route>
     </Router>
 ), document.getElementById('page-content'));

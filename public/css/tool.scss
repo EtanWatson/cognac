@@ -167,6 +167,9 @@
           .footer-info{
 
           }
+          #textarea-more{
+            height: 140px;
+          }
         }
       }
     }
@@ -180,6 +183,12 @@
         padding-top: 25px;
         padding-bottom: 25px;
       }
+    }
+  }
+  .look-form{
+    p{
+      text-align: left;
+      text-indent: 1em;
     }
   }
   .edit-modal,.add-modal,.send-message-modal{
