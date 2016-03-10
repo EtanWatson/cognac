@@ -1,0 +1,36 @@
+.setting-content{
+  button{
+    border-radius: 0;
+    width: 135px;
+  }
+  padding-top: 60px;
+  padding-right: 20px;
+  .setting-container{
+    border: 20px solid #FFF;
+    background-color: #f4f5f7;
+    .inner-container{
+      padding-top: 25px;
+      padding-bottom: 25px;
+      .item-space{
+        padding-top: 10px;
+      }
+      .left-select{
+        padding-right: 20px;
+        text-align: right;
+      }
+      .right-view{
+
+      }
+    }
+  }
+  .setting-footer{
+    background-color: #ffffff;
+    .btn-right{
+      text-align: right;
+      padding:20px 20px 20px 0px;
+    }
+    .btn-left{
+      padding:20px 0 20px 20px;
+    }
+  }
+}

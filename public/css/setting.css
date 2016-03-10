@@ -1,0 +1,26 @@
+.setting-content {
+  padding-top: 60px;
+  padding-right: 20px; }
+  .setting-content button {
+    border-radius: 0;
+    width: 135px; }
+  .setting-content .setting-container {
+    border: 20px solid #FFF;
+    background-color: #f4f5f7; }
+    .setting-content .setting-container .inner-container {
+      padding-top: 25px;
+      padding-bottom: 25px; }
+      .setting-content .setting-container .inner-container .item-space {
+        padding-top: 10px; }
+      .setting-content .setting-container .inner-container .left-select {
+        padding-right: 20px;
+        text-align: right; }
+  .setting-content .setting-footer {
+    background-color: #ffffff; }
+    .setting-content .setting-footer .btn-right {
+      text-align: right;
+      padding: 20px 20px 20px 0px; }
+    .setting-content .setting-footer .btn-left {
+      padding: 20px 0 20px 20px; }
+
+/*# sourceMappingURL=setting.css.map */

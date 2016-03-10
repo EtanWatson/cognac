@@ -318,7 +318,6 @@ const CarType = React.createClass({
         )
     }
 });
-//司机
 const Driver = React.createClass({
     render(){
         return(

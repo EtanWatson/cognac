@@ -131,18 +131,32 @@ const NavMenu = React.createClass({
     render(){
         var navArrayValue = this.state.navData;
         //var showPage = this.props.pageShow;
-        var items = navArrayValue.map(function(item){
-            return(
-                <div className="link-box" key={item.key} >
-                    <Link to={this.state.baseUrl+"/"+item.name} className="link-style" onClick={this.handleClick}>
-                        <div className = "link-icon" >
-                            <div className ={item.icon+" icon default"}></div>
-                            <div className ={item.icon+"-press icon press is-display"}></div>
-                            <div className = "text">{item.aliasName}</div>
-                        </div>
-                    </Link>
-                </div>
-            )
+        var items = navArrayValue.map(function(item,index){
+            if(item.key=='1'){
+                return(
+                    <div className="link-box" key={item.key} >
+                        <IndexLink to={this.state.baseUrl+"/"} className="link-style" onClick={this.handleClick}>
+                            <div className = "link-icon" >
+                                <div className ={item.icon+" icon default"}></div>
+                                <div className ={item.icon+"-press icon press is-display"}></div>
+                                <div className = "text">{item.aliasName}</div>
+                            </div>
+                        </IndexLink>
+                    </div>
+                )
+            }else{
+                return(
+                    <div className="link-box" key={item.key} >
+                        <Link to={this.state.baseUrl+"/"+item.name} className="link-style" onClick={this.handleClick}>
+                            <div className = "link-icon" >
+                                <div className ={item.icon+" icon default"}></div>
+                                <div className ={item.icon+"-press icon press is-display"}></div>
+                                <div className = "text">{item.aliasName}</div>
+                            </div>
+                        </Link>
+                    </div>
+                )
+            }
         }.bind(this));
         return(
             <div className="nav-item-layout" >

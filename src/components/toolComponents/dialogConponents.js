@@ -19,7 +19,7 @@ let EditTable = React.createClass({
     },
     handleSubmit(e) {
         e.preventDefault();
-        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        console.log('收到表单值：', this.props.form.getFieldsValue());
         this.props.callbackParentOfEdit('edit');
     },
     handleCancel(){
@@ -108,7 +108,7 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label="入职日期：" labelCol={{span: 8}} >
-                               <DatePicker  />
+                               <DatePicker  {...getFieldProps('joinData')}/>
                            </FormItem>
                        </Col>
                        <Col span = "12">
@@ -153,7 +153,7 @@ let EditTable = React.createClass({
                                    <FormItem
                                        {...formItemLayout}
                                        label="驾驶证号：" labelCol={{span: 8}} required>
-                                       <AntInput type="text" placeholder="" {...getFieldProps('driver-id')} />
+                                       <AntInput type="text" placeholder="" {...getFieldProps('driverId')} />
                                    </FormItem>
                                </Col>
                                <Col span = "12"></Col>
