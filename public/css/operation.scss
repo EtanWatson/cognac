@@ -11,6 +11,7 @@ body{
       color: #22384D;
       position: relative;
       top: -1px;
+      margin-bottom: 10px;
     }
     h5:hover{
       color: #2aa2dd;
@@ -45,40 +46,40 @@ body{
         background-repeat: no-repeat;
       }
       .add-item-icon{
-        background-image: url("/img/icon/icon_add_default.png");
+        background-image: url("/img/icon_add_default.png");
       }
       .add-item-icon-hover{
-        background-image: url("/img/icon/icon_add_pressed.png");
+        background-image: url("/img/icon_add_pressed.png");
       }
       .list-item-icon{
-        background-image: url("/img/icon/icon_card_default.png");
+        background-image: url("/img/icon_card_default.png");
       }
       .list-item-icon-hover{
-        background-image: url("/img/icon/icon_card_pressed.png");
+        background-image: url("/img/icon_card_pressed.png");
       }
       .batch-item-icon{
-        background-image: url("/img/icon/icon_batch_deffault.png");
+        background-image: url("/img/icon_batch_deffault.png");
       }
       .batch-item-icon-hover{
-        background-image: url("/img/icon/icon_batch_pressed.png");
+        background-image: url("/img/icon_batch_pressed.png");
       }
       .delete-item-icon{
-        background-image: url("/img/icon/icon_delete_default.png");
+        background-image: url("/img/icon_delete_default.png");
       }
       .print-item-icon{
-        background-image: url("/img/icon/icon_print_default.png");
+        background-image: url("/img/icon_print_default.png");
       }
       .select-all-btn{
-        background-image: url("/img/icon/icon_select all_default.png");
+        background-image: url("/img/icon_select all_default.png");
       }
       .send-message-btn{
-        background-image: url("/img/icon/icon_send_pressed.png");
+        background-image: url("/img/icon_send_pressed.png");
       }
       .delete-item-btn{
-        background-image: url("/img/icon/icon_delete_default.png");
+        background-image: url("/img/icon_delete_default.png");
       }
       .print-item-btn{
-        background-image: url("/img/icon/icon_print_default.png");
+        background-image: url("/img/icon_print_default.png");
       }
     }
     .right-item{
@@ -110,7 +111,7 @@ body{
         .innerSearchIcon{
           width: 13px;
           height: 13px;
-          background-image: url("/img/icon/icon_search.png");
+          background-image: url("/img/icon_search.png");
           background-repeat: no-repeat;
         }
         .form-group{

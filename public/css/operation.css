@@ -6,7 +6,8 @@ body .operation {
   body .operation h5 {
     color: #22384D;
     position: relative;
-    top: -1px; }
+    top: -1px;
+    margin-bottom: 10px; }
   body .operation h5:hover {
     color: #2aa2dd; }
   body .operation #deleteBatch {
@@ -33,29 +34,29 @@ body .operation {
       height: 13px;
       background-repeat: no-repeat; }
     body .operation .left-item .add-item-icon {
-      background-image: url("/img/icon/icon_add_default.png"); }
+      background-image: url("/img/icon_add_default.png"); }
     body .operation .left-item .add-item-icon-hover {
-      background-image: url("/img/icon/icon_add_pressed.png"); }
+      background-image: url("/img/icon_add_pressed.png"); }
     body .operation .left-item .list-item-icon {
-      background-image: url("/img/icon/icon_card_default.png"); }
+      background-image: url("/img/icon_card_default.png"); }
     body .operation .left-item .list-item-icon-hover {
-      background-image: url("/img/icon/icon_card_pressed.png"); }
+      background-image: url("/img/icon_card_pressed.png"); }
     body .operation .left-item .batch-item-icon {
-      background-image: url("/img/icon/icon_batch_deffault.png"); }
+      background-image: url("/img/icon_batch_deffault.png"); }
     body .operation .left-item .batch-item-icon-hover {
-      background-image: url("/img/icon/icon_batch_pressed.png"); }
+      background-image: url("/img/icon_batch_pressed.png"); }
     body .operation .left-item .delete-item-icon {
-      background-image: url("/img/icon/icon_delete_default.png"); }
+      background-image: url("/img/icon_delete_default.png"); }
     body .operation .left-item .print-item-icon {
-      background-image: url("/img/icon/icon_print_default.png"); }
+      background-image: url("/img/icon_print_default.png"); }
     body .operation .left-item .select-all-btn {
-      background-image: url("/img/icon/icon_select all_default.png"); }
+      background-image: url("/img/icon_select all_default.png"); }
     body .operation .left-item .send-message-btn {
-      background-image: url("/img/icon/icon_send_pressed.png"); }
+      background-image: url("/img/icon_send_pressed.png"); }
     body .operation .left-item .delete-item-btn {
-      background-image: url("/img/icon/icon_delete_default.png"); }
+      background-image: url("/img/icon_delete_default.png"); }
     body .operation .left-item .print-item-btn {
-      background-image: url("/img/icon/icon_print_default.png"); }
+      background-image: url("/img/icon_print_default.png"); }
   body .operation .right-item {
     float: right;
     width: 650px;
@@ -78,7 +79,7 @@ body .operation {
       body .operation .right-item .search-item .innerSearchIcon {
         width: 13px;
         height: 13px;
-        background-image: url("/img/icon/icon_search.png");
+        background-image: url("/img/icon_search.png");
         background-repeat: no-repeat; }
       body .operation .right-item .search-item .form-group {
         margin-bottom: 0; }

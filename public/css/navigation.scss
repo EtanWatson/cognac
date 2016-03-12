@@ -26,7 +26,7 @@ body{
     }
     a.click{
       color: #ffffff;
-      background-image: url("/img/icon/nav_btn_pressed.png");
+      background-image: url("/img/nav_btn_pressed.png");
       outline: 0;
     }
     .logo{
@@ -50,53 +50,53 @@ body{
           display: inline-block;
         }
         .staff-icon{
-          background-image: url("/img/icon/icon_people_default.png");
+          background-image: url("/img/icon_people_default.png");
         }
         .vehicle-icon{
-          background-image: url("/img/icon/icon_people_default.png");
+          background-image: url("/img/icon_vehicle_default.png");
         }
         .task-icon{
-          background-image: url("/img/icon/icon_task_default.png");
+          background-image: url("/img/icon_task_default.png");
         }
         .maintenance-icon{
-          background-image: url("/img/icon/icon_service_default.png");
+          background-image: url("/img/icon_service_default.png");
         }
         .leave-icon{
-          background-image: url("/img/icon/icon_sick_leave_default.png");
+          background-image: url("/img/icon_sick_leave_default.png");
         }
       }
     }
     .link-box:hover{
       .staff-icon.default{
-        background-image: url("/img/icon/icon_people_pressed.png");
+        background-image: url("/img/icon_people_pressed.png");
       }
       .vehicle-icon.default{
-        background-image: url("/img/icon/icon_car_pressed.png");
+        background-image: url("/img/icon_car_pressed.png");
       }
       .task-icon.default{
-        background-image: url("/img/icon/icon_task_pressed.png");
+        background-image: url("/img/icon_task_pressed.png");
       }
       .maintenance-icon.default{
-        background-image: url("/img/icon/icon_service_pressed.png");
+        background-image: url("/img/icon_service_pressed.png");
       }
       .leave-icon.default{
-        background-image: url("/img/icon/icon_sick_leave_pressed.png");
+        background-image: url("/img/icon_sick_leave_pressed.png");
       }
     }
     .staff-icon-press{
-      background-image: url("/img/icon/icon_people_pressed.png");
+      background-image: url("/img/icon_people_pressed.png");
     }
     .vehicle-icon-press{
-      background-image: url("/img/icon/icon_car_pressed.png");
+      background-image: url("/img/icon_car_pressed.png");
     }
     .task-icon-press{
-      background-image: url("/img/icon/icon_task_pressed.png");
+      background-image: url("/img/icon_task_pressed.png");
     }
     .maintenance-icon-press{
-      background-image: url("/img/icon/icon_service_pressed.png");
+      background-image: url("/img/icon_service_pressed.png");
     }
     .leave-icon-press{
-      background-image: url("/img/icon/icon_sick_leave_pressed.png");
+      background-image: url("/img/icon_sick_leave_pressed.png");
     }
   }
 }

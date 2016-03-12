@@ -5,7 +5,9 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload,Menu} from 'antd';
+import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from "./selectAutoCompletion"
+import {staffs} from "../../models/staffInfo"
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -35,7 +37,7 @@ let EditTable = React.createClass({
                    <Row type = 'flex' justify="center">
                         <Col span = "8">
                             <div className = "header-icon">
-                                <img src= "/img/icon/icon_user_head_50_50_have_9.png" />
+                                <img src= "/img/icon_user_head_50_50_have_9.png" />
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
@@ -247,7 +249,7 @@ let EditTableVehicle = React.createClass({
                     <Row type = 'flex' justify="center">
                         <Col span = "8">
                             <div className = "header-icon">
-                                <img src= "/img/icon/icon_user_head_50_50_have_9.png" />
+                                <img src= "/img/icon_user_head_50_50_have_9.png" />
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
@@ -547,13 +549,22 @@ const EditDialog = React.createClass({
 });
 //添加条目table(staff)
 let AddTable = React.createClass({
+    mixins:[BackboneReactMixin],
     handleSubmit(e) {
         e.preventDefault();
-        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        console.log('收到表单值：', this.props.form.getFieldsValue());
+        let formValue = this.props.form.getFieldsValue().id='12233';
+        this.getCollection().push(this.props.form.getFieldsValue());
+        //console.log('保存表单值'+this.state.collection);
         this.props.callbackParentOfAdd(true);
     },
     handleCancel(){
         this.props.callbackParentOfAdd(false);
+    },
+    handleUpload(){
+
+    },
+    createEntry: function (entry) {
     },
     render() {
         const { getFieldProps } = this.props.form;
@@ -569,7 +580,7 @@ let AddTable = React.createClass({
                                     normalize: this.normFile
                                 })}
                                 >
-                                <img src="/img/icon/icon_userpic.png" />
+                                <img src="/img/icon_userpic.png" />
                             </Upload>
                             </FormItem>
                         </Col>
@@ -577,12 +588,12 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="姓名："  required>
-                                <AntInput type="text" {...getFieldProps('name')} placeholder="" value="" />
+                                <AntInput type="text" {...getFieldProps('Name')} placeholder=""  />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="职务："  required>
-                                <AntInput type="text" {...getFieldProps('job')} placeholder="" value="" />
+                                <AntInput type="text" {...getFieldProps('Job')} placeholder=""  />
                             </FormItem>
                         </Col>
                     </Row>
@@ -593,7 +604,7 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="编码：" required>
-                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                                <AntInput type="text" {...getFieldProps('Code')} placeholder=""  />
                             </FormItem>
                         </Col>
                         <Col span = '12'></Col>
@@ -603,14 +614,14 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="所在部门：">
-                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('Section')} placeholder="" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="性别：" required>
-                                <RadioGroup {...getFieldProps('gender', { initialValue: 'female' })}>
+                                <RadioGroup {...getFieldProps('Gender', { initialValue: 'female' })}>
                                     <Radio value="male">男的</Radio>
                                     <Radio value="female">女的</Radio>
                                 </RadioGroup>
@@ -622,7 +633,7 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="身份证号："  required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('id')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('Id')} />
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -632,7 +643,7 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="家庭住址：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('Address')} />
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -642,14 +653,14 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="入职日期：" >
-                                <DatePicker  />
+                                <DatePicker placeholder="" {...getFieldProps('JoinData')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="手机：" required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('PhoneNumber')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -658,7 +669,7 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="备注：" required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('more')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('Remark')} />
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -669,7 +680,7 @@ let AddTable = React.createClass({
                                 {...formItemLayout}
                                 label="是否停用:">
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('outage')} />
+                                    <Checkbox {...getFieldProps('OutAge')} />
                                 </label>
                             </FormItem>
                         </Col>
@@ -687,7 +698,7 @@ let AddTable = React.createClass({
                                     <FormItem
                                         {...formItemLayout}
                                         label="驾驶证号：" required>
-                                        <AntInput type="text" placeholder="" {...getFieldProps('driver-id')} />
+                                        <AntInput type="text" placeholder="" {...getFieldProps('DrivingLicense')} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -697,7 +708,7 @@ let AddTable = React.createClass({
                                     <FormItem
                                         {...formItemLayout}
                                         label="有效期限：" required>
-                                        <DatePicker  />
+                                        <DatePicker {...getFieldProps('ValidDate')} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -707,7 +718,7 @@ let AddTable = React.createClass({
                                     <FormItem
                                         {...formItemLayout}
                                         label="发证机关：" required>
-                                        <AntInput type="text" placeholder="" {...getFieldProps('issue-office')} />
+                                        <AntInput type="text" placeholder="" {...getFieldProps('AuthorizedBy')} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -717,7 +728,7 @@ let AddTable = React.createClass({
                                     <FormItem
                                         {...formItemLayout}
                                         label="年审到期：" required>
-                                        <DatePicker  />
+                                        <DatePicker  placeholder=""  {...getFieldProps('AnnualExamination')} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -727,7 +738,7 @@ let AddTable = React.createClass({
                                     <FormItem
                                         {...formItemLayout}
                                         label="领证日期："  required>
-                                        <DatePicker  />
+                                        <DatePicker {...getFieldProps('StartLicenseData')} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -737,7 +748,7 @@ let AddTable = React.createClass({
                                     <FormItem
                                         {...formItemLayout}
                                         label="准驾车型：" required>
-                                        <DatePicker  />
+                                        <DatePicker {...getFieldProps('LicenseType')} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -788,7 +799,7 @@ let AddTableOfVehicle = React.createClass({
                                         normalize: this.normFile
                                     })}
                                     >
-                                    <img src="/img/icon/icon_userpic.png" />
+                                    <img src="/img/icon_userpic.png" />
                                 </Upload>
                             </FormItem>
                         </Col>
@@ -1032,14 +1043,16 @@ let AddTableOfVehicle = React.createClass({
 AddTableOfVehicle = Form.create()(AddTableOfVehicle);
 //添加条目窗口
 const AddDialog  = React.createClass({
+    mixins:[BackboneReactMixin],
     getInitialState(){
         return{
-            visible : false
+            visible : false,
+            collectionInfo:[]
         }
     },
     componentWillReceiveProps(nextProps){
         this.setState({
-            visible:nextProps.isAdd
+            visible:nextProps.isAdd,
         });
     },
     showModal(){
@@ -1054,14 +1067,13 @@ const AddDialog  = React.createClass({
         this.props.callbackParentOfAdd(false);
     },
     render(){
-        //console.log('addItem pageShow:'+this.props.pageShow);
         let pageShow = this.props.pageShow;
         var addTable = function(){
             switch (pageShow){
                 case 'staff':
                        return(<AddTable
                                     visible={this.state.visible}
-                                    callbackParentOfAdd={this.handleChildrenChange}
+                                    callbackParentOfAdd={this.handleChildrenChange} collection={staffs}
                                  />);
                         break;
                 case 'vehicle':
@@ -1179,7 +1191,7 @@ let LookTable = React.createClass({
                     <Row type = 'flex' justify="center">
                         <Col span = "8">
                             <div className = "header-icon">
-                                <img src= "/img/icon/icon_user_head_50_50_have_9.png" />
+                                <img src= "/img/icon_user_head_50_50_have_9.png" />
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
@@ -1391,7 +1403,7 @@ let LookTableVehicle = React.createClass({
                     <Row type = 'flex' justify="center">
                         <Col span = "8">
                             <div className = "header-icon">
-                                <img src= "/img/icon/icon_user_head_50_50_have_9.png" />
+                                <img src= "/img/icon_user_head_50_50_have_9.png" />
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">

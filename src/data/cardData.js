@@ -5,7 +5,7 @@ for(let i = 0 ; i < 50 ; i ++){
         key:i,
         type:`${i%3}`,
         name:`人${i}`,
-        headerImage:'/img/icon/icon_user_head_50_50_have_1.png',
+        headerImage:'/img/icon_user_head_50_50_have_1.png',
         status:`${i%3}`,
         info_one:{   name:'部门',
                     value:`车队${i}`

@@ -56,11 +56,11 @@
           top: 4px;
           margin-right: 5px;
           background-repeat: no-repeat;
-          background-image: url("/img/icon/icon_people_default.png"); }
+          background-image: url("/img/icon_people_default.png"); }
         .ant-modal-container .edit-modal .ant-modal-content .ant-modal-body .edit-form .up-info .header-right .status-icon, .ant-modal-container .edit-modal .ant-modal-content .ant-modal-body .add-form .up-info .header-right .status-icon, .ant-modal-container .edit-modal .ant-modal-content .ant-modal-body .look-form .up-info .header-right .status-icon, .ant-modal-container .add-modal .ant-modal-content .ant-modal-body .edit-form .up-info .header-right .status-icon, .ant-modal-container .add-modal .ant-modal-content .ant-modal-body .add-form .up-info .header-right .status-icon, .ant-modal-container .add-modal .ant-modal-content .ant-modal-body .look-form .up-info .header-right .status-icon, .ant-modal-container .look-modal .ant-modal-content .ant-modal-body .edit-form .up-info .header-right .status-icon, .ant-modal-container .look-modal .ant-modal-content .ant-modal-body .add-form .up-info .header-right .status-icon, .ant-modal-container .look-modal .ant-modal-content .ant-modal-body .look-form .up-info .header-right .status-icon {
           top: 5px;
           background-repeat: no-repeat;
-          background-image: url("/img/icon/icon_trip_normal.png"); }
+          background-image: url("/img/icon_trip_normal.png"); }
     .ant-modal-container .edit-modal .ant-modal-content .ant-modal-body .edit-form .middle-info, .ant-modal-container .edit-modal .ant-modal-content .ant-modal-body .add-form .middle-info, .ant-modal-container .edit-modal .ant-modal-content .ant-modal-body .look-form .middle-info, .ant-modal-container .add-modal .ant-modal-content .ant-modal-body .edit-form .middle-info, .ant-modal-container .add-modal .ant-modal-content .ant-modal-body .add-form .middle-info, .ant-modal-container .add-modal .ant-modal-content .ant-modal-body .look-form .middle-info, .ant-modal-container .look-modal .ant-modal-content .ant-modal-body .edit-form .middle-info, .ant-modal-container .look-modal .ant-modal-content .ant-modal-body .add-form .middle-info, .ant-modal-container .look-modal .ant-modal-content .ant-modal-body .look-form .middle-info {
       padding: 6px;
       border-bottom: 10px solid #E6E5ED; }

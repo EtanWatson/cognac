@@ -161,7 +161,7 @@ const NavMenu = React.createClass({
         return(
             <div className="nav-item-layout" >
                 <div className="logo">
-                    <img src="/img/icon/icon_logo.png" />
+                    <img src="/img/icon_logo.png" />
                 </div>
                 <div>
                     <div className="title">车队管理系统</div>

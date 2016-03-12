@@ -15,6 +15,26 @@
       .setting-content .setting-container .inner-container .left-select {
         padding-right: 20px;
         text-align: right; }
+      .setting-content .setting-container .inner-container .right-view {
+        margin-top: 20px;
+        width: 182px;
+        background-color: #ffffff; }
+        .setting-content .setting-container .inner-container .right-view .header-img {
+          position: relative;
+          top: -20px; }
+        .setting-content .setting-container .inner-container .right-view .list-inline {
+          padding-left: 12%; }
+        .setting-content .setting-container .inner-container .right-view .footer-img {
+          position: relative; }
+          .setting-content .setting-container .inner-container .right-view .footer-img .type-icon {
+            position: absolute;
+            top: 30px;
+            left: 155px; }
+          .setting-content .setting-container .inner-container .right-view .footer-img .type-text {
+            top: 35px;
+            left: 25px;
+            color: #fff;
+            position: absolute; }
   .setting-content .setting-footer {
     background-color: #ffffff; }
     .setting-content .setting-footer .btn-right {

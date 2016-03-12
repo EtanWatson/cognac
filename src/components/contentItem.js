@@ -11,6 +11,7 @@ import {Button as AntButton,Icon,Row,Col,Modal,Checkbox,Popover} from 'antd';
 import {EditDialog,SendMessageDialog,LookDialog,popoverCheckMenu} from './toolComponents/dialogConponents';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import FixedDataTable from 'fixed-data-table';
+import {staffData} from '../models/staffData'
 const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
 //card hover状态
@@ -71,13 +72,13 @@ const HoverItem = React.createClass({
        return(
            <ul className = "list-inline operation-in-card">
                 <li>
-                    <Button  bsStyle="link" onClick={this.handleEditClick}><img src="/img/icon/icon_edit.png" /></Button>
+                    <Button  bsStyle="link" onClick={this.handleEditClick}><img src="/img/icon_edit.png" /></Button>
                 </li>
                 <li>
-                    <Button  bsStyle="link" onClick={this.handleSendMessage}><img src="/img/icon/icon_send.png" /></Button>
+                    <Button  bsStyle="link" onClick={this.handleSendMessage}><img src="/img/icon_send.png" /></Button>
                 </li>
                 <li>
-                    <Button  bsStyle="link" onClick={this.handleDeleteClick}><img src="/img/icon/icon_delete.png" /></Button>
+                    <Button  bsStyle="link" onClick={this.handleDeleteClick}><img src="/img/icon_delete.png" /></Button>
                 </li>
                <EditDialog isEdit={this.state.isEdit} cardInfo={this.props.cardInfo} pageShow={this.props.pageShow} callbackParent = {this.onChildChangeEdit}  />
                <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.onChildChangeSendMessage} />
@@ -88,12 +89,13 @@ const HoverItem = React.createClass({
 });
 //card显示组件
 const Card = React.createClass({
+    mixins:[BackboneReactMixin],
    getInitialState(){
        return {
            isOpen:"item-close",
            isHover:" ",
            toggleBatch:false,
-           selectIcon:'/img/icon/card_icon_defailt.png',
+           selectIcon:'/img/card_icon_defailt.png',
            isSelect:false,
            isSelectAll:false,
 
@@ -114,12 +116,12 @@ const Card = React.createClass({
             if(this.isMounted){
                 if(!isSelectAll){
                     this.setState({
-                        selectIcon:'/img/icon/card_icon_defailt.png',
+                        selectIcon:'/img/card_icon_defailt.png',
                         isSelect:true
                     })
                 }else{
                     this.setState({
-                        selectIcon:'/img/icon/card_icon_pressed.png',
+                        selectIcon:'/img/card_icon_pressed.png',
                         isSelect:true
                     })
                 }
@@ -146,26 +148,26 @@ const Card = React.createClass({
     handleMouseEnterIcon(){
         if(!this.state.isSelect){
             this.setState({
-                selectIcon:'/img/icon/card_icon_selected.png'
+                selectIcon:'/img/card_icon_selected.png'
             })
         }
     },
     handleMouseLeaveIcon(){
         if(!this.state.isSelect){
             this.setState({
-                selectIcon:'/img/icon/card_icon_defailt.png'
+                selectIcon:'/img/card_icon_defailt.png'
             })
         }
     },
     handleClickIcon(){
         if(this.state.isSelect){
             this.setState({
-                selectIcon:'/img/icon/card_icon_defailt.png',
+                selectIcon:'/img/card_icon_defailt.png',
                 isSelect:!this.state.isSelect
             })
         }else{
             this.setState({
-                selectIcon:'/img/icon/card_icon_pressed.png',
+                selectIcon:'/img/card_icon_pressed.png',
                 isSelect:!this.state.isSelect
             })
         }
@@ -224,7 +226,7 @@ const Card = React.createClass({
             )
         }else{
             return(
-                <img className = "card-select-img is-display" src="/img/icon/card_icon_defailt.png" />
+                <img className = "card-select-img is-display" src="/img/card_icon_defailt.png" />
             )
         }
     },
@@ -235,30 +237,30 @@ const Card = React.createClass({
          if(type==="0"){
              return(
                  <div className = "footer-img">
-                     <img src = "/img/icon/card_title_driver.png" />
+                     <img src = "/img/card_title_driver.png" />
                      <div className = "type-text">{typeText[type]}</div>
                      <div className = "type-icon">
-                         <img src="/img/icon/icon_driver.png" />
+                         <img src="/img/icon_driver.png" />
                      </div>
                  </div>
              )
          }else if(type==="1"){
              return(
                  <div className = "footer-img">
-                     <img src = "/img/icon/card_title_manage.png" />
+                     <img src = "/img/card_title_manage.png" />
                      <div className = "type-text">{typeText[type]}</div>
                      <div className = "type-icon">
-                         <img src="/img/icon/icon_driver.png" />
+                         <img src="/img/icon_driver.png" />
                      </div>
                  </div>
              )
          }else{
              return(
                  <div className = "footer-img">
-                     <img src = "/img/icon/card_title_others.png" />
+                     <img src = "/img/card_title_others.png" />
                      <div className = "type-text">{typeText[type]}</div>
                      <div className = "type-icon">
-                         <img src="/img/icon/icon_driver.png" />
+                         <img src="/img/icon_driver.png" />
                      </div>
                  </div>
              )
@@ -285,10 +287,10 @@ const Card = React.createClass({
                            <h3 className = "name">{item.name}</h3>
                            <ul className = "list-inline">
                                <li className = "circle circle-g">
-                                    <img src="/img/icon/icon_trip_normal.png" />
+                                    <img src="/img/icon_trip_normal.png" />
                                </li>
                                <li className = "circle-r is-display">
-                                   <img src="/img/icon/icon_trip_leave.png" />
+                                   <img src="/img/icon_trip_leave.png" />
                                </li>
                                <li className = "status"><h5>{item.status}</h5></li>
                            </ul>
@@ -471,7 +473,7 @@ const Content = React.createClass({
                                 })
                             }
                             <div className = 'go-top' onClick={this.handleGoTop}>
-                                <img src='/img/icon/icon_top.png' />
+                                <img src='/img/icon_top.png' />
                             </div>
                         </ul>
                     )

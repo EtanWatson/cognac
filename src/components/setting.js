@@ -8,6 +8,66 @@ import {Checkbox,Button} from 'antd';
 import {cardList,cardsDriver,cardsStaff,cardVehicle} from '../models/cardKey';
 const CheckboxGroup = Checkbox.Group;
 const Setting = React.createClass({
+    handleDefaultChecked(index){
+        let selectArray =this.state.selectArrayIndex;
+        for(let i = 0 ; i < selectArray.length;i++){
+            if(index ==  this.state.selectArrayIndex[i]){
+                return true;
+            }
+        }
+    },
+    handelAtOfIndex(array){
+        let arrayTemp = [];
+        for(let i = 0; i < array.length ; i++){
+            arrayTemp.push(this.state.cardKey[array[i]])
+        }
+        return arrayTemp;
+    },
+    handleCheck(e){
+        Array.prototype.indexOf = function(val) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == val) return i;
+            }
+            return -1;
+        };
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+        let selectArray =this.state.selectArrayIndex;
+        if(selectArray.length < 5){
+            if(e.target.checked){
+                selectArray.push(e.target.value);
+                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }else{
+                selectArray.remove(e.target.value);
+                var selectedArrayTemp =this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }
+        }else{
+            if(e.target.checked){
+                this.setState({
+                    selectArrayIndex:selectArray
+                })
+            }else{
+                selectArray.remove(e.target.value);
+                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }
+        }
+    },
    render(){
        //let{settingContent} = this.props.settingContent;
        return(
@@ -18,81 +78,81 @@ const Setting = React.createClass({
    }
 });
 const SettingCard = React.createClass({
+   getInitialState(){
+       return{
+           selectedArray:this.props.selectedArray
+       }
+   },
+   componentWillReceiveProps(nexProps){
+       this.setState({
+               selectedArray: nexProps.selectedArray
+           }
+       )
+   },
    render(){
-       let item = this.props.item;
+       let selectedArray = this.state.selectedArray;
        var staffType = function(){
-           var type = this.props.item.type;
+           var type = this.props.type;
            if(type==="0"){
                return(
                    <div className = "footer-img">
-                       <img src = "/img/icon/card_title_driver.png" />
+                       <img src = "/img/card_title_driver.png" />
                        <div className = "type-text">司机</div>
                        <div className = "type-icon">
-                           <img src="/img/icon/icon_driver.png" />
+                           <img src="/img/icon_driver.png" />
                        </div>
                    </div>
                )
            }else if(type==="1"){
                return(
                    <div className = "footer-img">
-                       <img src = "/img/icon/card_title_manage.png" />
+                       <img src = "/img/card_title_manage.png" />
                        <div className = "type-text">管理员</div>
                        <div className = "type-icon">
-                           <img src="/img/icon/icon_driver.png" />
+                           <img src="/img/icon_driver.png" />
                        </div>
                    </div>
                )
            }else{
                return(
                    <div className = "footer-img">
-                       <img src = "/img/icon/card_title_others.png" />
+                       <img src = "/img/card_title_others.png" />
                        <div className = "type-text">其他</div>
                        <div className = "type-icon">
-                           <img src="/img/icon/icon_driver.png" />
+                           <img src="/img/icon_driver.png" />
                        </div>
                    </div>
                )
            }
        }.bind(this);
+       var cardContent = selectedArray.map((attribute,index)=>{
+           return(
+                   <ul className = "list-inline"  key={index}>
+                       <li><h5>{attribute.value+'：'}</h5></li>
+                       <li><h5>-</h5></li>
+                   </ul>
+           )
+       });
        return(
            <div>
                <ul className = "list-inline">
                    <li className = "header-img">
-                       <img src = "/img/icon/icon_user_head_50_50_have_5.png"/>
+                       <img src = "/img/icon_user_head_50_50_have_5.png"/>
                    </li>
                    <li className = "header-left">
                        <h3 className = "name">预览名字</h3>
                        <ul className = "list-inline">
                            <li className = "circle circle-g">
-                               <img src="/img/icon/icon_trip_normal.png" />
+                               <img src="/img/icon_trip_normal.png" />
                            </li>
                            <li className = "circle-r is-display">
-                               <img src="/img/icon/icon_trip_leave.png" />
+                               <img src="/img/icon_trip_leave.png" />
                            </li>
                            <li className = "status"><h5>空闲</h5></li>
                        </ul>
                    </li>
                </ul>
-               <ul className = "list-inline">
-                   <li><h5>{item.info_one.name}</h5></li>
-                   <li><h5></h5></li>
-               </ul>
-               <ul className = "list-inline">
-                   <li><h5>{item.info_two.name}</h5></li>
-                   <li><h5></h5></li>
-               </ul>
-               <ul className = "list-inline">
-                   <li><h5>{item.info_three.name}</h5></li>
-                   <li><h5></h5></li>
-               </ul>
-               <ul className = "list-inline">
-                   <li><h5>{item.info_four.name}</h5></li>
-                   <li><h5></h5></li>
-               </ul>
-               <ul className = "list-inline">
-                   <li><h5>{item.info_five.name}</h5></li>
-                   <li><h5></h5></li>
-               </ul>
+               {cardContent}
                {staffType()}
            </div>
        )
@@ -100,6 +160,33 @@ const SettingCard = React.createClass({
 });
 //司机卡片显示设置
 const DriverSetting = React.createClass({
+    getInitialState(){
+        return{
+            selectArrayIndex:[1,4,7,8,11],
+            selectedArray:[
+                {
+                    name:'Code',
+                    value:'编码'
+                },
+                {
+                    name:'phoneNumber',
+                    value:'手机'
+                },
+                {
+                    name:'remark',
+                    value:'备注'
+                },
+                {
+                    name:'driverLicense',
+                    value:'驾驶证号'
+                },
+                {
+                    name:'licenseType',
+                    value:'准驾车型'
+                }
+            ]
+        }
+    },
     componentWillMount(){
         backboneReact.on(this,{
             collections:{
@@ -110,41 +197,104 @@ const DriverSetting = React.createClass({
     componentWillUnmount(){
         backboneReact.off(this);
     },
-    generateSelectList(){
-        let cardSelectItem = this.state.cardKey.map((item,index)=>{
-            console.log(index);
-            return(
-                <div className = "item-space"  key={index}>
-                    <lebal>
-                        <Checkbox />
-                        {item.value}
-                    </lebal>
-                </div>
-            )
-        });
-        return cardSelectItem;
+    handleDefaultChecked(index){
+        let selectArray =this.state.selectArrayIndex;
+        for(let i = 0 ; i < selectArray.length;i++){
+            if(index ==  this.state.selectArrayIndex[i]){
+                return true;
+            }
+        }
+    },
+    handelAtOfIndex(array){
+        let arrayTemp = [];
+        for(let i = 0; i < array.length ; i++){
+            arrayTemp.push(this.state.cardKey[array[i]])
+        }
+        return arrayTemp;
+    },
+    handleCheck(e){
+        Array.prototype.indexOf = function(val) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == val) return i;
+            }
+            return -1;
+        };
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+        let selectArray =this.state.selectArrayIndex;
+        if(selectArray.length < 5){
+            if(e.target.checked){
+                selectArray.push(e.target.value);
+                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }else{
+                selectArray.remove(e.target.value);
+                var selectedArrayTemp =this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }
+        }else{
+            if(e.target.checked){
+                this.setState({
+                    selectArrayIndex:selectArray
+                })
+            }else{
+                selectArray.remove(e.target.value);
+                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }
+        }
     },
     render(){
+        let generateSelectList= function(){
+            let cardSelectItem = this.state.cardKey.map((item,index)=>{
+                return(
+                    <div className = "item-space" key={index}>
+                        <lebal >
+                            <Checkbox value={index} checked={this.handleDefaultChecked(index)} onChange={this.handleCheck}/>
+                            {item.value}
+                        </lebal>
+                    </div>
+                )
+            });
+            return cardSelectItem;
+        }.bind(this);
+
+
         return(
             <div>
                 <Row type="flex" className = 'setting-container' justify="end">
-                    <Col span = '12' className='inner-container'>
-                        <Col span = '12' className = "left-select">
+                    <Col span = '14' className='inner-container'>
+                        <Col span = '8' className = "left-select">
                             <p>不可选择项：</p>
                             <p className = "item-space">可选择项（最多五项）:</p>
                         </Col>
-                        <Col span = '12'>
+                        <Col span = '16'>
                             <ul className = "list-inline">
                                 <li>姓名</li>
                                 <li>状态</li>
                                 <li>职务</li>
                             </ul>
-                            {this.generateSelectList()}
+                            {generateSelectList()}
                         </Col>
                     </Col>
-                    <Col span = '12' className = "inner-container">
+                    <Col span = '10' className = "inner-container">
                         <p>效果预览：</p>
-
+                        <div className = "right-view">
+                            <SettingCard selectedArray = {this.state.selectedArray} type={"0"}/>
+                        </div>
                     </Col>
                 </Row>
                 <Row type = 'flex' justify = "center" className = "setting-footer">
@@ -201,9 +351,9 @@ const StaffSetting = React.createClass({
     handelAtOfIndex(array){
         let arrayTemp = [];
         for(let i = 0; i < array.length ; i++){
-            //array.push(new cardList(cardVehicle).at(array[i]))
+            arrayTemp.push(this.state.cardKey[array[i]])
         }
-        console.log(arrayTemp);
+        return arrayTemp;
     },
     handleCheck(e){
         Array.prototype.indexOf = function(val) {
@@ -222,14 +372,17 @@ const StaffSetting = React.createClass({
         if(selectArray.length < 5){
             if(e.target.checked){
                 selectArray.push(e.target.value);
-                this.handelAtOfIndex(selectArray);
+                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
                 this.setState({
-                    selectArrayIndex:selectArray
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
                 })
             }else{
                 selectArray.remove(e.target.value);
+                var selectedArrayTemp =this.handelAtOfIndex(selectArray);
                 this.setState({
-                    selectArrayIndex:selectArray
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
                 })
             }
         }else{
@@ -239,8 +392,10 @@ const StaffSetting = React.createClass({
                 })
             }else{
                 selectArray.remove(e.target.value);
+                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
                 this.setState({
-                    selectArrayIndex:selectArray
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
                 })
             }
         }
@@ -260,32 +415,70 @@ const StaffSetting = React.createClass({
             return cardSelectItem;
         }.bind(this);
         return(
-            <Row type="flex" className = 'setting-container' justify="end">
-                <Col span = '12' className='inner-container'>
-                    <Col span = '12' className = "left-select">
-                        <p>不可选择项：</p>
-                        <p className = "item-space">可选择项（最多五项）:</p>
+            <div>
+                <Row type="flex" className = 'setting-container' justify="end">
+                    <Col span = '14' className='inner-container'>
+                        <Col span = '8' className = "left-select">
+                            <p>不可选择项：</p>
+                            <p className = "item-space">可选择项（最多五项）:</p>
+                        </Col>
+                        <Col span = '16'>
+                            <ul className = "list-inline">
+                                <li>姓名</li>
+                                <li>状态</li>
+                                <li>职务</li>
+                            </ul>
+                            {generateSelectList()}
+                        </Col>
                     </Col>
-                    <Col span = '12'>
-                        <ul className = "list-inline">
-                            <li>姓名</li>
-                            <li>状态</li>
-                            <li>职务</li>
-                        </ul>
-                        {generateSelectList()}
+                    <Col span = '10' className = "inner-container">
+                        <p>效果预览：</p>
+                        <div className = "right-view">
+                            <SettingCard selectedArray = {this.state.selectedArray} type={"1"}/>
+                        </div>
                     </Col>
-                </Col>
-                <Col span = '12' className = "inner-container">
-                    <p>效果预览：</p>
-                    <div className = "right-vies">
-                    </div>
-                </Col>
-            </Row>
+                </Row>
+                <Row type = 'flex' justify = "center" className = "setting-footer">
+                        <Col span = "12" className = 'btn-left'>
+                            <Button type="primary" size="large">保存</Button>
+                        </Col>
+                        <Col span = "12" className = 'btn-right'>
+                                <Button type="primary" size="large" >返回</Button>
+                        </Col>
+                </Row>
+            </div>
         )
     }
 });
 //车辆卡片显示设置
 const VehicleSetting = React.createClass({
+    getInitialState(){
+        return{
+            selectArrayIndex:[0,1,4,7,9],
+            selectedArray:[
+                {
+                    name:'vehicleCode',
+                    value:'车辆编码'
+                },
+                {
+                    name:'vehicleNumber',
+                    value:'车牌号'
+                },
+                {
+                    name:'vehicleType',
+                    value:'车辆类型'
+                },
+                {
+                    name:'vehicleLoad',
+                    value:'载重（吨）'
+                },
+                {
+                    name:'seatNumber',
+                    value:'座位数'
+                },
+            ]
+        }
+    },
     componentWillMount(){
         backboneReact.on(this,{
             collections:{
@@ -296,43 +489,134 @@ const VehicleSetting = React.createClass({
     componentWillUnmount(){
         backboneReact.off(this);
     },
-    generateSelectList(){
-        let cardSelectItem = this.state.cardKey.map((item,index)=>{
-            return(
-                <div className = "item-space"  key={index}>
-                    <lebal>
-                        <Checkbox />
-                        {item.value}
-                    </lebal>
-                </div>
-            )
-        });
-        return cardSelectItem;
+    handleDefaultChecked(index){
+        let selectArray =this.state.selectArrayIndex;
+        for(let i = 0 ; i < selectArray.length;i++){
+            if(index ==  this.state.selectArrayIndex[i]){
+                return true;
+            }
+        }
+    },
+    handelAtOfIndex(array){
+        let arrayTemp = [];
+        for(let i = 0; i < array.length ; i++){
+            arrayTemp.push(this.state.cardKey[array[i]])
+        }
+        return arrayTemp;
+    },
+    handleCheck(e){
+        Array.prototype.indexOf = function(val) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == val) return i;
+            }
+            return -1;
+        };
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+        let selectArray =this.state.selectArrayIndex;
+        if(selectArray.length < 5){
+            if(e.target.checked){
+                selectArray.push(e.target.value);
+                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }else{
+                selectArray.remove(e.target.value);
+                var selectedArrayTemp =this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }
+        }else{
+            if(e.target.checked){
+                this.setState({
+                    selectArrayIndex:selectArray
+                })
+            }else{
+                selectArray.remove(e.target.value);
+                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
+                this.setState({
+                    selectArrayIndex:selectArray,
+                    selectedArray:selectedArrayTemp
+                })
+            }
+        }
     },
     render(){
+        let leftItem = '';
+        let rightItem = '';
+        let cardSelectItemRight = this.state.cardKey.map((item,index)=>{
+            if(index < 14){
+                return(
+                    <div className =" item-space"  key={index}>
+                        <lebal>
+                            <Checkbox value={index} checked={this.handleDefaultChecked(index)} onChange={this.handleCheck}/>
+                            {item.value}
+                        </lebal>
+                    </div>
+                );
+            }
+        });
+        let cardSelectItemLeft = this.state.cardKey.map((item,index)=>{
+            if(index >= 14){
+                return(
+                    <div className =" item-space"  key={index}>
+                        <lebal>
+                            <Checkbox value={index} checked={this.handleDefaultChecked(index)} onChange={this.handleCheck}/>
+                            {item.value}
+                        </lebal>
+                    </div>
+                );
+            }
+        });
         return(
-            <Row type="flex" className = 'setting-container' justify="end">
-                <Col span = '12' className='inner-container'>
-                    <Col span = '12' className = "left-select">
-                        <p>不可选择项：</p>
-                        <p className = "item-space">可选择项（最多五项）:</p>
+            <div>
+                <Row type="flex" className = 'setting-container' justify="center">
+                    <Col span = '14' className='inner-container'>
+                        <Col span = '8' className = "left-select">
+                            <p>不可选择项：</p>
+                            <p className = "item-space">可选择项（最多五项）:</p>
+                        </Col>
+                        <Col span = '16'>
+                            <ul className = "list-inline">
+                                <li>姓名</li>
+                                <li>状态</li>
+                                <li>职务</li>
+                            </ul>
+                            <Row>
+                                <Col span= '12' className = "right-item">
+                                    {cardSelectItemRight}
+                                </Col>
+                                <Col span='12' className = "left-item">
+                                    {cardSelectItemLeft}
+                                </Col>
+                            </Row>
+                        </Col>
                     </Col>
-                    <Col span = '12'>
-                        <ul className = "list-inline">
-                            <li>姓名</li>
-                            <li>状态</li>
-                            <li>职务</li>
-                        </ul>
-                        {this.generateSelectList()}
-
+                    <Col span = '10' className = "inner-container">
+                        <p>效果预览：</p>
+                        <div className = "right-view">
+                            <SettingCard selectedArray = {this.state.selectedArray} type={"0"}/>
+                        </div>
                     </Col>
-                </Col>
-                <Col span = '12' className = "inner-container">
-                    <p>效果预览：</p>
-
-                </Col>
-            </Row>
+                </Row>
+                <Row type = 'flex' justify = "center" className = "setting-footer">
+                    <Col span = "12" className = 'btn-left'>
+                        <Button type="primary" size="large">保存</Button>
+                    </Col>
+                    <Col span = "12" className = 'btn-right'>
+                        <Button type="primary" size="large" ><a href='/'>返回</a></Button>
+                    </Col>
+                </Row>
+            </div>
         )
     }
 });
-export{Setting,StaffSetting,VehicleSetting,DriverSetting}
+export{Setting,StaffSetting,VehicleSetting,DriverSetting};

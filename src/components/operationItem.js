@@ -8,17 +8,21 @@ import ReactDOM from 'react-dom';
 import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon} from 'antd';
 import {Button,Tooltip,Overlay,Input,Collapse,Well} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
-import {ModalDialog} from './toolComponents/ModelConponents';
 import {Checkbox,Radio} from 'react-icheck';
 import {SearchInput} from './toolComponents/selectAutoCompletion';
 import {SendMessageDialog} from './toolComponents/dialogConponents'
 import {AddDialog} from './toolComponents/dialogConponents';
+import {staffs} from '../models/staffInfo'
 //添加
 const AddItem = React.createClass({
+    mixins:[BackboneReactMixin],
     getInitialState(){
       return {
           lgShow:false
       };
+    },
+    createEntry:function(entry){
+           return <span key ={entry.id}>{entry.Code}</span>
     },
     handleMouseEnter:function(event){
         $('.add-item-icon').removeClass('add-item-icon').addClass('add-item-icon-hover');
@@ -31,7 +35,11 @@ const AddItem = React.createClass({
             lgShow:false
         })
     },
+    testChangeModel(){
+
+    },
     render(){
+        console.log(this.state.collection);
         return(
             <li>
                 <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}>
@@ -39,11 +47,11 @@ const AddItem = React.createClass({
                         <li className = "add-item-icon operation-item-icon">
                         </li>
                         <li>
-                            <h5>添加</h5>
+                            <h5 onClick={this.testChangeModel}>添加</h5>
                         </li>
                    </ul>
                 </Button>
-                <AddDialog isAdd={this.state.lgShow} callbackParentOfAdd = {this.onChildChangeAdd} pageShow={this.props.pageShow}/>
+                <AddDialog isAdd={this.state.lgShow} callbackParentOfAdd = {this.onChildChangeAdd} pageShow={this.props.pageShow} collection={staffs}/>
             </li>
         )
     }
@@ -72,7 +80,7 @@ const ListItem =React.createClass({
             $('.list-show').removeClass('is-display');
             $('.card-show').addClass('is-display');
             PubSub.publish('showWay','list');
-            this.props.callbackParent('list');
+            this.props.callbackParent('list')
         }
     },
     render(){
@@ -454,7 +462,7 @@ const OperationItem= React.createClass({
                         <ul className="list-inline operation">
                             <li className = "left-item">
                                 <ul className = "list-inline">
-                                    <AddItem pageShow={this.props.pageShow}/>
+                                    <AddItem pageShow={this.props.pageShow} collection={staffs}/>
                                     <ListItem callbackParent={this.childListChange}/>
                                     {isCardShowContent()}
                                 </ul>
@@ -484,5 +492,4 @@ const OperationItem= React.createClass({
         )
     }
 });
-
 export{OperationItem}

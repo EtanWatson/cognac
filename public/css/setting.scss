@@ -19,7 +19,30 @@
         text-align: right;
       }
       .right-view{
-
+        margin-top: 20px;
+        width: 182px;
+        background-color: #ffffff;
+        .header-img{
+          position: relative;
+          top:-20px
+        }
+         .list-inline{
+          padding-left: 12%;
+        }
+        .footer-img{
+          position: relative;
+          .type-icon{
+            position: absolute;
+            top: 30px;
+            left: 155px;
+          }
+          .type-text{
+            top: 35px;
+            left: 25px;
+            color: #fff;
+            position: absolute;
+          }
+        }
       }
     }
   }

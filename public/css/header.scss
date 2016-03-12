@@ -12,6 +12,9 @@ body{
     h2{
       margin-top: 10px;
     }
+    h5{
+      margin-bottom: 10px;
+    }
     .header-title-left{
       position: relative;
       left: 134px;
@@ -21,7 +24,7 @@ body{
       float: right;
     }
     .header-img{
-      background-image:url('/img/icon/icon_user_head_have.png') ;
+      background-image:url('/img/icon_user_head_have.png') ;
       border-radius:50%;
       width: 26px;
       height: 26px;

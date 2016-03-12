@@ -118,6 +118,10 @@ var cardVehicle = [
         value:'车辆品牌'
     },
     {
+        name:'vehicleModel',
+        value:'车辆型号'
+    },
+    {
         name:'vehicleType',
         value:'车辆类型'
     },

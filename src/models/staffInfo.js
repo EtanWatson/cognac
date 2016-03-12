@@ -1,7 +1,9 @@
 import Backbone from 'backbone';
 var staff = Backbone.Model.extend({
    defaults:{
+       id:'',
        Code : "",
+       HeadImg:"",
        Name : "",
        Section :"",
        Job : "",
@@ -23,6 +25,7 @@ var staff = Backbone.Model.extend({
 let staffModels = [];
 for(let i = 0; i < 100 ; i++){
     staffModels.push({
+        id:i,
         Code :i,
         Name :`ÍõÓîÍ¤${i}`,
         Section : `³µ¶Ó${i}`,
@@ -47,4 +50,4 @@ var  staffList = Backbone.Collection.extend({
 });
 
 let staffs = new staffList(staffModels);
-export{staff}
+export{staffs}

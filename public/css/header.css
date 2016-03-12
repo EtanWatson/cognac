@@ -8,13 +8,15 @@ body .header-content {
     border-bottom: 1px solid #e2e2e4; }
   body .header-content h2 {
     margin-top: 10px; }
+  body .header-content h5 {
+    margin-bottom: 10px; }
   body .header-content .header-title-left {
     position: relative;
     left: 134px; }
   body .header-content .headerOperationSpace {
     float: right; }
   body .header-content .header-img {
-    background-image: url("/img/icon/icon_user_head_have.png");
+    background-image: url("/img/icon_user_head_have.png");
     border-radius: 50%;
     width: 26px;
     height: 26px;
