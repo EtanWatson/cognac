@@ -39,7 +39,7 @@ const AddItem = React.createClass({
 
     },
     render(){
-        console.log(this.state.collection);
+        //console.log(this.state.collection);
         return(
             <li>
                 <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}>

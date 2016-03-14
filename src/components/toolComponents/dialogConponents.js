@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import {render} from 'react-dom';
-import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload,Menu} from 'antd';
+import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload,Menu,Cascader} from 'antd';
 import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from "./selectAutoCompletion"
 import {staffs} from "../../models/staffInfo"
@@ -16,12 +16,55 @@ const formItemLayout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 14 }
 };
+//准驾车型options
+const licenseTypeOptions=[
+    {
+    value: 'A',
+    label: 'A',
+    children: [
+        {
+            value: 'A1',
+            label: 'A1'
+        },
+        {
+            value: 'A2',
+            label: 'A2'
+        }
+    ]
+}, {
+    value: 'B',
+    label: 'B',
+    children: [
+        {
+            value: 'B1',
+            label: 'B1'
+        },
+        {
+            value: 'B2',
+            label: 'B2'
+        }
+    ]
+}];
+//准驾车型，只展示最后一项
+function displayRender(label) {
+    return label[label.length - 1];
+}
 let EditTable = React.createClass({
+    mixins:[BackboneReactMixin],
     componentDidMount(){
     },
     handleSubmit(e) {
         e.preventDefault();
         console.log('收到表单值：', this.props.form.getFieldsValue());
+        let modifyForm  = this.props.form.getFieldsValue();
+        for( var modifyItem in modifyForm){
+            if(modifyForm[modifyItem]){
+                if(typeof modifyForm[modifyItem]=='object'){
+                    modifyForm[modifyItem]=modifyForm[modifyItem].toString();
+                }
+                this.getModel().get(modifyItem).value=modifyForm[modifyItem]
+            }
+        }
         this.props.callbackParentOfEdit('edit');
     },
     handleCancel(){
@@ -29,8 +72,7 @@ let EditTable = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
-        let cardInfo = this.props.cardInfo;
-        //console.log('editDialog cardInfo：'+cardInfo);
+        let cardInfo = this.state.model;
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'edit-form'>
                <div className = "up-info">
@@ -41,7 +83,7 @@ let EditTable = React.createClass({
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>{cardInfo.name}</h3>
+                            <h3>{cardInfo.Name.value}</h3>
                             <Row type = "flex">
                                 <Col span = "4">
                                     <div className ="type-icon right icon"></div>
@@ -61,7 +103,7 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label="编码：" labelCol={{span: 8}} required>
-                               <AntInput type="text" {...getFieldProps('code')} placeholder="请输入密码" value={cardInfo.key} />
+                               <AntInput type="text" {...getFieldProps('Code')} placeholder="请输入密码"/>
                            </FormItem>
                        </Col>
                        <Col span = '12'></Col>
@@ -71,14 +113,14 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label="所在部门：" labelCol={{span: 8}}>
-                               <AntInput type="text" {...getFieldProps('section')} placeholder="请输入密码" />
+                               <AntInput type="text" {...getFieldProps('Section')} placeholder="请输入密码"/>
                            </FormItem>
                        </Col>
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
                                label="性别：" required>
-                               <RadioGroup {...getFieldProps('gender', { initialValue: 'female' })}>
+                               <RadioGroup {...getFieldProps('Gender', { initialValue: 'female' })}>
                                    <Radio value="male">男的</Radio>
                                    <Radio value="female">女的</Radio>
                                </RadioGroup>
@@ -90,7 +132,7 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label="身份证号：" labelCol={{span: 8}} required>
-                               <AntInput type="text" placeholder="" {...getFieldProps('id')} />
+                               <AntInput type="text" placeholder="" {...getFieldProps('Id')} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -100,7 +142,7 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label="家庭住址：" labelCol={{span: 8}}>
-                               <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                               <AntInput type="text" placeholder="" {...getFieldProps('Address')} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -110,14 +152,14 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label="入职日期：" labelCol={{span: 8}} >
-                               <DatePicker  {...getFieldProps('joinData')}/>
+                               <DatePicker  {...getFieldProps('JoinData')}/>
                            </FormItem>
                        </Col>
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
                                label="手机：" required>
-                               <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                               <AntInput type="text" placeholder="" {...getFieldProps('PhoneNumber')} />
                            </FormItem>
                        </Col>
                    </Row>
@@ -126,7 +168,7 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label="备注：" labelCol={{span: 8}} required>
-                               <AntInput type="text" placeholder="" {...getFieldProps('more')} />
+                               <AntInput type="text" placeholder="" {...getFieldProps('Remark')} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -137,7 +179,7 @@ let EditTable = React.createClass({
                                {...formItemLayout}
                                label="是否停用:" labelCol={{span: 8}}>
                                <label className = "isOutage">
-                                   <Checkbox {...getFieldProps('outage')} />
+                                   <Checkbox {...getFieldProps('OutAge')} />
                                </label>
                            </FormItem>
                        </Col>
@@ -155,7 +197,7 @@ let EditTable = React.createClass({
                                    <FormItem
                                        {...formItemLayout}
                                        label="驾驶证号：" labelCol={{span: 8}} required>
-                                       <AntInput type="text" placeholder="" {...getFieldProps('driverId')} />
+                                       <AntInput type="text" placeholder="" {...getFieldProps('DrivingLicense')} />
                                    </FormItem>
                                </Col>
                                <Col span = "12"></Col>
@@ -165,7 +207,7 @@ let EditTable = React.createClass({
                                    <FormItem
                                        {...formItemLayout}
                                        label="有效期限：" labelCol={{span: 8}} required>
-                                       <DatePicker  />
+                                       <DatePicker {...getFieldProps('ValidDate')} />
                                    </FormItem>
                                </Col>
                                <Col span = "12"></Col>
@@ -175,7 +217,7 @@ let EditTable = React.createClass({
                                    <FormItem
                                        {...formItemLayout}
                                        label="发证机关：" labelCol={{span: 8}} required>
-                                       <AntInput type="text" placeholder="" {...getFieldProps('issue-office')} />
+                                       <AntInput type="text" placeholder="" {...getFieldProps('AuthorizedBy')} />
                                    </FormItem>
                                </Col>
                                <Col span = "12"></Col>
@@ -185,7 +227,7 @@ let EditTable = React.createClass({
                                    <FormItem
                                        {...formItemLayout}
                                        label="年审到期：" labelCol={{span: 8}} required>
-                                       <DatePicker  />
+                                       <DatePicker  {...getFieldProps('AnnualExamination')}/>
                                    </FormItem>
                                </Col>
                                <Col span = "12"></Col>
@@ -195,7 +237,7 @@ let EditTable = React.createClass({
                                    <FormItem
                                        {...formItemLayout}
                                        label="领证日期：" labelCol={{span: 8}} required>
-                                       <DatePicker  />
+                                       <DatePicker  {...getFieldProps('StartLicenseData')} />
                                    </FormItem>
                                </Col>
                                <Col span = "12"></Col>
@@ -205,7 +247,8 @@ let EditTable = React.createClass({
                                    <FormItem
                                        {...formItemLayout}
                                        label="准驾车型：" labelCol={{span: 8}} required>
-                                       <DatePicker  />
+                                       <Cascader  options={licenseTypeOptions} expandTrigger="hover" popupClassName="form-cascader"
+                                                  displayRender={displayRender}  {...getFieldProps('LicenseType')} />
                                    </FormItem>
                                </Col>
                                <Col span = "12"></Col>
@@ -489,6 +532,7 @@ let EditTableVehicle = React.createClass({
 });
 EditTableVehicle = Form.create()(EditTableVehicle);
 const EditDialog = React.createClass({
+    mixins:[BackboneReactMixin],
     getInitialState(){
       return{
           visible : false
@@ -523,16 +567,17 @@ const EditDialog = React.createClass({
     render(){
         let{pageShow,cardInfo} = this.props;
         //console.log('editItem pageShow:'+pageShow);
+
         var editTable = function(){
             switch (pageShow){
                 case 'staff':
-                    return(<EditTable
+                    return(<EditTable model={this.getModel()}
                         visible={this.state.visible}
                         callbackParentOfEdit={this.handleChildrenChange}
                         cardInfo = {cardInfo}/>);
                     break;
                 case 'vehicle':
-                    return(<EditTableVehicle
+                    return(<EditTableVehicle  model={this.getModel()}
                         visible={this.state.visible}
                         callbackParentOfEdit={this.handleChildrenChange}
                         cardInfo={cardInfo}
@@ -1094,16 +1139,22 @@ const AddDialog  = React.createClass({
 });
 //发送消息窗口
 const SendMessageDialog = React.createClass({
+    mixins:[BackboneReactMixin],
     getInitialState(){
         return {
             visible :this.props.isSendMessage,
-            selectVisible:false
+            selectVisible:false,
+            inputValue :'',
+            selectValue:'',
+            selectValueArray:[],
+            searchSelectHeight:'100px'
         };
 
     },
     componentWillReceiveProps(nextProps){
         this.setState({
-                visible:nextProps.isSendMessage
+            visible:nextProps.isSendMessage,
+            inputValue:this.state.model.Name.value
         });
     },
         showModal(){
@@ -1136,19 +1187,92 @@ const SendMessageDialog = React.createClass({
             })
         }
     },
+    handleAddName(){
+        let tempArray = this.state.selectValueArray;
+        if(this.state.selectValue){
+            tempArray.push(this.state.selectValue);
+            this.setState({
+                selectValueArray:tempArray
+            })
+        }
+    },
+    handleInputChange(event){
+        //this.setState({value: event.target.value});
+    },
+    handleSelectChoose(value){
+        //if(this.state.searchSelectHeight=='100px'){
+        //    $('.search-select').animate({'height':'365px'});
+        //    this.setState({
+        //        searchSelectHeight:'356px'
+        //})
+        //}else{
+        //    $('.search-select').animate({'height':'100px'});
+        //    this.setState({
+        //        searchSelectHeight:'100px'
+        //    })
+        //}
+
+        this.setState({
+            selectValue:value
+        })
+    },
+    handleSelectFocus(event){
+        $("input[name=cursor-field]").focus();
+        //console.log(event)
+    },
+    handlePressCancel(event){
+        if(event.keyCode==8){
+            if(this.state.selectValueArray.length > 0){
+                let tempArray = this.state.selectValueArray;
+                tempArray.pop();
+                this.setState({
+                    selectValueArray:tempArray
+                })
+            }
+        }
+    },
+    handleClickCancel(event){
+        console.log($(event.target).attr('data-index'));
+        let tempArray = this.state.selectValueArray;
+        tempArray.splice($(event.target).attr('data-index'),1);
+        this.setState({
+            selectValueArray:tempArray
+        })
+    },
     render(){
+        let selectItem = this.state.selectValueArray.map(function(item,index){
+            return(
+                <li className = "select-item" key={index}>
+                    <span className = "item-content">{item}</span>
+                    <span className = "item-remove" data-index={index} onClick={this.handleClickCancel}></span>
+                </li>
+            )
+        }.bind(this));
         return(
             <div className = "send-message">
                 <Modal  visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel} footer="" closable={false} className="send-message-modal">
                     <Row>
                         <Col span = "4"><span>短信接收人员:</span></Col>
-                        <Col span ="16"><AntInput className = "underline-input" /></Col>
+                        <Col span ="16" >
+                            <span className = 'send-select-warp' onClick={this.handleSelectFocus}>
+                                <span className = "send-select-span">
+                                     <ul className='send-select-content'>
+                                         {selectItem}
+                                        <li className="cursor-warp">
+                                            <span className = "cursor-field-warp">
+                                                <input className="cursor-field" value="" name='cursor-field' onKeyDown={this.handlePressCancel}></input>
+                                            </span>
+                                        </li>
+                                     </ul>
+                                </span>
+                            </span>
+                        </Col>
                         <Col span ="4" className = "plus-icon-box">
                             <Icon type="plus-circle-o" className="plus-icon" onClick={this.handleIconClick} />
                             <div className="search-select is-display" >
                                 <div className = "search-select-title">添加新的联系人</div>
-                                <SearchInput placeholder="搜索关键字" />
-                                <AntButton type="primary" size="large" style={{position:'absolute',bottom:'10px',left:'35px'}} onClick={this.handleIconClick}>确认添加</AntButton>
+                                <SearchInput placeholder="搜索关键字" callbackParent = {this.handleSelectChoose} />
+                                <AntButton type="primary" size="large" style={{position:'absolute',bottom:'10px',left:'35px'}} onClick={this.handleAddName}>确认添加</AntButton>
                             </div>
                         </Col>
                     </Row>

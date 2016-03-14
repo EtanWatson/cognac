@@ -9,7 +9,8 @@ import BackboneReactMixin from 'backbone-react-component';
 import {Content} from './contentItem'
 import {staffInfo,staffTypeText} from '../data/cardData';
 import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
-import {navArray,settingNavArray} from '../data/navigation'
+import {navArray,settingNavArray} from '../data/navigation';
+import {staffData} from '../models/staffData'
 //任务管理
 const TaskManage = React.createClass({
     render(){
@@ -30,7 +31,7 @@ const StaffInfo = React.createClass({
     },
     render(){
         return (
-            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'}/>
+            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'} collection={staffData}/>
         )
     }
 

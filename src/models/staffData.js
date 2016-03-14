@@ -121,57 +121,119 @@ var staff = Backbone.Model.extend({
 var staffCollection = Backbone.Collection.extend({
    model:staff
 });
+
 var staffDataModel = [];
 for(let i = 0; i < 100 ; i++){
     staffDataModel.push({
         id:i,
         Code :{
+            name:'Code',
+            aliasName:'编码',
+            isShowInCard:'',
             value:`Code${i}`
         },
+        HeadImg:{
+            name:'HeadImg',
+            aliasName:'头像',
+            value:'/img/icon_user_head_50_50_have_1.png',
+            isShowInCard:''
+        },
+        Status:`${i%2}`,
+        Gender:{
+            name:'Gender',
+            aliasName:'性别',
+            value:'',
+            isShowInCard:''
+        },
         Name :{
+            name:'Code',
+            aliasName:'姓名',
+            isShowInCard:'',
             value:`王宇亭${i}`
         },
         Section : {
+            name:'Code',
+            aliasName:'部门',
+            isShowInCard:'1',
             value:`车队${i}`
         },
         Job :{
+            name:'Code',
+            aliasName:'工作',
+            isShowInCard:'',
             value:`Job${i}`
         },
         Id :{
+            name:'Code',
+            aliasName:'身份证号码',
+            isShowInCard:'',
             value:`身份证号码${i}`
         },
         PhoneNumber :{
+            name:'Code',
+            aliasName:'手机号码',
+            isShowInCard:'1',
             value:`电话号码${i}`
         },
         Address : {
+            name:'Code',
+            aliasName:'地址',
+            isShowInCard:'',
             value:`地址${i}`
         },
         JoinData:{
+            name:'Code',
+            aliasName:'入职日期',
+            isShowInCard:'',
             value:`入职日期${i}`
         },
         Remark :{
+            name:'Code',
+            aliasName:'备注',
+            isShowInCard:'1',
             value:`备注${i}`
         },
         OutAge :{
+            name:'Code',
+            aliasName:'是否停用',
+            isShowInCard:'',
             value:`${i%2}`
         },
         Type : `${i%3}` ,
         DrivingLicense :{
+            name:'Code',
+            aliasName:'驾驶证号',
+            isShowInCard:'1',
             value:`驾驶证号${i}`
         },
         ValidDate : {
+            name:'Code',
+            aliasName:'有效期',
+            isShowInCard:'',
             value:`有效期${i}`
         },
         AuthorizedBy:{
+            name:'Code',
+            aliasName:'发证机关',
+            isShowInCard:'',
             value:`发证机关${i}`
         },
         AnnualExamination :{
+            name:'Code',
+            aliasName:'年审到期',
+            isShowInCard:'',
             value:`年检${i}`
         },
         StartLicenseData:{
+            name:'Code',
+            aliasName:'领证日期',
+            isShowInCard:'',
             value:`领证日期${i}`
         },
         LicenseType:{
+            name:'Code',
+            aliasName:'准驾车型',
+            isShowInCard:'1',
             value:`准驾类型${i}`
         },
     })

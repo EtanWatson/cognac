@@ -47,12 +47,14 @@ const SearchInput = React.createClass({
     },
     handleChange(value) {
         this.setState({ value });
+        this.props.callbackParent(value);
         fetch(value, (data) => this.setState({ data }));
     },
     handleSubmit() {
-        console.log('输入框内容是: ', this.state.value);
+        //console.log('杈撳叆妗嗗唴瀹规槸: ', this.state.value);
     },
     handleFocusBlur(e) {
+        this.props.callbackParent(value);
         this.setState({
             focus: e.target === document.activeElement
         });

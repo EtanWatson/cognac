@@ -9,13 +9,12 @@ import {columns,data} from '../data/listData';
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
 import {Button as AntButton,Icon,Row,Col,Modal,Checkbox,Popover} from 'antd';
 import {EditDialog,SendMessageDialog,LookDialog,popoverCheckMenu} from './toolComponents/dialogConponents';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import FixedDataTable from 'fixed-data-table';
-import {staffData} from '../models/staffData'
 const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
 //card hover状态
 const HoverItem = React.createClass({
+    mixins:[BackboneReactMixin],
    getInitialState(){
         return{
             isEdit:false,
@@ -43,7 +42,7 @@ const HoverItem = React.createClass({
                self.setState({
                    isDelete:true
                });
-               self.props.callbackParent('delete');
+               self.getCollection().remove(self.getModel());
            },
            onCancel(){
                self.props.callbackParent('noDelete');
@@ -80,8 +79,8 @@ const HoverItem = React.createClass({
                 <li>
                     <Button  bsStyle="link" onClick={this.handleDeleteClick}><img src="/img/icon_delete.png" /></Button>
                 </li>
-               <EditDialog isEdit={this.state.isEdit} cardInfo={this.props.cardInfo} pageShow={this.props.pageShow} callbackParent = {this.onChildChangeEdit}  />
-               <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.onChildChangeSendMessage} />
+               <EditDialog isEdit={this.state.isEdit} cardInfo={this.props.cardInfo} pageShow={this.props.pageShow} callbackParent = {this.onChildChangeEdit} model={this.getModel()} />
+               <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.onChildChangeSendMessage} model={this.getModel()} />
            </ul>
 
        )
@@ -89,7 +88,7 @@ const HoverItem = React.createClass({
 });
 //card显示组件
 const Card = React.createClass({
-    mixins:[BackboneReactMixin],
+   mixins:[BackboneReactMixin],
    getInitialState(){
        return {
            isOpen:"item-close",
@@ -128,8 +127,9 @@ const Card = React.createClass({
             }
         }.bind(this));
     },
-    componentWillUnMount(){
-        //alert('willMount');
+    componentWillMount(){
+    },
+    componentWillUnmount(){
         PubSub.unsubscribe(this.pubsub_tokenBatch);
         PubSub.unsubscribe(this.pubsub_tokenAll);
     },
@@ -231,8 +231,9 @@ const Card = React.createClass({
         }
     },
    render(){
+       let item = this.state.model;
        var staffType = function(){
-         var type = this.props.item.type;
+         var type =item.Type;
          var typeText = this.props.typeTextInfo;
          if(type==="0"){
              return(
@@ -266,14 +267,23 @@ const Card = React.createClass({
              )
          }
        }.bind(this);
-       let item = this.props.item;
-       //是否删除
-       if(this.state.isDelete){
-           return(
-               <span></span>
-           )
-       }else{
-           //console.log("card pageShow："+this.props.pageShow);
+           var findShowItem = function(){
+                var showItem = [];
+                for(let attributeName in this.getModel().attributes){
+                   if(this.getModel().get(attributeName).isShowInCard=='1'){
+                       showItem.push(this.getModel().get(attributeName))
+                   }
+                }
+               return showItem
+           }.bind(this);
+           var showItem = findShowItem().map(function(attrItem,index){
+               return(
+                           <ul className = "list-inline" key={index}>
+                              <li><h5>{attrItem.aliasName}</h5></li>
+                              <li><h5>{attrItem.value}</h5></li>
+                           </ul>
+                      )
+           });
            return(
                <div className ={"card-style "+this.state.isHover}
                     onDoubleClick={this.handleDoubleClick}
@@ -281,10 +291,10 @@ const Card = React.createClass({
                    <ul className = "list-inline">
                        {this.handleToggleBatch()}
                        <li className = "header-img">
-                           <img src = {item.headerImage}/>
+                           <img src = {item.HeadImg.value}/>
                        </li>
                        <li className = "header-left">
-                           <h3 className = "name">{item.name}</h3>
+                           <h3 className = "name">{item.Name.value}</h3>
                            <ul className = "list-inline">
                                <li className = "circle circle-g">
                                     <img src="/img/icon_trip_normal.png" />
@@ -292,40 +302,19 @@ const Card = React.createClass({
                                <li className = "circle-r is-display">
                                    <img src="/img/icon_trip_leave.png" />
                                </li>
-                               <li className = "status"><h5>{item.status}</h5></li>
+                               <li className = "status"><h5>{item.Status}</h5></li>
                            </ul>
                        </li>
                    </ul>
-                   <ul className = "list-inline">
-                       <li><h5>{item.info_one.name}</h5></li>
-                       <li><h5>{item.info_one.value}</h5></li>
-                   </ul>
-                   <ul className = "list-inline">
-                       <li><h5>{item.info_two.name}</h5></li>
-                       <li><h5>{item.info_two.value}</h5></li>
-                   </ul>
-                   <ul className = "list-inline">
-                       <li><h5>{item.info_three.name}</h5></li>
-                       <li><h5>{item.info_three.value}</h5></li>
-                   </ul>
-                   <ul className = "list-inline">
-                       <li><h5>{item.info_four.name}</h5></li>
-                       <li><h5>{item.info_four.value}</h5></li>
-                   </ul>
-                   <ul className = "list-inline">
-                       <li><h5>{item.info_five.name}</h5></li>
-                       <li><h5>{item.info_five.value}</h5></li>
-                   </ul>
+                   {showItem}
                    {staffType()}
                    <div  className ={"default-style "+this.state.isOpen}>
-                       <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit} pageShow = {this.props.pageShow}/>
+                       <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit} pageShow = {this.props.pageShow} model={this.getModel()}/>
                    </div>
-                   <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} cardInfo={item} pageShow = {this.props.pageShow}/>
+                   <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} cardInfo={item} pageShow = {this.props.pageShow} />
                </div>
            )
        }
-
-   }
 });
 //列表显示组件
 const ListShow = React.createClass({
@@ -434,12 +423,15 @@ const ListShow = React.createClass({
 });
 //內容主容器
 const Content = React.createClass({
+    mixins:[BackboneReactMixin],
     getInitialState(){
       return{
           showWay:'card',
           availableHeight:$(window).height()
           //staffInfo:[]
       }
+    },
+    componentWillMount(){
     },
     componentDidMount(){
         this.pubsub_token = PubSub.subscribe('showWay',function(topic,showWay){
@@ -448,26 +440,28 @@ const Content = React.createClass({
             })
         }.bind(this));
     },
-    componentWillUnMount(){
+    componentWillUnmount(){
         PubSub.unsubscribe(this.pubsub_token);
     },
     handleGoTop(){
         $('.content-relative').animate({scrollTop:0},1000);
     },
     render(){
-        var cardInfo= this.props.cardInfo;
+        //var cardInfo= this.props.cardInfo;
+        var cardInfo =this.state.collection;
         var typeText = this.props.typeTextInfo;
         var pageShow = this.props.pageShow;
         //console.log('content pageShow：'+pageShow);
         var handleShowWay=function(){
+                var self = this;
                 if(this.state.showWay=='card'){
                     return(
                         <ul className = "list-inline card-container">
                             {
                                 cardInfo.map(function(item){
                                     return(
-                                        <li key={item.key} className = "card-container-space">
-                                            <Card item={item} typeTextInfo={typeText} pageShow = {pageShow}/>
+                                        <li key={item.id} className = "card-container-space">
+                                            <Card item={item} typeTextInfo={typeText} pageShow = {pageShow} model={self.getCollection().get(item.id)}/>
                                         </li>
                                     )
                                 })

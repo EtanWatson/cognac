@@ -4,6 +4,7 @@
     border-bottom: 1px solid #cfd0d4;
     border-radius: 0;
     width: 100%;
+    outline: 0;
   }
   .plus-icon-box{
     text-align: left;
@@ -20,7 +21,8 @@
       position: absolute;
       top: -5px;
       border: 1px solid #cfd0d4;
-      height: 365px;
+      //height: 365px;
+      height: 100px;
       left: 20px;
       width: 150px;
       .ant-input-group-wrap{
@@ -196,4 +198,123 @@
       border-radius: 0;
     }
   }
+
+  .send-message-modal{
+      .send-select-warp{
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: middle;
+        color: #666;
+        font-size: 12px;
+        width: 98%;
+          .send-select-span{
+            min-height: 28px;
+            cursor: text;
+            outline: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            box-sizing: border-box;
+            display: block;
+            background-color: #fff;
+            //border-radius: 6px;
+            border-bottom: 1px solid #d9d9d9;
+            -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
+            transition: all .3s cubic-bezier(.645, .045, .355, 1);
+            .send-select-content{
+              overflow: hidden;
+              text-overflow: ellipsis;
+              padding-left: 6px;
+              padding-bottom: 4px;
+              position: relative;
+              top: 3px;
+              li{
+                list-style: none;
+              }
+              .cursor-warp{
+                width: auto;
+                margin-top: 4px;
+                height: 20px;
+                line-height: 20px;
+                float: left;
+                .cursor-field-warp{
+                  width: 100%;
+                  display: inline-block;
+                  position: relative;
+                  .cursor-field{
+                    width: .75em;
+                    border: 0;
+                    font-size: 100%;
+                    background: transparent;
+                    outline: 0;
+                    border-radius: 6px;
+                  }
+                }
+              }
+              .select-item{
+                background-color: #f3f3f3;
+                border-radius: 4px;
+                cursor: default;
+                float: left;
+                //padding: 0 15px;
+                margin-right: 4px;
+                max-width: 99%;
+                position: relative;
+                overflow: hidden;
+                -webkit-transition: padding .3s cubic-bezier(.645, .045, .355, 1);
+                transition: padding .3s cubic-bezier(.645, .045, .355, 1);
+                padding: 0 20px 0 10px;
+                .item-content{
+                  display: inline-block;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  max-width: 100%;
+                  -webkit-transition: margin .3s cubic-bezier(.645, .045, .355, 1);
+                  transition: margin .3s cubic-bezier(.645, .045, .355, 1);
+                  cursor: default;
+                }
+                .item-remove{
+                  font-style: normal;
+                  vertical-align: baseline;
+                  text-align: center;
+                  text-transform: none;
+                  text-rendering: auto;
+                  line-height: 1;
+                  color: #999;
+                  line-height: inherit;
+                  cursor: pointer;
+                  font-weight: bold;
+                  -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
+                  transition: all .3s cubic-bezier(.645, .045, .355, 1);
+                  display: inline-block;
+                  font-size: 12px;
+                  //font-size: 8px;
+                  -webkit-transform: scale(.66666667) rotate(0deg);
+                  transform: scale(.66666667) rotate(0deg);
+                  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
+                  zoom: 1;
+                  position: absolute;
+                  right: 4px;
+                  padding: 0 0 0 8px;
+                }
+                .item-remove::before{
+                  content: "\E62D";
+                  display: block;
+                  font-family: "anticon" !important;
+                }
+              }
+            }
+          }
+      }
+  }
+
+
+}
+//级联选择框浮层类
+.form-cascader{
+  z-index: 1000;
 }
