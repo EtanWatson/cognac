@@ -57,6 +57,19 @@ body .operation {
       background-image: url("/img/icon_delete_default.png"); }
     body .operation .left-item .print-item-btn {
       background-image: url("/img/icon_print_default.png"); }
+    body .operation .left-item .task-color {
+      width: 40px;
+      height: 20px;
+      padding: 0 !important;
+      color: white;
+      border-radius: 5px; }
+    body .operation .left-item .task-color.arranged {
+      margin-left: 30px;
+      background-color: #58C5E4; }
+    body .operation .left-item .task-color.onGoing {
+      background-color: #F0C22F; }
+    body .operation .left-item .task-color.tobeDistributed {
+      background-color: #7ED320; }
   body .operation .right-item {
     float: right;
     width: 650px;
@@ -75,16 +88,15 @@ body .operation {
     body .operation .right-item .search-item {
       position: relative;
       top: 10px;
-      width: 35%; }
-      body .operation .right-item .search-item .innerSearchIcon {
-        width: 13px;
-        height: 13px;
-        background-image: url("/img/icon_search.png");
-        background-repeat: no-repeat; }
-      body .operation .right-item .search-item .form-group {
-        margin-bottom: 0; }
-        body .operation .right-item .search-item .form-group .input-group-addon {
-          background-color: #ffffff; }
+      width: 30%; }
+      body .operation .right-item .search-item .search-btn {
+        padding: 0 !important;
+        border-left: 0;
+        position: relative;
+        left: 10px;
+        background-color: #fff;
+        top: 0;
+        color: #666; }
     body .operation .right-item .outage-record-text {
       font-size: 12px;
       color: #425a73;

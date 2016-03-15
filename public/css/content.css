@@ -88,6 +88,10 @@
     background-color: #D1e9f5; }
   .content .content-table .anticon-caret-right:before {
     color: #30a3dc; }
+  .content .spin-status {
+    position: fixed;
+    left: 45%;
+    top: 50%; }
 
 .table-popover {
   width: 100px;

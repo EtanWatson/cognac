@@ -5,14 +5,16 @@ import $ from 'jquery'
 import React from 'react';
 import {render} from 'react-dom';
 import ReactDOM from 'react-dom';
-import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon} from 'antd';
-import {Button,Tooltip,Overlay,Input,Collapse,Well} from 'react-bootstrap';
+import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Checkbox,Collapse} from 'antd';
+import BackBone from 'backbone';
+import {Button,Tooltip,Overlay} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
-import {Checkbox,Radio} from 'react-icheck';
 import {SearchInput} from './toolComponents/selectAutoCompletion';
 import {SendMessageDialog} from './toolComponents/dialogConponents'
 import {AddDialog} from './toolComponents/dialogConponents';
 import {staffs} from '../models/staffInfo'
+import {staffData} from '../models/staffData'
+const Panel = Collapse.Panel;
 //添加
 const AddItem = React.createClass({
     mixins:[BackboneReactMixin],
@@ -55,6 +57,81 @@ const AddItem = React.createClass({
             </li>
         )
     }
+});
+
+//历史任务
+const TaskHistory = React.createClass({
+    render(){
+    return (
+        <li>
+        <Button bsStyle="link">
+        <ul>
+        <li></li>
+        <li><h5>任务历史</h5></li>
+    </ul>
+    </Button>
+    </li>
+)
+}
+});
+//任务类型
+const TaskType = React.createClass({
+    render(){
+    return(
+        <li>
+        <ul className="list-inline">
+        <Arranged />
+        <OnGoing />
+        <ToBeDistributed />
+        </ul>
+        </li>
+)
+}
+});
+//已安排
+const Arranged = React.createClass({
+    render(){
+    return(
+        <li>
+        <Button bsStyle="link">
+        <ul className="list-inline">
+        <li className = "task-color arranged">1</li>
+        <li className = "type-text"><h5>已安排</h5></li>
+    </ul>
+    </Button>
+    </li>
+)
+}
+});
+//进行中
+const OnGoing = React.createClass({
+    render(){
+    return(
+        <li>
+        <Button bsStyle="link">
+        <ul className = "list-inline">
+        <li className ="task-color onGoing">1</li>
+        <li className ="type-text"><h5>进行中</h5></li>
+    </ul>
+    </Button>
+    </li>
+)
+}
+});
+//待派发
+const ToBeDistributed = React.createClass({
+    render(){
+    return(
+        <li>
+        <Button bsStyle="link">
+        <ul className="list-inline">
+        <li className = "task-color tobeDistributed">2</li>
+        <li className = "type-text"><h5>待派发</h5></li>
+    </ul>
+    </Button>
+    </li>
+)
+}
 });
 //列表
 const ListItem =React.createClass({
@@ -314,23 +391,59 @@ const PrintItem = React.createClass({
 });
 //人员信息
 const CarType = React.createClass({
+    mixins:[BackboneReactMixin],
     render(){
         return(
             <li>
                 <ul className="list-inline">
-                    <Driver />
-                    <Manager />
-                    <Other />
+                    <Driver  collection={this.getCollection()}/>
+                    <Manager collection={this.getCollection()}/>
+                    <Other  collection={this.getCollection()}/>
                 </ul>
             </li>
         )
     }
 });
 const Driver = React.createClass({
+    mixins:[BackboneReactMixin],
+    getInitialState(){
+        return{
+            driverCollection:'',
+            isDriver:false
+        }
+
+    },
+    handleClick(){
+       var driverCollection = this.getCollection().where({
+            Type:'0'
+        },false);
+       if(!this.state.isDriver){
+           this.setState({
+               driverCollection:driverCollection
+           },function(){
+               //发布全局事件，更新content中的内容
+               PubSub.publish('typeCollection',this.state.driverCollection);
+               this.setState({
+                   isDriver:true
+               })
+           });
+       } else{
+           this.setState({
+               driverCollection:this.state.collection
+           },function(){
+               //发布全局事件，更新content中的内容
+               PubSub.publish('typeCollection',this.state.driverCollection);
+               this.setState({
+                   isDriver:false
+               })
+           });
+       }
+
+    },
     render(){
         return(
             <li>
-                <Button bsStyle="link">
+                <Button bsStyle="link" onClick={this.handleClick}>
                     <ul className="list-inline">
                         <li className = "type-color driver">223</li>
                         <li className = "type-text"><h5>司机</h5></li>
@@ -342,10 +455,44 @@ const Driver = React.createClass({
 });
 //管理
 const Manager = React.createClass({
+    mixins:[BackboneReactMixin],
+    getInitialState(){
+        return{
+            managerCollection:'',
+            isManager:false
+        }
+    },
+    handleClick(){
+        var managerCollection = this.getCollection().where({
+            Type:'1'
+        },false);
+        if(!this.state.isManager){
+            this.setState({
+                managerCollection:managerCollection
+            },function(){
+                //发布全局事件，更新content中的内容
+                PubSub.publish('typeCollection',this.state.managerCollection);
+                this.setState({
+                    isManager:true
+                })
+            });
+        } else{
+            this.setState({
+                managerCollection:this.state.collection
+            },function(){
+                //发布全局事件，更新content中的内容
+                PubSub.publish('typeCollection',this.state.managerCollection);
+                this.setState({
+                    isManager:false
+                })
+            });
+        }
+
+    },
     render(){
         return(
             <li>
-                <Button bsStyle="link">
+                <Button bsStyle="link" onClick={this.handleClick}>
                     <ul className = "list-inline">
                         <li className ="type-color manager">223</li>
                         <li className ="type-text"><h5>管理</h5></li>
@@ -357,10 +504,43 @@ const Manager = React.createClass({
 });
 //其他
 const Other = React.createClass({
+    mixins:[BackboneReactMixin],
+    getInitialState(){
+        return{
+            otherCollection:'',
+            isOther:false
+        }
+    },
+    handleClick(){
+        var otherCollection = this.getCollection().where({
+            Type:'2'
+        },false);
+        if(!this.state.isOther){
+            this.setState({
+                otherCollection:otherCollection
+            },function(){
+                //发布全局事件，更新content中的内容
+                PubSub.publish('typeCollection',this.state.otherCollection);
+                this.setState({
+                    isOther:true
+                })
+            });
+        } else{
+            this.setState({
+                otherCollection:this.state.collection
+            },function(){
+                //发布全局事件，更新content中的内容
+                PubSub.publish('typeCollection',this.state.otherCollection);
+                this.setState({
+                    isOther:false
+                })
+            });
+        }
+    },
    render(){
        return(
            <li>
-               <Button bsStyle="link">
+               <Button bsStyle="link" onClick={this.handleClick}>
                    <ul className="list-inline">
                        <li className = "type-color other">223</li>
                        <li className = "type-text"><h5>其他</h5></li>
@@ -373,48 +553,61 @@ const Other = React.createClass({
 //搜索
 const innerSearchIcon = <div className="innerSearchIcon"></div>;
 const Search = React.createClass({
+    handleSelectChoose(value){
+
+    },
     render(){
         return(
             <li className = "search-item">
-                <Input type = "text"  bsSize="small" addonBefore={innerSearchIcon}></Input>
+                <SearchInput placeholder="搜索关键字" callbackParent = {this.handleSelectChoose} />
             </li>
-
         )
     }
 });
 //高级搜索
 const AdvancedSearchIcon = React.createClass({
-    getInitialState(){
-        return {open:false}
-    },
+
     render(){
         return(
             <li className = "advanced-search-item">
-                    <Button  bsStyle="link" onClick={ ()=> this.setState({ open: !this.state.open })}>
-                        <h5>高级搜索</h5>
-                    </Button>
-                {/*<Collapse in={this.state.open}>
-                    <div>
-                        <Well>
-                            Hello
-                        </Well>
-                    </div>
-                </Collapse>
-                */}
+                <Button  bsStyle="link" >
+                    <h5>高级搜索</h5>
+                </Button>
             </li>
         )
     }
 });
 //停用记录
 const OutageRecord = React.createClass({
+    mixins:[BackboneReactMixin],
+    gitInitialState(){
+        return{
+            isOutAgeCollection:''
+        }
+    },
+    componentDidMount(){
+        var isOutAgeCollection = this.getCollection().filter(function(item) {
+            return item.get("OutAge").value === "1";
+        });
+      this.setState({
+          isOutAgeCollection:isOutAgeCollection
+      })
+    },
+    handleChange(event){
+
+        if(event.target.checked){
+            PubSub.publish('typeCollection',this.state.isOutAgeCollection);
+        }else{
+            PubSub.publish('typeCollection',this.state.collection);
+        }
+    },
     render(){
         return(
             <li>
-                <Checkbox
-                    checkboxClass="icheckbox_minimal-green"
-                    increaseArea="20%"
-                    label="<span class='outage-record-text'>显示停用记录</span>"
-                    />
+                <label>
+                    <Checkbox onChange={this.handleChange}/>
+                   <span className = 'operation-color' style={{color:'#22384D'}}>显示停用记录</span>
+                 </label>
             </li>
         )
     }
@@ -469,10 +662,10 @@ const OperationItem= React.createClass({
                             </li>
                             <li className = "right-item">
                                 <ul className = "list-inline">
-                                    <CarType />
+                                    <CarType collection={staffData}/>
                                     <Search />
                                     <AdvancedSearchIcon />
-                                    <OutageRecord />
+                                    <OutageRecord collection = {staffData}/>
                                 </ul>
                             </li>
                         </ul>
@@ -482,6 +675,19 @@ const OperationItem= React.createClass({
                     return(
                         <span></span>
                     );
+                    break;
+                case 'task':
+                    return(
+                        <ul className="list-inline operation">
+                            <li className = "left-item">
+                                <ul className = "list-inline">
+                                    <AddItem pageShow={this.props.pageShow} collection={staffs}/>
+                                    <TaskHistory />
+                                    <TaskType />
+                                </ul>
+                            </li>
+                        </ul>
+                );
                     break;
             }
         }.bind(this);

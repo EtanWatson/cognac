@@ -1116,23 +1116,29 @@ const AddDialog  = React.createClass({
         var addTable = function(){
             switch (pageShow){
                 case 'staff':
-                       return(<AddTable
-                                    visible={this.state.visible}
-                                    callbackParentOfAdd={this.handleChildrenChange} collection={staffs}
-                                 />);
+                       return(
+                           <Modal  visible={this.state.visible}  footer="" closable={false} className = "add-modal">
+                               <AddTable
+                                        visible={this.state.visible}
+                                        callbackParentOfAdd={this.handleChildrenChange} collection={staffs}
+                                     />
+                           </Modal>
+                       );
                         break;
                 case 'vehicle':
-                        return(<AddTableOfVehicle
-                                        visible={this.state.visible}
-                                        callbackParentOfAdd={this.handleChildrenChange}
-                                    />);
+                        return(
+                            <Modal  visible={this.state.visible}  footer="" closable={false} className = "add-modal">
+                                <AddTableOfVehicle
+                                            visible={this.state.visible}
+                                            callbackParentOfAdd={this.handleChildrenChange}
+                                        />
+                            </Modal>);
                         break;
             }
         }.bind(this);
         return(
-            <Modal  visible={this.state.visible}  footer="" closable={false} className = "add-modal">
-                {addTable()}
-            </Modal>
+            <div>{addTable()}</div>
+
         )
     }
 
@@ -1149,6 +1155,8 @@ const SendMessageDialog = React.createClass({
             selectValueArray:[],
             searchSelectHeight:'100px'
         };
+    },
+    componentDidMount(){
 
     },
     componentWillReceiveProps(nextProps){
@@ -1157,7 +1165,7 @@ const SendMessageDialog = React.createClass({
             inputValue:this.state.model.Name.value
         });
     },
-        showModal(){
+    showModal(){
         this.setState({
             visible:true
         });
@@ -1200,25 +1208,12 @@ const SendMessageDialog = React.createClass({
         //this.setState({value: event.target.value});
     },
     handleSelectChoose(value){
-        //if(this.state.searchSelectHeight=='100px'){
-        //    $('.search-select').animate({'height':'365px'});
-        //    this.setState({
-        //        searchSelectHeight:'356px'
-        //})
-        //}else{
-        //    $('.search-select').animate({'height':'100px'});
-        //    this.setState({
-        //        searchSelectHeight:'100px'
-        //    })
-        //}
-
         this.setState({
             selectValue:value
         })
     },
     handleSelectFocus(event){
         $("input[name=cursor-field]").focus();
-        //console.log(event)
     },
     handlePressCancel(event){
         if(event.keyCode==8){
@@ -1232,7 +1227,6 @@ const SendMessageDialog = React.createClass({
         }
     },
     handleClickCancel(event){
-        console.log($(event.target).attr('data-index'));
         let tempArray = this.state.selectValueArray;
         tempArray.splice($(event.target).attr('data-index'),1);
         this.setState({
@@ -1272,14 +1266,14 @@ const SendMessageDialog = React.createClass({
                             <div className="search-select is-display" >
                                 <div className = "search-select-title">添加新的联系人</div>
                                 <SearchInput placeholder="搜索关键字" callbackParent = {this.handleSelectChoose} />
-                                <AntButton type="primary" size="large" style={{position:'absolute',bottom:'10px',left:'35px'}} onClick={this.handleAddName}>确认添加</AntButton>
+                                <AntButton type="primary" size="large" style={{position:'absolute',bottom:'10px',left:'30px'}} onClick={this.handleAddName}>确认添加</AntButton>
                             </div>
                         </Col>
                     </Row>
                     <Row type="flex" justify="start">
                         <Col span ="16" offset="4" className = "input-tip"><span className = "">使用"@姓名"可以快速添加短信内容</span></Col>
                     </Row>
-                    <Row>
+                    <Row className ="send-content">
                         <Col span = "4"><span>消息内容:</span></Col>
                         <Col span ="16" className = "input-textarea" ><AntInput type="textarea" placeholder="" /></Col>
                     </Row>

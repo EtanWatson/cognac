@@ -2,6 +2,7 @@
 import $ from 'jquery'
 import React from 'react';
 import {render} from 'react-dom';
+import {browserHistory,Link} from 'react-router'
 import {Row,Col} from 'antd';
 import  backboneReact  from 'backbone-react-component';
 import {Checkbox,Button} from 'antd';
@@ -135,25 +136,27 @@ const SettingCard = React.createClass({
        });
        return(
            <div>
-               <ul className = "list-inline">
-                   <li className = "header-img">
-                       <img src = "/img/icon_user_head_50_50_have_5.png"/>
-                   </li>
-                   <li className = "header-left">
-                       <h3 className = "name">预览名字</h3>
-                       <ul className = "list-inline">
-                           <li className = "circle circle-g">
-                               <img src="/img/icon_trip_normal.png" />
-                           </li>
-                           <li className = "circle-r is-display">
-                               <img src="/img/icon_trip_leave.png" />
-                           </li>
-                           <li className = "status"><h5>空闲</h5></li>
-                       </ul>
-                   </li>
-               </ul>
+               <div style={{height:'210px'}}>
+                   <ul className = "list-inline">
+                       <li className = "header-img">
+                           <img src = "/img/icon_user_head_50_50_have_5.png"/>
+                       </li>
+                       <li className = "header-left">
+                           <h3 className = "name">预览名字</h3>
+                           <ul className = "list-inline">
+                               <li className = "circle circle-g">
+                                   <img src="/img/icon_trip_normal.png" />
+                               </li>
+                               <li className = "circle-r is-display">
+                                   <img src="/img/icon_trip_leave.png" />
+                               </li>
+                               <li className = "status"><h5>空闲</h5></li>
+                           </ul>
+                       </li>
+                   </ul>
                {cardContent}
-               {staffType()}
+               </div>
+              {staffType()}
            </div>
        )
    }
@@ -186,6 +189,9 @@ const DriverSetting = React.createClass({
                 }
             ]
         }
+    },
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
     },
     componentWillMount(){
         backboneReact.on(this,{
@@ -302,7 +308,9 @@ const DriverSetting = React.createClass({
                         <Button type="primary" size="large">保存</Button>
                     </Col>
                     <Col span = "12" className = 'btn-right'>
-                        <Button type="primary" size="large" >返回</Button>
+                        <Link to="/">
+                            <Button type="primary" size="large" >返回</Button>
+                        </Link>
                     </Col>
                 </Row>
             </div>
@@ -443,7 +451,7 @@ const StaffSetting = React.createClass({
                             <Button type="primary" size="large">保存</Button>
                         </Col>
                         <Col span = "12" className = 'btn-right'>
-                                <Button type="primary" size="large" >返回</Button>
+                                <Button type="primary" size="large"  onClick={() => browserHistory.replace('/')}>返回</Button>
                         </Col>
                 </Row>
             </div>
@@ -612,7 +620,7 @@ const VehicleSetting = React.createClass({
                         <Button type="primary" size="large">保存</Button>
                     </Col>
                     <Col span = "12" className = 'btn-right'>
-                        <Button type="primary" size="large" ><a href='/'>返回</a></Button>
+                        <Button type="primary" size="large"  onClick={() => browserHistory.replace('/')}>返回</Button>
                     </Col>
                 </Row>
             </div>

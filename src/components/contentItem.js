@@ -7,7 +7,7 @@ import {Button,ButtonToolbar,Glyphicon} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
 import {columns,data} from '../data/listData';
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
-import {Button as AntButton,Icon,Row,Col,Modal,Checkbox,Popover} from 'antd';
+import {Button as AntButton,Icon,Row,Col,Modal,Checkbox,Popover,Spin} from 'antd';
 import {EditDialog,SendMessageDialog,LookDialog,popoverCheckMenu} from './toolComponents/dialogConponents';
 import FixedDataTable from 'fixed-data-table';
 const {Table, Column, Cell} = FixedDataTable;
@@ -288,25 +288,27 @@ const Card = React.createClass({
                <div className ={"card-style "+this.state.isHover}
                     onDoubleClick={this.handleDoubleClick}
                     onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
-                   <ul className = "list-inline">
-                       {this.handleToggleBatch()}
-                       <li className = "header-img">
-                           <img src = {item.HeadImg.value}/>
-                       </li>
-                       <li className = "header-left">
-                           <h3 className = "name">{item.Name.value}</h3>
-                           <ul className = "list-inline">
-                               <li className = "circle circle-g">
-                                    <img src="/img/icon_trip_normal.png" />
-                               </li>
-                               <li className = "circle-r is-display">
-                                   <img src="/img/icon_trip_leave.png" />
-                               </li>
-                               <li className = "status"><h5>{item.Status}</h5></li>
-                           </ul>
-                       </li>
-                   </ul>
-                   {showItem}
+                   <div style={{height:'210px'}}>
+                       <ul className = "list-inline">
+                           {this.handleToggleBatch()}
+                           <li className = "header-img">
+                               <img src = {item.HeadImg.value}/>
+                           </li>
+                           <li className = "header-left">
+                               <h3 className = "name">{item.Name.value}</h3>
+                               <ul className = "list-inline">
+                                   <li className = "circle circle-g">
+                                       <img src="/img/icon_trip_normal.png" />
+                                   </li>
+                                   <li className = "circle-r is-display">
+                                       <img src="/img/icon_trip_leave.png" />
+                                   </li>
+                                   <li className = "status"><h5>{item.Status}</h5></li>
+                               </ul>
+                           </li>
+                       </ul>
+                       {showItem}
+                   </div>
                    {staffType()}
                    <div  className ={"default-style "+this.state.isOpen}>
                        <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit} pageShow = {this.props.pageShow} model={this.getModel()}/>
@@ -318,6 +320,7 @@ const Card = React.createClass({
 });
 //列表显示组件
 const ListShow = React.createClass({
+   mixins:[BackboneReactMixin],
    getInitialState(){
         return{
             selectedRowKeys: [],
@@ -341,7 +344,6 @@ const ListShow = React.createClass({
      },1000)
    },
    onSelectChange(selectedRowKeys){
-     //console.log('selectedRowKeys changed: ', selectedRowKeys);
      this.setState({
        selectedRowKeys
      });
@@ -376,6 +378,22 @@ const ListShow = React.createClass({
                {data[rowIndex][col]}
            </Cell>
        );
+       let model = this.getCollection().get(1);
+
+       let listTable = model.values().map(function(list,index){
+           if(list.aliasName){
+               return(
+                   <Column key={index}
+                           header={<Cell className = "table-header">{list.aliasName}</Cell>}
+                           cell={<TextCell data={data} col="key" />}
+                           flexGrow={2}
+                           width={100}
+                           className = ''
+                       />
+               )
+           }
+       });
+       console.log(this)
        return(
            <div className = 'content-table' style={{textAlign:'center'}}>
                <Table
@@ -403,19 +421,7 @@ const ListShow = React.createClass({
                        width={50}
 
                        />
-                   <Column
-                       header={<Cell className = "table-header">编码</Cell>}
-                       cell={<TextCell data={data} col="key" />}
-                       flexGrow={2}
-                       width={100}
-                       className = ''
-                       />
-                   <Column
-                       header={<Cell className = "header-name table-header">姓名</Cell>}
-                       cell={<TextCell data={data} col="name" />}
-                       flexGrow={2}
-                       width={100}
-                       />
+                   {listTable}
                </Table>
            </div>
        )
@@ -427,11 +433,9 @@ const Content = React.createClass({
     getInitialState(){
       return{
           showWay:'card',
-          availableHeight:$(window).height()
-          //staffInfo:[]
+          availableHeight:$(window).height(),
+          loading:false
       }
-    },
-    componentWillMount(){
     },
     componentDidMount(){
         this.pubsub_token = PubSub.subscribe('showWay',function(topic,showWay){
@@ -439,6 +443,7 @@ const Content = React.createClass({
                 showWay:showWay
             })
         }.bind(this));
+        console.log('text');
     },
     componentWillUnmount(){
         PubSub.unsubscribe(this.pubsub_token);
@@ -447,11 +452,9 @@ const Content = React.createClass({
         $('.content-relative').animate({scrollTop:0},1000);
     },
     render(){
-        //var cardInfo= this.props.cardInfo;
         var cardInfo =this.state.collection;
         var typeText = this.props.typeTextInfo;
         var pageShow = this.props.pageShow;
-        //console.log('content pageShow：'+pageShow);
         var handleShowWay=function(){
                 var self = this;
                 if(this.state.showWay=='card'){
@@ -473,13 +476,14 @@ const Content = React.createClass({
                     )
                 }else{
                     return(
-                        <ListShow />
+                        <ListShow collection={this.getCollection()}/>
                     )
                 }
             }.bind(this);
         return (
             <div id="content" className="content">
                 {handleShowWay()}
+                <Spin spining={this.state.loading} size="large" className='spin-status'/>
             </div>
         )
     }

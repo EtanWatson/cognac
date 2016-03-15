@@ -10,7 +10,7 @@ import {Content} from './contentItem'
 import {staffInfo,staffTypeText} from '../data/cardData';
 import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
 import {navArray,settingNavArray} from '../data/navigation';
-import {staffData} from '../models/staffData'
+import {staffData,staffCollection} from '../models/staffData'
 //任务管理
 const TaskManage = React.createClass({
     render(){
@@ -25,13 +25,26 @@ const TaskManage = React.createClass({
 
 //职员信息
 const StaffInfo = React.createClass({
-    //在render之前，发布事件
+    getInitialState(){
+        return{
+            typeCollection:staffData
+        }
+    },
+    //注册全局事件,更新content显示内容
     componentDidMount(){
-        //PubSub.publish('content-show','staff');
+        this.typeCollectio_token = PubSub.subscribe('typeCollection',function(topic,typeCollection){
+            let typeList = new staffCollection(typeCollection);
+            this.setState({
+                typeCollection:typeList
+            })
+        }.bind(this));
+    },
+    componentWillUnmount(){
+        PubSub.unsubscribe(this.typeCollectio_token)
     },
     render(){
         return (
-            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'} collection={staffData}/>
+            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'} collection={this.state.typeCollection}/>
         )
     }
 
@@ -40,7 +53,6 @@ const StaffInfo = React.createClass({
 const VehicleRecord = React.createClass({
     //在render之前，发布事件
     componentDidMount(){
-      //PubSub.publish('content-show','vehicle')
     },
     render(){
         return (
@@ -83,23 +95,61 @@ const NavMenu = React.createClass({
       }
     },
     componentDidMount(){
+       console.log(this.props.pageShow);
+       var navBtnStatus = function(selector){
+           $('.'+selector).addClass('click');
+           $('.'+selector+' .default').addClass('is-display');
+           $('.'+selector+' .press').removeClass('is-display');
+       };
       //直接在local中输入 /setting时候调用
-      // alert('navComponent Mount');
+      // 刷新页面保持nav的按钮状态
       switch (this.props.pageShow){
-            case 'setting':
-                this.setState({
-                    navData : settingNavArray,
-                    baseUrl : '/setting'
-                });
-                break;
-            default:
-                this.setState({
-                    navData : navArray
-                });
-                break;
+          case 'setting':
+              this.setState({
+                  navData : settingNavArray,
+                  baseUrl : '/setting'
+              });
+              break;
+          case 'task':
+              navBtnStatus('taskManage');
+              this.setState({
+                  navData : navArray,
+                  baseUrl : ''
+              });
+              break;
+          case 'staff':
+              navBtnStatus('staffInfo');
+              this.setState({
+                  navData : navArray,
+                  baseUrl : ''
+              });
+              break;
+          case 'vehicle':
+              navBtnStatus('vehicleRecord');
+              this.setState({
+                  navData : navArray,
+                  baseUrl : ''
+              });
+              break;
+          case 'maintenance':
+              navBtnStatus('maintenance');
+              this.setState({
+                  navData : navArray,
+                  baseUrl : ''
+              });
+              break;
+          case 'leaveRecord':
+              navBtnStatus('leaveRecord');
+              this.setState({
+                  navData : navArray,
+                  baseUrl : ''
+              });
+              break;
+
         }
     },
     componentWillReceiveProps(nextProps){
+        console.log('nextProps');
         switch (nextProps.pageShow){
             case 'setting':
                 this.setState({
@@ -109,7 +159,8 @@ const NavMenu = React.createClass({
                 break;
             default:
                 this.setState({
-                    navData : navArray
+                    navData : navArray,
+                    baseUrl : ''
                 });
                 break;
         }
@@ -136,7 +187,7 @@ const NavMenu = React.createClass({
             if(item.key=='1'){
                 return(
                     <div className="link-box" key={item.key} >
-                        <IndexLink to={this.state.baseUrl+"/"} className="link-style" onClick={this.handleClick}>
+                        <IndexLink to={this.state.baseUrl+"/"} className={"link-style "+item.name} onClick={this.handleClick}>
                             <div className = "link-icon" >
                                 <div className ={item.icon+" icon default"}></div>
                                 <div className ={item.icon+"-press icon press is-display"}></div>
@@ -148,7 +199,7 @@ const NavMenu = React.createClass({
             }else{
                 return(
                     <div className="link-box" key={item.key} >
-                        <Link to={this.state.baseUrl+"/"+item.name} className="link-style" onClick={this.handleClick}>
+                        <Link to={this.state.baseUrl+"/"+item.name} className={"link-style "+item.name} onClick={this.handleClick}>
                             <div className = "link-icon" >
                                 <div className ={item.icon+" icon default"}></div>
                                 <div className ={item.icon+"-press icon press is-display"}></div>

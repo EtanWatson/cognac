@@ -81,6 +81,23 @@ body{
       .print-item-btn{
         background-image: url("/img/icon_print_default.png");
       }
+      .task-color{
+        width: 40px;
+        height: 20px;
+        padding: 0 !important;
+        color:white;
+        border-radius:5px;
+      }
+      .task-color.arranged{
+        margin-left:30px;
+        background-color:#58C5E4;
+      }
+      .task-color.onGoing{
+        background-color:#F0C22F;
+      }
+      .task-color.tobeDistributed{
+        background-color:#7ED320;
+      }
     }
     .right-item{
       float: right;
@@ -107,18 +124,15 @@ body{
       .search-item{
         position: relative;
         top: 10px;
-        width: 35%;
-        .innerSearchIcon{
-          width: 13px;
-          height: 13px;
-          background-image: url("/img/icon_search.png");
-          background-repeat: no-repeat;
-        }
-        .form-group{
-          margin-bottom: 0;
-          .input-group-addon{
-            background-color:#ffffff;
-          }
+        width: 30%;
+        .search-btn{
+          padding: 0 !important;
+          border-left: 0;
+          position: relative;
+          left: 10px;
+          background-color: #fff;
+          top: 0;
+          color: #666;
         }
       }
       .outage-record-text{

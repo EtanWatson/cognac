@@ -14,7 +14,7 @@
     position: absolute;
     top: -5px;
     border: 1px solid #cfd0d4;
-    height: 100px;
+    height: 260px;
     left: 20px;
     width: 150px; }
     .ant-modal-container .plus-icon-box .search-select .search-select-title {
@@ -24,7 +24,7 @@
       top: 0; }
 .ant-modal-container .input-tip {
   text-align: left;
-  padding-top: 5px; }
+  padding-top: 15px; }
 .ant-modal-container .input-textarea textarea {
   height: 320px; }
 .ant-modal-container .send-btn {
@@ -157,7 +157,6 @@
     box-sizing: border-box;
     display: block;
     background-color: #fff;
-    border-bottom: 1px solid #d9d9d9;
     -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
     .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content {
@@ -165,8 +164,7 @@
       text-overflow: ellipsis;
       padding-left: 6px;
       padding-bottom: 4px;
-      position: relative;
-      top: 3px; }
+      border-bottom: 1px solid #d9d9d9; }
       .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content li {
         list-style: none; }
       .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .cursor-warp {
@@ -199,6 +197,7 @@
         transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         padding: 0 20px 0 10px; }
         .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .select-item .item-content {
+          padding-top: 5px;
           display: inline-block;
           white-space: nowrap;
           overflow: hidden;
@@ -228,13 +227,18 @@
           zoom: 1;
           position: absolute;
           right: 4px;
-          padding: 0 0 0 8px; }
+          padding: 6px 0 0 8px; }
         .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .select-item .item-remove::before {
           content: "\E62D";
           display: block;
           font-family: "anticon" !important; }
+.ant-modal-container .send-message-modal .send-content {
+  padding-top: 5px; }
 
 .form-cascader {
   z-index: 1000; }
+
+.ant-select-dropdown-menu {
+  max-height: 155px !important; }
 
 /*# sourceMappingURL=tool.css.map */

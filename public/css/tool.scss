@@ -21,8 +21,7 @@
       position: absolute;
       top: -5px;
       border: 1px solid #cfd0d4;
-      //height: 365px;
-      height: 100px;
+      height: 260px;
       left: 20px;
       width: 150px;
       .ant-input-group-wrap{
@@ -34,7 +33,7 @@
   }
   .input-tip{
     text-align: left;
-    padding-top:5px;
+    padding-top:15px;
   }
   .input-textarea{
     textarea{
@@ -220,8 +219,7 @@
             box-sizing: border-box;
             display: block;
             background-color: #fff;
-            //border-radius: 6px;
-            border-bottom: 1px solid #d9d9d9;
+            //border-bottom: 1px solid #d9d9d9;
             -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
             transition: all .3s cubic-bezier(.645, .045, .355, 1);
             .send-select-content{
@@ -229,8 +227,7 @@
               text-overflow: ellipsis;
               padding-left: 6px;
               padding-bottom: 4px;
-              position: relative;
-              top: 3px;
+              border-bottom: 1px solid #d9d9d9;
               li{
                 list-style: none;
               }
@@ -268,6 +265,7 @@
                 transition: padding .3s cubic-bezier(.645, .045, .355, 1);
                 padding: 0 20px 0 10px;
                 .item-content{
+                  padding-top: 5px;
                   display: inline-block;
                   white-space: nowrap;
                   overflow: hidden;
@@ -299,7 +297,7 @@
                   zoom: 1;
                   position: absolute;
                   right: 4px;
-                  padding: 0 0 0 8px;
+                  padding: 6px 0 0 8px;
                 }
                 .item-remove::before{
                   content: "\E62D";
@@ -310,6 +308,9 @@
             }
           }
       }
+      .send-content{
+        padding-top: 5px;
+      }
   }
 
 
@@ -317,4 +318,7 @@
 //级联选择框浮层类
 .form-cascader{
   z-index: 1000;
+}
+.ant-select-dropdown-menu{
+  max-height:155px !important;
 }

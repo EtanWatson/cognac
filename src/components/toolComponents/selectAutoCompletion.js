@@ -54,7 +54,7 @@ const SearchInput = React.createClass({
         //console.log('输入框内容是: ', this.state.value);
     },
     handleFocusBlur(e) {
-        this.props.callbackParent(value);
+        //this.props.callbackParent(value);
         this.setState({
             focus: e.target === document.activeElement
         });
@@ -84,7 +84,7 @@ const SearchInput = React.createClass({
                     {this.state.data.map(d => <Option key={d.value}>{d.text}</Option>)}
                 </Select>
                 <div className="ant-input-group-wrap">
-                    <Button className={btnCls} onClick={this.handleSubmit}>
+                    <Button className={btnCls+' search-btn'} onClick={this.handleSubmit}>
                         <Icon type="search" />
                     </Button>
                 </div>
