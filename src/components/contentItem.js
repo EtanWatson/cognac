@@ -6,9 +6,10 @@ import {render} from 'react-dom';
 import {Button,ButtonToolbar,Glyphicon} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
 import {columns,data} from '../data/listData';
+import _ from 'backbone/node_modules/underscore'
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
 import {Button as AntButton,Icon,Row,Col,Modal,Checkbox,Popover,Spin} from 'antd';
-import {EditDialog,SendMessageDialog,LookDialog,popoverCheckMenu} from './toolComponents/dialogConponents';
+import {EditDialog,SendMessageDialog,LookDialog} from './toolComponents/dialogConponents';
 import FixedDataTable from 'fixed-data-table';
 const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
@@ -79,7 +80,7 @@ const HoverItem = React.createClass({
                 <li>
                     <Button  bsStyle="link" onClick={this.handleDeleteClick}><img src="/img/icon_delete.png" /></Button>
                 </li>
-               <EditDialog isEdit={this.state.isEdit} cardInfo={this.props.cardInfo} pageShow={this.props.pageShow} callbackParent = {this.onChildChangeEdit} model={this.getModel()} />
+               <EditDialog isEdit={this.state.isEdit}  pageShow={this.props.pageShow} callbackParent = {this.onChildChangeEdit} model={this.getModel()} />
                <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.onChildChangeSendMessage} model={this.getModel()} />
            </ul>
 
@@ -292,7 +293,7 @@ const Card = React.createClass({
                        <ul className = "list-inline">
                            {this.handleToggleBatch()}
                            <li className = "header-img">
-                               <img src = {item.HeadImg.value}/>
+                               <img src = {item.HeadImg}/>
                            </li>
                            <li className = "header-left">
                                <h3 className = "name">{item.Name.value}</h3>
@@ -328,7 +329,14 @@ const ListShow = React.createClass({
             allChecked:false,
             allCheckClassName:"is-display",
             oneChecked:false,
-            dataValue:0
+            //dataValue:0,
+            tableWidth:1024,
+            tableHeight:500,
+            isLook:false,
+            staffInfo:'',
+            listModel:this.getCollection().get(0),
+            listHeader:[],
+            listHeaderCopy:[]
         };
    },
    start(){
@@ -343,9 +351,36 @@ const ListShow = React.createClass({
          });
      },1000)
    },
-   onSelectChange(selectedRowKeys){
-     this.setState({
-       selectedRowKeys
+   componentWillMount(){
+       var height = $(window).height();
+       var width = $(window).width();
+       let listHeadTemp = [];
+       let model = this.state.listModel;
+       let listHeadKeys = model.keys();
+       model.values().map(function(list,index){
+           if(list.aliasName){
+               listHeadTemp.push({
+                   aliasName:list.aliasName,
+                   key:listHeadKeys[index]
+               })
+           }
+       });
+      this.setState({
+          listHeader:listHeadTemp,
+          listHeaderCopy:listHeadTemp,
+          tableWidth:width*0.80,
+          tableHeight:height*0.80
+      })
+   },
+   onSelectChange(e){
+       e.preventDefault();
+       let modelId = $(e.target).parents('.fixedDataTableCellGroupLayout_cellGroup').children().last().find('.table-cell').attr('data-id');
+       let selectedRowKeysTemp = this.state.selectedRowKeys;
+       selectedRowKeysTemp.push(modelId);
+       selectedRowKeysTemp = _.uniq(selectedRowKeysTemp);
+       console.log(selectedRowKeysTemp);
+       this.setState({
+        selectedRowKeys:selectedRowKeysTemp
      });
    },
    handleRowClick(e){
@@ -355,55 +390,102 @@ const ListShow = React.createClass({
        let thisTableCell = $(e.target).parents('.fixedDataTableCellGroupLayout_cellGroup').find('.table-cell');
        $(thisTableCell).addClass('item-click');
        $(thisTableCell).find('.icon').removeClass('is-display');
+       //$(thisTableCell).find('.ant-checkbox').addClass("ant-checkbox-checked","ant-checkbox-checked-1")
    },
-   handleDoubleClick(){
+   handleDoubleClick(e){
+       var staffId = $(e.target).parents('.public_fixedDataTableCell_main').find('.table-cell').attr('data-id');
+       var staffInfo = this.getCollection().get(staffId);
+       this.setState({
+           staffInfo:staffInfo
+       },function(){
+            this.setState({
+                isLook:true
+            })
+       });
    },
     handleSelectAll(){
-      this.state.allChecked?this.setState({allChecked:false,allCheckClassName:'is-display'}):this.setState({allChecked:true,allCheckClassName:''})
+        if(this.state.allChecked){
+            this.setState({allChecked:false,allCheckClassName:'is-display',selectedRowKeys:[]})
+        }else{
+            var selectedTemp=[];
+            this.state.collection.map(function(item,index){
+
+            });
+        }
     },
-    handelCheckboxChange(e) {
-        e.preventDefault();
-      this.state.oneChecked?this.setState({oneChecked:false,allCheckClassName:'is-display'}):this.setState({oneChecked:true,allCheckClassName:''})
+    onChildChangeLook(){
+        this.setState({
+            isLook:false
+        })
+    },
+    listProverCheck(e){
+        let dataKey = e.target.data_key;
+        let dataName = e.target.data_name;
+        let dataIndex = e.target.data_index;
+        if(e.target.checked){
+            let listHeadTemp = this.state.listHeader;
+            listHeadTemp.splice(dataIndex,0,{
+                aliasName:dataName,
+                key:dataKey
+            });
+            this.setState({
+                listHeader:listHeadTemp
+            })
+        }else{
+            let listHeadTemp = this.state.listHeader;
+             listHeadTemp = _.filter(listHeadTemp , function(item){ return  item.key !==dataKey; });
+            this.setState({
+                listHeader:listHeadTemp
+            })
+        }
     },
    render(){
-       const {loading,selectedRowKeys} = this.state;
-       const rowSelection ={
-           selectedRowKeys,
-           onChange: this.onSelectChange
-       };
-       const hasSelected = selectedRowKeys.length > 0;
-
+       let listHeader = this.state.listHeader;
+       let listHeaderCopy = this.state.listHeaderCopy;
+       let popoverCheckContent =listHeaderCopy.map(function(list,index){
+               return(
+                   <label key={index} className = "list-popover-check">
+                       <Checkbox defaultChecked={true} onChange={this.listProverCheck} className="" data_key={list.key} data_name={list.aliasName} data_index={index}/>
+                       {list.aliasName}
+                   </label>
+               )
+       }.bind(this));
+       //checkbox下拉框(列表)
+       let popoverCheckMenu = (
+           <div className = 'popover-check-menu'>
+               {popoverCheckContent}
+           </div>
+       );
        const TextCell = ({rowIndex,data,col,...props})=>(
-           <Cell className = "table-cell text-name" {...props}>
-               {data[rowIndex][col]}
+           <Cell data-id ={data[rowIndex].id} className = "table-cell text-name"   onClick={this.handleRowClick} onDoubleClick={this.handleDoubleClick}  {...props}>
+               {data[rowIndex][col].value}
            </Cell>
        );
-       let model = this.getCollection().get(1);
-
-       let listTable = model.values().map(function(list,index){
-           if(list.aliasName){
-               return(
-                   <Column key={index}
-                           header={<Cell className = "table-header">{list.aliasName}</Cell>}
-                           cell={<TextCell data={data} col="key" />}
-                           flexGrow={2}
-                           width={100}
-                           className = ''
-                       />
-               )
-           }
-       });
-       console.log(this)
+       let listTable = listHeader.map(function(list,index){
+               if(list.aliasName){
+                   return(
+                       <Column key={index}
+                               header={<Cell className = "table-header">{list.aliasName}</Cell>}
+                               cell={<TextCell data={this.state.collection} col={list.key} />}
+                               isResizable={true}
+                               flexGrow={1}
+                               width={100}
+                               className = ''
+                               columnKey={index}
+                           />
+                   )
+               }
+       }.bind(this));
+       listTable = _.filter(listTable, function(item){ return typeof item !=='undefined'; });
        return(
            <div className = 'content-table' style={{textAlign:'center'}}>
                <Table
                    rowHeight={50}
-                   rowsCount={data.length}
-                   width={1024}
-                   height={500}
+                   rowsCount={this.state.collection.length}
+                   width={this.state.tableWidth}
+                   height={this.state.tableHeight}
                    headerHeight={50}
-                   onRowClick={this.handleRowClick}
-                   onRowDoubleClick={this.handleDoubleClick}
+                   onColumnResizeEndCallback={this.onColumnResizeEndCallback}
                    >
                    <Column
                        header={<Cell className='table-header select-dialog-cell'>
@@ -417,12 +499,14 @@ const ListShow = React.createClass({
                        />
                    <Column
                        header={<Cell className = 'all-select table-header' onClick={this.handleSelectAll}>全选</Cell>}
-                       cell={<Cell className ='table-cell'><div className ={this.state.allCheckClassName} data-value={this.state.dataValue} onClick={this.handelCheckboxChange}><Icon type="check" /></div></Cell>}
+                       cell={<Cell className ='table-cell' onClick={this.onSelectChange}><Icon type="check" className ={this.state.allCheckClassName} /></Cell>}
                        width={50}
 
                        />
                    {listTable}
                </Table>
+               <EditDialog isEdit={this.state.isEdit}  pageShow={this.props.pageShow} callbackParent = {this.onChildChangeEdit} model={this.getModel()} />
+               <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} model={this.state.staffInfo} pageShow = {this.props.pageShow} />
            </div>
        )
    }
@@ -476,7 +560,7 @@ const Content = React.createClass({
                     )
                 }else{
                     return(
-                        <ListShow collection={this.getCollection()}/>
+                        <ListShow collection={this.getCollection()} pageShow = {pageShow}/>
                     )
                 }
             }.bind(this);

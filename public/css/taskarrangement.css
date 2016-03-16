@@ -1,0 +1,76 @@
+.ant-modal .ant-modal-content .ant-modal-body {
+  padding: 0; }
+  .ant-modal .ant-modal-content .ant-modal-body .add-task .title {
+    font-size: 14px;
+    width: 561px;
+    height: 40px;
+    line-height: 40px;
+    color: #495669;
+    background-color: #F1F1F1;
+    font-weight: bold; }
+  .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content {
+    width: 561px;
+    height: 400px;
+    background-color: white;
+    text-align: justify; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content ul {
+      padding-top: 2px; }
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content ul .creator {
+        text-align: center; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li {
+      margin-top: 10px; }
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li .startDate {
+        background-color: #EDF4FE;
+        margin-top: -10px;
+        width: 508px;
+        margin: 0 auto;
+        padding-bottom: 5px; }
+        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li .startDate .ant-calendar-picker {
+          width: 100px; }
+        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li .startDate label {
+          margin-left: 20px; }
+        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li .startDate .endDate {
+          margin-left: 96px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .create-task-submit {
+      margin: 5px auto;
+      width: 508px; }
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .create-task-submit .btn {
+        width: 100px;
+        height: 40px; }
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .create-task-submit .create-btn {
+        float: left;
+        background-color: #2AA2DE;
+        color: white; }
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .create-task-submit .cancel-btn {
+        float: right;
+        background-color: #DFE3EF; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content label {
+      margin-left: 50px;
+      color: #495669; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .Perio-task {
+      margin-left: 27px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content span {
+      color: #495669;
+      font-weight: bold; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .span1 {
+      margin-left: 50px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .span2 {
+      margin-left: 24px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content input {
+      border: 1px solid #C6C6C8;
+      border-radius: 3px;
+      height: 28px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .inputBox {
+      width: 150px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .ant-calendar-picker {
+      width: 150px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .inputBox-long {
+      width: 410px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .number {
+      margin-left: 10px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .destination {
+      margin-left: 191px; }
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .people {
+      margin-left: 62px; }
+
+/*# sourceMappingURL=taskarrangement.css.map */

@@ -72,7 +72,7 @@ let EditTable = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
-        let cardInfo = this.state.model;
+        let staffInfo = this.state.model;
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'edit-form'>
                <div className = "up-info">
@@ -83,7 +83,7 @@ let EditTable = React.createClass({
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>{cardInfo.Name.value}</h3>
+                            <h3>{staffInfo.Name.value}</h3>
                             <Row type = "flex">
                                 <Col span = "4">
                                     <div className ="type-icon right icon"></div>
@@ -102,8 +102,8 @@ let EditTable = React.createClass({
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
-                               label="编码：" labelCol={{span: 8}} required>
-                               <AntInput type="text" {...getFieldProps('Code')} placeholder="请输入密码"/>
+                               label={staffInfo.Code.aliasName+"："} labelCol={{span: 8}} required>
+                               <AntInput type="text" {...getFieldProps('Code')} placeholder=""/>
                            </FormItem>
                        </Col>
                        <Col span = '12'></Col>
@@ -112,17 +112,17 @@ let EditTable = React.createClass({
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
-                               label="所在部门：" labelCol={{span: 8}}>
-                               <AntInput type="text" {...getFieldProps('Section')} placeholder="请输入密码"/>
+                               label={staffInfo.Section.aliasName+"："} labelCol={{span: 8}}>
+                               <AntInput type="text" {...getFieldProps('Section')} placeholder=""/>
                            </FormItem>
                        </Col>
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
-                               label="性别：" required>
+                               label={staffInfo.Gender.aliasName+"："} required>
                                <RadioGroup {...getFieldProps('Gender', { initialValue: 'female' })}>
-                                   <Radio value="male">男的</Radio>
-                                   <Radio value="female">女的</Radio>
+                                   <Radio value="0">男的</Radio>
+                                   <Radio value="1">女的</Radio>
                                </RadioGroup>
                            </FormItem>
                        </Col>
@@ -131,7 +131,7 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label="身份证号：" labelCol={{span: 8}} required>
+                               label={staffInfo.Id.aliasName+"："} labelCol={{span: 8}} required>
                                <AntInput type="text" placeholder="" {...getFieldProps('Id')} />
                            </FormItem>
                        </Col>
@@ -141,7 +141,7 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label="家庭住址：" labelCol={{span: 8}}>
+                               label={staffInfo.Address.aliasName+"："} labelCol={{span: 8}}>
                                <AntInput type="text" placeholder="" {...getFieldProps('Address')} />
                            </FormItem>
                        </Col>
@@ -151,14 +151,14 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label="入职日期：" labelCol={{span: 8}} >
+                               label={staffInfo.JoinData.aliasName+"："} labelCol={{span: 8}} >
                                <DatePicker  {...getFieldProps('JoinData')}/>
                            </FormItem>
                        </Col>
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label="手机：" required>
+                               label={staffInfo.PhoneNumber.aliasName+"："} required>
                                <AntInput type="text" placeholder="" {...getFieldProps('PhoneNumber')} />
                            </FormItem>
                        </Col>
@@ -167,7 +167,7 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label="备注：" labelCol={{span: 8}} required>
+                               label={staffInfo.Remark.aliasName+"："} labelCol={{span: 8}} required>
                                <AntInput type="text" placeholder="" {...getFieldProps('Remark')} />
                            </FormItem>
                        </Col>
@@ -177,7 +177,7 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label="是否停用:" labelCol={{span: 8}}>
+                               label={staffInfo.OutAge.aliasName+":"} labelCol={{span: 8}}>
                                <label className = "isOutage">
                                    <Checkbox {...getFieldProps('OutAge')} />
                                </label>
@@ -196,7 +196,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label="驾驶证号：" labelCol={{span: 8}} required>
+                                       label={staffInfo.DrivingLicense.aliasName+"："} labelCol={{span: 8}} required>
                                        <AntInput type="text" placeholder="" {...getFieldProps('DrivingLicense')} />
                                    </FormItem>
                                </Col>
@@ -206,7 +206,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label="有效期限：" labelCol={{span: 8}} required>
+                                       label={staffInfo.ValidDate.aliasName+"："} labelCol={{span: 8}} required>
                                        <DatePicker {...getFieldProps('ValidDate')} />
                                    </FormItem>
                                </Col>
@@ -216,7 +216,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label="发证机关：" labelCol={{span: 8}} required>
+                                       label={staffInfo.AuthorizedBy.aliasName+"："} labelCol={{span: 8}} required>
                                        <AntInput type="text" placeholder="" {...getFieldProps('AuthorizedBy')} />
                                    </FormItem>
                                </Col>
@@ -226,7 +226,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label="年审到期：" labelCol={{span: 8}} required>
+                                       label={staffInfo.AnnualExamination.aliasName+"："} labelCol={{span: 8}} required>
                                        <DatePicker  {...getFieldProps('AnnualExamination')}/>
                                    </FormItem>
                                </Col>
@@ -236,7 +236,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label="领证日期：" labelCol={{span: 8}} required>
+                                       label={staffInfo.StartLicenseData.aliasName+"："} labelCol={{span: 8}} required>
                                        <DatePicker  {...getFieldProps('StartLicenseData')} />
                                    </FormItem>
                                </Col>
@@ -246,7 +246,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label="准驾车型：" labelCol={{span: 8}} required>
+                                       label={staffInfo.LicenseType.aliasName+"："} labelCol={{span: 8}} required>
                                        <Cascader  options={licenseTypeOptions} expandTrigger="hover" popupClassName="form-cascader"
                                                   displayRender={displayRender}  {...getFieldProps('LicenseType')} />
                                    </FormItem>
@@ -574,7 +574,7 @@ const EditDialog = React.createClass({
                     return(<EditTable model={this.getModel()}
                         visible={this.state.visible}
                         callbackParentOfEdit={this.handleChildrenChange}
-                        cardInfo = {cardInfo}/>);
+                       />);
                     break;
                 case 'vehicle':
                     return(<EditTableVehicle  model={this.getModel()}
@@ -592,6 +592,120 @@ const EditDialog = React.createClass({
         )
     }
 });
+//添加条目table(task)
+let AddTask = React.createClass({
+    mixins:[BackboneReactMixin],
+    handleSubmit(e) {
+        e.preventDefault();
+        console.log('收到表单值：', this.props.form.getFieldsValue());
+        let formValue = this.props.form.getFieldsValue().id='12233';
+        this.getCollection().push(this.props.form.getFieldsValue());
+        //console.log('保存表单值'+this.state.collection);
+        this.props.callbackParentOfAdd(true);
+    },
+    handleCancel(){
+        this.props.callbackParentOfAdd(false);
+    },
+    handleUpload(){
+
+    },
+    createEntry: function (entry) {
+    },
+    render() {
+        const { getFieldProps } = this.props.form;
+        return (
+            <Form onSubmit={this.handleSubmit} className = 'add-task'>
+                <div className="title">添&nbsp;加&nbsp;任&nbsp;务</div>
+                <div className="task-content">
+                    <ul>
+                        <li className="first-messsage">
+                            <span className="span1">编</span><span className="span2">码：</span>
+                            <span className="number">1</span>
+                            <label for="" className="destination">&nbsp;目的地：</label>
+                            <input className="inputBox" type="text"/>
+                        </li>
+                        <li>
+                            <label className="people" for="">用车人：</label>
+                            <input className="inputBox" type="text"/>
+                            <label for="">用车时间：</label>
+                            <DatePicker placeholder="" {...getFieldProps('JoinData')} />
+                        </li>
+                        <li>
+                            <label for="">估计用时：</label>
+                            <input className="inputBox" type="text"/>
+                            <label for="">用车原因：</label>
+                            <input className="inputBox" type="text"/>
+                        </li>
+                        <li>
+                            <label for="">申请车型：</label>
+                            <input className="inputBox" type="text"/>
+                            <label for="">随车人数：</label>
+                            <input className="inputBox" type="text"/>
+                        </li>
+                        <li>
+                            <label for="">出车备注：</label>
+                            <input className="inputBox-long" type="text"/>
+                        </li>
+                        <li>
+                            <label className="Perio-task">
+                                <Checkbox defaultChecked={false}/>
+                                周期任务
+                            </label>
+                        </li>
+                        <li>
+                            <ul className="startDate">
+                                <li>
+                                    <label for="">起始日期：</label>
+                                    <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
+                                    <label className="endDate" for="">结束日期(选填)：</label>
+                                    <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
+                                </li>
+                                <li>
+                                    <label for="">起始日期：</label>
+                                    <label>
+                                        <Checkbox defaultChecked={false}/>
+                                        日
+                                    </label>
+                                    <label>
+                                        <Checkbox defaultChecked={false}/>
+                                        一
+                                    </label>
+                                    <label>
+                                        <Checkbox defaultChecked={false}/>
+                                        二
+                                    </label>
+                                    <label>
+                                        <Checkbox defaultChecked={false}/>
+                                        三
+                                    </label>
+                                    <label>
+                                        <Checkbox defaultChecked={false}/>
+                                        四
+                                    </label>
+                                    <label>
+                                        <Checkbox defaultChecked={false}/>
+                                        五
+                                    </label>
+                                    <label>
+                                        <Checkbox defaultChecked={false}/>
+                                        六
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className="creator">任务创建人：admin</li>
+                        <li className="create-task-submit">
+                            <button className="btn create-btn">创建任务</button>
+                            <button className="btn cancel-btn">取消</button>
+                        </li>
+                    </ul>
+                </div>
+            </Form>
+        );
+    }
+});
+//添加条目table(task)
+AddTask = Form.create()(AddTask);
 //添加条目table(staff)
 let AddTable = React.createClass({
     mixins:[BackboneReactMixin],
@@ -1134,6 +1248,15 @@ const AddDialog  = React.createClass({
                                         />
                             </Modal>);
                         break;
+                case 'task':
+                    return(
+                        <Modal  visible={this.state.visible}  footer="" closable={false} className = "add-task">
+                           <AddTask  visible={this.state.visible}
+                                     callbackParentOfAdd={this.handleChildrenChange}
+                               />
+                        </Modal>
+                    );
+                    break;
             }
         }.bind(this);
         return(
@@ -1293,9 +1416,9 @@ const SendMessageDialog = React.createClass({
 });
 //查看信息table（staff）
 let LookTable = React.createClass({
+    mixins:[BackboneReactMixin],
     handleEdit(e) {
         e.preventDefault();
-        //PubSub.publish('join-edit',this);
         this.props.callbackParentOfLook('isEdit');
     },
     handleCancel(){
@@ -1303,6 +1426,7 @@ let LookTable = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
+        let staffInfo = this.state.model;
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'look-form'>
                 <div className = "up-info">
@@ -1313,7 +1437,7 @@ let LookTable = React.createClass({
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>赵日天</h3>
+                            <h3>{staffInfo.Name.value}</h3>
                             <Row type = "flex">
                                 <Col span = "4">
                                     <div className ="type-icon right icon"></div>
@@ -1332,8 +1456,8 @@ let LookTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label="编码：" required>
-                                <p>编码</p>
+                                label={staffInfo.Code.aliasName+"："} required>
+                                <p>{staffInfo.Code.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'></Col>
@@ -1342,15 +1466,15 @@ let LookTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label="所在部门：" >
-                                <p>所在部门</p>
+                                label={staffInfo.Section.aliasName+"："} >
+                                <p>{staffInfo.Section.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label="性别：" required>
-                                <p>性别</p>
+                                label={staffInfo.Gender.aliasName+"："} required>
+                                <p>{staffInfo.Gender.value}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1358,8 +1482,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="身份证号：" required>
-                                <p>身份证号</p>
+                                label={staffInfo.Id.aliasName+"："} required>
+                                <p>{staffInfo.Id.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1368,8 +1492,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="家庭住址：">
-                                <p>家庭住址</p>
+                                label={staffInfo.Address.aliasName+"："}>
+                                <p>{staffInfo.Address.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1378,15 +1502,15 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="入职日期：">
-                                <p>入职日期</p>
+                                label={staffInfo.JoinData.aliasName+"："}>
+                                <p>{staffInfo.JoinData.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="手机：" required>
-                                <p>手机</p>
+                                label={staffInfo.PhoneNumber.aliasName+"："} required>
+                                <p>{staffInfo.PhoneNumber.value}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1394,8 +1518,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="备注：" required>
-                                <p>备注</p>
+                                label={staffInfo.Remark.aliasName+"："} required>
+                                <p>{staffInfo.Remark.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1404,7 +1528,7 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="是否停用:">
+                                label={staffInfo.OutAge.aliasName+":"}>
                                 <label className = "isOutage">
                                     <Checkbox {...getFieldProps('outage')} defaultChecked={false} disabled/>
                                 </label>
@@ -1423,8 +1547,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="驾驶证号："  required>
-                                        <p>驾驶证号</p>
+                                        label={staffInfo.DrivingLicense.aliasName+"："}  required>
+                                        <p>{staffInfo.DrivingLicense.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1433,8 +1557,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="有效期限：" required>
-                                        <p>有效期限</p>
+                                        label={staffInfo.ValidDate.aliasName+"："} required>
+                                        <p>{staffInfo.ValidDate.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1443,8 +1567,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="发证机关："  required>
-                                        <p>发证机关</p>
+                                        label={staffInfo.AuthorizedBy.aliasName+"："}  required>
+                                        <p>{staffInfo.AuthorizedBy.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1453,8 +1577,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="年审到期："  required>
-                                        <p>年审到期</p>
+                                        label={staffInfo.AnnualExamination.aliasName+"："}  required>
+                                        <p>{staffInfo.AnnualExamination.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1463,8 +1587,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="领证日期：" required>
-                                        <p>领证日期</p>
+                                        label={staffInfo.StartLicenseData.aliasName+"："} required>
+                                        <p>{staffInfo.StartLicenseData.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1473,8 +1597,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label="准驾车型："  required>
-                                        <p>准驾车型</p>
+                                        label={staffInfo.LicenseType.aliasName+"："}  required>
+                                        <p>{staffInfo.LicenseType.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1765,6 +1889,7 @@ let LookTableVehicle = React.createClass({
 LookTableVehicle = Form.create()(LookTableVehicle);
 //查看信息弹窗
 const LookDialog = React.createClass({
+    mixins:[BackboneReactMixin],
     getInitialState(){
         return{
             visible : false
@@ -1784,18 +1909,16 @@ const LookDialog = React.createClass({
         this.setState({
             visible:false
         });
-        //console.log('isChangeLookOfEdit');
         this.props.callbackParent(isChange);
     },
     render(){
-        //console.log("LookDialog pageShow:"+this.props.pageShow);
         let pageShow = this.props.pageShow;
         var lookTable = function(){
             switch (pageShow){
                 case 'staff':
                     return(<LookTable
                         visible={this.state.visible}
-                        callbackParentOfLook={this.handleChildrenChange}
+                        callbackParentOfLook={this.handleChildrenChange} model={this.getModel()}
                         />);
                     break;
                 case 'vehicle':
@@ -1814,41 +1937,4 @@ const LookDialog = React.createClass({
     }
 });
 
-//checkbox下拉框(列表)
-const popoverCheckMenu = (
-    <div className = 'popover-check-menu'>
-        <label>
-            <Checkbox />
-            测试框一
-        </label>
-        <label>
-            <Checkbox  />
-            测试框二
-        </label>
-        <label>
-            <Checkbox />
-            测试框三
-        </label>
-        <label>
-            <Checkbox />
-            测试框三
-        </label>
-        <label>
-            <Checkbox />
-            测试框三
-        </label>
-        <label>
-            <Checkbox />
-            测试框三
-        </label>
-        <label>
-            <Checkbox />
-            测试框三
-        </label>
-        <label>
-            <Checkbox />
-            测试框三
-        </label>
-    </div>
-);
-export{EditDialog,SendMessageDialog,AddDialog,LookDialog,popoverCheckMenu}
+export{EditDialog,SendMessageDialog,AddDialog,LookDialog}

@@ -101,6 +101,9 @@
     padding: 8px 4px; }
     .table-popover .ant-popover-content .popover-check-menu > label {
       padding: 2px 0; }
+    .table-popover .ant-popover-content .popover-check-menu .list-popover-check {
+      width: 75px;
+      text-align: left; }
 
 .table-popover-hidden {
   display: none; }

@@ -8,12 +8,7 @@ var staff = Backbone.Model.extend({
             value:'',
             isShowInCard:''
         },
-        HeadImg:{
-            name:'HeadImg',
-            aliasName:'头像',
-            value:'',
-            isShowInCard:''
-        },
+        HeadImg:'',
         Gender:{
             name:'Gender',
             aliasName:'性别',
@@ -132,17 +127,12 @@ for(let i = 0; i < 100 ; i++){
             isShowInCard:'',
             value:`Code${i}`
         },
-        HeadImg:{
-            name:'HeadImg',
-            aliasName:'头像',
-            value:'/img/icon_user_head_50_50_have_1.png',
-            isShowInCard:''
-        },
+        HeadImg:'/img/icon_user_head_50_50_have_1.png',
         Status:`${i%2}`,
         Gender:{
             name:'Gender',
             aliasName:'性别',
-            value:'',
+            value:`${i%2}`,
             isShowInCard:''
         },
         Name :{
@@ -165,7 +155,7 @@ for(let i = 0; i < 100 ; i++){
         },
         Id :{
             name:'Code',
-            aliasName:'身份证号码',
+            aliasName:'身份证号',
             isShowInCard:'',
             value:`身份证号码${i}`
         },
