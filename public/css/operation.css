@@ -70,6 +70,23 @@ body .operation {
       background-color: #F0C22F; }
     body .operation .left-item .task-color.tobeDistributed {
       background-color: #F3686B; }
+  body .operation .task-right-item {
+    float: right; }
+    body .operation .task-right-item .list-inline .advanced-search-item {
+      float: right; }
+    body .operation .task-right-item .list-inline .search-item {
+      position: relative;
+      top: 8px;
+      right: -14%;
+      width: 62%; }
+      body .operation .task-right-item .list-inline .search-item .search-btn {
+        padding: 0 !important;
+        border-left: 0;
+        position: relative;
+        left: -45px;
+        background-color: #fff;
+        top: 0;
+        color: #666; }
   body .operation .right-item {
     float: right;
     width: 650px;
@@ -87,15 +104,15 @@ body .operation {
       background-color: #28d3db; }
     body .operation .right-item .search-item {
       position: relative;
-      top: 10px;
+      top: 8px;
       width: 30%; }
       body .operation .right-item .search-item .search-btn {
         padding: 0 !important;
         border-left: 0;
         position: relative;
-        left: 10px;
+        right: 131px;
         background-color: #fff;
-        top: 0;
+        top: 1px;
         color: #666; }
     body .operation .right-item .outage-record-text {
       font-size: 12px;

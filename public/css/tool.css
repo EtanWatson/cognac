@@ -137,103 +137,105 @@
   text-indent: 1em; }
 .ant-modal-container .edit-modal button, .ant-modal-container .add-modal button, .ant-modal-container .send-message-modal button {
   border-radius: 0; }
-.ant-modal-container .send-message-modal .send-select-warp {
-  box-sizing: border-box;
-  display: inline-block;
-  margin: 0;
-  position: relative;
-  vertical-align: middle;
-  color: #666;
-  font-size: 12px;
-  width: 98%; }
-  .ant-modal-container .send-message-modal .send-select-warp .send-select-span {
-    min-height: 28px;
-    cursor: text;
-    outline: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.ant-modal-container .send-message-modal .ant-modal-body {
+  padding: 16px !important; }
+  .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp {
     box-sizing: border-box;
-    display: block;
-    background-color: #fff;
-    -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
-    .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding-left: 6px;
-      padding-bottom: 4px;
-      border-bottom: 1px solid #d9d9d9; }
-      .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content li {
-        list-style: none; }
-      .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .cursor-warp {
-        width: auto;
-        margin-top: 4px;
-        height: 20px;
-        line-height: 20px;
-        float: left; }
-        .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .cursor-warp .cursor-field-warp {
-          width: 100%;
-          display: inline-block;
-          position: relative; }
-          .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .cursor-warp .cursor-field-warp .cursor-field {
-            width: .75em;
-            border: 0;
-            font-size: 100%;
-            background: transparent;
-            outline: 0;
-            border-radius: 6px; }
-      .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .select-item {
-        background-color: #f3f3f3;
-        border-radius: 4px;
-        cursor: default;
-        float: left;
-        margin-right: 4px;
-        max-width: 99%;
-        position: relative;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+    color: #666;
+    font-size: 12px;
+    width: 98%; }
+    .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span {
+      min-height: 28px;
+      cursor: text;
+      outline: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      box-sizing: border-box;
+      display: block;
+      background-color: #fff;
+      -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+      .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content {
         overflow: hidden;
-        -webkit-transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-        transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-        padding: 0 20px 0 10px; }
-        .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .select-item .item-content {
-          padding-top: 5px;
-          display: inline-block;
-          white-space: nowrap;
+        text-overflow: ellipsis;
+        padding-left: 6px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #d9d9d9; }
+        .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content li {
+          list-style: none; }
+        .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content .cursor-warp {
+          width: auto;
+          margin-top: 4px;
+          height: 20px;
+          line-height: 20px;
+          float: left; }
+          .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content .cursor-warp .cursor-field-warp {
+            width: 100%;
+            display: inline-block;
+            position: relative; }
+            .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content .cursor-warp .cursor-field-warp .cursor-field {
+              width: .75em;
+              border: 0;
+              font-size: 100%;
+              background: transparent;
+              outline: 0;
+              border-radius: 6px; }
+        .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content .select-item {
+          background-color: #f3f3f3;
+          border-radius: 4px;
+          cursor: default;
+          float: left;
+          margin-right: 4px;
+          max-width: 99%;
+          position: relative;
           overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 100%;
-          -webkit-transition: margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-          transition: margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-          cursor: default; }
-        .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .select-item .item-remove {
-          font-style: normal;
-          vertical-align: baseline;
-          text-align: center;
-          text-transform: none;
-          text-rendering: auto;
-          line-height: 1;
-          color: #999;
-          line-height: inherit;
-          cursor: pointer;
-          font-weight: bold;
-          -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-          transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-          display: inline-block;
-          font-size: 12px;
-          -webkit-transform: scale(0.66667) rotate(0deg);
-          transform: scale(0.66667) rotate(0deg);
-          -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
-          zoom: 1;
-          position: absolute;
-          right: 4px;
-          padding: 6px 0 0 8px; }
-        .ant-modal-container .send-message-modal .send-select-warp .send-select-span .send-select-content .select-item .item-remove::before {
-          content: "\E62D";
-          display: block;
-          font-family: "anticon" !important; }
-.ant-modal-container .send-message-modal .send-content {
-  padding-top: 5px; }
+          -webkit-transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+          transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+          padding: 0 20px 0 10px; }
+          .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content .select-item .item-content {
+            padding-top: 5px;
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            -webkit-transition: margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: default; }
+          .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content .select-item .item-remove {
+            font-style: normal;
+            vertical-align: baseline;
+            text-align: center;
+            text-transform: none;
+            text-rendering: auto;
+            line-height: 1;
+            color: #999;
+            line-height: inherit;
+            cursor: pointer;
+            font-weight: bold;
+            -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+            display: inline-block;
+            font-size: 12px;
+            -webkit-transform: scale(0.66667) rotate(0deg);
+            transform: scale(0.66667) rotate(0deg);
+            -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
+            zoom: 1;
+            position: absolute;
+            right: 4px;
+            padding: 6px 0 0 8px; }
+          .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content .select-item .item-remove::before {
+            content: "\E62D";
+            display: block;
+            font-family: "anticon" !important; }
+  .ant-modal-container .send-message-modal .ant-modal-body .send-content {
+    padding-top: 5px; }
 
 .form-cascader {
   z-index: 1000; }

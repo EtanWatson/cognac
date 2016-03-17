@@ -1,7 +1,13 @@
 .content{
-  position: relative;
   padding-top: 132px;
-  left: 20px;
+  position: relative;
+  left: 134px;
+  clear: both;
+  background-color: #E6E5ED;
+  overflow: auto;
+  height: 100%;
+  padding-left: 40px;
+  width: 93%;
   .card-container{
     >li{
       margin-bottom: 20px;
@@ -110,6 +116,13 @@
         background-color:#2d3d4c;
         cursor: pointer;
       }
+    .table-select{
+      cursor: pointer;
+      .selectedIcon:before{
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
     .item-click{
       background-color:#D1e9f5;
     }

@@ -41,6 +41,9 @@ body{
   }
   .global-layout{
     min-width: 1024px;
+    .container-fluid{
+      padding: 0;
+    }
     button:hover{
       text-decoration: none !important;
     }
@@ -68,13 +71,6 @@ body{
             right: 0;
         }
         .content-relative{
-          position: relative;
-          left: 134px;
-          clear: both;
-          background-color: #E6E5ED;
-          overflow: auto;
-          height: 100%;
-          padding-left: 20px;
         }
       }
       .left-layout{

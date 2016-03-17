@@ -6,10 +6,11 @@ import {render} from 'react-dom';
 import {Button,ButtonToolbar,Glyphicon} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
 import {columns,data} from '../data/listData';
-import _ from 'backbone/node_modules/underscore'
+import _ from 'underscore'
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
 import {Button as AntButton,Icon,Row,Col,Modal,Checkbox,Popover,Spin} from 'antd';
 import {EditDialog,SendMessageDialog,LookDialog} from './toolComponents/dialogConponents';
+import {staffModel} from '../models/staffData'
 import FixedDataTable from 'fixed-data-table';
 const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
@@ -90,7 +91,7 @@ const HoverItem = React.createClass({
 //card显示组件
 const Card = React.createClass({
    mixins:[BackboneReactMixin],
-   getInitialState(){
+    getInitialState(){
        return {
            isOpen:"item-close",
            isHover:" ",
@@ -172,7 +173,7 @@ const Card = React.createClass({
                 isSelect:!this.state.isSelect
             })
         }
-
+        this.props.parentCallback(this.state.model.id);
     },
     onChildChange(isChange){
         //console.log('卡片事件回调:isChange：'+isChange);
@@ -268,55 +269,59 @@ const Card = React.createClass({
              )
          }
        }.bind(this);
-           var findShowItem = function(){
-                var showItem = [];
-                for(let attributeName in this.getModel().attributes){
-                   if(this.getModel().get(attributeName).isShowInCard=='1'){
-                       showItem.push(this.getModel().get(attributeName))
-                   }
-                }
-               return showItem
-           }.bind(this);
-           var showItem = findShowItem().map(function(attrItem,index){
-               return(
-                           <ul className = "list-inline" key={index}>
-                              <li><h5>{attrItem.aliasName}</h5></li>
-                              <li><h5>{attrItem.value}</h5></li>
-                           </ul>
-                      )
-           });
+       //遍历卡片展示条目
+       var findShowItem = function(){
+           var showItem = [];
+           for(let attributeName in this.getModel().attributes){
+               if(this.getModel().get(attributeName).isShowInCard=='1'){
+                   showItem.push(this.getModel().get(attributeName))
+               }
+           }
+           return showItem
+       }.bind(this);
+       //卡片展示条目
+       var showItem = findShowItem().map(function(attrItem,index){
            return(
-               <div className ={"card-style "+this.state.isHover}
-                    onDoubleClick={this.handleDoubleClick}
-                    onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
-                   <div style={{height:'210px'}}>
-                       <ul className = "list-inline">
-                           {this.handleToggleBatch()}
-                           <li className = "header-img">
-                               <img src = {item.HeadImg}/>
-                           </li>
-                           <li className = "header-left">
-                               <h3 className = "name">{item.Name.value}</h3>
-                               <ul className = "list-inline">
-                                   <li className = "circle circle-g">
-                                       <img src="/img/icon_trip_normal.png" />
-                                   </li>
-                                   <li className = "circle-r is-display">
-                                       <img src="/img/icon_trip_leave.png" />
-                                   </li>
-                                   <li className = "status"><h5>{item.Status}</h5></li>
-                               </ul>
-                           </li>
-                       </ul>
-                       {showItem}
-                   </div>
-                   {staffType()}
-                   <div  className ={"default-style "+this.state.isOpen}>
-                       <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit} pageShow = {this.props.pageShow} model={this.getModel()}/>
-                   </div>
-                   <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} cardInfo={item} pageShow = {this.props.pageShow} />
-               </div>
+               <ul className = "list-inline" key={index}>
+                   <li><h5>{attrItem.aliasName}</h5></li>
+                   <li><h5>{attrItem.value}</h5></li>
+               </ul>
            )
+       });
+       return(
+           <div className ={"card-style "+this.state.isHover}
+                onDoubleClick={this.handleDoubleClick}
+                onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}
+                data-id={item.id}
+               >
+               <div style={{height:'210px'}}>
+                   <ul className = "list-inline">
+                       {this.handleToggleBatch()}
+                       <li className = "header-img">
+                           <img src = {item.HeadImg}/>
+                       </li>
+                       <li className = "header-left">
+                           <h3 className = "name">{item.Name.value}</h3>
+                           <ul className = "list-inline">
+                               <li className = "circle circle-g">
+                                   <img src="/img/icon_trip_normal.png" />
+                               </li>
+                               <li className = "circle-r is-display">
+                                   <img src="/img/icon_trip_leave.png" />
+                               </li>
+                               <li className = "status"><h5>{item.Status}</h5></li>
+                           </ul>
+                       </li>
+                   </ul>
+                   {showItem}
+               </div>
+               {staffType()}
+               <div  className ={"default-style "+this.state.isOpen}>
+                   <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit} pageShow = {this.props.pageShow} model={this.getModel()}/>
+               </div>
+               <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} cardInfo={item} pageShow = {this.props.pageShow} />
+           </div>
+       )
        }
 });
 //列表显示组件
@@ -327,29 +332,18 @@ const ListShow = React.createClass({
             selectedRowKeys: [],
             loading: false,
             allChecked:false,
-            allCheckClassName:"is-display",
-            oneChecked:false,
+            checkClassName:"is-display",
+            selected:false,
+            oneChecked:'',
             //dataValue:0,
             tableWidth:1024,
             tableHeight:500,
             isLook:false,
             staffInfo:'',
-            listModel:this.getCollection().get(0),
+            listModel:staffModel,
             listHeader:[],
             listHeaderCopy:[]
         };
-   },
-   start(){
-     this.setState({
-         loading: true
-     });
-    //模拟ajax请求，完成以后清空
-     setTimeout(() =>{
-         this.setState({
-            selectedRowKeys:[],
-             loading:false
-         });
-     },1000)
    },
    componentWillMount(){
        var height = $(window).height();
@@ -365,24 +359,98 @@ const ListShow = React.createClass({
                })
            }
        });
-      this.setState({
-          listHeader:listHeadTemp,
-          listHeaderCopy:listHeadTemp,
-          tableWidth:width*0.80,
-          tableHeight:height*0.80
-      })
+       this.setState({
+           listHeader:listHeadTemp,
+           listHeaderCopy:listHeadTemp,
+           tableWidth:width*0.80,
+           tableHeight:height*0.80
+       })
    },
+    //
+    componentDidMount(){
+      //订阅打印事件(批量操作)
+      this.printShowToken = PubSub.subscribe('print-data',function(topic,print){
+          let printDataId = this.state.selectedRowKeys;
+          let printData =[];
+          if(printDataId.length > 0){
+               for(let i = 0; i < printDataId.length; i++){
+                   this.state.collection.map(function(item,index){
+                       if(item.id==printDataId[i]){
+                           printData.push(item)
+                       }
+                   })
+               }
+              console.log(this.state.listHeader);
+              PubSub.publish('print-show',{printData:printData,listHeader:this.state.listHeader});
+          }else{
+          }
+      }.bind(this));
+      //订阅删除事件(批量操作)
+       this.deleteItemToken = PubSub.subscribe('delete-item',function(topic,data){
+           this.removeCheckItems();
+       }.bind(this))
+    },
+    componentWillUnmount(){
+        PubSub.unsubscribe(this.printShowToken);
+        PubSub.unsubscribe(this.deleteItemToken);
+    },
+    //删除选中的条目
+    removeCheckItems(){
+        let selectItemId = this.state.selectedRowKeys;
+        if(selectItemId.length > 0){
+            $('.table-select .selectedIcon').addClass('is-display');
+            $('.table-select').removeClass('selected');
+            let selectItems = [];
+            for(let i = 0 ; i < selectItemId.length ; i++){
+                this.getCollection().remove(this.getCollection().get(selectItemId[i]));
+            }
+        }else{
+
+        }
+    },
    onSelectChange(e){
        e.preventDefault();
+       var tableSelect = $(e.target).parents('.table-select');
        let modelId = $(e.target).parents('.fixedDataTableCellGroupLayout_cellGroup').children().last().find('.table-cell').attr('data-id');
        let selectedRowKeysTemp = this.state.selectedRowKeys;
-       selectedRowKeysTemp.push(modelId);
-       selectedRowKeysTemp = _.uniq(selectedRowKeysTemp);
-       console.log(selectedRowKeysTemp);
+       if(!$(tableSelect).hasClass('selected')){
+           selectedRowKeysTemp.push(modelId);
+           selectedRowKeysTemp = _.uniq(selectedRowKeysTemp);
+           $(tableSelect).find('.selectedIcon').removeClass('is-display');
+           this.setState({
+               oneChecked:'selected'
+           })
+       }else{
+           $(tableSelect).find('.selectedIcon').addClass('is-display');
+           selectedRowKeysTemp = _.filter(selectedRowKeysTemp,function(key){return key != modelId});
+           this.setState({
+               oneChecked:'',
+               allChecked:false
+           })
+       }
        this.setState({
         selectedRowKeys:selectedRowKeysTemp
      });
    },
+    handleSelectAll(){
+        var selectedTemp=[];
+        if(this.state.allChecked){
+            this.setState({allChecked:false,checkClassName:'is-display',selectedRowKeys:selectedTemp,oneChecked:''})
+        }else{
+            this.state.collection.map(function(item,index){
+                selectedTemp.push(item.id+'')
+            });
+            $('.selectedIcon').removeClass('is-display');
+            this.setState({
+                allChecked:true,
+                checkClassName:'',
+                oneChecked:'selected'
+            })
+        }
+        this.setState({
+            selectedRowKeys:selectedTemp
+        });
+    },
    handleRowClick(e){
        let tableCell = $('.content-table').find('.table-cell');
        $(tableCell).removeClass('item-click');
@@ -390,7 +458,6 @@ const ListShow = React.createClass({
        let thisTableCell = $(e.target).parents('.fixedDataTableCellGroupLayout_cellGroup').find('.table-cell');
        $(thisTableCell).addClass('item-click');
        $(thisTableCell).find('.icon').removeClass('is-display');
-       //$(thisTableCell).find('.ant-checkbox').addClass("ant-checkbox-checked","ant-checkbox-checked-1")
    },
    handleDoubleClick(e){
        var staffId = $(e.target).parents('.public_fixedDataTableCell_main').find('.table-cell').attr('data-id');
@@ -403,16 +470,6 @@ const ListShow = React.createClass({
             })
        });
    },
-    handleSelectAll(){
-        if(this.state.allChecked){
-            this.setState({allChecked:false,allCheckClassName:'is-display',selectedRowKeys:[]})
-        }else{
-            var selectedTemp=[];
-            this.state.collection.map(function(item,index){
-
-            });
-        }
-    },
     onChildChangeLook(){
         this.setState({
             isLook:false
@@ -445,7 +502,7 @@ const ListShow = React.createClass({
        let popoverCheckContent =listHeaderCopy.map(function(list,index){
                return(
                    <label key={index} className = "list-popover-check">
-                       <Checkbox defaultChecked={true} onChange={this.listProverCheck} className="" data_key={list.key} data_name={list.aliasName} data_index={index}/>
+                       <Checkbox defaultChecked={true} onChange={this.listProverCheck}  data_key={list.key} data_name={list.aliasName} data_index={index}/>
                        {list.aliasName}
                    </label>
                )
@@ -480,7 +537,7 @@ const ListShow = React.createClass({
        return(
            <div className = 'content-table' style={{textAlign:'center'}}>
                <Table
-                   rowHeight={50}
+                   rowHeight={40}
                    rowsCount={this.state.collection.length}
                    width={this.state.tableWidth}
                    height={this.state.tableHeight}
@@ -499,7 +556,7 @@ const ListShow = React.createClass({
                        />
                    <Column
                        header={<Cell className = 'all-select table-header' onClick={this.handleSelectAll}>全选</Cell>}
-                       cell={<Cell className ='table-cell' onClick={this.onSelectChange}><Icon type="check" className ={this.state.allCheckClassName} /></Cell>}
+                       cell={<Cell className ={'table-cell table-select '+this.state.oneChecked} onClick={this.onSelectChange} ><Icon type="check" className ={this.state.checkClassName+' selectedIcon'} /></Cell>}
                        width={50}
 
                        />
@@ -518,22 +575,74 @@ const Content = React.createClass({
       return{
           showWay:'card',
           availableHeight:$(window).height(),
-          loading:false
+          loading:false,
+          selectId:[],
+          isBatchDelete:false,
+          listHeader:[],
+          listHeaderCopy:[],
+          listModel:staffModel
       }
     },
+    componentWillMount(){
+        let listHeadTemp = [];
+        let model = this.state.listModel;
+        let listHeadKeys = model.keys();
+        model.values().map(function(list,index){
+            if(list.aliasName){
+                listHeadTemp.push({
+                    aliasName:list.aliasName,
+                    key:listHeadKeys[index]
+                })
+            }
+        });
+        this.setState({
+            listHeader:listHeadTemp,
+            listHeaderCopy:listHeadTemp
+        })
+    },
     componentDidMount(){
-        this.pubsub_token = PubSub.subscribe('showWay',function(topic,showWay){
+        this.showWay_token = PubSub.subscribe('showWay',function(topic,showWay){
             this.setState({
                 showWay:showWay
             })
         }.bind(this));
-        console.log('text');
+        //批量删除
+        this.deleteItem_token = PubSub.subscribe('delete-item',function(topic,isDelete){
+            for(let i = 0 ;i < this.state.selectId.length ; i++){
+                this.getCollection().remove(this.getCollection().get(this.state.selectId[i]))
+            }
+        }.bind(this));
+        //打印
+        this.printData_token =  PubSub.subscribe('print-data',function(topic,data){
+                let printDataId = this.state.selectId;
+                let printData =[];
+                if(printDataId.length > 0){
+                    for(let i = 0; i < printDataId.length; i++){
+                        this.state.collection.map(function(item,index){
+                            if(item.id==printDataId[i]){
+                                printData.push(item)
+                            }
+                        })
+                    }
+                    PubSub.publish('print-show',{printData:printData,listHeader:this.state.listHeader});
+                }
+        }.bind(this));
     },
     componentWillUnmount(){
-        PubSub.unsubscribe(this.pubsub_token);
+        PubSub.unsubscribe(this.showWay_token);
+        PubSub.unsubscribe(this.deleteItem_token);
+        PubSub.unsubscribe(this.printData_token);
     },
     handleGoTop(){
         $('.content-relative').animate({scrollTop:0},1000);
+    },
+    //回调函数，记录卡片被选中的card的ID
+    cardSelectItem(id){
+       if(_.contains(this.state.selectId,id)){
+           this.setState({selectId: _.without(this.state.selectId,id)})
+       }else{
+           this.state.selectId.push(id)
+       }
     },
     render(){
         var cardInfo =this.state.collection;
@@ -548,7 +657,9 @@ const Content = React.createClass({
                                 cardInfo.map(function(item){
                                     return(
                                         <li key={item.id} className = "card-container-space">
-                                            <Card item={item} typeTextInfo={typeText} pageShow = {pageShow} model={self.getCollection().get(item.id)}/>
+                                            <Card item={item} typeTextInfo={typeText} pageShow = {pageShow}
+                                                  parentCallback = {self.cardSelectItem}
+                                                  model={self.getCollection().get(item.id)}/>
                                         </li>
                                     )
                                 })

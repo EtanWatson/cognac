@@ -99,6 +99,29 @@ body{
         background-color:#F3686B;
       }
     }
+    .task-right-item{
+      float: right;
+      .list-inline{
+        .advanced-search-item{
+         float:right;
+        }
+        .search-item{
+          position: relative;
+          top: 8px;
+          right:-14%;
+          width: 62%;
+          .search-btn{
+            padding: 0 !important;
+            border-left: 0;
+            position: relative;
+            left: -45px;
+            background-color: #fff;
+            top: 0;
+            color: #666;
+          }
+        }
+      }
+    }
     .right-item{
       float: right;
       width: 650px;
@@ -123,15 +146,15 @@ body{
       }
       .search-item{
         position: relative;
-        top: 10px;
+        top: 8px;
         width: 30%;
         .search-btn{
           padding: 0 !important;
           border-left: 0;
           position: relative;
-          left: 10px;
+          right: 131px;
           background-color: #fff;
-          top: 0;
+          top: 1px;
           color: #666;
         }
       }

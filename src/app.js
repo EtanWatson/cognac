@@ -41,7 +41,7 @@ const App = React.createClass({
                                 {this.props.children}
                             </div>
                          </Col>
-                        <Col xs={11} md={11} lg={11} className="right-layout">
+                        <Col xs={12} md={12} lg={12} className="right-layout">
                             <div className = "header-fixed">
                                 <Header pageShow={page?page.type:'task'}
                                         callbackParent={this.handleChildChange}

@@ -1,7 +1,13 @@
 .content {
-  position: relative;
   padding-top: 132px;
-  left: 20px; }
+  position: relative;
+  left: 134px;
+  clear: both;
+  background-color: #E6E5ED;
+  overflow: auto;
+  height: 100%;
+  padding-left: 40px;
+  width: 93%; }
   .content .card-container > li {
     margin-bottom: 20px; }
   .content .card-container .card-container-space {
@@ -84,6 +90,11 @@
   .content .content-table .select-dialog-cell {
     background-color: #2d3d4c;
     cursor: pointer; }
+  .content .content-table .table-select {
+    cursor: pointer; }
+    .content .content-table .table-select .selectedIcon:before {
+      font-size: 20px;
+      font-weight: bold; }
   .content .content-table .item-click {
     background-color: #D1e9f5; }
   .content .content-table .anticon-caret-right:before {

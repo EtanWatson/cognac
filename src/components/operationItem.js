@@ -177,6 +177,7 @@ const ListItem =React.createClass({
 });
 //批量操作
 const BatchOperation = React.createClass({
+    mixins:[BackboneReactMixin],
     getInitialState(){
       return {
           show:false,
@@ -207,7 +208,7 @@ const BatchOperation = React.createClass({
                 <Tooltip id="deleteBatch">
                     <ul className="list-inline">
                         <SelectAll />
-                        <SendMessage />
+                        <SendMessage collection={this.getCollection()}/>
                         <DeleteItem />
                         <PrintItem />
                     </ul>
@@ -269,6 +270,7 @@ const SelectAll = React.createClass({
 });
 //发送信息
 const SendMessage = React.createClass({
+    mixins:[BackboneReactMixin],
    getInitialState(){
     return{
         isSenMessage:false
@@ -288,6 +290,7 @@ const SendMessage = React.createClass({
                <Button bsStyle="link" className="send-message-btn batch-btn" onClick={this.handleSendMessage}></Button>
                <SendMessageDialog isSendMessage={this.state.isSendMessage}
                    callbackParent={this.handleChildChange}
+                   collection = {this.getCollection()}
                    />
            </div>
        )
@@ -302,6 +305,7 @@ const DeleteItem = React.createClass({
     },
     //点击删除以后，将选中的item删除
     handleClick(){
+        console.log('delete-item');
         PubSub.publish('delete-item','');
     },
     componentDidMount(){
@@ -319,7 +323,7 @@ const DeleteItem = React.createClass({
         var isListShow = function(){
           if(this.state.isListShow){
               return(
-                  <Button  bsStyle="link" className="">
+                  <Button  bsStyle="link" className="" onClick={this.handleClick}>
                       <ul className = "list-inline">
                           <li className = "delete-item-icon operation-item-icon"></li>
                           <li>
@@ -330,7 +334,7 @@ const DeleteItem = React.createClass({
               )
           }else{
               return(
-                  <Button  bsStyle="link" className="delete-item-btn batch-btn"></Button>
+                  <Button  bsStyle="link" className="delete-item-btn batch-btn" onClick={this.handleClick}></Button>
               )
           }
         }.bind(this);
@@ -350,7 +354,7 @@ const PrintItem = React.createClass({
     },
     //点击打印以后，隐藏app主页，显示打印页面,发布全局事件
     handleClick(){
-        PubSub.publish('print-show','');
+        PubSub.publish('print-data','');
     },
     componentDidMount(){
         if(this.props.showList){
@@ -559,7 +563,7 @@ const Search = React.createClass({
     render(){
         return(
             <li className = "search-item">
-                <SearchInput placeholder="搜索关键字" callbackParent = {this.handleSelectChoose} />
+                <SearchInput callbackParent = {this.handleSelectChoose} />
             </li>
         )
     }
@@ -635,7 +639,7 @@ const OperationItem= React.createClass({
         var isCardShowContent = function(){
           if(this.state.cardShow){
               return(
-                      <BatchOperation pageShow = {pageShow}/>
+                      <BatchOperation pageShow = {pageShow} collection={staffs}/>
               )
           }else{
               return(
@@ -650,6 +654,26 @@ const OperationItem= React.createClass({
         var operaShowWay = function(){
             switch(pageShow){
                 case 'staff':
+                    return(
+                        <ul className="list-inline operation">
+                            <li className = "left-item">
+                                <ul className = "list-inline">
+                                    <AddItem pageShow={this.props.pageShow} collection={staffs}/>
+                                    <ListItem callbackParent={this.childListChange}/>
+                                    {isCardShowContent()}
+                                </ul>
+                            </li>
+                            <li className = "right-item">
+                                <ul className = "list-inline">
+                                    <CarType collection={staffData}/>
+                                    <Search />
+                                    <AdvancedSearchIcon />
+                                    <OutageRecord collection = {staffData}/>
+                                </ul>
+                            </li>
+                        </ul>
+                    );
+                    break;
                 case 'vehicle':
                     return(
                         <ul className="list-inline operation">
@@ -684,6 +708,12 @@ const OperationItem= React.createClass({
                                     <AddItem pageShow={this.props.pageShow} collection={staffs}/>
                                     <TaskHistory />
                                     <TaskType />
+                                </ul>
+                            </li>
+                            <li className = "task-right-item">
+                                <ul className = "list-inline">
+                                    <Search />
+                                    <AdvancedSearchIcon />
                                 </ul>
                             </li>
                         </ul>

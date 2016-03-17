@@ -31,6 +31,8 @@ body {
     color: #2aa2dd; }
   body .global-layout {
     min-width: 1024px; }
+    body .global-layout .container-fluid {
+      padding: 0; }
     body .global-layout button:hover {
       text-decoration: none !important; }
     body .global-layout button:active {
@@ -51,14 +53,6 @@ body {
         width: 100%;
         background-color: #FFFFFF;
         right: 0; }
-      body .global-layout .right-layout .content-relative {
-        position: relative;
-        left: 134px;
-        clear: both;
-        background-color: #E6E5ED;
-        overflow: auto;
-        height: 100%;
-        padding-left: 20px; }
     body .global-layout .left-layout {
       height: 100%;
       padding: 0;

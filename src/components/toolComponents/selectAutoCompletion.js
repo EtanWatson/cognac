@@ -49,6 +49,13 @@ const SearchInput = React.createClass({
         this.setState({ value });
         this.props.callbackParent(value);
         fetch(value, (data) => this.setState({ data }));
+        //console.log(value.length);
+        if(value.length!=0){
+            $(".search-btn").hide();
+        }
+        else{
+            $(".search-btn").show();
+        }
     },
     handleSubmit() {
         //console.log('输入框内容是: ', this.state.value);

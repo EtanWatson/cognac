@@ -11,14 +11,29 @@ import {staffInfo,staffTypeText} from '../data/cardData';
 import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
 import {navArray,settingNavArray} from '../data/navigation';
 import {staffData,staffCollection} from '../models/staffData'
+import {TaskArrangement} from './taskArrangement'
 //任务管理
 const TaskManage = React.createClass({
+    //getInitialState(){
+    //    return{
+    //        typeCollection:staffData
+    //    }
+    //},
+    //注册全局事件,更新content显示内容
+    //componentDidMount(){
+    //    this.typeCollectio_token = PubSub.subscribe('typeCollection',function(topic,typeCollection){
+    //        let typeList = new staffCollection(typeCollection);
+    //        this.setState({
+    //            typeCollection:typeList
+    //        })
+    //    }.bind(this));
+    //},
+    //componentWillUnmount(){
+    //    PubSub.unsubscribe(this.typeCollectio_token)
+    //},
     render(){
         return (
-            <div>
-                <div>TaskManage</div>
-                {this.props.children}
-            </div>
+                <TaskArrangement />
         )
     }
 });
