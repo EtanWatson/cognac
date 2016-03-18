@@ -225,10 +225,11 @@ for(let i = 0; i < 100 ; i++){
             aliasName:'准驾车型',
             isShowInCard:'1',
             value:`准驾类型${i}`
-        },
+        }
     })
 }
 let staffData = new staffCollection(staffDataModel);
+let staffModel = new staff();
 export{
-    staffData,staffCollection
+    staffModel,staffData,staffCollection
 }

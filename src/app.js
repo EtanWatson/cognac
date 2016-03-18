@@ -8,6 +8,7 @@ import {Header} from './components/headerItem';
 import {OperationItem} from './components/operationItem';
 import {Content} from './components/contentItem';
 import {Setting,StaffSetting,VehicleSetting,DriverSetting} from './components/setting';
+import {AdvancedSearchPanel} from './components/toolComponents/dialogConponents'
 const App = React.createClass({
     getInitialState(){
         return{
@@ -35,7 +36,7 @@ const App = React.createClass({
                     <Row className="show-grid">
                         <Col xs={1} md={1} lg={1} className="left-layout">
                             <div>
-                                <NavMenu  pageShow={page?page.type:'task'}
+                                <NavMenu  pageShow={page.type}
                                          callbackParent={this.handleChildChange}
                                     />
                                 {this.props.children}
@@ -43,15 +44,16 @@ const App = React.createClass({
                          </Col>
                         <Col xs={12} md={12} lg={12} className="right-layout">
                             <div className = "header-fixed">
-                                <Header pageShow={page?page.type:'task'}
+                                <Header pageShow={page.type}
                                         callbackParent={this.handleChildChange}
                                     />
                                 <OperationItem className = "operationItem"
-                                    pageShow={page?page.type:'task'}
+                                    pageShow={page.type}
                                     />
+                                <AdvancedSearchPanel />
                             </div>
                             <div className = "content-relative">
-                                {content || <TaskManage />}
+                                {content}
                             </div>
                         </Col>
                      </Row>
@@ -63,7 +65,7 @@ const App = React.createClass({
 render((
     <Router history={browserHistory}>
         <Route path="/" component={App}>
-            <IndexRoute  component={App}/>
+            <IndexRoute  components={{content:TaskManage,page:'task'}}/>
             <Route path="staffInfo" components={{content:StaffInfo,page:'staff'}}/>
             <Route path="vehicleRecord" components={{content:VehicleRecord,page:'vehicle'}}/>
             <Route path="maintenance" components={{content:Maintenance,page:'maintenance'}}/>

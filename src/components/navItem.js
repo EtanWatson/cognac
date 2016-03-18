@@ -11,7 +11,9 @@ import {staffInfo,staffTypeText} from '../data/cardData';
 import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
 import {navArray,settingNavArray} from '../data/navigation';
 import {staffData,staffCollection} from '../models/staffData'
-import {TaskArrangement} from './taskArrangement'
+import {taskModel,taskList} from '../models/taskData'
+import {TaskArrangement,CompletedArrangement} from './taskArrangement'
+import { Row, Col ,Collapse,Icon} from 'antd';
 //任务管理
 const TaskManage = React.createClass({
     //getInitialState(){
@@ -33,11 +35,22 @@ const TaskManage = React.createClass({
     //},
     render(){
         return (
-                <TaskArrangement />
+            <div className="main-task">
+                    <Row className="row">
+                        <Col span="18">
+                            <div className="main-task-content">
+                                <TaskArrangement collection={taskList} model={taskModel}/>
+                            </div>
+                        </Col>
+                        <Col span="6" className="main-task-right">
+                            <CompletedArrangement/>
+                        </Col>
+                    </Row>
+            </div>
+
         )
     }
 });
-
 //职员信息
 const StaffInfo = React.createClass({
     getInitialState(){
@@ -163,6 +176,7 @@ const NavMenu = React.createClass({
 
         }
     },
+
     componentWillReceiveProps(nextProps){
         console.log('nextProps');
         switch (nextProps.pageShow){

@@ -1283,6 +1283,7 @@ const SendMessageDialog = React.createClass({
 
     },
     componentWillReceiveProps(nextProps){
+        console.log(this.state.collection)
         this.setState({
             visible:nextProps.isSendMessage,
             inputValue:this.state.model.Name.value

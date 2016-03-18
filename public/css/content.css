@@ -22,6 +22,12 @@
       position: relative; }
       .content .card-container .card-container-space .card-style .list-inline {
         padding-left: 12%; }
+      .content .card-container .card-container-space .card-style .item-space {
+        width: 60px;
+        text-align: justify;
+        text-align: end;
+        text-align-last: justify;
+        text-justify: distribute; }
       .content .card-container .card-container-space .card-style h5 {
         color: #425a73; }
       .content .card-container .card-container-space .card-style .card-select-img {

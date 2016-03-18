@@ -57,16 +57,17 @@ const HoverItem = React.createClass({
         })
    },
    onChildChangeEdit(isEdit){
-       //console.log('关闭编辑回调:'+isEdit);
+       console.log('关闭编辑回调:'+isEdit);
         this.setState({
             isEdit:false
         });
        this.props.callbackParent(isEdit);
    },
    onChildChangeSendMessage(isSendMessage){
+       console.log('i am send message '+isSendMessage);
        this.setState({
            isSendMessage:isSendMessage
-       })
+       });
    },
    render(){
        //console.log('鼠标滑入卡片时的cardInfo:'+this.props.cardInfo);
@@ -96,43 +97,44 @@ const Card = React.createClass({
            isOpen:"item-close",
            isHover:" ",
            toggleBatch:false,
-           selectIcon:'/img/card_icon_defailt.png',
+           selectIcon:'/img/card_icon_default.png',
            isSelect:false,
            isSelectAll:false,
-
            isDelete:false,
            isLook:false,
            passLookEdit:false
        }
    } ,
-    componentDidMount(){
-        this.pubsub_tokenBatch = PubSub.subscribe('batchOperation',function(topic,isToggle){
-            if(this.isMounted()){
+    componentWillReceiveProps(nextProps){
+        if(nextProps.toggleBatch){
+            $('.card-select-img').removeClass('is-display');
+            if(!this.state.toggleBatch){
                 this.setState({
-                    toggleBatch:isToggle
+                    toggleBatch:true
                 })
             }
-        }.bind(this));
-        this.pubsub_tokenAll = PubSub.subscribe('selectAll',function(topic,isSelectAll){
-            if(this.isMounted){
-                if(!isSelectAll){
-                    this.setState({
-                        selectIcon:'/img/card_icon_defailt.png',
-                        isSelect:true
-                    })
-                }else{
-                    this.setState({
-                        selectIcon:'/img/card_icon_pressed.png',
-                        isSelect:true
-                    })
-                }
+            if(nextProps.isSelectAll){
+                this.setState({
+                    isSelect:true,
+                    selectIcon:'/img/card_icon_pressed.png',
+                    isSelectAll:true
+                })
+            }else{
+                this.setState({
+                    isSelect:false,
+                    selectIcon:'/img/card_icon_default.png',
+                    isSelectAll:false
+                })
             }
-        }.bind(this));
-    },
-    componentWillMount(){
+        }else{
+            this.setState({
+                toggleBatch:false,
+                isSelect:false
+            });
+            $('.card-select-img').addClass('is-display')
+        }
     },
     componentWillUnmount(){
-        PubSub.unsubscribe(this.pubsub_tokenBatch);
         PubSub.unsubscribe(this.pubsub_tokenAll);
     },
     handleMouseOver(){
@@ -157,14 +159,14 @@ const Card = React.createClass({
     handleMouseLeaveIcon(){
         if(!this.state.isSelect){
             this.setState({
-                selectIcon:'/img/card_icon_defailt.png'
+                selectIcon:'/img/card_icon_default.png'
             })
         }
     },
     handleClickIcon(){
         if(this.state.isSelect){
             this.setState({
-                selectIcon:'/img/card_icon_defailt.png',
+                selectIcon:'/img/card_icon_default.png',
                 isSelect:!this.state.isSelect
             })
         }else{
@@ -198,6 +200,7 @@ const Card = React.createClass({
                     passLookEdit:false
                 })
             }
+
         }
     },
     handleDoubleClick(){
@@ -219,18 +222,7 @@ const Card = React.createClass({
         }
     },
     handleToggleBatch(){
-        if(this.state.toggleBatch){
-            return(
-                <img  className = "card-select-img" src={this.state.selectIcon}
-                      onMouseEnter={this.handleMouseEnterIcon}
-                      onMouseLeave={this.handleMouseLeaveIcon}
-                      onClick={this.handleClickIcon}/>
-            )
-        }else{
-            return(
-                <img className = "card-select-img is-display" src="/img/card_icon_defailt.png" />
-            )
-        }
+
     },
    render(){
        let item = this.state.model;
@@ -283,11 +275,12 @@ const Card = React.createClass({
        var showItem = findShowItem().map(function(attrItem,index){
            return(
                <ul className = "list-inline" key={index}>
-                   <li><h5>{attrItem.aliasName}</h5></li>
+                   <li className ='item-space'><h5>{attrItem.aliasName}</h5></li>
+                   <span>：</span>
                    <li><h5>{attrItem.value}</h5></li>
                </ul>
            )
-       });
+       }.bind(this));
        return(
            <div className ={"card-style "+this.state.isHover}
                 onDoubleClick={this.handleDoubleClick}
@@ -296,7 +289,10 @@ const Card = React.createClass({
                >
                <div style={{height:'210px'}}>
                    <ul className = "list-inline">
-                       {this.handleToggleBatch()}
+                       <img  className = "card-select-img is-display" src={this.state.selectIcon}
+                             onMouseEnter={this.handleMouseEnterIcon}
+                             onMouseLeave={this.handleMouseLeaveIcon}
+                             onClick={this.handleClickIcon}/>
                        <li className = "header-img">
                            <img src = {item.HeadImg}/>
                        </li>
@@ -345,7 +341,7 @@ const ListShow = React.createClass({
             listHeaderCopy:[]
         };
    },
-   componentWillMount(){
+    componentWillMount(){
        var height = $(window).height();
        var width = $(window).width();
        let listHeadTemp = [];
@@ -580,7 +576,9 @@ const Content = React.createClass({
           isBatchDelete:false,
           listHeader:[],
           listHeaderCopy:[],
-          listModel:staffModel
+          listModel:staffModel,
+          toggleBatch:false,
+          isSelectAll:false
       }
     },
     componentWillMount(){
@@ -606,8 +604,34 @@ const Content = React.createClass({
                 showWay:showWay
             })
         }.bind(this));
+        //显示卡片批量操作
+        this.pubsub_tokenBatch = PubSub.subscribe('batchOperation',function(topic,isToggle){
+            this.setState({
+                toggleBatch:isToggle,
+                selectId:[],
+                isSelectAll:false
+            })
+        }.bind(this));
+        //全选
+        this.pubsub_tokenAll = PubSub.subscribe('selectAll',function(topic,isSelectAll){
+            if(!isSelectAll){
+                this.setState({
+                    isSelectAll:isSelectAll,
+                    selectId:[]
+                })
+            }else{
+                this.state.collection.map(function(item,index){
+                    this.state.selectId.push(item.id)
+                }.bind(this));
+                this.setState({
+                    isSelectAll:isSelectAll
+                })
+            }
+            //}
+        }.bind(this));
         //批量删除
         this.deleteItem_token = PubSub.subscribe('delete-item',function(topic,isDelete){
+            console.log(this.state.selectId);
             for(let i = 0 ;i < this.state.selectId.length ; i++){
                 this.getCollection().remove(this.getCollection().get(this.state.selectId[i]))
             }
@@ -630,6 +654,7 @@ const Content = React.createClass({
     },
     componentWillUnmount(){
         PubSub.unsubscribe(this.showWay_token);
+        PubSub.unsubscribe(this.pubsub_tokenBatch);
         PubSub.unsubscribe(this.deleteItem_token);
         PubSub.unsubscribe(this.printData_token);
     },
@@ -659,7 +684,10 @@ const Content = React.createClass({
                                         <li key={item.id} className = "card-container-space">
                                             <Card item={item} typeTextInfo={typeText} pageShow = {pageShow}
                                                   parentCallback = {self.cardSelectItem}
-                                                  model={self.getCollection().get(item.id)}/>
+                                                  model={self.getCollection().get(item.id)}
+                                                  toggleBatch = {self.state.toggleBatch}
+                                                  isSelectAll = {self.state.isSelectAll}
+                                                />
                                         </li>
                                     )
                                 })

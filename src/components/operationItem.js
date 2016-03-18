@@ -251,14 +251,15 @@ const SelectAll = React.createClass({
     getInitialState(){
         return{
             //设置为false与预期结果相反
-            isAllSelect:true
+            isAllSelect:false
         }
     },
     handleClick(){
       this.setState({
          isAllSelect:!this.state.isAllSelect
+      },function(){
+          PubSub.publish('selectAll',this.state.isAllSelect)
       });
-      PubSub.publish('selectAll',this.state.isAllSelect)
     },
     render(){
         return(
@@ -722,7 +723,7 @@ const OperationItem= React.createClass({
             }
         }.bind(this);
         return(
-            <div>
+            <div className = 'operation-content'>
                 {operaShowWay()}
             </div>
         )

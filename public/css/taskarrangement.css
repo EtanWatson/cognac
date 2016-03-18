@@ -73,4 +73,154 @@
     .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .people {
       margin-left: 62px; }
 
+html, body {
+  height: 100%; }
+  html span, body span {
+    font-weight: bolder; }
+  html .content-relative, body .content-relative {
+    height: 100%; }
+    html .content-relative .main-task, body .content-relative .main-task {
+      height: 100%;
+      background-color: #EEEEEE; }
+      html .content-relative .main-task .row, body .content-relative .main-task .row {
+        height: 100%; }
+      html .content-relative .main-task .main-task-right, body .content-relative .main-task .main-task-right {
+        height: 89%;
+        background: white;
+        margin-top: 102px; }
+        html .content-relative .main-task .main-task-right .completed-task-content, body .content-relative .main-task .main-task-right .completed-task-content {
+          width: 100%; }
+          html .content-relative .main-task .main-task-right .completed-task-content .title-grey, body .content-relative .main-task .main-task-right .completed-task-content .title-grey {
+            background: #AAB3C4;
+            height: 30px;
+            color: white;
+            line-height: 30px; }
+          html .content-relative .main-task .main-task-right .completed-task-content .completed-task-header, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-header {
+            padding-left: 10px; }
+          html .content-relative .main-task .main-task-right .completed-task-content .completed-task-footer, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-footer {
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 26%; }
+          html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list {
+            border-bottom: 1px solid #A5B0C4;
+            padding-bottom: 19px;
+            position: relative; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .triangle-up, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .triangle-up {
+              width: 0;
+              height: 0;
+              border-left: 12px solid transparent;
+              border-right: 12px solid transparent;
+              border-bottom: 7px solid #A3AFCF; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .hide-triangle, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .hide-triangle {
+              position: absolute;
+              bottom: 0px;
+              left: 50%;
+              display: none; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-types, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-types {
+              background: url("/img/mutiple.png") no-repeat;
+              width: 47px;
+              height: 26px;
+              position: relative;
+              top: 5px;
+              display: inline-block;
+              vertical-align: middle; }
+              html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-types span, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-types span {
+                position: absolute;
+                top: 5px;
+                left: 19px; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-number, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-number {
+              position: relative;
+              top: 5px;
+              vertical-align: middle; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .completed-task-list-row, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .completed-task-list-row {
+              padding-left: 24px;
+              margin-top: 8px; }
+              html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .completed-task-list-row .completed-task-list-col span, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .completed-task-list-row .completed-task-list-col span {
+                vertical-align: middle; }
+              html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .completed-task-list-row .completed-task-list-col .task-data1, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .completed-task-list-row .completed-task-list-col .task-data1 {
+                margin-left: 5px; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon {
+              display: inline-block;
+              width: 13px;
+              height: 13px; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-out, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-out {
+              background: url("/img/out.png") no-repeat; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-back, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-back {
+              background: url("/img/back.png") no-repeat; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-card, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-card {
+              background: url("/img/card.png") no-repeat; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-car, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-car {
+              background: url("/img/Oval.png") no-repeat; }
+      html .content-relative .main-task .main-task-content, body .content-relative .main-task .main-task-content {
+        width: 89%;
+        margin-left: 10%;
+        padding-top: 100px;
+        display: inline-block; }
+        html .content-relative .main-task .main-task-content .task-card, body .content-relative .main-task .main-task-content .task-card {
+          border-radius: 5px;
+          width: 99.5%;
+          background-color: white;
+          margin-left: 10px;
+          position: relative;
+          padding-bottom: 5px;
+          display: inline-block;
+          margin-top: 4px; }
+          html .content-relative .main-task .main-task-content .task-card .click-down, body .content-relative .main-task .main-task-content .task-card .click-down {
+            position: absolute;
+            top: 50px;
+            right: 60px;
+            display: inline-block;
+            width: 13px;
+            height: 10px;
+            background: url("/img/Triangle.png") no-repeat; }
+          html .content-relative .main-task .main-task-content .task-card .hide-data, body .content-relative .main-task .main-task-content .task-card .hide-data {
+            display: none; }
+          html .content-relative .main-task .main-task-content .task-card .edit-inner-icon, body .content-relative .main-task .main-task-content .task-card .edit-inner-icon {
+            background: url("/img/edit_task.png") no-repeat;
+            background-size: cover;
+            display: inline-block;
+            width: 15px;
+            height: 15px; }
+          html .content-relative .main-task .main-task-content .task-card .task-number, body .content-relative .main-task .main-task-content .task-card .task-number {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            height: 30px;
+            line-height: 30px;
+            color: white;
+            background-color: #B9E986;
+            margin-bottom: 6px;
+            padding-left: 43px; }
+            html .content-relative .main-task .main-task-content .task-card .task-number .edit-icon, body .content-relative .main-task .main-task-content .task-card .task-number .edit-icon {
+              float: right;
+              display: inline-block;
+              width: 30px;
+              height: 30px;
+              line-height: 30px;
+              text-align: center;
+              background-color: #7ED320;
+              border-top-right-radius: 5px; }
+          html .content-relative .main-task .main-task-content .task-card .task-data, body .content-relative .main-task .main-task-content .task-card .task-data {
+            margin-left: 23px; }
+          html .content-relative .main-task .main-task-content .task-card .user-p, body .content-relative .main-task .main-task-content .task-card .user-p {
+            margin-left: 12px; }
+          html .content-relative .main-task .main-task-content .task-card span, body .content-relative .main-task .main-task-content .task-card span {
+            font-weight: bold; }
+          html .content-relative .main-task .main-task-content .task-card .task-hover, body .content-relative .main-task .main-task-content .task-card .task-hover {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            background: #7ED320;
+            display: none;
+            border-top-right-radius: 5px; }
+            html .content-relative .main-task .main-task-content .task-card .task-hover .task-hover-li, body .content-relative .main-task .main-task-content .task-card .task-hover .task-hover-li {
+              border-bottom: 2px solid #B9E986; }
+            html .content-relative .main-task .main-task-content .task-card .task-hover li, body .content-relative .main-task .main-task-content .task-card .task-hover li {
+              width: 86px;
+              height: 30px;
+              line-height: 30px;
+              color: white; }
+              html .content-relative .main-task .main-task-content .task-card .task-hover li span, body .content-relative .main-task .main-task-content .task-card .task-hover li span {
+                margin-left: 5px; }
+
 /*# sourceMappingURL=taskarrangement.css.map */
