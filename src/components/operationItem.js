@@ -6,6 +6,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import ReactDOM from 'react-dom';
 import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Checkbox,Collapse} from 'antd';
+import _ from 'underscore'
 import BackBone from 'backbone';
 import {Button,Tooltip,Overlay} from 'react-bootstrap';
 import BackboneReactMixin from 'backbone-react-component';
@@ -556,26 +557,105 @@ const Other = React.createClass({
    }
 });
 //搜索
-const innerSearchIcon = <div className="innerSearchIcon"></div>;
 const Search = React.createClass({
+    getInitialState(){
+        return{
+            advancedSearchList:[]
+        }
+    },
+    componentDidMount(){
+
+        this.advancedSearchData_token = PubSub.subscribe('advanceSearchData',function(topic,textValue){
+            let advancedSearchListTmp =this.state.advancedSearchList;
+            if(this.isMounted())
+            if(_.contains(this.state.advancedSearchList,textValue)){
+                advancedSearchListTmp =  _.filter(advancedSearchListTmp,function(item){return item!==textValue});
+            }else{
+                advancedSearchListTmp.push(textValue);
+            }
+            this.setState({
+                advancedSearchList:advancedSearchListTmp
+            },function(){
+                this.searchStyle()
+            }.bind(this));
+        }.bind(this))
+    },
+    componentWillUnMount(){
+        PubSub.unsubscribe(this.advancedSearchData_token)
+    },
     handleSelectChoose(value){
 
     },
+    focusAdvancedSearch(e){
+        let advancedSearchItem =$(e.target);
+        $(advancedSearchItem).addClass('click');
+    },
+    blurAdvancedSearch(e){
+        let advancedSearchItem =$(e.target);
+        $(advancedSearchItem).removeClass('click')
+    },
+    handleKeyPress(e){
+        let advancedSearchListTmp =this.state.advancedSearchList;
+        if(e.keyCode == 46){
+            let deleteAdvItem = $(e.target).text();
+            advancedSearchListTmp =  _.filter(advancedSearchListTmp,function(item){return item!==deleteAdvItem});
+            this.setState({
+                advancedSearchList:advancedSearchListTmp
+            },function(){
+                $('.advanced-search-item-text').removeClass('click').blur();
+                this.searchStyle()
+            }.bind(this))
+        }
+    },
+    searchStyle(){
+        if(this.state.advancedSearchList.length > 0){
+            $('.search-item-block').addClass('search-item-block-show');
+            $('.search-item .search-btn').addClass('is-display');
+            $('.ant-select-search__field').attr('disabled','true')
+        }else{
+            $('.search-item-block').removeClass('search-item-block-show');
+            $('.search-item .search-btn').removeClass('is-display');
+            $('.ant-select-search__field').removeAttr('disabled')
+        }
+    },
     render(){
+        let advancedSearchItem = this.state.advancedSearchList.map(function (item,index) {
+            return(
+                <div className = "advanced-search-item-block" key={index}>
+                    <span className = "advanced-search-item-text" onFocus={this.focusAdvancedSearch} onBlur={this.blurAdvancedSearch} onKeyDown= {this.handleKeyPress}
+                          style={{outline: '0px solid'}}
+                          tabIndex="0" >{item}</span>
+                </div>
+            )
+        }.bind(this));
         return(
             <li className = "search-item">
-                <SearchInput callbackParent = {this.handleSelectChoose} />
+                <div className = "search-item-block">{advancedSearchItem}</div>
+                <SearchInput callbackParent = {this.handleSelectChoose} className = "search-item-content" />
             </li>
         )
     }
 });
 //高级搜索
 const AdvancedSearchIcon = React.createClass({
-
+    getInitialState(){
+     return{
+            moveHeight:'90px'
+        }
+    },
+    handleClick(){
+       console.log('text');
+       this.state.moveHeight=='90px'?this.setState(
+           {moveHeight:'-220px'}
+       ):this.setState(
+           {moveHeight:'90px'}
+       );
+       PubSub.publish('advanceSearch',this.state.moveHeight)
+    },
     render(){
         return(
             <li className = "advanced-search-item">
-                <Button  bsStyle="link" >
+                <Button  bsStyle="link" onClick = {this.handleClick}>
                     <h5>高级搜索</h5>
                 </Button>
             </li>

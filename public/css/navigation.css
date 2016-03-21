@@ -29,26 +29,28 @@ body {
       padding-bottom: 69px; }
     body .nav-item-layout .title {
       margin-bottom: 31px; }
-    body .nav-item-layout .link-box .link-icon {
+    body .nav-item-layout .link-box .link-icon, body .nav-item-layout .link-box .link-icon-setting {
       padding: 17% 0 17% 0; }
-      body .nav-item-layout .link-box .link-icon .icon {
+      body .nav-item-layout .link-box .link-icon .icon, body .nav-item-layout .link-box .link-icon-setting .icon {
         width: 14px;
         display: inline-block;
         height: 13px;
         background-repeat: no-repeat; }
-      body .nav-item-layout .link-box .link-icon .text {
+      body .nav-item-layout .link-box .link-icon .text, body .nav-item-layout .link-box .link-icon-setting .text {
         padding-left: 10px;
         display: inline-block; }
-      body .nav-item-layout .link-box .link-icon .staff-icon {
+      body .nav-item-layout .link-box .link-icon .staff-icon, body .nav-item-layout .link-box .link-icon-setting .staff-icon {
         background-image: url("/img/icon_people_default.png"); }
-      body .nav-item-layout .link-box .link-icon .vehicle-icon {
+      body .nav-item-layout .link-box .link-icon .vehicle-icon, body .nav-item-layout .link-box .link-icon-setting .vehicle-icon {
         background-image: url("/img/icon_vehicle_default.png"); }
-      body .nav-item-layout .link-box .link-icon .task-icon {
+      body .nav-item-layout .link-box .link-icon .task-icon, body .nav-item-layout .link-box .link-icon-setting .task-icon {
         background-image: url("/img/icon_task_default.png"); }
-      body .nav-item-layout .link-box .link-icon .maintenance-icon {
+      body .nav-item-layout .link-box .link-icon .maintenance-icon, body .nav-item-layout .link-box .link-icon-setting .maintenance-icon {
         background-image: url("/img/icon_service_default.png"); }
-      body .nav-item-layout .link-box .link-icon .leave-icon {
+      body .nav-item-layout .link-box .link-icon .leave-icon, body .nav-item-layout .link-box .link-icon-setting .leave-icon {
         background-image: url("/img/icon_sick_leave_default.png"); }
+    body .nav-item-layout .link-box .link-icon-setting {
+      padding: 14% 0 14% 0; }
     body .nav-item-layout .link-box:hover .staff-icon.default {
       background-image: url("/img/icon_people_pressed.png"); }
     body .nav-item-layout .link-box:hover .vehicle-icon.default {

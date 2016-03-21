@@ -1,46 +1,60 @@
 .setting-content {
-  padding-top: 60px;
-  padding-right: 20px; }
-  .setting-content button {
-    border-radius: 0;
-    width: 135px; }
-  .setting-content .setting-container {
-    border: 20px solid #FFF;
-    background-color: #f4f5f7; }
-    .setting-content .setting-container .inner-container {
-      padding-top: 25px;
-      padding-bottom: 25px; }
-      .setting-content .setting-container .inner-container .item-space {
-        padding-top: 10px; }
-      .setting-content .setting-container .inner-container .left-select {
-        padding-right: 20px;
-        text-align: right; }
-      .setting-content .setting-container .inner-container .right-view {
-        margin-top: 20px;
-        width: 182px;
-        background-color: #ffffff; }
-        .setting-content .setting-container .inner-container .right-view .header-img {
-          position: relative;
-          top: -20px; }
-        .setting-content .setting-container .inner-container .right-view .list-inline {
-          padding-left: 12%; }
-        .setting-content .setting-container .inner-container .right-view .footer-img {
-          position: relative; }
-          .setting-content .setting-container .inner-container .right-view .footer-img .type-icon {
-            position: absolute;
-            top: 30px;
-            left: 155px; }
-          .setting-content .setting-container .inner-container .right-view .footer-img .type-text {
-            top: 35px;
-            left: 25px;
-            color: #fff;
-            position: absolute; }
-  .setting-content .setting-footer {
-    background-color: #ffffff; }
-    .setting-content .setting-footer .btn-right {
-      text-align: right;
-      padding: 20px 20px 20px 0px; }
-    .setting-content .setting-footer .btn-left {
-      padding: 20px 0 20px 20px; }
+  background-color: #e6e5ed;
+  height: 100%; }
+  .setting-content .setting-layout {
+    width: 91%;
+    position: relative;
+    left: 153px;
+    padding-top: 60px;
+    padding-right: 20px; }
+    .setting-content .setting-layout button {
+      border-radius: 0;
+      width: 135px; }
+    .setting-content .setting-layout .setting-container {
+      border: 20px solid #FFF;
+      background-color: #f4f5f7; }
+      .setting-content .setting-layout .setting-container .inner-container {
+        padding-top: 25px;
+        padding-bottom: 25px; }
+        .setting-content .setting-layout .setting-container .inner-container .item-space {
+          padding-top: 10px; }
+        .setting-content .setting-layout .setting-container .inner-container .left-select {
+          padding-right: 20px;
+          text-align: right; }
+        .setting-content .setting-layout .setting-container .inner-container .right-view {
+          margin-top: 20px;
+          width: 182px;
+          background-color: #ffffff; }
+          .setting-content .setting-layout .setting-container .inner-container .right-view .header-img {
+            position: relative;
+            top: -20px; }
+          .setting-content .setting-layout .setting-container .inner-container .right-view .list-inline {
+            padding-left: 12%; }
+          .setting-content .setting-layout .setting-container .inner-container .right-view .footer-img {
+            position: relative; }
+            .setting-content .setting-layout .setting-container .inner-container .right-view .footer-img .type-icon {
+              position: absolute;
+              top: 30px;
+              left: 155px; }
+            .setting-content .setting-layout .setting-container .inner-container .right-view .footer-img .type-text {
+              top: 35px;
+              left: 25px;
+              color: #fff;
+              position: absolute; }
+    .setting-content .setting-layout .setting-footer {
+      background-color: #ffffff; }
+      .setting-content .setting-layout .setting-footer .btn-right {
+        text-align: right;
+        padding: 20px 20px 20px 0px; }
+      .setting-content .setting-layout .setting-footer .btn-left {
+        padding: 20px 0 20px 20px; }
+  .setting-content .task-setting .task-setting-content {
+    padding: 20px;
+    border: 20px solid #FFF; }
+    .setting-content .task-setting .task-setting-content .setting-task-card {
+      padding: 15px;
+      padding-left: 0px; }
+      .setting-content .task-setting .task-setting-content .setting-task-card .ant-collapse-header {
+        height: 76px; }
 
 /*# sourceMappingURL=setting.css.map */

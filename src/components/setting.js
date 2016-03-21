@@ -3,11 +3,11 @@ import $ from 'jquery'
 import React from 'react';
 import {render} from 'react-dom';
 import {browserHistory,Link} from 'react-router'
-import {Row,Col} from 'antd';
 import  backboneReact  from 'backbone-react-component';
-import {Checkbox,Button} from 'antd';
+import {Checkbox,Button,Collapse,Row,Col,Icon} from 'antd';
 import {cardList,cardsDriver,cardsStaff,cardVehicle} from '../models/cardKey';
 const CheckboxGroup = Checkbox.Group;
+const Panel = Collapse.Panel;
 const Setting = React.createClass({
     handleDefaultChecked(index){
         let selectArray =this.state.selectArrayIndex;
@@ -280,7 +280,7 @@ const DriverSetting = React.createClass({
 
 
         return(
-            <div>
+            <div className = "setting-layout">
                 <Row type="flex" className = 'setting-container' justify="end">
                     <Col span = '14' className='inner-container'>
                         <Col span = '8' className = "left-select">
@@ -423,7 +423,7 @@ const StaffSetting = React.createClass({
             return cardSelectItem;
         }.bind(this);
         return(
-            <div>
+            <div className = "setting-layout">
                 <Row type="flex" className = 'setting-container' justify="end">
                     <Col span = '14' className='inner-container'>
                         <Col span = '8' className = "left-select">
@@ -483,7 +483,7 @@ const VehicleSetting = React.createClass({
                 {
                     name:'seatNumber',
                     value:'座位数'
-                },
+                }
             ]
         }
     },
@@ -585,7 +585,7 @@ const VehicleSetting = React.createClass({
             }
         });
         return(
-            <div>
+            <div className = "setting-layout">
                 <Row type="flex" className = 'setting-container' justify="center">
                     <Col span = '14' className='inner-container'>
                         <Col span = '8' className = "left-select">
@@ -627,4 +627,91 @@ const VehicleSetting = React.createClass({
         )
     }
 });
-export{Setting,StaffSetting,VehicleSetting,DriverSetting};
+//任务管理卡片显示设置
+const TaskSetting = React.createClass({
+    getInitialState(){
+        return{
+            singleCarCheckList:[],
+            multiCarCheckList:[],
+            distributingList:[]
+        }
+    },
+    taskCard(type){
+        let headerData = [];
+        let notChooseOption = [];
+      // 正在进行 已安排
+      if(type == 0){
+          headerData = [
+              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}],
+              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}]
+          ];
+          notChooseOption =['不可选择项：','出车时间：','司机：','车牌号：','编码：']
+      }else if(type == 1){
+          headerData = [
+              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}],
+              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}]
+          ];
+          notChooseOption =['不可选择项：','出车时间：','司机：','车牌号：','编码：']
+      }else{
+          headerData = [
+              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}],
+              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}]
+          ];
+          notChooseOption =['不可选择项：','出车时间：','司机：','车牌号：','编码：']
+      }
+       let header =headerData.map(function(itemArray,index){
+            return(
+                <Row key = {index}>
+                    {itemArray.map(function(item,index){
+                        return(
+                            <Col span = '8' key={index}>
+                                <lebal>{item.aliasName}</lebal><span>{item.value}</span>
+                            </Col>
+                        )
+                    })}
+                </Row>
+            )
+        });
+        let notChooseElement = notChooseOption.map(function(item,index){
+            return(
+                <li key={index}>{item}</li>
+            )
+        })
+        return(
+            <div>
+                <ul className = "list-inline">
+                    {notChooseElement}
+                </ul>
+                <div className = "setting-task-card">
+                    <div>
+                        <span>编码：1</span>
+                        <img src = "/img/edit_task.png" />
+                    </div>
+                    <Collapse >
+                        <Panel header={header}>
+                            <p>hello</p>
+                            <Icon type="caret-left" />
+                        </Panel>
+                    </Collapse>
+                </div>
+            </div>
+        )
+    },
+    render(){
+        return(
+            <div className = 'setting-layout task-setting'>
+                <Row className = "task-setting-content">
+                    <Col span='6'>
+                        niha
+                    </Col>
+                    <Col span="18">
+                        {this.taskCard(0)}
+                        {this.taskCard(1)}
+                        {this.taskCard(2)}
+                    </Col>
+                </Row>
+            </div>
+        )
+    }
+});
+export{Setting,StaffSetting,VehicleSetting,DriverSetting,TaskSetting};

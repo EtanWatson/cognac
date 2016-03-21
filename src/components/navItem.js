@@ -119,7 +119,8 @@ const NavMenu = React.createClass({
             normal : true,
             isSetting : false,
             navData : navArray,
-            baseUrl : ''
+            baseUrl : '',
+            linkIcon:'link-icon'
       }
     },
     componentDidMount(){
@@ -133,9 +134,11 @@ const NavMenu = React.createClass({
       // 刷新页面保持nav的按钮状态
       switch (this.props.pageShow){
           case 'setting':
+              navBtnStatus('setting');
               this.setState({
                   navData : settingNavArray,
-                  baseUrl : '/setting'
+                  baseUrl : '/setting',
+                  linkIcon:'link-icon-setting'
               });
               break;
           case 'task':
@@ -149,28 +152,32 @@ const NavMenu = React.createClass({
               navBtnStatus('staffInfo');
               this.setState({
                   navData : navArray,
-                  baseUrl : ''
+                  baseUrl : '',
+                  linkIcon:'link-icon'
               });
               break;
           case 'vehicle':
               navBtnStatus('vehicleRecord');
               this.setState({
                   navData : navArray,
-                  baseUrl : ''
+                  baseUrl : '',
+                  linkIcon:'link-icon'
               });
               break;
           case 'maintenance':
               navBtnStatus('maintenance');
               this.setState({
                   navData : navArray,
-                  baseUrl : ''
+                  baseUrl : '',
+                  linkIcon:'link-icon'
               });
               break;
           case 'leaveRecord':
               navBtnStatus('leaveRecord');
               this.setState({
                   navData : navArray,
-                  baseUrl : ''
+                  baseUrl : '',
+                  linkIcon:'link-icon'
               });
               break;
 
@@ -183,13 +190,15 @@ const NavMenu = React.createClass({
             case 'setting':
                 this.setState({
                    navData : settingNavArray,
-                   baseUrl : '/setting'
+                   baseUrl : '/setting',
+                   linkIcon:'link-icon-setting'
                 });
                 break;
             default:
                 this.setState({
                     navData : navArray,
-                    baseUrl : ''
+                    baseUrl : '',
+                    linkIcon:'link-icon'
                 });
                 break;
         }
@@ -217,10 +226,11 @@ const NavMenu = React.createClass({
                 return(
                     <div className="link-box" key={item.key} >
                         <IndexLink to={this.state.baseUrl+"/"} className={"link-style "+item.name} onClick={this.handleClick}>
-                            <div className = "link-icon" >
+                            <div className ={this.state.linkIcon} >
                                 <div className ={item.icon+" icon default"}></div>
                                 <div className ={item.icon+"-press icon press is-display"}></div>
                                 <div className = "text">{item.aliasName}</div>
+                                <div>{item.helpInfo}</div>
                             </div>
                         </IndexLink>
                     </div>
@@ -229,10 +239,11 @@ const NavMenu = React.createClass({
                 return(
                     <div className="link-box" key={item.key} >
                         <Link to={this.state.baseUrl+"/"+item.name} className={"link-style "+item.name} onClick={this.handleClick}>
-                            <div className = "link-icon" >
+                            <div className = {this.state.linkIcon}>
                                 <div className ={item.icon+" icon default"}></div>
                                 <div className ={item.icon+"-press icon press is-display"}></div>
                                 <div className = "text">{item.aliasName}</div>
+                                <div>{item.helpInfo}</div>
                             </div>
                         </Link>
                     </div>

@@ -40,8 +40,7 @@ const LoginOut = React.createClass({
 const Header = React.createClass({
     render(){
         return (
-            <div>
-                <div className="header-content">
+            <div className="header-content">
                     <ul className="list-inline header-text">
                         <li className="header-title-left">
                             <ul className = "list-inline">
@@ -70,7 +69,6 @@ const Header = React.createClass({
                             </ul>
                         </li>
                     </ul>
-                </div>
             </div>
         )
     }

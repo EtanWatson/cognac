@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import {render} from 'react-dom';
+import _ from 'underscore'
 import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload,Menu,Cascader} from 'antd';
 import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from "./selectAutoCompletion"
@@ -1283,7 +1284,6 @@ const SendMessageDialog = React.createClass({
 
     },
     componentWillReceiveProps(nextProps){
-        console.log(this.state.collection)
         this.setState({
             visible:nextProps.isSendMessage,
             inputValue:this.state.model.Name.value
@@ -1937,5 +1937,57 @@ const LookDialog = React.createClass({
         )
     }
 });
-
-export{EditDialog,SendMessageDialog,AddDialog,LookDialog}
+//高级搜索下拉面板
+const AdvancedSearchPanel = React.createClass({
+    getInitialState(){
+        return{
+            tableData:[{headerName:'车辆类型：',value_0:'A1执照',value_1:'A2执照',value_2:'B1执照',value_3:'B2执照',value_4:'C1执照',value_5:'C2执照',value_6:'C3执照'},
+                        {headerName:'所属部门：',value_0:'车队1',value_1:'车队2',value_2:'车队3',value_3:'车队4',value_4:'车队5',value_5:'',value_6:''},
+                        {headerName:'状态：：',value_0:'空闲',value_1:'正在任务中',value_2:'休假中',value_3:'',value_4:'',value_5:'',value_6:''}
+            ],
+            advancedSearchList:[]
+        }
+    },
+    componentDidMount(){
+      this.advancedSearch_token = PubSub.subscribe('advanceSearch',function(topic,moveHeight){
+          $('.advanced-search-panel').animate({
+              top:moveHeight
+          })
+      }.bind(this))
+    },
+    componentWillUnMount(){
+      PubSub.unsubscribe(this.advancedSearch_token)
+    },
+    clickSearchTab(e){
+        let textValue = $(e.target).text();
+        PubSub.publish('advanceSearchData',textValue);
+    },
+    render(){
+        let generalTableContent = this.state.tableData.map(function(item,index){
+           return(
+               <tr key={index}>
+                   <td>{item.headerName}</td>
+                   <td onClick={this.clickSearchTab}>{item.value_0}</td>
+                   <td onClick={this.clickSearchTab}>{item.value_1}</td>
+                   <td onClick={this.clickSearchTab}>{item.value_2}</td>
+                   <td onClick={this.clickSearchTab}>{item.value_3}</td>
+                   <td onClick={this.clickSearchTab}>{item.value_4}</td>
+                   <td onClick={this.clickSearchTab}>{item.value_5}</td>
+               </tr>
+           )
+        }.bind(this));
+        return(
+            <div className = "advanced-search-panel">
+                <div className = 'table-title'>
+                    <span>所有车辆<Icon type="right" />共999辆车</span>
+                </div>
+                <table className = "advanced-table">
+                    <tbody>
+                        {generalTableContent}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+});
+export{EditDialog,SendMessageDialog,AddDialog,LookDialog,AdvancedSearchPanel}

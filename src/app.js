@@ -7,7 +7,7 @@ import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from
 import {Header} from './components/headerItem';
 import {OperationItem} from './components/operationItem';
 import {Content} from './components/contentItem';
-import {Setting,StaffSetting,VehicleSetting,DriverSetting} from './components/setting';
+import {Setting,StaffSetting,VehicleSetting,DriverSetting,TaskSetting} from './components/setting';
 import {AdvancedSearchPanel} from './components/toolComponents/dialogConponents'
 const App = React.createClass({
     getInitialState(){
@@ -50,8 +50,8 @@ const App = React.createClass({
                                 <OperationItem className = "operationItem"
                                     pageShow={page.type}
                                     />
-                                <AdvancedSearchPanel />
                             </div>
+                            <AdvancedSearchPanel />
                             <div className = "content-relative">
                                 {content}
                             </div>
@@ -74,6 +74,7 @@ render((
                 <IndexRoute  component ={DriverSetting}/>
                 <Route path = 'staffSetting' component = {StaffSetting}/>
                 <Route path = 'vehicleSetting' component ={VehicleSetting}/>
+                <Route path = 'taskSetting' component ={TaskSetting}/>
             </Route>
         </Route>
     </Router>

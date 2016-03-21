@@ -36,20 +36,29 @@
          key:'1',
          name:"driverSetting",
          aliasName:"司机信息",
-         icon:"task-icon"
+         icon:"task-icon",
+         helpInfo:'卡片展示设置'
      },
      {
          key:'2',
          name:"staffSetting",
          aliasName:"职员信息",
-         icon:"staff-icon"
+         icon:"staff-icon",
+         helpInfo:'卡片展示设置'
      },
      {
          key:'3',
          name:"vehicleSetting",
          aliasName:"车辆档案",
-         icon:"vehicle-icon"
-
+         icon:"vehicle-icon",
+         helpInfo:'卡片展示设置'
+     },
+     {
+         key:'4',
+         name:"taskSetting",
+         aliasName:"任务管理",
+         icon:"task-icon",
+         helpInfo:'卡片展示设置'
      }
  ];
  export{navArray,settingNavArray};

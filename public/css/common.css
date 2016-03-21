@@ -46,6 +46,7 @@ body {
     body .global-layout .right-layout {
       position: relative;
       text-align: left;
+      padding-right: 0;
       z-index: 1; }
       body .global-layout .right-layout .header-fixed {
         position: fixed;

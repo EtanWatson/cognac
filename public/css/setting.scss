@@ -1,59 +1,80 @@
 .setting-content{
-  button{
-    border-radius: 0;
-    width: 135px;
-  }
-  padding-top: 60px;
-  padding-right: 20px;
-  .setting-container{
-    border: 20px solid #FFF;
-    background-color: #f4f5f7;
-    .inner-container{
-      padding-top: 25px;
-      padding-bottom: 25px;
-      .item-space{
-        padding-top: 10px;
+  background-color: #e6e5ed;
+  height: 100%;
+  .setting-layout{
+    width: 91%;
+    position: relative;
+    left: 153px;
+    button{
+      border-radius: 0;
+      width: 135px;
+    }
+    padding-top: 60px;
+    padding-right: 20px;
+    .setting-container{
+      border: 20px solid #FFF;
+      background-color: #f4f5f7;
+      .inner-container{
+        padding-top: 25px;
+        padding-bottom: 25px;
+        .item-space{
+          padding-top: 10px;
+        }
+        .left-select{
+          padding-right: 20px;
+          text-align: right;
+        }
+        .right-view{
+          margin-top: 20px;
+          width: 182px;
+          background-color: #ffffff;
+          .header-img{
+            position: relative;
+            top:-20px
+          }
+          .list-inline{
+            padding-left: 12%;
+          }
+          .footer-img{
+            position: relative;
+            .type-icon{
+              position: absolute;
+              top: 30px;
+              left: 155px;
+            }
+            .type-text{
+              top: 35px;
+              left: 25px;
+              color: #fff;
+              position: absolute;
+            }
+          }
+        }
       }
-      .left-select{
-        padding-right: 20px;
+    }
+    .setting-footer{
+      background-color: #ffffff;
+      .btn-right{
         text-align: right;
+        padding:20px 20px 20px 0px;
       }
-      .right-view{
-        margin-top: 20px;
-        width: 182px;
-        background-color: #ffffff;
-        .header-img{
-          position: relative;
-          top:-20px
-        }
-         .list-inline{
-          padding-left: 12%;
-        }
-        .footer-img{
-          position: relative;
-          .type-icon{
-            position: absolute;
-            top: 30px;
-            left: 155px;
-          }
-          .type-text{
-            top: 35px;
-            left: 25px;
-            color: #fff;
-            position: absolute;
-          }
-        }
+      .btn-left{
+        padding:20px 0 20px 20px;
       }
     }
   }
-  .setting-footer{
-    background-color: #ffffff;
-    .btn-right{
-      text-align: right;
-      padding:20px 20px 20px 0px;
+  .task-setting{
+    .task-setting-content{
+      padding: 20px;
+      border: 20px solid #FFF;
+      .setting-task-card{
+        padding: 15px;
+        padding-left: 0px;
+        .ant-collapse-header{
+          height: 76px;
+        }
+      }
     }
-    .btn-left{
-      padding:20px 0 20px 20px;
-    }
+
   }
 }

@@ -37,7 +37,7 @@ body{
       margin-bottom: 31px;
     }
     .link-box{
-      .link-icon{
+      .link-icon,.link-icon-setting{
         padding: 17% 0 17% 0;
         .icon{
           width: 14px;
@@ -64,6 +64,9 @@ body{
         .leave-icon{
           background-image: url("/img/icon_sick_leave_default.png");
         }
+      }
+      .link-icon-setting{
+        padding: 14% 0 14% 0;
       }
     }
     .link-box:hover{
