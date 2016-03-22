@@ -12,7 +12,8 @@
       width: 135px; }
     .setting-content .setting-layout .setting-container {
       border: 20px solid #FFF;
-      background-color: #f4f5f7; }
+      background-color: #f4f5f7;
+      min-height: 550px; }
       .setting-content .setting-layout .setting-container .inner-container {
         padding-top: 25px;
         padding-bottom: 25px; }
@@ -48,13 +49,65 @@
         padding: 20px 20px 20px 0px; }
       .setting-content .setting-layout .setting-footer .btn-left {
         padding: 20px 0 20px 20px; }
-  .setting-content .task-setting .task-setting-content {
-    padding: 20px;
-    border: 20px solid #FFF; }
-    .setting-content .task-setting .task-setting-content .setting-task-card {
-      padding: 15px;
-      padding-left: 0px; }
-      .setting-content .task-setting .task-setting-content .setting-task-card .ant-collapse-header {
-        height: 76px; }
+  .setting-content .task-setting {
+    width: 85%; }
+    .setting-content .task-setting .task-setting-content {
+      padding: 10px;
+      border: 15px solid #FFF; }
+      .setting-content .task-setting .task-setting-content .no-choose-item > li:not(:first-child) {
+        color: #949597; }
+      .setting-content .task-setting .task-setting-content .setting-task-card {
+        padding-top: 10px; }
+        .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-code {
+          color: #fff;
+          height: 30px;
+          border-radius: 6px 6px 0 0; }
+          .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-code .code {
+            display: inline-block;
+            padding: 6px 0 6px 25px; }
+          .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-code .setting-task-icon {
+            float: right;
+            width: 40px;
+            padding: 6px 5px 6px 13px;
+            border-radius: 0 6px 0 0;
+            height: 30px; }
+        .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-code.yellow {
+          background-color: #f0c22f; }
+          .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-code.yellow .yellow-icon {
+            background-color: #f5a623; }
+        .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-code.red {
+          background-color: #f3686b; }
+          .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-code.red .red-icon {
+            background-color: #ec4c4d; }
+        .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-body {
+          background-color: #FFF;
+          padding: 10px; }
+          .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-body .content-row .label-space {
+            display: inline-block;
+            margin-left: 5px; }
+          .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-body .caret-down-col {
+            position: relative;
+            top: 12px;
+            left: 15px; }
+        .setting-content .task-setting .task-setting-content .setting-task-card .task-setting-checkboxs {
+          margin-top: 15px; }
+      .setting-content .task-setting .task-setting-content .task-setting-tip {
+        text-align: right;
+        padding-top: 50px; }
+        .setting-content .task-setting .task-setting-content .task-setting-tip label {
+          display: block; }
+        .setting-content .task-setting .task-setting-content .task-setting-tip .preview {
+          padding-right: 20px;
+          padding-bottom: 15px; }
+        .setting-content .task-setting .task-setting-content .task-setting-tip .detail {
+          padding-right: 15px; }
+    .setting-content .task-setting .task-setting-content:first-child {
+      border-bottom: 0; }
+    .setting-content .task-setting .task-setting-content:last-child {
+      border-top: 0; }
+    .setting-content .task-setting .setting-footer .btn-left {
+      padding: 10px 0 15px 20px !important; }
+    .setting-content .task-setting .setting-footer .btn-right {
+      padding: 10px 20px 15px 0 !important; }
 
 /*# sourceMappingURL=setting.css.map */

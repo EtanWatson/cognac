@@ -104,7 +104,6 @@ html, body {
             width: 26%; }
           html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list {
             border-bottom: 1px solid #A5B0C4;
-            padding-bottom: 19px;
             position: relative; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .triangle-up, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .triangle-up {
               width: 0;
@@ -116,6 +115,11 @@ html, body {
               position: absolute;
               bottom: 0px;
               left: 50%;
+              display: none; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-details, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-details {
+              background: #F3F6FB;
+              padding: 5px 0;
+              margin-top: 10px;
               display: none; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-types, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-types {
               background: url("/img/mutiple.png") no-repeat;
@@ -140,6 +144,8 @@ html, body {
                 vertical-align: middle; }
               html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .completed-task-list-row .completed-task-list-col .task-data1, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .completed-task-list-row .completed-task-list-col .task-data1 {
                 margin-left: 5px; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .list-row, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .list-row {
+              margin-bottom: 10px; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon {
               display: inline-block;
               width: 13px;
@@ -166,6 +172,120 @@ html, body {
           padding-bottom: 5px;
           display: inline-block;
           margin-top: 4px; }
+          html .content-relative .main-task .main-task-content .task-card .edit-car-task, body .content-relative .main-task .main-task-content .task-card .edit-car-task {
+            width: 80%;
+            background: #ECF5FE;
+            margin: 10px 76px;
+            padding: 10px 31px; }
+            html .content-relative .main-task .main-task-content .task-card .edit-car-task .div-inline, body .content-relative .main-task .main-task-content .task-card .edit-car-task .div-inline {
+              display: inline-block;
+              position: relative; }
+              html .content-relative .main-task .main-task-content .task-card .edit-car-task .div-inline .plus-icon, body .content-relative .main-task .main-task-content .task-card .edit-car-task .div-inline .plus-icon {
+                display: inline-block;
+                width: 13px;
+                height: 13px;
+                background: url("/img/plus.png");
+                position: absolute;
+                right: 9px;
+                top: 6px; }
+            html .content-relative .main-task .main-task-content .task-card .edit-car-task input, body .content-relative .main-task .main-task-content .task-card .edit-car-task input {
+              border: 1px solid #C6C6C8;
+              border-radius: 3px;
+              height: 28px; }
+            html .content-relative .main-task .main-task-content .task-card .edit-car-task button, body .content-relative .main-task .main-task-content .task-card .edit-car-task button {
+              color: #3F9BCA;
+              border: 1px solid #3F9BCA;
+              height: 28px;
+              background-color: #ECF5FE;
+              width: 55px;
+              border-radius: 3px;
+              font-weight: bold;
+              position: absolute;
+              right: -1px; }
+            html .content-relative .main-task .main-task-content .task-card .edit-car-task .only-current-task, body .content-relative .main-task .main-task-content .task-card .edit-car-task .only-current-task {
+              margin-top: 18px;
+              margin-left: 825px; }
+          html .content-relative .main-task .main-task-content .task-card .periodic-task .btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn {
+            width: 80%;
+            margin-left: 76px;
+            padding: 15px 0 20px 0; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .btn button, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn button {
+              height: 28px;
+              border: none;
+              border-radius: 3px;
+              padding: 5px 3px;
+              height: 30px; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .btn .save-send-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn .save-send-btn {
+              float: left;
+              background: #29A3DD;
+              color: white; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .btn .save-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn .save-btn {
+              margin: 0 auto;
+              background: #DFE3EE;
+              width: 100px;
+              width: 75px; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .btn .close-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn .close-btn {
+              float: right;
+              background: #DFE3EE;
+              width: 100px;
+              width: 75px; }
+          html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn {
+            margin-left: 75px; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn button, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn button {
+              height: 28px;
+              border: none;
+              border-radius: 3px;
+              padding: 5px 3px; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn .btn1, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn .btn1 {
+              margin-left: 25px;
+              background: #29A3DD;
+              color: white; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn .btn2, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn .btn2 {
+              margin-left: 10px;
+              background: #DFE3EE; }
+          html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details {
+            background: #ECF5FE;
+            margin-left: 76px;
+            width: 80%; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .ant-calendar-picker, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .ant-calendar-picker {
+              width: 130px; }
+              html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .ant-calendar-picker .ant-input, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .ant-calendar-picker .ant-input {
+                height: 30px; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate {
+              width: 100%;
+              padding: 10px 0;
+              margin-top: 10px; }
+              html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li {
+                margin: 7px 29px; }
+                html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li .endDate, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li .endDate {
+                  margin-left: 400px; }
+                html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li .ant-checkbox, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li .ant-checkbox {
+                  margin-left: 60px; }
+          html .content-relative .main-task .main-task-content .task-card .task-edit-page, body .content-relative .main-task .main-task-content .task-card .task-edit-page {
+            width: 85%;
+            margin: 0 auto; }
+            html .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row, body .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row {
+              margin-top: 5px; }
+              html .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row label, body .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row label {
+                width: 50px;
+                text-align: justify;
+                text-align: end;
+                text-align-last: justify;
+                text-justify: distribute; }
+              html .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row .colon, body .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row .colon {
+                margin: 0 5px; }
+              html .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row input, body .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row input {
+                border: 1px solid #C6C6C8;
+                border-radius: 3px;
+                height: 28px;
+                width: 200px; }
+              html .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row .vehicles-marker, body .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row .vehicles-marker {
+                width: 854px; }
+              html .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row .task-edit-col label, body .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row .task-edit-col label {
+                margin-left: 125px; }
+              html .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row .task-edit-col .back-time-label, body .content-relative .main-task .main-task-content .task-card .task-edit-page .task-edit-row .task-edit-col .back-time-label {
+                width: 74px;
+                margin-left: 101px; }
           html .content-relative .main-task .main-task-content .task-card .click-down, body .content-relative .main-task .main-task-content .task-card .click-down {
             position: absolute;
             top: 50px;

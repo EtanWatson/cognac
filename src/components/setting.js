@@ -1,11 +1,13 @@
-//
 import $ from 'jquery'
 import React from 'react';
 import {render} from 'react-dom';
 import {browserHistory,Link} from 'react-router'
-import  backboneReact  from 'backbone-react-component';
+import  BackboneReactMixin  from 'backbone-react-component';
+import _ from 'underscore'
 import {Checkbox,Button,Collapse,Row,Col,Icon} from 'antd';
 import {cardList,cardsDriver,cardsStaff,cardVehicle} from '../models/cardKey';
+import {taskSettingModel,taskSetting} from '../models/taskSetting';
+import {taskModelTest,task} from '../models/taskDataTest';
 const CheckboxGroup = Checkbox.Group;
 const Panel = Collapse.Panel;
 const Setting = React.createClass({
@@ -194,14 +196,14 @@ const DriverSetting = React.createClass({
         router: React.PropTypes.object.isRequired
     },
     componentWillMount(){
-        backboneReact.on(this,{
+        BackboneReactMixin.on(this,{
             collections:{
                 cardKey:new cardList(cardsDriver)
             }
         });
     } ,
     componentWillUnmount(){
-        backboneReact.off(this);
+        BackboneReactMixin.off(this);
     },
     handleDefaultChecked(index){
         let selectArray =this.state.selectArrayIndex;
@@ -339,14 +341,14 @@ const StaffSetting = React.createClass({
        }
     },
     componentWillMount(){
-        backboneReact.on(this,{
+        BackboneReactMixin.on(this,{
             collections:{
                 cardKey:new cardList(cardsStaff)
             }
         });
     } ,
     componentWillUnmount(){
-        backboneReact.off(this);
+        BackboneReactMixin.off(this);
     },
     handleDefaultChecked(index){
         let selectArray =this.state.selectArrayIndex;
@@ -488,14 +490,14 @@ const VehicleSetting = React.createClass({
         }
     },
     componentWillMount(){
-        backboneReact.on(this,{
+        BackboneReactMixin.on(this,{
             collections:{
                 cardKey:new cardList(cardVehicle)
             }
         });
     } ,
     componentWillUnmount(){
-        backboneReact.off(this);
+        BackboneReactMixin.off(this);
     },
     handleDefaultChecked(index){
         let selectArray =this.state.selectArrayIndex;
@@ -629,43 +631,150 @@ const VehicleSetting = React.createClass({
 });
 //任务管理卡片显示设置
 const TaskSetting = React.createClass({
+    //mixins: [BackboneReactMixin],
     getInitialState(){
         return{
-            singleCarCheckList:[],
-            multiCarCheckList:[],
-            distributingList:[]
+            headerColor:'yellow'
         }
     },
+    componentWillMount(){
+        BackboneReactMixin.on(this,{
+            models:{
+                taskModel:taskModelTest,
+                taskSetting:taskSettingModel
+            }
+        })
+    },
+    componentWillUnmount () {
+        BackboneReactMixin.off(this);
+    },
+    componentDidMount(){
+        var documentHeight = $(document).height()+20;
+        $('.setting-content').css('height',documentHeight);
+    },
+    //找出所有卡片显示条目
+    findHeaderKey(type){
+        let  taskType  = this.state.taskSetting[type];
+        let taskData = this.state.taskModel;
+        let headerData = [[],[]];
+        let keysArray =  _.keys(taskType);
+        keysArray.map(function(item,index){
+            if(taskType[item]){
+                if(headerData[0].length < 3){
+                    headerData[0].push({
+                        aliasName:taskData[item].aliasName
+                    })
+                }else{
+                    headerData[1].push({
+                        aliasName:taskData[item].aliasName
+                    })
+                }
+            }
+        });
+        return headerData
+    },
+    handleOnChange(e){
+        console.log(e.target);
+        let type = $(e.target).attr('data-type');
+        let key = $(e.target).attr('data-key');
+        let checked =e.target.checked;
+        let taskSettingTemp = this.state.taskSetting;
+        taskSettingTemp =taskSettingTemp[type][key] =checked;
+        this.setState({
+            //taskSetting:taskSettingTemp
+        })
+    },
+    //处理多选框列表
+    handleCheckboxList(type,notChooseOptionKeys){
+        let  taskType  = this.state.taskSetting[type];
+        let taskData = this.state.taskModel;
+        let checkboxListArray = _.omit(taskType,notChooseOptionKeys);
+        let checkboxListKeys  =  _.keys(checkboxListArray);
+        let checkboxListKeysHeight = Array();
+        //构建二维数组
+        let k = 0;
+        for(let i = 0 ; i < (checkboxListKeys.length/5 + 1) ; i++){
+            checkboxListKeysHeight[i] = checkboxListKeysHeight[i] || [];
+            for(let j = 0 ; j < 5 ; j ++){
+                if(checkboxListKeys[k]){
+                    checkboxListKeysHeight[i][j] = checkboxListKeys[k];
+                }else{
+                    break
+                }
+                k++
+            }
+        }
+        let checkboxList = checkboxListKeysHeight.map(function(item,index){
+            if(item.length > 0){
+                let self =this;
+                return(
+                    <div key = {index}>
+                        {item.map(function(item,index){
+                            console.log(taskType[item]);
+                            return(
+                                <div style={{width:'20%',display:'inline-block'}} key={index}>
+                                   <label>
+                                        <Checkbox onChange = {self.handleOnChange} data-key ={item} data-type={type} checked = {taskType[item]}/>
+                                        {taskData[item].aliasName}
+                                   </label>
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
+            }
+
+        }.bind(this));
+        return checkboxList
+    },
     taskCard(type){
-        let headerData = [];
-        let notChooseOption = [];
-      // 正在进行 已安排
+        let headerData = [];  //卡片显示数据
+        let notChooseOption = [];//不可选择项
+        let notChooseOptionKeys = []; //不可选择项keys
+        let cardHeader = '';      //卡片头
+        let checkboxList = '';   //多选框列表
       if(type == 0){
-          headerData = [
-              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}],
-              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}]
-          ];
-          notChooseOption =['不可选择项：','出车时间：','司机：','车牌号：','编码：']
+          notChooseOption =['不可选择项：','出车时间','司机','车牌号','编码'];
+          notChooseOptionKeys = ['drawOutTime','hasReturn','vehicleCount'];
+          headerData =this.findHeaderKey('single');
+          checkboxList = this.handleCheckboxList('single',notChooseOptionKeys);
+          //过滤不可选项keys
+          cardHeader=<div  className = "setting-task-code yellow">
+                            <span className = 'code'>编码：1</span>
+                            <div className = "setting-task-icon yellow-icon">
+                                <img src = "/img/edit_task.png" />
+                            </div>
+                      </div>
       }else if(type == 1){
-          headerData = [
-              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}],
-              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}]
-          ];
-          notChooseOption =['不可选择项：','出车时间：','司机：','车牌号：','编码：']
+          notChooseOptionKeys = ['drawOutTime','hasReturn','vehicleCount'];
+          notChooseOption =['不可选择项：','车辆总数','已回车','出车时间','编码'];
+          headerData =this.findHeaderKey('multi');
+          checkboxList = this.handleCheckboxList('multi',notChooseOptionKeys);
+          cardHeader=<div  className = "setting-task-code yellow">
+                          <span className = 'code'>编码：1</span>
+                          <div className = "setting-task-icon yellow-icon">
+                              <img src = "/img/edit_task.png" />
+                          </div>
+                     </div>
       }else{
-          headerData = [
-              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}],
-              [{aliasName:'车辆总数',value:'3'},{aliasName:'已回车',value:'1'},{aliasName:"出车时间",value:'2015-12-12'}]
-          ];
-          notChooseOption =['不可选择项：','出车时间：','司机：','车牌号：','编码：']
+          notChooseOption =['不可选择项：','出车时间','司机','车牌号','编码'];
+          notChooseOptionKeys = ['drawOutTime','hasReturn','vehicleCount','useCase','collectionPosition','drawInTime'];
+          headerData =this.findHeaderKey('distributing');
+          checkboxList = this.handleCheckboxList('distributing',notChooseOptionKeys);
+          cardHeader=<div  className = "setting-task-code red">
+                          <span className = 'code'>编码：2</span>
+                          <div className = "setting-task-icon red-icon">
+                              <img src = "/img/edit_task.png" />
+                          </div>
+                     </div>
       }
        let header =headerData.map(function(itemArray,index){
             return(
-                <Row key = {index}>
+                <Row key = {index} className = "content-row">
                     {itemArray.map(function(item,index){
                         return(
                             <Col span = '8' key={index}>
-                                <lebal>{item.aliasName}</lebal><span>{item.value}</span>
+                                <label>{item.aliasName +"："}</label><span className="label-space">-</span>
                             </Col>
                         )
                     })}
@@ -673,41 +782,79 @@ const TaskSetting = React.createClass({
             )
         });
         let notChooseElement = notChooseOption.map(function(item,index){
-            return(
-                <li key={index}>{item}</li>
-            )
-        })
+            if(index == 0){
+                return(
+                    <label key={index}>{item}</label>
+                )
+            }else{
+                return(
+                    <li key={index}>{item}</li>
+                )
+            }
+        });
         return(
             <div>
-                <ul className = "list-inline">
+                <ul className = "list-inline no-choose-item">
                     {notChooseElement}
                 </ul>
                 <div className = "setting-task-card">
-                    <div>
-                        <span>编码：1</span>
-                        <img src = "/img/edit_task.png" />
+                    {cardHeader}
+                    <div className = "setting-task-body">
+                        {header}
                     </div>
-                    <Collapse >
-                        <Panel header={header}>
-                            <p>hello</p>
-                            <Icon type="caret-left" />
-                        </Panel>
-                    </Collapse>
+                    <div className = "task-setting-checkboxs">
+                        {checkboxList}
+                    </div>
                 </div>
             </div>
         )
     },
     render(){
+        console.log(this.state.taskSetting);
         return(
             <div className = 'setting-layout task-setting'>
                 <Row className = "task-setting-content">
-                    <Col span='6'>
-                        niha
+                    <Col span='6' className = "task-setting-tip">
+                        <label className = "preview">预览效果：</label>
+                        <div className = "detail">
+                            <label>正在进行\已安排</label>
+                            <label>任务展示设置（单人单车）</label>
+                        </div>
                     </Col>
                     <Col span="18">
                         {this.taskCard(0)}
+                    </Col>
+                </Row>
+                <Row className = "task-setting-content">
+                    <Col span='6' className = "task-setting-tip">
+                        <label className = "preview">预览效果：</label>
+                        <div className = "detail">
+                            <label>正在进行\已安排</label>
+                            <label>任务展示设置（多人多车）</label>
+                        </div>
+                    </Col>
+                    <Col span="18">
                         {this.taskCard(1)}
+                    </Col>
+                </Row>
+                <Row className = "task-setting-content">
+                    <Col span='6' className = 'task-setting-tip'>
+                        <label className = "preview">预览效果：</label>
+                        <div className = "detail">
+                            <label>待派发</label>
+                            <label>任务展示设置</label>
+                        </div>
+                    </Col>
+                    <Col span="18">
                         {this.taskCard(2)}
+                    </Col>
+                </Row>
+                <Row type = 'flex' justify = "center" className = "setting-footer">
+                    <Col span = "12" className = 'btn-left'>
+                        <Button type="primary" size="large">保存</Button>
+                    </Col>
+                    <Col span = "12" className = 'btn-right'>
+                        <Button type="primary" size="large"  onClick={() => browserHistory.replace('/')}>返回</Button>
                     </Col>
                 </Row>
             </div>

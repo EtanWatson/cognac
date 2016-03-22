@@ -14,6 +14,7 @@
     .setting-container{
       border: 20px solid #FFF;
       background-color: #f4f5f7;
+      min-height: 550px;
       .inner-container{
         padding-top: 25px;
         padding-bottom: 25px;
@@ -64,17 +65,97 @@
     }
   }
   .task-setting{
+    width: 85%;
     .task-setting-content{
-      padding: 20px;
-      border: 20px solid #FFF;
+      padding: 10px;
+      border: 15px solid #FFF;
+      .no-choose-item>li:not(:first-child){
+        color: #949597;
+      }
       .setting-task-card{
-        padding: 15px;
-        padding-left: 0px;
-        .ant-collapse-header{
-          height: 76px;
+        padding-top: 10px;
+        .setting-task-code{
+          color: #fff;
+          height: 30px;
+          border-radius: 6px 6px 0 0;
+          .code{
+            display: inline-block;
+            padding: 6px 0 6px 25px;
+          }
+          .setting-task-icon{
+            float: right;
+            width: 40px;
+            padding: 6px 5px 6px 13px;
+            border-radius: 0 6px 0 0;
+            height: 30px;
+
+          }
+        }
+        .setting-task-code.yellow{
+          background-color: #f0c22f;
+          .yellow-icon{
+            background-color: #f5a623;
+          }
+        }
+        .setting-task-code.red{
+          background-color: #f3686b;
+          .red-icon{
+            background-color: #ec4c4d;
+          }
+        }
+        .setting-task-body{
+          background-color: #FFF;
+          padding: 10px;
+          .content-row:not(:last-child){
+            //padding-bottom: 5px;
+          }
+          .content-row{
+            .label-space{
+               display: inline-block;
+                margin-left: 5px;
+            }
+          }
+          .caret-down-col{
+            position: relative;
+            top: 12px;
+            left: 15px;
+          }
+        }
+        .task-setting-checkboxs{
+          margin-top: 15px;
+          .task-setting-checkbox{
+
+          }
+        }
+      }
+      .task-setting-tip{
+        text-align: right;
+        padding-top: 50px;
+        label{
+          display: block;
+        }
+        .preview{
+          padding-right: 20px;
+          padding-bottom: 15px;
+        }
+        .detail{
+          padding-right: 15px;
         }
       }
     }
-
+    .task-setting-content:first-child{
+      border-bottom: 0;
+    }
+    .task-setting-content:last-child{
+      border-top: 0;
+    }
+    .setting-footer{
+      .btn-left{
+        padding: 10px 0 15px 20px !important;
+      }
+      .btn-right{
+        padding: 10px 20px 15px 0 !important;
+      }
+    }
   }
 }

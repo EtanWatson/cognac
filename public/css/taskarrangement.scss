@@ -141,7 +141,7 @@ html,body{
           }
           .completed-task-list{
             border-bottom:1px solid #A5B0C4;
-            padding-bottom:19px;
+            //padding-bottom:19px;
             position:relative;
             .triangle-up {
               width:0;
@@ -154,6 +154,12 @@ html,body{
               position:absolute;
               bottom:0px;
               left:50%;
+              display:none;
+            }
+            .task-details{
+              background:#F3F6FB;
+              padding:5px 0;
+              margin-top:10px;
               display:none;
             }
             .task-types{
@@ -179,6 +185,7 @@ html,body{
                 padding-left:24px;
                 margin-top:8px;
               .completed-task-list-col{
+
                 span{
                   vertical-align:middle;
                 }
@@ -186,6 +193,9 @@ html,body{
                   margin-left:5px;
                 }
               }
+            }
+            .list-row{
+              margin-bottom:10px;
             }
             .icon{
               display:inline-block;
@@ -223,6 +233,155 @@ html,body{
           padding-bottom: 5px;
           display:inline-block;
           margin-top:4px;
+          .edit-car-task{
+            width:80%;
+            background:#ECF5FE;
+            margin:10px 76px;
+            padding:10px 31px;
+            .div-inline{
+              display:inline-block;
+              position:relative;
+              .plus-icon{
+                display:inline-block;
+                width:13px;
+                height:13px;
+                background:url("/img/plus.png");
+                position:absolute;
+                right:9px;
+                top:6px;
+              }
+            }
+            input{
+              border: 1px solid #C6C6C8;
+              border-radius: 3px;
+              height: 28px;
+            }
+            button{
+              color:#3F9BCA;
+              border:1px solid #3F9BCA;
+              height: 28px;
+              background-color:#ECF5FE;
+              width:55px;
+              border-radius: 3px;
+              font-weight:bold;
+              position:absolute;
+              right:-1px;
+            }
+            .only-current-task{
+              margin-top:18px;
+              margin-left:825px;
+            }
+          }
+          .periodic-task{
+            .btn{
+              width:80%;
+              margin-left:76px;
+              padding:15px 0 20px 0;
+              button{
+                height:28px;
+                border:none;
+                border-radius: 3px;
+                padding:5px 3px;
+                height:30px;
+              }
+              .save-send-btn{
+                float:left;
+                background:#29A3DD;
+                color:white;
+              }
+              .save-btn{
+                margin:0 auto;
+                background:#DFE3EE;
+                width:100px;
+                width:75px;
+              }
+              .close-btn{
+                float:right;
+                background:#DFE3EE;
+                width:100px;
+                width:75px;
+              }
+            }
+            .periodic-task-btn{
+              margin-left:75px;
+              button{
+                height:28px;
+                border:none;
+                border-radius: 3px;
+                padding:5px 3px;
+              }
+              .btn1{
+                margin-left:25px;
+                background:#29A3DD;
+                color:white;
+              }
+              .btn2{
+                margin-left:10px;
+                background:#DFE3EE;
+              }
+            }
+            .periodic-task-details{
+              background:#ECF5FE;
+              margin-left:76px;
+              width:80%;
+              .ant-calendar-picker{
+                width:130px;
+                .ant-input{
+                  height:30px;
+                }
+              }
+              .startDate{
+                width:100%;
+                padding:10px 0;
+                margin-top:10px;
+                li{
+                  margin:7px 29px;
+                  .endDate{
+                    margin-left:400px;
+                  }
+                  .ant-checkbox{
+                    margin-left:60px;
+                  }
+                }
+
+              }
+            }
+          }
+          .task-edit-page{
+            width:85%;
+            margin:0 auto;
+            .task-edit-row{
+              margin-top:5px;
+              label{
+                width: 50px;
+                text-align: justify;
+                text-align: end;
+                text-align-last: justify;
+                text-justify: distribute;
+              }
+              .colon{
+                margin:0 5px;
+              }
+              input{
+                border: 1px solid #C6C6C8;
+                border-radius: 3px;
+                height: 28px;
+                width:200px;
+              }
+              .vehicles-marker{
+                width:854px;
+              }
+              .task-edit-col{
+                label{
+                  margin-left:125px;
+                }
+                .back-time-label{
+                  width:74px;
+                  margin-left:101px;
+                }
+              }
+            }
+          }
           .click-down {
             position: absolute;
             top: 50px;

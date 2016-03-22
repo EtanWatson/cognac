@@ -12,27 +12,11 @@ import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
 import {navArray,settingNavArray} from '../data/navigation';
 import {staffData,staffCollection} from '../models/staffData'
 import {taskModel,taskList} from '../models/taskData'
+import {completedtaskModel,completedtaskList} from '../models/CompletedTaskData'
 import {TaskArrangement,CompletedArrangement} from './taskArrangement'
 import { Row, Col ,Collapse,Icon} from 'antd';
 //任务管理
 const TaskManage = React.createClass({
-    //getInitialState(){
-    //    return{
-    //        typeCollection:staffData
-    //    }
-    //},
-    //注册全局事件,更新content显示内容
-    //componentDidMount(){
-    //    this.typeCollectio_token = PubSub.subscribe('typeCollection',function(topic,typeCollection){
-    //        let typeList = new staffCollection(typeCollection);
-    //        this.setState({
-    //            typeCollection:typeList
-    //        })
-    //    }.bind(this));
-    //},
-    //componentWillUnmount(){
-    //    PubSub.unsubscribe(this.typeCollectio_token)
-    //},
     render(){
         return (
             <div className="main-task">
@@ -43,7 +27,7 @@ const TaskManage = React.createClass({
                             </div>
                         </Col>
                         <Col span="6" className="main-task-right">
-                            <CompletedArrangement/>
+                            <CompletedArrangement collection={completedtaskList} model={completedtaskModel}/>
                         </Col>
                     </Row>
             </div>
