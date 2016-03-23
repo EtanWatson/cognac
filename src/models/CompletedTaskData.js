@@ -34,6 +34,12 @@ var completedTask = Backbone.Model.extend({
             aliasName:'车辆类型',
             value:'',
             isShowInCard:''
+        },
+        Type : {
+            name:'Type',
+            aliasName:'任务类型',
+            value:'',
+            isShowInCard:''
         }
     }
 });
@@ -41,7 +47,7 @@ var CompletedtaskCollection = Backbone.Collection.extend({
     model:completedTask
 });
 const completedtaskInfo=[];
-for(let i = 0 ; i < 5 ; i ++){
+for(let i = 0 ; i < 10; i ++){
     completedtaskInfo.push({
         id:i,
         taskNum:{
@@ -73,7 +79,8 @@ for(let i = 0 ; i < 5 ; i ++){
             aliasName:'车辆类型',
             value:`车辆类型${i}`,
             isShowInCard:''
-        }
+        },
+        Type : `${i%2}`
     })
 }
 var completedtaskList = new CompletedtaskCollection(completedtaskInfo);

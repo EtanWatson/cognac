@@ -162,7 +162,10 @@
       -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
       .ant-modal-container .send-message-modal .ant-modal-body .send-select-warp .send-select-span .send-select-content {
-        overflow: hidden;
+        position: relative;
+        top: -5px;
+        max-height: 80px;
+        overflow-y: auto;
         text-overflow: ellipsis;
         padding-left: 6px;
         padding-bottom: 4px;

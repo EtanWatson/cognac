@@ -35,22 +35,26 @@ body .operation-content {
         width: 13px;
         height: 13px;
         background-repeat: no-repeat; }
+      body .operation-content .operation .left-item .item-hover h5 {
+        color: #2aa2dd !important; }
+      body .operation-content .operation .left-item .item-hover .add-item-icon-hover {
+        background-image: url("/img/icon_add_pressed.png"); }
+      body .operation-content .operation .left-item .item-hover .list-item-icon-hover {
+        background-image: url("/img/icon_card_pressed.png"); }
+      body .operation-content .operation .left-item .item-hover .batch-item-icon-hover {
+        background-image: url("/img/icon_batch_pressed.png"); }
       body .operation-content .operation .left-item .add-item-icon {
         background-image: url("/img/icon_add_default.png"); }
-      body .operation-content .operation .left-item .add-item-icon-hover {
-        background-image: url("/img/icon_add_pressed.png"); }
       body .operation-content .operation .left-item .list-item-icon {
         background-image: url("/img/icon_card_default.png"); }
-      body .operation-content .operation .left-item .list-item-icon-hover {
-        background-image: url("/img/icon_card_pressed.png"); }
       body .operation-content .operation .left-item .batch-item-icon {
         background-image: url("/img/icon_batch_deffault.png"); }
-      body .operation-content .operation .left-item .batch-item-icon-hover {
-        background-image: url("/img/icon_batch_pressed.png"); }
       body .operation-content .operation .left-item .delete-item-icon {
         background-image: url("/img/icon_delete_default.png"); }
       body .operation-content .operation .left-item .print-item-icon {
         background-image: url("/img/icon_print_default.png"); }
+      body .operation-content .operation .left-item .send-item-icon {
+        background-image: url("/img/icon_send_pressed.png"); }
       body .operation-content .operation .left-item .select-all-btn {
         background-image: url("/img/icon_select all_default.png"); }
       body .operation-content .operation .left-item .send-message-btn {
@@ -85,7 +89,7 @@ body .operation-content {
           padding: 0 !important;
           border-left: 0;
           position: relative;
-          left: -45px;
+          left: -52px;
           background-color: #fff;
           top: 0;
           color: #666; }
@@ -104,6 +108,8 @@ body .operation-content {
         background-color: #ef4c4f; }
       body .operation-content .operation .right-item .type-color.other {
         background-color: #28d3db; }
+      body .operation-content .operation .right-item .click-item .type-color {
+        box-shadow: 1px 1px 1px #888888 inset; }
       body .operation-content .operation .right-item .search-item {
         position: relative;
         top: 8px;
@@ -178,10 +184,10 @@ body .operation-content {
 body .advanced-search-panel {
   position: absolute;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   padding-bottom: 20px;
   background: rgba(251, 251, 253, 0.9);
-  top: -220px; }
+  top: -520px; }
   body .advanced-search-panel .table-title, body .advanced-search-panel .advanced-table {
     margin-left: 200px;
     width: 80%; }
@@ -199,5 +205,14 @@ body .advanced-search-panel {
       text-align: center; }
     body .advanced-search-panel .advanced-table tbody tr td:not(:first-child) {
       cursor: pointer; }
+  body .advanced-search-panel .advanced-table tbody .car-type-up {
+    border-bottom: 0px; }
+  body .advanced-search-panel .advanced-table tbody .car-type-down {
+    border-top: 0px; }
+  body .advanced-search-panel .advanced-table tbody .vehicle-out-start .ant-calendar-picker {
+    width: 25%;
+    min-width: 120px; }
+  body .advanced-search-panel .advanced-table tbody .vehicle-out-start .start-date-space {
+    padding: 0 12%; }
 
 /*# sourceMappingURL=operation.css.map */

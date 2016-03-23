@@ -85,6 +85,12 @@ var task = Backbone.Model.extend({
             aliasName:'出车备注',
             value:'',
             isShowInCard:''
+        },
+        Type : {
+            name:'Type',
+            aliasName:'任务类型',
+            value:'',
+            isShowInCard:''
         }
     }
 });
@@ -178,7 +184,8 @@ for(let i = 0 ; i < 5 ; i ++){
             aliasName:'出车备注',
             value:`出车备注${i}`,
             isShowInCard:''
-        }
+        },
+        Type : `${i%3}`
     })
 }
 var taskList = new taskCollection(taskInfo);

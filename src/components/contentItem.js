@@ -10,7 +10,8 @@ import _ from 'underscore'
 import {TaskManage,StaffInfo,VehicleRecord,Maintenance,LeaveRecord,NavMenu} from './navItem';
 import {Button as AntButton,Icon,Row,Col,Modal,Checkbox,Popover,Spin} from 'antd';
 import {EditDialog,SendMessageDialog,LookDialog} from './toolComponents/dialogConponents';
-import {staffModel} from '../models/staffData'
+import {staffModel} from '../models/staffData';
+import {vehicleModel} from '../models/vehicleData'
 import FixedDataTable from 'fixed-data-table';
 const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
@@ -215,7 +216,6 @@ const Card = React.createClass({
         //console.log('contentComPassLookEdit:'+isChange);
         if(isChange=='isEdit'){
             //console.log('用户点击了编辑');
-
             this.setState({
                 passLookEdit:true
             })
@@ -227,7 +227,20 @@ const Card = React.createClass({
    render(){
        let item = this.state.model;
        var staffType = function(){
-         var type =item.Type;
+         //var type =item.Type?item.Type:item.vehicleType.value;
+         let type = ''; //类别判断
+         let typeIcon = '' //卡片底部icon
+         if(this.props.pageShow == 'staff'){
+            type = item.Type;
+            if(type=="0"){
+                typeIcon = <img src="/img/staff-driver.png" />
+            } else{
+                typeIcon = <img src="/img/icon_driver.png" />
+            }
+         }else{
+            type = item.vehicleType.value;
+            typeIcon = <img src="/img/vehicle-icon.png" />
+         }
          var typeText = this.props.typeTextInfo;
          if(type==="0"){
              return(
@@ -235,7 +248,7 @@ const Card = React.createClass({
                      <img src = "/img/card_title_driver.png" />
                      <div className = "type-text">{typeText[type]}</div>
                      <div className = "type-icon">
-                         <img src="/img/icon_driver.png" />
+                         {typeIcon}
                      </div>
                  </div>
              )
@@ -245,7 +258,7 @@ const Card = React.createClass({
                      <img src = "/img/card_title_manage.png" />
                      <div className = "type-text">{typeText[type]}</div>
                      <div className = "type-icon">
-                         <img src="/img/icon_driver.png" />
+                         {typeIcon}
                      </div>
                  </div>
              )
@@ -255,7 +268,7 @@ const Card = React.createClass({
                      <img src = "/img/card_title_others.png" />
                      <div className = "type-text">{typeText[type]}</div>
                      <div className = "type-icon">
-                         <img src="/img/icon_driver.png" />
+                         {typeIcon}
                      </div>
                  </div>
              )
@@ -265,7 +278,7 @@ const Card = React.createClass({
        var findShowItem = function(){
            var showItem = [];
            for(let attributeName in this.getModel().attributes){
-               if(this.getModel().get(attributeName).isShowInCard=='1'){
+               if(this.getModel().get(attributeName).isShowInCard){
                    showItem.push(this.getModel().get(attributeName))
                }
            }
@@ -297,7 +310,7 @@ const Card = React.createClass({
                            <img src = {item.HeadImg}/>
                        </li>
                        <li className = "header-left">
-                           <h3 className = "name">{item.Name.value}</h3>
+                           <h3 className = "name">{item.Name?item.Name.value:item.vehicleCode.value}</h3>
                            <ul className = "list-inline">
                                <li className = "circle circle-g">
                                    <img src="/img/icon_trip_normal.png" />
@@ -336,16 +349,16 @@ const ListShow = React.createClass({
             tableHeight:500,
             isLook:false,
             staffInfo:'',
-            listModel:staffModel,
+            //listModel:staffModel,
             listHeader:[],
             listHeaderCopy:[]
         };
    },
     componentWillMount(){
+        let model = this.getModel();
        var height = $(window).height();
        var width = $(window).width();
        let listHeadTemp = [];
-       let model = this.state.listModel;
        let listHeadKeys = model.keys();
        model.values().map(function(list,index){
            if(list.aliasName){
@@ -376,7 +389,6 @@ const ListShow = React.createClass({
                        }
                    })
                }
-              console.log(this.state.listHeader);
               PubSub.publish('print-show',{printData:printData,listHeader:this.state.listHeader});
           }else{
           }
@@ -428,6 +440,7 @@ const ListShow = React.createClass({
         selectedRowKeys:selectedRowKeysTemp
      });
    },
+    //全选
     handleSelectAll(){
         var selectedTemp=[];
         if(this.state.allChecked){
@@ -447,6 +460,7 @@ const ListShow = React.createClass({
             selectedRowKeys:selectedTemp
         });
     },
+   //行单击事件
    handleRowClick(e){
        let tableCell = $('.content-table').find('.table-cell');
        $(tableCell).removeClass('item-click');
@@ -455,6 +469,7 @@ const ListShow = React.createClass({
        $(thisTableCell).addClass('item-click');
        $(thisTableCell).find('.icon').removeClass('is-display');
    },
+   //行双击事件
    handleDoubleClick(e){
        var staffId = $(e.target).parents('.public_fixedDataTableCell_main').find('.table-cell').attr('data-id');
        var staffInfo = this.getCollection().get(staffId);
@@ -471,6 +486,7 @@ const ListShow = React.createClass({
             isLook:false
         })
     },
+    //动态添加与删除表头
     listProverCheck(e){
         let dataKey = e.target.data_key;
         let dataName = e.target.data_name;
@@ -515,19 +531,19 @@ const ListShow = React.createClass({
            </Cell>
        );
        let listTable = listHeader.map(function(list,index){
-               if(list.aliasName){
-                   return(
-                       <Column key={index}
-                               header={<Cell className = "table-header">{list.aliasName}</Cell>}
-                               cell={<TextCell data={this.state.collection} col={list.key} />}
-                               isResizable={true}
-                               flexGrow={1}
-                               width={100}
-                               className = ''
-                               columnKey={index}
-                           />
-                   )
-               }
+           if(list.aliasName){
+               return(
+                   <Column key={index}
+                           header={<Cell className = "table-header">{list.aliasName}</Cell>}
+                           cell={<TextCell data={this.state.collection} col={list.key} />}
+                           isResizable={true}
+                           flexGrow={1}
+                           width={100}
+                           className = ''
+                           columnKey={index}
+                       />
+               )
+           }
        }.bind(this));
        listTable = _.filter(listTable, function(item){ return typeof item !=='undefined'; });
        return(
@@ -576,14 +592,14 @@ const Content = React.createClass({
           isBatchDelete:false,
           listHeader:[],
           listHeaderCopy:[],
-          listModel:staffModel,
+          //listModel:staffModel,
           toggleBatch:false,
           isSelectAll:false
       }
     },
     componentWillMount(){
         let listHeadTemp = [];
-        let model = this.state.listModel;
+        let model = this.getModel();
         let listHeadKeys = model.keys();
         model.values().map(function(list,index){
             if(list.aliasName){
@@ -629,9 +645,23 @@ const Content = React.createClass({
             }
             //}
         }.bind(this));
+        //发送消息
+        this.sendMessage_token = PubSub.subscribe('send-message',function(){
+            let sendMessageDataId = this.state.selectId;
+            let sendMessageData =[];
+            if(sendMessageDataId.length > 0){
+                for(let i = 0; i < sendMessageDataId.length; i++){
+                    this.state.collection.map(function(item,index){
+                        if(item.id==sendMessageDataId[i]){
+                            sendMessageData.push(item)
+                        }
+                    })
+                }
+                PubSub.publish('back-send-message',sendMessageData);
+            }
+        }.bind(this));
         //批量删除
         this.deleteItem_token = PubSub.subscribe('delete-item',function(topic,isDelete){
-            console.log(this.state.selectId);
             for(let i = 0 ;i < this.state.selectId.length ; i++){
                 this.getCollection().remove(this.getCollection().get(this.state.selectId[i]))
             }
@@ -653,13 +683,15 @@ const Content = React.createClass({
         }.bind(this));
     },
     componentWillUnmount(){
+        console.log('willMount');
         PubSub.unsubscribe(this.showWay_token);
+        PubSub.unsubscribe(this.sendMessage_token);
         PubSub.unsubscribe(this.pubsub_tokenBatch);
         PubSub.unsubscribe(this.deleteItem_token);
         PubSub.unsubscribe(this.printData_token);
     },
     handleGoTop(){
-        $('.content-relative').animate({scrollTop:0},1000);
+        $('#content').animate({scrollTop:0},1000);
     },
     //回调函数，记录卡片被选中的card的ID
     cardSelectItem(id){
@@ -699,7 +731,7 @@ const Content = React.createClass({
                     )
                 }else{
                     return(
-                        <ListShow collection={this.getCollection()} pageShow = {pageShow}/>
+                        <ListShow collection={this.getCollection()} pageShow = {pageShow} model = {this.getModel()} />
                     )
                 }
             }.bind(this);

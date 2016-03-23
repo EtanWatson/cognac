@@ -51,7 +51,7 @@ const App = React.createClass({
                                     pageShow={page.type}
                                     />
                             </div>
-                            <AdvancedSearchPanel />
+                            <AdvancedSearchPanel pageShow = {page.type} />
                             <div className = "content-relative">
                                 {content}
                             </div>

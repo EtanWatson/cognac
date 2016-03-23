@@ -47,29 +47,37 @@ body{
           height: 13px;
           background-repeat: no-repeat;
         }
+        .item-hover{
+          h5{
+            color:#2aa2dd !important;
+          }
+          .add-item-icon-hover{
+            background-image: url("/img/icon_add_pressed.png");
+          }
+          .list-item-icon-hover{
+            background-image: url("/img/icon_card_pressed.png");
+          }
+          .batch-item-icon-hover{
+            background-image: url("/img/icon_batch_pressed.png");
+          }
+        }
         .add-item-icon{
           background-image: url("/img/icon_add_default.png");
-        }
-        .add-item-icon-hover{
-          background-image: url("/img/icon_add_pressed.png");
         }
         .list-item-icon{
           background-image: url("/img/icon_card_default.png");
         }
-        .list-item-icon-hover{
-          background-image: url("/img/icon_card_pressed.png");
-        }
         .batch-item-icon{
           background-image: url("/img/icon_batch_deffault.png");
-        }
-        .batch-item-icon-hover{
-          background-image: url("/img/icon_batch_pressed.png");
         }
         .delete-item-icon{
           background-image: url("/img/icon_delete_default.png");
         }
         .print-item-icon{
           background-image: url("/img/icon_print_default.png");
+        }
+        .send-item-icon{
+          background-image: url("/img/icon_send_pressed.png");
         }
         .select-all-btn{
           background-image: url("/img/icon_select all_default.png");
@@ -116,7 +124,7 @@ body{
               padding: 0 !important;
               border-left: 0;
               position: relative;
-              left: -45px;
+              left: -52px;
               background-color: #fff;
               top: 0;
               color: #666;
@@ -143,6 +151,11 @@ body{
         .type-color.other{
           background-color:#28d3db;
         }
+        .click-item{
+          .type-color{
+            box-shadow: 1px 1px 1px #888888 inset;
+          }
+        }
         .type-text{
 
         }
@@ -164,7 +177,6 @@ body{
           }
           .search-item-block{
             position: absolute;
-            //z-index: 3;
             left: 18px;
             width: 86%;
             height: 28px;
@@ -204,15 +216,12 @@ body{
                 text-align: center;
                 text-transform: none;
                 text-rendering: auto;
-                //line-height: 1;
                 color: #999;
-                //line-height: inherit;
                 cursor: pointer;
                 font-weight: bold;
                 -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
                 transition: all .3s cubic-bezier(.645, .045, .355, 1);
                 display: inline-block;
-                //font-size: 12px;
                 font-size: 8px;
                 -webkit-transform: scale(.66666667) rotate(0deg);
                 transform: scale(.66666667) rotate(0deg);
@@ -237,10 +246,10 @@ body{
   .advanced-search-panel{
     position: absolute;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
     padding-bottom:20px;
     background: rgba(251,251,253,0.9);
-    top: -220px;
+    top: -520px;
     .table-title,.advanced-table{
       margin-left: 200px;
       width: 80%;
@@ -265,6 +274,21 @@ body{
           }
           td:not(:first-child){
             cursor: pointer;
+          }
+        }
+        .car-type-up{
+          border-bottom: 0px;
+        }
+        .car-type-down{
+          border-top: 0px;
+        }
+        .vehicle-out-start{
+          .ant-calendar-picker{
+             width: 25%;
+            min-width: 120px;
+          }
+          .start-date-space{
+            padding: 0 12%;
           }
         }
       }

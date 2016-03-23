@@ -5,7 +5,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore'
-import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload,Menu,Cascader} from 'antd';
+import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload,Menu,Cascader,TimePicker} from 'antd';
 import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from "./selectAutoCompletion"
 import {staffs} from "../../models/staffInfo"
@@ -274,6 +274,7 @@ let EditTable = React.createClass({
 EditTable = Form.create()(EditTable);
 
 let EditTableVehicle = React.createClass({
+    mixins:[BackboneReactMixin],
     componentDidMount(){
     },
     handleSubmit(e) {
@@ -286,7 +287,7 @@ let EditTableVehicle = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
-        let cardInfo = this.props.cardInfo;
+        let cardInfo =this.state.model;
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'add-form'>
                 <div className = "up-info">
@@ -297,13 +298,13 @@ let EditTableVehicle = React.createClass({
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>{cardInfo.name}</h3>
+                            <h3>{cardInfo.vehicleCode.value}</h3>
                             <Row type = "flex">
                                 <Col span = "4">
-                                    <div className = "type-text right">车牌号：</div>
+                                    <div className = "type-text right">{cardInfo.vehicleNumber.aliasName}</div>
                                 </Col>
                                 <Col span = "12">
-                                    <div className = "status-text right">ABCDEFG</div>
+                                    <div className = "status-text right">{cardInfo.vehicleNumber.value}</div>
                                 </Col>
                             </Row>
                         </Col>
@@ -315,14 +316,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆品牌：">
-                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                                <AntInput type="text" {...getFieldProps('vehicleBrand')} placeholder="" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="司机：" >
-                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                                <AntInput type="text" {...getFieldProps('driver')} placeholder=""  />
                             </FormItem>
                         </Col>
                     </Row>
@@ -331,14 +332,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆型号：">
-                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('vehicleModel')} placeholder="" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="司机手机：">
-                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('driverPhone')} placeholder="" />
                             </FormItem>
                         </Col>
                     </Row>
@@ -347,14 +348,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆类型：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleType')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所在部门：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('section')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -363,14 +364,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="标签：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('tag')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所属车主：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('onwerPeople')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -379,14 +380,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="颜色：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('color')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="车主手机：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('ownerPhone')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -395,14 +396,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="载重（吨）：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('more')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleLoad')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所属车队：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('ownerTeam')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -411,14 +412,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="座位数：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('seatNumber')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="油卡编号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('oilCard')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -427,14 +428,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="油耗：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('fuelEfficient')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="电卡编号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('electricCard')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -443,14 +444,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label={<div><p>续航里程：</p><p>（电车）</p></div>}>
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('continuation')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆状态：">
-                                <Select defaultValue="0">
+                                <Select defaultValue="0" {...getFieldProps('vehicleStatus')}>
                                     <Option value="0">可用</Option>
                                     <Option value="1">不可用</Option>
                                 </Select>
@@ -462,7 +463,7 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="初始里程：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('initialMileage')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -470,7 +471,7 @@ let EditTableVehicle = React.createClass({
                                 {...formItemLayout}
                                 label="是否停用：" >
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('outage')} />
+                                    <Checkbox {...getFieldProps('outAge')} />
                                 </label>
                             </FormItem>
                         </Col>
@@ -480,27 +481,27 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="发动机号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('engineCode')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="车架号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('frameCode')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入单位：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('buyCompany')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入价格：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('price')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入日期："  >
-                                <DatePicker  />
+                                <DatePicker  {...getFieldProps('buyData')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -508,7 +509,7 @@ let EditTableVehicle = React.createClass({
                                 {...formItemLayout}
                                 wrapperCol={{span:14,offset:8}}
                                 label="备注：">
-                                <AntInput  type="textarea" placeholder="随便写" id="textarea-more" name="textarea" className = 'vehicle-more' />
+                                <AntInput  type="textarea"   {...getFieldProps('remark')} placeholder="随便写" id="textarea-more" name="textarea" className = 'vehicle-more'/>
                             </FormItem>
 
                         </Col>
@@ -596,13 +597,19 @@ const EditDialog = React.createClass({
 //添加条目table(task)
 let AddTask = React.createClass({
     mixins:[BackboneReactMixin],
+    getInitialState(){
+        return{
+            visible : false,
+            isCreateTask:false
+        }
+    },
     handleSubmit(e) {
         e.preventDefault();
-        console.log('收到表单值：', this.props.form.getFieldsValue());
-        let formValue = this.props.form.getFieldsValue().id='12233';
-        this.getCollection().push(this.props.form.getFieldsValue());
+        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        //let formValue = this.props.form.getFieldsValue().id='12233';
+        //this.getCollection().push(this.props.form.getFieldsValue());
         //console.log('保存表单值'+this.state.collection);
-        this.props.callbackParentOfAdd(true);
+        //this.props.callbackParentOfAdd(true);
     },
     handleCancel(){
         this.props.callbackParentOfAdd(false);
@@ -612,8 +619,58 @@ let AddTask = React.createClass({
     },
     createEntry: function (entry) {
     },
+    showModal() {
+        this.setState({
+            visible: true
+        });
+    },
+    handleCreateTask(event){
+            this.setState({
+                isCreateTask:true
+            });
+    } ,
     render() {
         const { getFieldProps } = this.props.form;
+        let addTaskShow = function (){
+            if(this.state.isCreateTask)
+            {
+                //alert(1);
+                return(
+                    <div className="popup-windows">
+                         <div className="popup-windows-show">
+                            <ul>
+                                <li className="popup-windows-show-icon">
+                                    <span className="alert-icon"></span>
+                                </li>
+                                <li className="popup-windows-show-word">
+                                    <ul>
+                                        <li>
+                                            <span>今天是</span>
+                                            <span>xxxx-xx-xx</span>
+                                            <span>(周x)</span>
+                                        </li>
+                                        <li>
+                                            <span>周期任务</span>
+                                            <span>x</span>
+                                            <span>的首次用车时间是</span>
+                                            <span>xxxx-xx-xx</span>
+                                            <span>(周x)</span>
+                                        </li>
+                                        <li>
+                                            <span>确认添加这个任务吗？</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li className="popup-windows-show-btn">
+                                    <button className="okbtn">确认</button>
+                                    <button className="canclebtn">取消</button>
+                                </li>
+                            </ul>
+                         </div>
+                    </div>
+                )
+            }
+        }.bind(this);
         return (
             <Form onSubmit={this.handleSubmit} className = 'add-task'>
                 <div className="title">添&nbsp;加&nbsp;任&nbsp;务</div>
@@ -622,29 +679,29 @@ let AddTask = React.createClass({
                         <li className="first-messsage">
                             <span className="span1">编</span><span className="span2">码：</span>
                             <span className="number">1</span>
-                            <label for="" className="destination">&nbsp;目的地：</label>
+                            <label htmlFor="" className="destination">&nbsp;目的地：</label>
                             <input className="inputBox" type="text"/>
                         </li>
                         <li>
-                            <label className="people" for="">用车人：</label>
+                            <label className="people" htmlFor="">用车人：</label>
                             <input className="inputBox" type="text"/>
-                            <label for="">用车时间：</label>
+                            <label htmlFor="">用车时间：</label>
                             <DatePicker placeholder="" {...getFieldProps('JoinData')} />
                         </li>
                         <li>
-                            <label for="">估计用时：</label>
+                            <label htmlFor="">估计用时：</label>
                             <input className="inputBox" type="text"/>
-                            <label for="">用车原因：</label>
-                            <input className="inputBox" type="text"/>
-                        </li>
-                        <li>
-                            <label for="">申请车型：</label>
-                            <input className="inputBox" type="text"/>
-                            <label for="">随车人数：</label>
+                            <label htmlFor="">用车原因：</label>
                             <input className="inputBox" type="text"/>
                         </li>
                         <li>
-                            <label for="">出车备注：</label>
+                            <label htmlFor="">申请车型：</label>
+                            <input className="inputBox" type="text"/>
+                            <label htmlFor="">随车人数：</label>
+                            <input className="inputBox" type="text"/>
+                        </li>
+                        <li>
+                            <label htmlFor="">出车备注：</label>
                             <input className="inputBox-long" type="text"/>
                         </li>
                         <li>
@@ -656,13 +713,13 @@ let AddTask = React.createClass({
                         <li>
                             <ul className="startDate">
                                 <li>
-                                    <label for="">起始日期：</label>
+                                    <label htmlFor="">起始日期：</label>
                                     <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
-                                    <label className="endDate" for="">结束日期(选填)：</label>
+                                    <label className="endDate" htmlFor="">结束日期(选填)：</label>
                                     <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
                                 </li>
                                 <li>
-                                    <label for="">起始日期：</label>
+                                    <label htmlFor="">起始日期：</label>
                                     <label>
                                         <Checkbox defaultChecked={false}/>
                                         日
@@ -696,11 +753,12 @@ let AddTask = React.createClass({
                         </li>
                         <li className="creator">任务创建人：admin</li>
                         <li className="create-task-submit">
-                            <button className="btn create-btn">创建任务</button>
+                            <button className="btn create-btn" onClick={this.handleCreateTask}>创建任务</button>
                             <button className="btn cancel-btn">取消</button>
                         </li>
                     </ul>
                 </div>
+                    {addTaskShow()}
             </Form>
         );
     }
@@ -1272,9 +1330,9 @@ const SendMessageDialog = React.createClass({
     mixins:[BackboneReactMixin],
     getInitialState(){
         return {
-            visible :this.props.isSendMessage,
+            visible :false,
             selectVisible:false,
-            inputValue :'',
+            inputValue :[],
             selectValue:'',
             selectValueArray:[],
             searchSelectHeight:'100px'
@@ -1284,10 +1342,35 @@ const SendMessageDialog = React.createClass({
 
     },
     componentWillReceiveProps(nextProps){
-        this.setState({
-            visible:nextProps.isSendMessage,
-            inputValue:this.state.model.Name.value
-        });
+        let inputValueTemp = this.state.inputValue;
+        //卡片上点击发送
+        //console.log(this.props.isSendMessage);
+        if(this.props.isSendMessage){
+            if(this.state.model){
+                //console.log('test send-model');
+                if(!_.contains(this.state.inputValue,this.state.model)){
+                    inputValueTemp.push(this.state.model);
+                }
+                this.setState({
+                    visible:nextProps.isSendMessage,
+                    selectValueArray:inputValueTemp
+                });
+            }
+            //发送批量操作
+            //console.log(this.props.selectItem);
+            if(this.props.selectItem){
+                //console.log('test send-batch');
+                this.setState({
+                    visible:true,
+                    selectValueArray:this.props.selectItem
+                })
+            }
+        }else{
+            this.setState({
+                visible:false,
+            })
+        }
+
     },
     showModal(){
         this.setState({
@@ -1328,9 +1411,6 @@ const SendMessageDialog = React.createClass({
             })
         }
     },
-    handleInputChange(event){
-        //this.setState({value: event.target.value});
-    },
     handleSelectChoose(value){
         this.setState({
             selectValue:value
@@ -1359,12 +1439,23 @@ const SendMessageDialog = React.createClass({
     },
     render(){
         let selectItem = this.state.selectValueArray.map(function(item,index){
-            return(
-                <li className = "select-item" key={index}>
-                    <span className = "item-content">{item}</span>
-                    <span className = "item-remove" data-index={index} onClick={this.handleClickCancel}></span>
-                </li>
-            )
+            //todo 暂时兼容非Model数据，与后台数据交换的时候要改
+            if(typeof item === 'object'){
+                return(
+                    <li className = "select-item" key={index} data-id = {item.id}>
+                        <span className = "item-content">{item.Name?item.Name.value:item.vehicleCode.value}</span>
+                        <span className = "item-remove" data-index={index} onClick={this.handleClickCancel}></span>
+                    </li>
+                )
+            }else{
+                return(
+                    <li className = "select-item" key={index}>
+                        <span className = "item-content">{item}</span>
+                        <span className = "item-remove" data-index={index} onClick={this.handleClickCancel}></span>
+                    </li>
+                )
+            }
+
         }.bind(this));
         return(
             <div className = "send-message">
@@ -1941,11 +2032,14 @@ const LookDialog = React.createClass({
 const AdvancedSearchPanel = React.createClass({
     getInitialState(){
         return{
-            tableData:[{headerName:'车辆类型：',value_0:'A1执照',value_1:'A2执照',value_2:'B1执照',value_3:'B2执照',value_4:'C1执照',value_5:'C2执照',value_6:'C3执照'},
+            tableDataStaff:[{headerName:'车辆类型：',value_0:'A1执照',value_1:'A2执照',value_2:'B1执照',value_3:'B2执照',value_4:'C1执照',value_5:'C2执照',value_6:'C3执照'},
                         {headerName:'所属部门：',value_0:'车队1',value_1:'车队2',value_2:'车队3',value_3:'车队4',value_4:'车队5',value_5:'',value_6:''},
                         {headerName:'状态：：',value_0:'空闲',value_1:'正在任务中',value_2:'休假中',value_3:'',value_4:'',value_5:'',value_6:''}
             ],
-            advancedSearchList:[]
+            tableDataVehicle:[],
+            advancedSearchList:[],
+            startValue:null,
+            endValue:null
         }
     },
     componentDidMount(){
@@ -1962,8 +2056,29 @@ const AdvancedSearchPanel = React.createClass({
         let textValue = $(e.target).text();
         PubSub.publish('advanceSearchData',textValue);
     },
+    disableStartDate(startValue){
+      if(!startValue || !this.state.endValue){
+          return false
+      }
+        return startValue.getTime() >= this.state.endValue.getTime()
+    },
+    disableEndDate(endValue){
+        if(!endValue || !this.state.startValue){
+            return false
+        }
+        return endValue.getTime() <= this.state.startValue.getTime()
+    },
+    onChange(field , value){
+        console.log(field,'change',value);
+        this.setState({
+            [field]:value
+        })
+    },
+    timeOnChange(){
+
+    },
     render(){
-        let generalTableContent = this.state.tableData.map(function(item,index){
+        let generalTableContentStaff = this.state.tableDataStaff.map(function(item,index){
            return(
                <tr key={index}>
                    <td>{item.headerName}</td>
@@ -1976,17 +2091,101 @@ const AdvancedSearchPanel = React.createClass({
                </tr>
            )
         }.bind(this));
-        return(
-            <div className = "advanced-search-panel">
-                <div className = 'table-title'>
-                    <span>所有车辆<Icon type="right" />共999辆车</span>
-                </div>
-                <table className = "advanced-table">
-                    <tbody>
-                        {generalTableContent}
-                    </tbody>
-                </table>
+        let starTimeAndEndTime =
+            <div className = 'vehicle-out-start'>
+                <DatePicker className="car-out-start" disabledDate={this.disableStartDate}
+                            value={this.state.startValue}
+                            placeholder="开始日期"
+                            onChange={this.onChange.bind(this, 'startValue')} />
+                <span className = "start-date-space">至</span>
+                <DatePicker  className="car-out-start" disabledDate={this.disableEndDate}
+                            value={this.state.endValue}
+                            placeholder="结束日期"
+                            onChange={this.onChange.bind(this, 'endValue')} />
             </div>
+        let panel ='';
+        switch (this.props.pageShow){
+            case 'staff':
+                panel =(
+                    <div>
+                        <div className = 'table-title'>
+                            <span>所有职员<Icon type="right" />共999个职员</span>
+                        </div>
+                        <table className = "advanced-table">
+                            <tbody>
+                            {generalTableContentStaff}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+                break;
+            case 'vehicle':
+                panel = (
+                    <div>
+                        <div className = 'table-title'>
+                            <span>所有车辆<Icon type="right" />共999个车辆</span>
+                        </div>
+                        <table className = "advanced-table">
+                            <tbody>
+                                <tr className = "car-type-up">
+                                    <td rowSpan="2">车辆类型：</td>
+                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
+                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
+                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
+                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
+                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
+                                </tr>
+                                <tr className = "car-type-down">
+                                    <td onClick={this.clickSearchTab}>10-30吨客车</td>
+                                    <td onClick={this.clickSearchTab}>货车（冷藏）</td>
+                                    <td onClick={this.clickSearchTab}>货车（危险品）</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td onClick={this.clickSearchTab}>任务类型：</td>
+                                    <td onClick={this.clickSearchTab}>周期任务</td>
+                                    <td onClick={this.clickSearchTab}>普通任务</td>
+                                    <td onClick={this.clickSearchTab}>多车任务</td>
+                                    <td onClick={this.clickSearchTab}>单车任务</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>出车时间：</td>
+                                    <td className="vehicle-out-start">
+                                        <DatePicker className="car-out-start" disabledDate={this.disableStartDate}
+                                                    value={this.state.startValue}
+                                                    placeholder="开始日期"
+                                                    onChange={this.onChange.bind(this, 'startValue')} />
+                                    </td>
+                                    <td>至</td>
+                                    <td className="vehicle-out-start">
+                                        <DatePicker  className="car-out-start" disabledDate={this.disableEndDate}
+                                                     value={this.state.endValue}
+                                                     placeholder="结束日期"
+                                                     onChange={this.onChange.bind(this, 'endValue')} />
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>回车时间：</td>
+                                    <td><TimePicker onChange={this.timeOnChange} /></td>
+                                    <td>至</td>
+                                    <td><TimePicker onChange={this.timeOnChange} /></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )
+        }
+        //let generalTableContentVehicle =
+        return(
+                <div className = "advanced-search-panel">
+                    {panel}
+                </div>
         )
     }
 });

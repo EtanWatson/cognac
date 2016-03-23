@@ -222,11 +222,13 @@
           box-sizing: border-box;
           display: block;
           background-color: #fff;
-          //border-bottom: 1px solid #d9d9d9;
           -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
           transition: all .3s cubic-bezier(.645, .045, .355, 1);
           .send-select-content{
-            overflow: hidden;
+            position: relative;
+            top: -5px;
+            max-height: 80px;
+            overflow-y: auto;
             text-overflow: ellipsis;
             padding-left: 6px;
             padding-bottom: 4px;

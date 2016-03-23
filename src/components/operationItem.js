@@ -24,14 +24,12 @@ const AddItem = React.createClass({
           lgShow:false
       };
     },
-    createEntry:function(entry){
-           return <span key ={entry.id}>{entry.Code}</span>
-    },
     handleMouseEnter:function(event){
-        $('.add-item-icon').removeClass('add-item-icon').addClass('add-item-icon-hover');
+        console.log(event.target);
+        $(event.target).parents('.operation-item-btn').addClass('item-hover')
     },
-    handleMouseLeave:function(){
-        $('.add-item-icon-hover').removeClass('add-item-icon-hover').addClass('add-item-icon');
+    handleMouseLeave:function(event){
+        $('.operation-item-btn').removeClass('item-hover')
     },
     onChildChangeAdd(isSubmit){
         this.setState({
@@ -44,10 +42,10 @@ const AddItem = React.createClass({
     render(){
         //console.log(this.state.collection);
         return(
-            <li>
+            <li  onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} className ='operation-item-btn' >
                 <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}>
-                   <ul className = 'list-inline' onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-                        <li className = "add-item-icon operation-item-icon">
+                   <ul className = 'list-inline'>
+                        <li className = "add-item-icon operation-item-icon add-item-icon-hover">
                         </li>
                         <li>
                             <h5 onClick={this.testChangeModel}>添加</h5>
@@ -142,32 +140,27 @@ const ListItem =React.createClass({
         }
     },
     handleMouseEnter:function(event){
-        $('.list-item-icon').removeClass('list-item-icon').addClass('list-item-icon-hover');
+        $(event.target).parents('.operation-item-btn').addClass('item-hover');
     },
-    handleMouseLeave:function(){
-        $('.list-item-icon-hover').removeClass('list-item-icon-hover').addClass('list-item-icon');
+    handleMouseLeave:function(event){
+        $('.operation-item-btn').removeClass('item-hover');
     },
     handleClick(){
         this.state.showWay? this.setState({showWay:false}):this.setState({showWay:true});
         if(this.state.showWay){
-            $('.card-show').removeClass('is-display');
-            $('.list-show').addClass('is-display');
             PubSub.publish('showWay','card');
             this.props.callbackParent('card')
         }else{
-            $('.list-show').removeClass('is-display');
-            $('.card-show').addClass('is-display');
             PubSub.publish('showWay','list');
             this.props.callbackParent('list')
         }
     },
     render(){
         return(
-            <li>
+            <li className ='operation-item-btn'>
                 <Button bsStyle="link" onClick = {this.handleClick}>
                     <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-                        <li className = "list-item-icon operation-item-icon"></li>
-                        <li className = 'list-show is-display'><h5>切换展示</h5></li>
+                        <li className = "list-item-icon operation-item-icon list-item-icon-hover"></li>
                         <li className = "card-show"><h5>切换展示</h5></li>
                      </ul>
 
@@ -197,10 +190,10 @@ const BatchOperation = React.createClass({
       PubSub.publish('batchOperation',!this.state.show);
     },
     handleMouseEnter:function(event){
-        $('.batch-item-icon').removeClass('batch-item-icon').addClass('batch-item-icon-hover');
+        $(event.target).parents('.operation-item-btn').addClass('item-hover');
     },
-    handleMouseLeave:function(){
-        $('.batch-item-icon-hover').removeClass('batch-item-icon-hover').addClass('batch-item-icon');
+    handleMouseLeave:function(event){
+        $('.operation-item-btn').removeClass('item-hover');
     },
     render(){
         let tooltip ='';
@@ -230,10 +223,10 @@ const BatchOperation = React.createClass({
             target: () => ReactDOM.findDOMNode(this.refs.target)
         };
         return(
-            <li style={{position: 'relative' }}>
+            <li style={{position: 'relative' }} className ='operation-item-btn'>
                 <Button bsStyle="link" ref="target" onClick={this.toggle}>
                     <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-                        <li className = "batch-item-icon operation-item-icon"></li>
+                        <li className = "batch-item-icon operation-item-icon batch-item-icon-hover"></li>
                         <li>
                             <h5>批量操作</h5>
                         </li>
@@ -275,25 +268,64 @@ const SendMessage = React.createClass({
     mixins:[BackboneReactMixin],
    getInitialState(){
     return{
-        isSenMessage:false
+        isSendMessage:false,
+        isListShow:false,
+        selectItem:[]
     }
    },
     handleSendMessage(){
-        this.setState({
-            isSendMessage:true
-        })
+        PubSub.publish('send-message','');
+    },
+    componentDidMount(){
+        if(this.props.showList){
+            this.setState({
+                isListShow:true
+            })
+        }else{
+            this.setState({
+                isListShow:false
+            })
+        }
+        this.backSendMessage_token =PubSub.subscribe('back-send-message',function(topic,data){
+            if(this.isMounted()){
+                this.setState({
+                    selectItem:data,
+                    isSendMessage:true
+                })
+            }
+        }.bind(this))
+    },
+    componentWillUnMount(){
+        PubSub.unsubscribe(this.backSendMessage_token)
     },
     handleChildChange(){
 
     },
    render(){
+       console.log(this.state.selectItem);
+       console.log(this.state.isSendMessage);
+       var isListShow = function(){
+           if(this.state.isListShow){
+               return(
+                   <Button  bsStyle="link" className="" onClick={this.handleSendMessage}>
+                       <ul className = "list-inline">
+                           <li className = "send-item-icon operation-item-icon"></li>
+                           <li>
+                               <h5>发送</h5>
+                           </li>
+                       </ul>
+                   </Button>
+               )
+           }else{
+               return(
+                   <Button bsStyle="link" className="send-message-btn batch-btn" onClick={this.handleSendMessage}></Button>
+               )
+           }
+       }.bind(this);
        return(
            <div className = "send-message">
-               <Button bsStyle="link" className="send-message-btn batch-btn" onClick={this.handleSendMessage}></Button>
-               <SendMessageDialog isSendMessage={this.state.isSendMessage}
-                   callbackParent={this.handleChildChange}
-                   collection = {this.getCollection()}
-                   />
+               {isListShow()}
+               <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.handleChildChange} selectItem={this.state.selectItem}/>
            </div>
        )
    }
@@ -419,10 +451,10 @@ const Driver = React.createClass({
         }
 
     },
-    handleClick(){
-       var driverCollection = this.getCollection().where({
-            Type:'0'
-        },false);
+    handleClick(e){
+       //console.log(e.target);
+        //$('.operation-item-driver').find()
+        let driverCollection = this.findYellowItem();
        if(!this.state.isDriver){
            this.setState({
                driverCollection:driverCollection
@@ -446,12 +478,18 @@ const Driver = React.createClass({
        }
 
     },
+    //获取黄色条目的collection
+    findYellowItem(){
+        return  this.getCollection().where({
+            Type:'0'
+        },false);
+    },
     render(){
         return(
-            <li>
+            <li className = "operation-item-driver">
                 <Button bsStyle="link" onClick={this.handleClick}>
                     <ul className="list-inline">
-                        <li className = "type-color driver">223</li>
+                        <li className = "type-color driver">{this.findYellowItem().length}</li>
                         <li className = "type-text"><h5>司机</h5></li>
                      </ul>
                 </Button>
@@ -469,9 +507,7 @@ const Manager = React.createClass({
         }
     },
     handleClick(){
-        var managerCollection = this.getCollection().where({
-            Type:'1'
-        },false);
+        let managerCollection = this.findRadItem();
         if(!this.state.isManager){
             this.setState({
                 managerCollection:managerCollection
@@ -495,12 +531,17 @@ const Manager = React.createClass({
         }
 
     },
+    findRadItem(){
+        return this.getCollection().where({
+            Type:'1'
+        },false);
+    },
     render(){
         return(
             <li>
                 <Button bsStyle="link" onClick={this.handleClick}>
                     <ul className = "list-inline">
-                        <li className ="type-color manager">223</li>
+                        <li className ="type-color manager">{this.findRadItem().length}</li>
                         <li className ="type-text"><h5>管理</h5></li>
                     </ul>
                 </Button>
@@ -518,9 +559,7 @@ const Other = React.createClass({
         }
     },
     handleClick(){
-        var otherCollection = this.getCollection().where({
-            Type:'2'
-        },false);
+        var otherCollection = this.findBlueItem();
         if(!this.state.isOther){
             this.setState({
                 otherCollection:otherCollection
@@ -543,12 +582,17 @@ const Other = React.createClass({
             });
         }
     },
+    findBlueItem(){
+        return  this.getCollection().where({
+            Type:'2'
+        },false);
+    },
    render(){
        return(
            <li>
                <Button bsStyle="link" onClick={this.handleClick}>
                    <ul className="list-inline">
-                       <li className = "type-color other">223</li>
+                       <li className = "type-color other">{this.findBlueItem().length}</li>
                        <li className = "type-text"><h5>其他</h5></li>
                    </ul>
                 </Button>
@@ -644,9 +688,8 @@ const AdvancedSearchIcon = React.createClass({
         }
     },
     handleClick(){
-       console.log('text');
        this.state.moveHeight=='90px'?this.setState(
-           {moveHeight:'-220px'}
+           {moveHeight:'-520px'}
        ):this.setState(
            {moveHeight:'90px'}
        );
@@ -725,13 +768,13 @@ const OperationItem= React.createClass({
           }else{
               return(
                   <ul className = 'list-inline' style={{display:'inline-block'}}>
+                      <SendMessage showList={true} />
                       <DeleteItem showList={true}/>
                       <PrintItem showList={true}/>
                   </ul>
               )
           }
         }.bind(this);
-        //console.log('operation pageShow:'+this.props.pageShow);
         var operaShowWay = function(){
             switch(pageShow){
                 case 'staff':
@@ -809,4 +852,4 @@ const OperationItem= React.createClass({
         )
     }
 });
-export{OperationItem}
+export{OperationItem,Search}

@@ -3,18 +3,22 @@
  */
 import $ from 'jquery'
 import React from 'react';
-import {render} from 'react-dom';
+import {render,ReactDOM} from 'react-dom';
 import _ from 'underscore';
 import BackboneReactMixin from 'backbone-react-component';
-import { Row, Col,DatePicker,Checkbox,Form,Modal} from 'antd';
-
+import { Row, Col,DatePicker,Checkbox,Form,Modal,Button,Table} from 'antd';
+import {Search} from './operationItem';
+import {columns,data} from '../data/taskDetailsInfo';
 const Task = React.createClass({
+    mixins: [BackboneReactMixin],
     getInitialState(){
-        return{
-            isEdit:false
+        return {
+            isEdit: false
         }
     },
-    mixins:[BackboneReactMixin],
+    componentDidMount(){
+
+    },
     handleMouseEnter(event){
         $(event.target).parents('.task-card').find(".task-hover").show();
         //$(".task-hover").show();
@@ -32,20 +36,22 @@ const Task = React.createClass({
     },
     handleEditClick(event){
         this.setState({
-            isEdit:!this.state.isEdit
+            isEdit: !this.state.isEdit
         })
     },
     render(){
         let taskInfo = this.state.model;
-        taskInfo= _.toArray(taskInfo);
-        let getItemArray= function(starNum,endNum){
-            return taskInfo.slice(starNum,endNum);
+        var type = taskInfo.Type;
+        taskInfo = _.toArray(taskInfo);
+        let getItemArray = function (starNum, endNum) {
+            return taskInfo.slice(starNum, endNum);
         };
-        let itemShow = function (starNum,endNum){
+        let itemShow = function (starNum, endNum) {
             let ItemShow;
-            let itemArray = getItemArray(starNum,endNum);
-            ItemShow =itemArray.map(function(item,index){
-                return(
+            let itemArray = getItemArray(starNum, endNum);
+            ItemShow = itemArray.map(function (item, index) {
+                //console.log(item);
+                return (
                     <Col span="8" order="4" key={index}>
                         <label>{item.aliasName}：</label>
                         <span>{item.value}</span>
@@ -54,61 +60,118 @@ const Task = React.createClass({
             });
             return ItemShow
         };
-        let isEdit = function(){
-            if(this.state.isEdit){
-                $(event.target).parents('.task-card').find(".click-down").hide();
-                return(
+        let isEdit = function () {
+            if (this.state.isEdit) {
+                $(".click-down").hide();
+                return (
                     <EditDistribution />
                 )
-            }else{
-                return(
+            } else {
+                return (
                     <div>
                         <Row type="flex" className="task-data">
-                            {itemShow(1,4)}
+                            {itemShow(1, 4)}
                         </Row>
                         <Row type="flex" className="task-data">
-                            {itemShow(4,7)}
+                            {itemShow(4, 7)}
                         </Row>
+
                         <div className="hide-data">
                             <Row type="flex" className="task-data">
-                                {itemShow(7,11)}
+                                {itemShow(7, 11)}
                             </Row>
                             <Row type="flex" className="task-data">
-                                {itemShow(11,15)}
+                                {itemShow(11, 15)}
                             </Row>
                             <Row type="flex" className="task-data">
-                                {itemShow(15,16)}
+                                {itemShow(15, 16)}
                             </Row>
                             <Row type="flex" className="task-data">
-                                {itemShow(16,17)}
+                                {itemShow(16, 17)}
                             </Row>
                         </div>
                     </div>
                 )
             }
         }.bind(this);
-        return(
-                <div className="task-card">
-                    <div className="task-number">
-                        <label>编号：</label>
-                        <span>1</span>
-                            <span className="edit-icon">
+        var taskType = function(){
+            //console.log(type);
+            if (type === "0") {
+                return (
+                    <div>
+                        <div className="task-number_card red">
+                            <label>编号：</label>
+                            <span>1</span>
+                            <span className="edit-icon icon-red">
                                 <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
                             </span>
+                        </div>
+                        {isEdit()}
+                        <ul className="task-hover icon-red" onMouseLeave={this.handleMouseLeave}>
+                            <li className="task-hover-li-red">
+                                <span className="edit-inner-icon"></span>
+                                <span onClick={this.handleEditClick}>编辑派发</span>
+                            </li>
+                            <li>
+                                <span className="edit-inner-icon"></span>
+                                <span>取消任务</span>
+                            </li>
+                        </ul>
                     </div>
-                    {isEdit()}
-                    <ul className="task-hover" onMouseLeave={this.handleMouseLeave}>
-                        <li className="task-hover-li">
-                            <span className="edit-inner-icon"></span>
-                            <span onClick={this.handleEditClick}>编辑派发</span>
-                        </li>
-                        <li>
-                            <span className="edit-inner-icon"></span>
-                            <span>取消任务</span>
-                        </li>
-                    </ul>
-                    <span className="click-down" onClick={this.handleClick}></span>
-                </div>
+                )
+            } else if (type === "1") {
+                return (
+                    <div>
+                        <div className="task-number_card blue">
+                            <label>编号：</label>
+                            <span>1</span>
+                            <span className="edit-icon icon-blue">
+                                <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
+                            </span>
+                        </div>
+                        {isEdit()}
+                        <ul className="task-hover icon-orange" onMouseLeave={this.handleMouseLeave}>
+                            <li className="task-hover-li-blue">
+                                <span className="edit-inner-icon"></span>
+                                <span onClick={this.handleEditClick}>编辑派发</span>
+                            </li>
+                            <li>
+                                <span className="edit-inner-icon"></span>
+                                <span>取消任务</span>
+                            </li>
+                        </ul>
+                    </div>
+                )
+            } else {
+                return (
+                    <div>
+                        <div className="task-number_card orange">
+                            <label>编号：</label>
+                            <span>1</span>
+                            <span className="edit-icon icon-orange">
+                                <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
+                            </span>
+                        </div>
+                        {isEdit()}
+                        <ul className="task-hover icon-blue" onMouseLeave={this.handleMouseLeave}>
+                            <li className="task-hover-li-orange">
+                                <span className="edit-inner-icon"></span>
+                                <span>回车登记</span>
+                            </li>
+                            <li>
+                                <span className="edit-inner-icon"></span>
+                                <span onClick={this.handleEditClick}>编辑派发</span>
+                            </li>
+                        </ul>
+                    </div>
+                )
+            }
+        }.bind(this);
+        return (
+            <div className="task-card">
+                {taskType()}
+                <span className="click-down" onClick={this.handleClick}></span>
+            </div>
         )
     }
 });
@@ -180,6 +243,7 @@ const CompletedList = React.createClass({
         }
     },
     render(){
+        let type = this.state.model.Type;
         let completedtaskInfo = this.state.model;
         completedtaskInfo= _.toArray(completedtaskInfo);
         let getCompletedItemArray= function(starNum,endNum){
@@ -199,11 +263,27 @@ const CompletedList = React.createClass({
             });
             return  CompletedItemShow
         };
+        let completedTaskType = function(){
+            //console.log(type);
+            if(type==="0")
+            {
+                return(
+                    <div className="task-types task-types-singal">
+                        <span>单</span>
+                    </div>
+                )
+            }
+            else{
+                return(
+                    <div className="task-types">
+                        <span>多</span>
+                    </div>
+                )
+            }
+        }.bind(this);
         return(
             <div className="completed-task-list" onMouseEnter={this.handleMouseEnter}>
-                <div className="task-types">
-                    <span>单</span>
-                </div>
+                {completedTaskType()}
                 <span className="task-data1 task-number">11112234343</span>
                 <Row className="completed-task-list-row list-row">
                     {completeditemShow(2,4)}
@@ -261,71 +341,176 @@ const CompletedList = React.createClass({
         )
     }
 });
-const ShowTaskDetails=React.createClass({
+//空闲车辆组件
+const Idle = React.createClass({
     render(){
         return(
-            <div>
-                <p>对话框的内容</p>
-                <p>对话框的内容</p>
-                <p>对话框的内容</p>
-            </div>
-
+            <ul className="list-inline">
+                <li className = "task-color idle">5</li>
+                <li className = "type-text"><h5>空闲</h5></li>
+            </ul>
         )
+    }
+});
+//出车组件
+const Outing= React.createClass({
+    render(){
+        return(
+            <ul className="list-inline">
+                <li className = "task-color outing">3</li>
+                <li className = "type-text"><h5>出车</h5></li>
+            </ul>
+        )
+    }
+});
+//添加车牌号和司机的任务组件
+const Addtaskdetails=React.createClass({
+    handleClick(event){
+
+    },
+    render(){
+        //console.log(this.props.item);
+        return(
+            <li className="add-task-d-li">
+                <Row className="add-task-row">
+                    <Col span="8" className="">
+                        <label>车牌号</label>
+                        <span className="icon">:</span>
+                        <span>{this.props.item.carNumber}</span>
+                    </Col>
+                    <Col span="8" className="adjustment">
+                        <label>司机</label>
+                        <span className="icon">:</span>
+                        <span>{this.props.item.driver}</span>
+                    </Col>
+                    <Col span="8" className="">
+                        <label>出车时间</label>
+                        <span className="icon">:</span>
+                        <span>{this.props.item.position}</span>
+                    </Col>
+                </Row>
+                <a href="###" onClick={this.handleClick}>删除</a>
+            </li>
+        )
+    }
+});
+//详细列表展示组件
+const ShowTaskDetails=React.createClass({
+    handleClick(event){
+        $(".addtask-modal").hide();
+    },
+    render(){
+        return(
+            <div className="task-details-list">
+                <div className="task-details-list-h">
+                    <Idle />
+                    <Outing />
+                    <div className = "task-right-item">
+                        <ul className = "list-inline">
+                            <Search />
+                            <span className = "search-text">搜索</span>
+                        </ul>
+                    </div>
+                </div>
+                <div className="task-details-list-c">
+                    <TaskDetailsListShow />
+                </div>
+                <div className="task-details-list-f">
+                    <button className="btn ok-btn">确认添加</button>
+                    <button className="btn cancel-btn" onClick={this.handleClick}>取消</button>
+                </div>
+            </div>
+        )
+
+    }
+});
+//任务详细信息的列表显示组件
+const TaskDetailsListShow = React.createClass({
+    getInitialState() {
+        return {
+            selectedRowKeys: [],  // 这里配置默认勾选列
+            loading: false,
+        };
+    },
+    start() {
+        this.setState({ loading: true });
+        // 模拟 ajax 请求，完成后清空
+        setTimeout(() => {
+            this.setState({
+                selectedRowKeys: [],
+                loading: false,
+            });
+        }, 1000);
+    },
+    onSelectChange(selectedRowKeys) {
+        console.log('selectedRowKeys changed: ', selectedRowKeys);
+        this.setState({ selectedRowKeys });
+    },
+    render() {
+        const { loading, selectedRowKeys } = this.state;
+        const rowSelection = {
+            selectedRowKeys,
+            onChange: this.onSelectChange,
+        };
+        const hasSelected = selectedRowKeys.length > 0;
+        return (
+            <div>
+                <Table rowSelection={rowSelection}
+                       columns={columns}
+                       dataSource={data}
+                       pagination={false}
+                       useFixedHeader
+                       bordered/>
+            </div>
+        );
     }
 });
 //编辑派发组件
 let EditDistribution = React.createClass({
-    mixins:[BackboneReactMixin],
+    //mixins:[BackboneReactMixin],
     getInitialState(){
-        return {
-            isCarNumClick:false,
-            isAddDriverClick:false,
-            visible : false,
+        return{
+            carInfoList:[]
         }
-    } ,
+    },
     handleSubmit(e) {
         e.preventDefault();
-        console.log('收到表单值：', this.props.form.getFieldsValue());
-        let formValue = this.props.form.getFieldsValue().id='12233';
-        this.getCollection().push(this.props.form.getFieldsValue());
+        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        //let formValue = this.props.form.getFieldsValue().id='12233';
+        //this.getCollection().push(this.props.form.getFieldsValue());
         //console.log('保存表单值'+this.state.collection);
-        this.props.callbackParentOfAdd(true);
+        //this.props.callbackParentOfAdd(true);
     },
     handleCancel(){
-        this.props.callbackParentOfAdd(false);
+        //this.props.callbackParentOfAdd(false);
     },
     handleUpload(){
 
     },
-    createEntry: function (entry) {
+    handleClick(event){
+        $(".addtask-modal").show();
     },
-    handleClickCarNum(event){
-        if(!this.state.isCarNumClick){
-            this.setState({
-                isCarNumClick:true
-            });
-        }
-    },
-    handleClickAddDriver(event){
+    handleAddtaskDetails(event){
+        let carInfoTemp = this.state.carInfoList;
+        let carNumber = $('#car-number').val();
+        let driver = $('#driver').val();
+        let position = $("#position").val();
+        let carInfo = {
+            carNumber:carNumber,
+            driver:driver,
+            position:position
 
-    },
-    showModal(){
+        };
+        carInfoTemp.push(carInfo);
         this.setState({
-            visible:true
+            carInfoList:carInfoTemp
         });
     },
     render(){
         const { getFieldProps } = this.props.form;
-        let isAddTaskDetails = function(){
-            if(this.state.isCarNumClick)
-            {
-                return(
-                    <Modal  visible={this.state.visible} className = "">
-                        <ShowTaskDetails />
-                    </Modal >
-                )
-            }
-        }.bind(this);
+        let  carInfoItems = this.state.carInfoList.map(function(item,index){
+            return( <Addtaskdetails item = {item}  key = {index} />)
+        });
         return(
                          <Form onSubmit={this.handleSubmit} className = ''>
                              <div className = 'task-edit-page'>
@@ -393,28 +578,28 @@ let EditDistribution = React.createClass({
                                  </Row>
                              </div>
                              <div className="edit-car-task">
-                                 <Row className="">
+                                 <Row className="edit-car-task-input">
                                      <Col span="8" className="">
                                          <label>车牌号：</label>
                                          <div className="div-inline">
-                                             <input className="" type="text"/>
-                                             <span className="plus-icon" onClick={this.handleClickCarNum}></span>
+                                             <input className="" type="text" id = "car-number"/>
+                                             <span className="plus-icon" onClick={this.handleClick}></span>
                                          </div>
-
                                      </Col>
                                      <Col span="8" className="adjustment">
                                          <label>司机：</label>
                                          <div className="div-inline">
-                                             <input className="" type="text"/>
-                                             <span className="plus-icon" onClick={this.handleClickAddDriver}></span>
+                                             <input className="" type="text" id = "driver"/>
+                                             <span className="plus-icon"></span>
                                          </div>
                                      </Col>
                                      <Col span="8" className="adjustment">
                                          <label>取车位置：</label>
-                                         <input className="" type="text"/>
+                                         <input className="" type="text" id = "position"/>
                                      </Col>
-                                     <button>添加</button>
                                  </Row>
+                                 <button onClick={this.handleAddtaskDetails}>添加</button>
+                                 <ul className="add-task-details">{carInfoItems}</ul>
                                  <label className="only-current-task" >
                                      <Checkbox defaultChecked={false}/>
                                      仅限这次任务
@@ -432,13 +617,13 @@ let EditDistribution = React.createClass({
                                  <li className="periodic-task-details">
                                      <ul className="startDate">
                                          <li>
-                                             <label for="">起始日期：</label>
+                                             <label htmlFor="">起始日期：</label>
                                              <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
-                                             <label className="endDate" for="">结束日期(选填)：</label>
+                                             <label className="endDate" htmlFor="">结束日期(选填)：</label>
                                              <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
                                          </li>
                                          <li>
-                                             <label for="">起始日期：</label>
+                                             <label htmlFor="">起始日期：</label>
                                              <label>
                                                  <Checkbox defaultChecked={false}/>
                                                  日
@@ -476,7 +661,11 @@ let EditDistribution = React.createClass({
                                      <button className="close-btn">关闭</button>
                                  </li>
                              </ul>
+                             <div className="addtask-modal">
+                                 <ShowTaskDetails />
+                             </div>
                          </Form>
+
         )
     }
 });

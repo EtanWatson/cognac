@@ -27,8 +27,6 @@ body {
     font-size: 12px;
     font-weight: 600;
     margin-top: 10px; }
-  body h5:hover {
-    color: #2aa2dd; }
   body .global-layout {
     min-width: 1024px; }
     body .global-layout .container-fluid {

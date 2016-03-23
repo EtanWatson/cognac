@@ -3,6 +3,53 @@
     .ant-modal-body{
       padding:0;
       .add-task{
+        position:relative;
+        .popup-windows{
+          position:absolute;
+          width:108%;
+          height:100%;
+          top:0px;
+          background:rgba(55, 55, 55, 0.3);
+          .popup-windows-show{
+            position:absolute;
+            left:50%;
+            background:white;
+            width:400px;
+            height:240px;
+            margin-left:-200px;
+            margin-top:40px;
+            .popup-windows-show-icon{
+              background:#F7F7F7;
+              text-align:left;
+              .alert-icon{
+                background:url('/img/mutiple.png') no-repeat;
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+              }
+            }
+            .popup-windows-show-word{
+              margin:58px 0px;
+              font-size:14px;
+            }
+            .popup-windows-show-btn{
+              height:37px;
+              background:red;
+              button{
+                width:50%;
+                height:100%;
+                border:none;
+              }
+              .okbtn{
+                background-color:#2AA2DE;
+                color:white;
+              }
+              .canclebtn{
+                background-color:#E8F0F3;
+              }
+            }
+          }
+        }
          .title{
           font-size: 14px;
           width: 561px;
@@ -113,7 +160,6 @@ html,body{
   .content-relative{
     height:100%;
     .main-task {
-      height: 100%;
       background-color: #EEEEEE;
       .row{
         height:100%;
@@ -176,6 +222,9 @@ html,body{
                 left:19px;
               }
             }
+            .task-types-singal{
+              background:url("/img/singal.png") no-repeat;
+            }
             .task-number{
               position:relative;
               top:5px;
@@ -233,11 +282,129 @@ html,body{
           padding-bottom: 5px;
           display:inline-block;
           margin-top:4px;
+          position:relative;
+          .addtask-modal{
+            display:none;
+            position:absolute;
+            top:278px;
+            width:100%;
+            height:450px;
+            z-index:100;
+            background:white;
+            .task-details-list-c{
+              .ant-table{
+                margin:7px;
+                width:99%;
+                th{
+                  background:#2AA2DE;
+                  color:white;
+                  padding: 8px 0px;
+                  text-align:center;
+                  width:200px;
+                }
+                tr:nth-child(odd){
+                  background:#EEEEEE;
+                }
+                tr:nth-child(even){
+                  background:white;
+                }
+                td{
+                  padding: 8px 0px;
+                  text-align:center;
+                  width:200px;
+                }
+                .div{
+                  width:82px;
+                }
+              }
+              .ant-table-body{
+                height:316px;
+              }
+            }
+            .task-details-list-f{
+              width:100%;
+              height:87px;
+              padding:6px 7px;
+              .btn{
+                height:28px;
+                border:none;
+                border-radius: 3px;
+                padding:5px 3px;
+                width:80px;
+              }
+              .ok-btn{
+                float:left;
+                color:white;
+                background-color:#2AA2DE;
+              }
+              .cancel-btn{
+                float:right;
+                background-color:#E8F0F3;
+              }
+            }
+            .task-details-list-h{
+              width:100%;
+              height:40px;
+              background:#FAFAFC;
+              border:1px solid #F1F1F2;
+              .task-right-item{
+                float: right;
+                .list-inline{
+                  .advanced-search-item{
+                    float:right;
+                  }
+                  .search-item{
+                    position: relative;
+                    top: 6px;
+                    right:0%;
+                    width: 78%;
+                    .search-btn{
+                      padding: 0 !important;
+                      border-left: 0;
+                      position: relative;
+                      left: -52px;
+                      background-color: #fff;
+                      top: 0;
+                      color: #666;
+                    }
+                  }
+                  .search-text{
+                    position: relative;
+                    top: -3px;
+                    left:7px;
+                  }
+                }
+              }
+              .list-inline{
+                display:inline-block;
+                .task-color{
+                  width: 40px;
+                  height: 20px;
+                  line-height:20px;
+                  text-align:center;
+                  padding: 0 !important;
+                  color: white;
+                  border-radius: 5px;
+                  margin-top:12px;
+                }
+                .idle{
+                  margin-left: 23px;
+                  background-color: #7ED320;
+                }
+                .outing{
+                  margin-left: 22px;
+                  background-color:#F0C22F;
+                }
+              }
+
+            }
+          }
           .edit-car-task{
             width:80%;
             background:#ECF5FE;
             margin:10px 76px;
             padding:10px 31px;
+            position:relative;
             .div-inline{
               display:inline-block;
               position:relative;
@@ -265,7 +432,33 @@ html,body{
               border-radius: 3px;
               font-weight:bold;
               position:absolute;
-              right:-1px;
+              right:30px;
+              top:10px;
+            }
+            .edit-car-task-input{
+              width:89%;
+              input{
+                width:219px;
+              }
+            }
+            .add-task-details{
+              .add-task-d-li{
+                margin-top:10px;
+                position:relative;
+                .add-task-row{
+                  width:89%;
+                  border:1px dashed #BFC6CE;
+                  padding:5px 0;
+                  .icon{
+                    margin:0 5px;
+                  }
+                }
+                a{
+                  position:absolute;
+                  right:14px;
+                  top:12px;
+                }
+              }
             }
             .only-current-task{
               margin-top:18px;
@@ -401,7 +594,7 @@ html,body{
             width: 15px;
             height: 15px;
           }
-          .task-number {
+          .task-number_card {
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
             height: 30px;
@@ -420,6 +613,24 @@ html,body{
               background-color: #7ED320;
               border-top-right-radius: 5px;
             }
+            .icon-red{
+              background:#EC4C4E;
+            }
+            .icon-blue{
+              background:#7ED320;
+            }
+            .icon-orange{
+              background:#F5A720;
+            }
+          }
+          .red{
+            background:#F3686B;
+          }
+          .orange{
+            background:#F0C22F;
+          }
+          .blue{
+            background:#B9E986;
           }
           .task-data {
             margin-left: 23px;
@@ -437,8 +648,14 @@ html,body{
             background: #7ED320;
             display: none;
             border-top-right-radius: 5px;
-            .task-hover-li {
+            .task-hover-li-blue {
               border-bottom: 2px solid #B9E986;
+            }
+            .task-hover-li-red {
+              border-bottom: 2px solid #F3686B;
+            }
+            .task-hover-li-orange {
+              border-bottom: 2px solid #F0C22F;
             }
             li {
               width: 86px;
@@ -449,6 +666,15 @@ html,body{
                 margin-left: 5px;
               }
             }
+          }
+          .icon-red{
+            background:#EC4C4E;
+          }
+          .icon-blue{
+            background:#F5A720;
+          }
+          .icon-orange{
+            background:#7ED320;
           }
         }
       }

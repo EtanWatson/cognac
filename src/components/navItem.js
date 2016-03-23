@@ -10,7 +10,8 @@ import {Content} from './contentItem'
 import {staffInfo,staffTypeText} from '../data/cardData';
 import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
 import {navArray,settingNavArray} from '../data/navigation';
-import {staffData,staffCollection} from '../models/staffData'
+import {staffData,staffCollection,staffModel} from '../models/staffData';
+import {vehicleModel,vehicleData,vehicleCollection} from '../models/vehicleData'
 import {taskModel,taskList} from '../models/taskData'
 import {completedtaskModel,completedtaskList} from '../models/CompletedTaskData'
 import {TaskArrangement,CompletedArrangement} from './taskArrangement'
@@ -56,7 +57,7 @@ const StaffInfo = React.createClass({
     },
     render(){
         return (
-            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'} collection={this.state.typeCollection}/>
+            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'} collection={this.state.typeCollection} model={staffModel}/>
         )
     }
 
@@ -68,7 +69,7 @@ const VehicleRecord = React.createClass({
     },
     render(){
         return (
-           <Content cardInfo={vehicleInfo} typeTextInfo={vehicleTypeText} pageShow={'vehicle'}/>
+           <Content cardInfo={vehicleInfo} typeTextInfo={vehicleTypeText} pageShow={'vehicle'} collection = {vehicleData} model = {vehicleModel}/>
         )
     }
 });
@@ -169,7 +170,6 @@ const NavMenu = React.createClass({
     },
 
     componentWillReceiveProps(nextProps){
-        console.log('nextProps');
         switch (nextProps.pageShow){
             case 'setting':
                 this.setState({
