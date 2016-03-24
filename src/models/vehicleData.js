@@ -3,8 +3,8 @@ import Backbone from 'backbone';
 var vehicle = Backbone.Model.extend({
     defaults:{
         id:'',
-        HeadImg:'',
-        Status:'',
+        headImg:'',
+        status:'',
         vehicleCode:{
             name:'vehicleCode',
             aliasName:'车辆编码',
@@ -182,8 +182,8 @@ var vehicleDataModel = [];
 for(let i = 0; i < 100 ; i++){
     vehicleDataModel.push({
         id:i,
-        HeadImg:'/img/vehicle-header.png',
-        Status:`${i%2}`,
+        headImg:'/img/vehicle-header.png',
+        status:`${i%2}`,
         vehicleCode:{
             name:'vehicleCode',
             aliasName:'车辆编码',
@@ -207,12 +207,7 @@ for(let i = 0; i < 100 ; i++){
             value:`车辆型号${i}`,
             isShowInCard:false
         },
-        vehicleType:{
-            name:'vehicleType',
-            aliasName:'车辆类型',
-            value:`车辆类型${i}`,
-            isShowInCard:true
-        },
+        type:`${i%3}`,
         tag:{
             name:'tag',
             aliasName:'标签',

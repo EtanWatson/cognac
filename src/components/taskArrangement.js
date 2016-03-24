@@ -9,6 +9,8 @@ import BackboneReactMixin from 'backbone-react-component';
 import { Row, Col,DatePicker,Checkbox,Form,Modal,Button,Table} from 'antd';
 import {Search} from './operationItem';
 import {columns,data} from '../data/taskDetailsInfo';
+import {taskModel,taskList} from '../models/taskData'
+import {completedtaskModel,completedtaskList} from '../models/CompletedTaskData'
 const Task = React.createClass({
     mixins: [BackboneReactMixin],
     getInitialState(){
@@ -191,6 +193,72 @@ const TaskArrangement = React.createClass({
            </div>
        )
    }
+});
+//任务管理内容主容器
+const TaskContent = React.createClass({
+    mixins:[BackboneReactMixin],
+    getInitialState(){
+        return{
+            showWay:'card',
+        }
+    },
+    componentDidMount(){
+        this.showWay_token = PubSub.subscribe('showWay',function(topic,showWay){
+            this.setState({
+                showWay:showWay
+            })
+        }.bind(this));
+    },
+    componentWillUnmount(){
+        PubSub.unsubscribe(this.showWay_token);
+    },
+    render(){
+        var pageShow = this.props.pageShow;
+        var handleShowWay=function(){
+            var self = this;
+            if(this.state.showWay=='card'){
+                return(
+                    <div className="main-task">
+                        <Row className="row">
+                            <Col span="18">
+                                <div className="main-task-content">
+                                    <TaskArrangement collection={taskList} model={taskModel}/>
+                                </div>
+                            </Col>
+                            <Col span="6" className="main-task-right">
+                                <CompletedArrangement collection={completedtaskList} model={completedtaskModel}/>
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }else{
+                return(
+                    <ListShow collection={this.getCollection()} pageShow = {pageShow}/>
+                )
+            }
+        }.bind(this);
+        return (
+            <div id="content" className="content">
+                {handleShowWay()}
+            </div>
+        )
+    }
+    //render(){
+    //    return(
+    //        <div className="main-task">
+    //            <Row className="row">
+    //                <Col span="18">
+    //                    <div className="main-task-content">
+    //                        <TaskArrangement collection={taskList} model={taskModel}/>
+    //                    </div>
+    //                </Col>
+    //                <Col span="6" className="main-task-right">
+    //                    <CompletedArrangement collection={completedtaskList} model={completedtaskModel}/>
+    //                </Col>
+    //            </Row>
+    //        </div>
+    //    )
+    //}
 });
 //最近已完成任务列表
 const CompletedArrangement = React.createClass({
@@ -670,4 +738,5 @@ let EditDistribution = React.createClass({
     }
 });
 EditDistribution = Form.create()(EditDistribution);
-export{TaskArrangement,CompletedArrangement}
+export{TaskContent}
+

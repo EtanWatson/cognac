@@ -227,52 +227,84 @@ const Card = React.createClass({
    render(){
        let item = this.state.model;
        var staffType = function(){
-         //var type =item.Type?item.Type:item.vehicleType.value;
-         let type = ''; //类别判断
-         let typeIcon = '' //卡片底部icon
-         if(this.props.pageShow == 'staff'){
-            type = item.Type;
-            if(type=="0"){
-                typeIcon = <img src="/img/staff-driver.png" />
-            } else{
-                typeIcon = <img src="/img/icon_driver.png" />
-            }
-         }else{
-            type = item.vehicleType.value;
-            typeIcon = <img src="/img/vehicle-icon.png" />
-         }
-         var typeText = this.props.typeTextInfo;
-         if(type==="0"){
-             return(
-                 <div className = "footer-img">
-                     <img src = "/img/card_title_driver.png" />
-                     <div className = "type-text">{typeText[type]}</div>
-                     <div className = "type-icon">
-                         {typeIcon}
-                     </div>
-                 </div>
-             )
-         }else if(type==="1"){
-             return(
-                 <div className = "footer-img">
-                     <img src = "/img/card_title_manage.png" />
-                     <div className = "type-text">{typeText[type]}</div>
-                     <div className = "type-icon">
-                         {typeIcon}
-                     </div>
-                 </div>
-             )
-         }else{
-             return(
-                 <div className = "footer-img">
-                     <img src = "/img/card_title_others.png" />
-                     <div className = "type-text">{typeText[type]}</div>
-                     <div className = "type-icon">
-                         {typeIcon}
-                     </div>
-                 </div>
-             )
-         }
+            let typeIcon = ''; //卡片底部类别icon
+            let typeText = '';//卡片文案
+            let colorIcon ='';//卡片颜色
+            let type = item.type;
+            if(this.props.pageShow == 'staff'){
+               if(item.outAge.value ==1){
+                   colorIcon = "/img/card_title_stop.png";
+                   typeIcon = <img src="/img/icon_stop.png" />;
+                   switch (type){
+                       case "0":
+                           typeText = "司机";
+                           break;
+                       case "1":
+                           typeText = "管理员";
+                           break;
+                       case "2":
+                           typeText = "其他";
+                           break
+                   }
+               }else{
+                   switch (type){
+                       case "0":
+                           typeIcon = <img src="/img/staff-driver.png" />;
+                           typeText = "司机";
+                           colorIcon = '/img/card_title_driver.png';
+                           break;
+                       case "1":
+                           typeIcon = <img src="/img/icon_driver.png" />;
+                           typeText = "管理员";
+                           colorIcon = '/img/card_title_manage.png';
+                           break;
+                       case "2":
+                           typeIcon = <img src="/img/icon_driver.png" />;
+                           typeText = "其他";
+                           colorIcon = '/img/card_title_others.png';
+                           break
+                   }
+               }
+
+           }else{
+                if(item.outAge.value ==1){
+                    colorIcon = "/img/card_title_stop.png";
+                    typeIcon = <img src="icon_stop.png" />;
+                    switch (type){
+                        case "0":
+                            typeText = "客车";
+                            break;
+                        case "1":
+                            typeText = "货车";
+                            break;
+                        case "2":
+                            typeText = "其他";
+                            break
+                    }
+                }else{
+                    typeIcon = <img src="/img/vehicle-icon.png" style={{width:'80%'}} />;
+                    switch (type){
+                        case "0":
+                            typeText = "客车";
+                            break;
+                        case "1":
+                            typeText = "货车";
+                            break;
+                        case "2":
+                            typeText="其他";
+                            break;
+                    }
+                }
+           }
+           return(
+               <div className = "footer-img">
+                   <img src = {colorIcon} />
+                   <div className = "type-text">{typeText}</div>
+                   <div className = "type-icon">
+                       {typeIcon}
+                   </div>
+               </div>
+           )
        }.bind(this);
        //遍历卡片展示条目
        var findShowItem = function(){
@@ -307,10 +339,10 @@ const Card = React.createClass({
                              onMouseLeave={this.handleMouseLeaveIcon}
                              onClick={this.handleClickIcon}/>
                        <li className = "header-img">
-                           <img src = {item.HeadImg}/>
+                           <img src = {item.headImg}/>
                        </li>
                        <li className = "header-left">
-                           <h3 className = "name">{item.Name?item.Name.value:item.vehicleCode.value}</h3>
+                           <h3 className = "name">{item.name?item.name.value:item.vehicleCode.value}</h3>
                            <ul className = "list-inline">
                                <li className = "circle circle-g">
                                    <img src="/img/icon_trip_normal.png" />
@@ -318,7 +350,7 @@ const Card = React.createClass({
                                <li className = "circle-r is-display">
                                    <img src="/img/icon_trip_leave.png" />
                                </li>
-                               <li className = "status"><h5>{item.Status}</h5></li>
+                               <li className = "status"><h5>{item.status}</h5></li>
                            </ul>
                        </li>
                    </ul>
@@ -356,24 +388,24 @@ const ListShow = React.createClass({
    },
     componentWillMount(){
         let model = this.getModel();
-       var height = $(window).height();
-       var width = $(window).width();
-       let listHeadTemp = [];
-       let listHeadKeys = model.keys();
-       model.values().map(function(list,index){
-           if(list.aliasName){
-               listHeadTemp.push({
-                   aliasName:list.aliasName,
-                   key:listHeadKeys[index]
-               })
-           }
-       });
-       this.setState({
-           listHeader:listHeadTemp,
-           listHeaderCopy:listHeadTemp,
-           tableWidth:width*0.80,
-           tableHeight:height*0.80
-       })
+        var height = $(window).height();
+        var width = $(window).width();
+        let listHeadTemp = [];
+        let listHeadKeys = model.keys();
+        model.values().map(function(list,index){
+            if(list.aliasName){
+                listHeadTemp.push({
+                    aliasName:list.aliasName,
+                    key:listHeadKeys[index]
+                })
+            }
+        });
+        this.setState({
+            listHeader:listHeadTemp,
+            listHeaderCopy:listHeadTemp,
+            tableWidth:width*0.80,
+            tableHeight:height*0.80
+        })
    },
     //
     componentDidMount(){
@@ -396,9 +428,16 @@ const ListShow = React.createClass({
       //订阅删除事件(批量操作)
        this.deleteItemToken = PubSub.subscribe('delete-item',function(topic,data){
            this.removeCheckItems();
-       }.bind(this))
+       }.bind(this));
+        $(window).resize(function(){
+            this.setState({
+                tableHeight:$(window).height()*0.8,
+                tableWidth: $(window).width()*0.8
+            })
+        }.bind(this));
     },
     componentWillUnmount(){
+        $(window).unbind('resize');
         PubSub.unsubscribe(this.printShowToken);
         PubSub.unsubscribe(this.deleteItemToken);
     },
@@ -595,7 +634,7 @@ const Content = React.createClass({
           //listModel:staffModel,
           toggleBatch:false,
           isSelectAll:false
-      }
+    }
     },
     componentWillMount(){
         let listHeadTemp = [];
@@ -630,20 +669,21 @@ const Content = React.createClass({
         }.bind(this));
         //全选
         this.pubsub_tokenAll = PubSub.subscribe('selectAll',function(topic,isSelectAll){
-            if(!isSelectAll){
-                this.setState({
-                    isSelectAll:isSelectAll,
-                    selectId:[]
-                })
-            }else{
-                this.state.collection.map(function(item,index){
-                    this.state.selectId.push(item.id)
-                }.bind(this));
-                this.setState({
-                    isSelectAll:isSelectAll
-                })
+            if(this.isMounted()){
+                if(!isSelectAll){
+                    this.setState({
+                        isSelectAll:isSelectAll,
+                        selectId:[]
+                    })
+                }else{
+                    this.state.collection.map(function(item,index){
+                        this.state.selectId.push(item.id)
+                    }.bind(this));
+                    this.setState({
+                        isSelectAll:isSelectAll
+                    })
+                }
             }
-            //}
         }.bind(this));
         //发送消息
         this.sendMessage_token = PubSub.subscribe('send-message',function(){
@@ -683,7 +723,6 @@ const Content = React.createClass({
         }.bind(this));
     },
     componentWillUnmount(){
-        console.log('willMount');
         PubSub.unsubscribe(this.showWay_token);
         PubSub.unsubscribe(this.sendMessage_token);
         PubSub.unsubscribe(this.pubsub_tokenBatch);
@@ -743,4 +782,6 @@ const Content = React.createClass({
         )
     }
 });
+
+
 export{Content}

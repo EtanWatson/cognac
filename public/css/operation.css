@@ -43,6 +43,14 @@ body .operation-content {
         background-image: url("/img/icon_card_pressed.png"); }
       body .operation-content .operation .left-item .item-hover .batch-item-icon-hover {
         background-image: url("/img/icon_batch_pressed.png"); }
+      body .operation-content .operation .left-item .item-click h5 {
+        color: #2aa2dd !important; }
+      body .operation-content .operation .left-item .item-click .add-item-icon-hover {
+        background-image: url("/img/icon_add_pressed.png"); }
+      body .operation-content .operation .left-item .item-click .list-item-icon-hover {
+        background-image: url("/img/icon_card_pressed.png"); }
+      body .operation-content .operation .left-item .item-click .batch-item-icon-hover {
+        background-image: url("/img/icon_batch_pressed.png"); }
       body .operation-content .operation .left-item .add-item-icon {
         background-image: url("/img/icon_add_default.png"); }
       body .operation-content .operation .left-item .list-item-icon {
@@ -54,15 +62,25 @@ body .operation-content {
       body .operation-content .operation .left-item .print-item-icon {
         background-image: url("/img/icon_print_default.png"); }
       body .operation-content .operation .left-item .send-item-icon {
-        background-image: url("/img/icon_send_pressed.png"); }
+        background-image: url("/img/icon_send_default.png"); }
       body .operation-content .operation .left-item .select-all-btn {
         background-image: url("/img/icon_select all_default.png"); }
       body .operation-content .operation .left-item .send-message-btn {
-        background-image: url("/img/icon_send_pressed.png"); }
+        background-image: url("/img/icon_send_default.png"); }
       body .operation-content .operation .left-item .delete-item-btn {
         background-image: url("/img/icon_delete_default.png"); }
       body .operation-content .operation .left-item .print-item-btn {
         background-image: url("/img/icon_print_default.png"); }
+      body .operation-content .operation .left-item .btn-click .select-all-btn {
+        background-image: url("/img/icon_select all_pressed.png"); }
+      body .operation-content .operation .left-item .btn-hover .send-message-btn {
+        background-image: url("/img/icon_send_pressed.png"); }
+      body .operation-content .operation .left-item .btn-hover .delete-item-btn {
+        background-image: url("/img/icon_delete_pressed.png"); }
+      body .operation-content .operation .left-item .btn-hover .print-item-btn {
+        background-image: url("/img/icon_print_pressed.png"); }
+      body .operation-content .operation .left-item .btn-hover .select-all-btn {
+        background-image: url("/img/icon_select all_pressed.png"); }
       body .operation-content .operation .left-item .task-color {
         width: 40px;
         height: 20px;
@@ -101,7 +119,8 @@ body .operation-content {
       body .operation-content .operation .right-item .type-color {
         width: 25px;
         height: 20px;
-        padding: 0 !important; }
+        padding: 0 !important;
+        border-radius: 2px 2px 2px; }
       body .operation-content .operation .right-item .type-color.driver {
         background-color: #f0c22f; }
       body .operation-content .operation .right-item .type-color.manager {
@@ -109,7 +128,9 @@ body .operation-content {
       body .operation-content .operation .right-item .type-color.other {
         background-color: #28d3db; }
       body .operation-content .operation .right-item .click-item .type-color {
-        box-shadow: 1px 1px 1px #888888 inset; }
+        outline: 1px solid;
+        box-shadow: 1px 1px 1px 1px #888888 inset;
+        border-radius: 0; }
       body .operation-content .operation .right-item .search-item {
         position: relative;
         top: 8px;

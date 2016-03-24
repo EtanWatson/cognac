@@ -15,6 +15,7 @@ import {SendMessageDialog} from './toolComponents/dialogConponents'
 import {AddDialog} from './toolComponents/dialogConponents';
 import {staffs} from '../models/staffInfo'
 import {staffData} from '../models/staffData'
+import {vehicleData} from '../models/vehicleData'
 const Panel = Collapse.Panel;
 //添加
 const AddItem = React.createClass({
@@ -25,7 +26,6 @@ const AddItem = React.createClass({
       };
     },
     handleMouseEnter:function(event){
-        console.log(event.target);
         $(event.target).parents('.operation-item-btn').addClass('item-hover')
     },
     handleMouseLeave:function(event){
@@ -36,19 +36,19 @@ const AddItem = React.createClass({
             lgShow:false
         })
     },
-    testChangeModel(){
-
+    handleClick(e){
+        //$('.operation-item-btn').removeClass('item-click');
+        //$(e.target).parents('.operation-item-btn').addClass('item-click')
     },
     render(){
-        //console.log(this.state.collection);
         return(
-            <li  onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} className ='operation-item-btn' >
+            <li  onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} className ='operation-item-btn' onClick = {this.handleClick}>
                 <Button bsStyle="link" onClick={()=>this.setState({lgShow:true})}>
                    <ul className = 'list-inline'>
                         <li className = "add-item-icon operation-item-icon add-item-icon-hover">
                         </li>
                         <li>
-                            <h5 onClick={this.testChangeModel}>添加</h5>
+                            <h5>添加</h5>
                         </li>
                    </ul>
                 </Button>
@@ -145,7 +145,9 @@ const ListItem =React.createClass({
     handleMouseLeave:function(event){
         $('.operation-item-btn').removeClass('item-hover');
     },
-    handleClick(){
+    handleClick(e){
+        //$('.operation-item-btn').removeClass('item-click');
+        //$(e.target).parents('.operation-item-btn').addClass('item-click');
         this.state.showWay? this.setState({showWay:false}):this.setState({showWay:true});
         if(this.state.showWay){
             PubSub.publish('showWay','card');
@@ -178,15 +180,20 @@ const BatchOperation = React.createClass({
           pageShow:'staff'
       }
     },
-    componentWillMount(){
+    componentWillReceiveProps(nextProps){
         this.setState({
-          pageShow: this.props.pageShow
+            pageShow: nextProps.pageShow
         });
     },
-    toggle(){
+    toggle(e){
       this.setState({
           show: !this.state.show
       });
+      if(!this.state.show){
+         $(e.target).parents('.operation-item-btn').addClass('item-click');
+      }else{
+         $('.operation-item-btn').removeClass('item-click');
+      }
       PubSub.publish('batchOperation',!this.state.show);
     },
     handleMouseEnter:function(event){
@@ -197,7 +204,7 @@ const BatchOperation = React.createClass({
     },
     render(){
         let tooltip ='';
-        if(this.props.pageShow==='staff'){
+        if(this.state.pageShow==='staff'){
             tooltip =
                 <Tooltip id="deleteBatch">
                     <ul className="list-inline">
@@ -244,21 +251,34 @@ const BatchOperation = React.createClass({
 const SelectAll = React.createClass({
     getInitialState(){
         return{
-            //设置为false与预期结果相反
             isAllSelect:false
         }
     },
-    handleClick(){
+    handleClick(e){
       this.setState({
          isAllSelect:!this.state.isAllSelect
       },function(){
           PubSub.publish('selectAll',this.state.isAllSelect)
       });
+     //由于setState在这里还没有生效，所以判断的时候使用！
+     if(!this.state.isAllSelect){
+         $(e.target).parents('.batch-btn-warp').addClass('btn-click');
+     }else{
+         $(e.target).parents('.batch-btn-warp').removeClass('btn-click');
+     }
+    },
+    handleMouseEnter(e){
+        $(e.target).parents('.batch-btn-warp').addClass('btn-hover');
+    },
+    handleMouseLeave(e){
+        $(e.target).parents('.batch-btn-warp').removeClass('btn-hover');
     },
     render(){
         return(
-            <li>
-                <Button bsStyle="link" className="select-all-btn batch-btn" onClick={this.handleClick}></Button>
+            <li className = "batch-btn-warp">
+                <Button bsStyle="link" className="select-all-btn batch-btn" onClick={this.handleClick}
+                        onMouseEnter={this.handleMouseEnter} onMouseLeave = {this.handleMouseLeave}
+                    ></Button>
             </li>
         )
     }
@@ -299,15 +319,19 @@ const SendMessage = React.createClass({
         PubSub.unsubscribe(this.backSendMessage_token)
     },
     handleChildChange(){
-
+    },
+    handleMouseEnter(e){
+        $(e.target).parents('.batch-btn-warp').addClass('btn-hover');
+    },
+    handleMouseLeave(e){
+        $('.batch-btn-warp').removeClass('btn-hover');
     },
    render(){
-       console.log(this.state.selectItem);
-       console.log(this.state.isSendMessage);
        var isListShow = function(){
            if(this.state.isListShow){
                return(
-                   <Button  bsStyle="link" className="" onClick={this.handleSendMessage}>
+                   <Button  bsStyle="link" className="" onClick={this.handleSendMessage}
+                            onMouseEnter = {this.handleMouseEnter} onMouseLeave = {this.handleMouseLeave}>
                        <ul className = "list-inline">
                            <li className = "send-item-icon operation-item-icon"></li>
                            <li>
@@ -318,12 +342,13 @@ const SendMessage = React.createClass({
                )
            }else{
                return(
-                   <Button bsStyle="link" className="send-message-btn batch-btn" onClick={this.handleSendMessage}></Button>
+                   <Button bsStyle="link" className="send-message-btn batch-btn" onClick={this.handleSendMessage}
+                           onMouseEnter = {this.handleMouseEnter} onMouseLeave = {this.handleMouseLeave}></Button>
                )
            }
        }.bind(this);
        return(
-           <div className = "send-message">
+           <div className = "send-message batch-btn-warp">
                {isListShow()}
                <SendMessageDialog isSendMessage={this.state.isSendMessage} callbackParent={this.handleChildChange} selectItem={this.state.selectItem}/>
            </div>
@@ -339,7 +364,6 @@ const DeleteItem = React.createClass({
     },
     //点击删除以后，将选中的item删除
     handleClick(){
-        console.log('delete-item');
         PubSub.publish('delete-item','');
     },
     componentDidMount(){
@@ -352,6 +376,12 @@ const DeleteItem = React.createClass({
                 isListShow:false
             })
         }
+    },
+    handleMouseEnter(e){
+        $(e.target).parents('.batch-btn-warp').addClass('btn-hover');
+    },
+    handleMouseLeave(e){
+        $(e.target).parents('.batch-btn-warp').removeClass('btn-hover');
     },
     render(){
         var isListShow = function(){
@@ -368,12 +398,14 @@ const DeleteItem = React.createClass({
               )
           }else{
               return(
-                  <Button  bsStyle="link" className="delete-item-btn batch-btn" onClick={this.handleClick}></Button>
+                  <Button  bsStyle="link" className="delete-item-btn batch-btn" onClick={this.handleClick}
+                           onMouseEnter = {this.handleMouseEnter} onMouseLeave = {this.handleMouseLeave}
+                      ></Button>
               )
           }
         }.bind(this);
         return(
-            <li>
+            <li className = "batch-btn-warp" >
                 {isListShow()}
             </li>
         )
@@ -401,6 +433,12 @@ const PrintItem = React.createClass({
             })
         }
     },
+    handleMouseEnter(e){
+        $(e.target).parents('.batch-btn-warp').addClass('btn-hover')
+    },
+    handleMouseLeave(e){
+
+    },
     render(){
         var isListShow = function(){
             if(this.state.isListShow){
@@ -416,12 +454,14 @@ const PrintItem = React.createClass({
                 )
             }else{
                 return(
-                    <Button  bsStyle="link" className="print-item-btn batch-btn" onClick={this.handleClick}></Button>
+                    <Button  bsStyle="link" className="print-item-btn batch-btn" onClick={this.handleClick}
+                             onMouseEnter={this.handleMouseEnter} onMouseLeave = {this.handleMouseLeave}
+                        ></Button>
                 )
             }
         }.bind(this);
         return(
-            <li>
+            <li className = "batch-btn-warp" >
                 {isListShow()}
             </li>
         )
@@ -434,33 +474,63 @@ const CarType = React.createClass({
         return(
             <li>
                 <ul className="list-inline">
-                    <Driver  collection={this.getCollection()}/>
-                    <Manager collection={this.getCollection()}/>
-                    <Other  collection={this.getCollection()}/>
+                    <Driver  collection={this.getCollection()} pageShow = {this.props.pageShow} />
+                    <Manager collection={this.getCollection()} pageShow = {this.props.pageShow} />
+                    <Other  collection={this.getCollection()} pageShow = {this.props.pageShow} />
                 </ul>
             </li>
         )
     }
 });
+//黄颜色类别展示按钮
 const Driver = React.createClass({
     mixins:[BackboneReactMixin],
     getInitialState(){
         return{
             driverCollection:'',
-            isDriver:false
+            isDriver:false,
+            showText:'司机'
         }
 
     },
+    componentDidMount(){
+        switch (this.props.pageShow){
+            case 'staff':
+                this.setState({
+                    showText:'司机'
+                });
+                break;
+            case 'vehicle':
+                this.setState({
+                    showText:'客车'
+                });
+                break;
+        }
+    },
+    componentWillReceiveProps(nextProps){
+       switch (nextProps.pageShow){
+           case 'staff':
+               this.setState({
+                showText:'司机'
+               });
+            break;
+           case 'vehicle':
+               this.setState({
+                  showText:'客车'
+               });
+            break;
+       }
+    },
     handleClick(e){
-       //console.log(e.target);
-        //$('.operation-item-driver').find()
-        let driverCollection = this.findYellowItem();
+        $('.click-item').removeClass('click-item');
+        $(e.target).parents('.yellow').addClass('click-item');
+       let driverCollection = this.findYellowItem();
        if(!this.state.isDriver){
            this.setState({
                driverCollection:driverCollection
            },function(){
                //发布全局事件，更新content中的内容
-               PubSub.publish('typeCollection',this.state.driverCollection);
+               //PubSub.publish('typeCollection',this.state.driverCollection);
                this.setState({
                    isDriver:true
                })
@@ -470,7 +540,7 @@ const Driver = React.createClass({
                driverCollection:this.state.collection
            },function(){
                //发布全局事件，更新content中的内容
-               PubSub.publish('typeCollection',this.state.driverCollection);
+               //PubSub.publish('typeCollection',this.state.driverCollection);
                this.setState({
                    isDriver:false
                })
@@ -481,39 +551,70 @@ const Driver = React.createClass({
     //获取黄色条目的collection
     findYellowItem(){
         return  this.getCollection().where({
-            Type:'0'
+            type:'0'
         },false);
     },
     render(){
         return(
             <li className = "operation-item-driver">
                 <Button bsStyle="link" onClick={this.handleClick}>
-                    <ul className="list-inline">
+                    <ul className="list-inline yellow">
                         <li className = "type-color driver">{this.findYellowItem().length}</li>
-                        <li className = "type-text"><h5>司机</h5></li>
+                        <li className = "type-text"><h5>{this.state.showText}</h5></li>
                      </ul>
                 </Button>
             </li>
         )
     }
 });
-//管理
+//管理（红色类别展示条目）
 const Manager = React.createClass({
     mixins:[BackboneReactMixin],
     getInitialState(){
         return{
             managerCollection:'',
-            isManager:false
+            isManager:false,
+            showText:'管理'
         }
     },
-    handleClick(){
+    componentDidMount(){
+      switch (this.props.pageShow){
+          case 'staff':
+              this.setState({
+                 showText:'管理'
+              });
+              break;
+          case 'vehicle':
+              this.setState({
+                 showText:'货车'
+              });
+              break;
+      }
+    },
+    componentWillReceiveProps(nextProps){
+        switch (nextProps.pageShow){
+            case 'staff':
+                this.setState({
+                    showText:'管理'
+                });
+                break;
+            case 'vehicle':
+                this.setState({
+                    showText:'货车'
+                });
+                break;
+        }
+    },
+    handleClick(e){
         let managerCollection = this.findRadItem();
+        $('.click-item').removeClass('click-item');
+        $(e.target).parents('.red').addClass('click-item');
         if(!this.state.isManager){
             this.setState({
                 managerCollection:managerCollection
             },function(){
                 //发布全局事件，更新content中的内容
-                PubSub.publish('typeCollection',this.state.managerCollection);
+                //PubSub.publish('typeCollection',this.state.managerCollection);
                 this.setState({
                     isManager:true
                 })
@@ -523,7 +624,7 @@ const Manager = React.createClass({
                 managerCollection:this.state.collection
             },function(){
                 //发布全局事件，更新content中的内容
-                PubSub.publish('typeCollection',this.state.managerCollection);
+                //PubSub.publish('typeCollection',this.state.managerCollection);
                 this.setState({
                     isManager:false
                 })
@@ -533,23 +634,23 @@ const Manager = React.createClass({
     },
     findRadItem(){
         return this.getCollection().where({
-            Type:'1'
+            type:'1'
         },false);
     },
     render(){
         return(
             <li>
                 <Button bsStyle="link" onClick={this.handleClick}>
-                    <ul className = "list-inline">
+                    <ul className = "list-inline red">
                         <li className ="type-color manager">{this.findRadItem().length}</li>
-                        <li className ="type-text"><h5>管理</h5></li>
+                        <li className ="type-text"><h5>{this.state.showText}</h5></li>
                     </ul>
                 </Button>
             </li>
         )
     }
 });
-//其他
+//其他（蓝色类别展示条目）
 const Other = React.createClass({
     mixins:[BackboneReactMixin],
     getInitialState(){
@@ -558,14 +659,16 @@ const Other = React.createClass({
             isOther:false
         }
     },
-    handleClick(){
+    handleClick(e){
+        $('.click-item').removeClass('click-item');
+        $(e.target).parents('.blue').addClass('click-item');
         var otherCollection = this.findBlueItem();
         if(!this.state.isOther){
             this.setState({
                 otherCollection:otherCollection
             },function(){
                 //发布全局事件，更新content中的内容
-                PubSub.publish('typeCollection',this.state.otherCollection);
+                //PubSub.publish('typeCollection',this.state.otherCollection);
                 this.setState({
                     isOther:true
                 })
@@ -575,7 +678,7 @@ const Other = React.createClass({
                 otherCollection:this.state.collection
             },function(){
                 //发布全局事件，更新content中的内容
-                PubSub.publish('typeCollection',this.state.otherCollection);
+                //PubSub.publish('typeCollection',this.state.otherCollection);
                 this.setState({
                     isOther:false
                 })
@@ -584,14 +687,14 @@ const Other = React.createClass({
     },
     findBlueItem(){
         return  this.getCollection().where({
-            Type:'2'
+            type:'2'
         },false);
     },
    render(){
        return(
            <li>
                <Button bsStyle="link" onClick={this.handleClick}>
-                   <ul className="list-inline">
+                   <ul className="list-inline blue">
                        <li className = "type-color other">{this.findBlueItem().length}</li>
                        <li className = "type-text"><h5>其他</h5></li>
                    </ul>
@@ -715,7 +818,7 @@ const OutageRecord = React.createClass({
     },
     componentDidMount(){
         var isOutAgeCollection = this.getCollection().filter(function(item) {
-            return item.get("OutAge").value === "1";
+            return item.get("outAge").value === "1";
         });
       this.setState({
           isOutAgeCollection:isOutAgeCollection
@@ -724,9 +827,9 @@ const OutageRecord = React.createClass({
     handleChange(event){
 
         if(event.target.checked){
-            PubSub.publish('typeCollection',this.state.isOutAgeCollection);
+            //PubSub.publish('typeCollection',this.state.isOutAgeCollection);
         }else{
-            PubSub.publish('typeCollection',this.state.collection);
+            //PubSub.publish('typeCollection',this.state.collection);
         }
     },
     render(){
@@ -744,8 +847,19 @@ const OutageRecord = React.createClass({
 const OperationItem= React.createClass({
     getInitialState(){
       return{
-          cardShow:true
+          cardShow:true,
+          pageShow:''
       }
+    },
+    componentWillReceiveProps(nextProps){
+    //  console.log()
+    ////使用props中的pageShow在页面切换的时候初始化操作栏
+    //    if(nextProps.pageShow != this.state.pageShow){
+    //        this.setState({
+    //            cardShow:true,
+    //            pageShow:nextProps.pageShow
+    //        })
+    //    }
     },
     childListChange(showWay){
         if(showWay=='card'){
@@ -789,7 +903,7 @@ const OperationItem= React.createClass({
                             </li>
                             <li className = "right-item">
                                 <ul className = "list-inline">
-                                    <CarType collection={staffData}/>
+                                    <CarType collection={staffData} pageShow ={this.props.pageShow}/>
                                     <Search />
                                     <AdvancedSearchIcon />
                                     <OutageRecord collection = {staffData}/>
@@ -803,17 +917,17 @@ const OperationItem= React.createClass({
                         <ul className="list-inline operation">
                             <li className = "left-item">
                                 <ul className = "list-inline">
-                                    <AddItem pageShow={this.props.pageShow} collection={staffs}/>
+                                    <AddItem pageShow={this.props.pageShow} collection={vehicleData}/>
                                     <ListItem callbackParent={this.childListChange}/>
                                     {isCardShowContent()}
                                 </ul>
                             </li>
                             <li className = "right-item">
                                 <ul className = "list-inline">
-                                    <CarType collection={staffData}/>
+                                    <CarType collection={vehicleData} pageShow={this.props.pageShow} />
                                     <Search />
                                     <AdvancedSearchIcon />
-                                    <OutageRecord collection = {staffData}/>
+                                    <OutageRecord collection = {vehicleData}/>
                                 </ul>
                             </li>
                         </ul>

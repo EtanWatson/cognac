@@ -61,6 +61,20 @@ body{
             background-image: url("/img/icon_batch_pressed.png");
           }
         }
+        .item-click{
+          h5{
+            color:#2aa2dd !important;
+          }
+          .add-item-icon-hover{
+            background-image: url("/img/icon_add_pressed.png");
+          }
+          .list-item-icon-hover{
+            background-image: url("/img/icon_card_pressed.png");
+          }
+          .batch-item-icon-hover{
+            background-image: url("/img/icon_batch_pressed.png");
+          }
+        }
         .add-item-icon{
           background-image: url("/img/icon_add_default.png");
         }
@@ -77,19 +91,38 @@ body{
           background-image: url("/img/icon_print_default.png");
         }
         .send-item-icon{
-          background-image: url("/img/icon_send_pressed.png");
+          background-image: url("/img/icon_send_default.png");
         }
         .select-all-btn{
           background-image: url("/img/icon_select all_default.png");
         }
         .send-message-btn{
-          background-image: url("/img/icon_send_pressed.png");
+          background-image: url("/img/icon_send_default.png");
         }
         .delete-item-btn{
           background-image: url("/img/icon_delete_default.png");
         }
         .print-item-btn{
           background-image: url("/img/icon_print_default.png");
+        }
+        .btn-click{
+          .select-all-btn{
+            background-image:url("/img/icon_select all_pressed.png")
+          }
+        }
+        .btn-hover{
+          .send-message-btn{
+            background-image:url("/img/icon_send_pressed.png")
+          }
+          .delete-item-btn{
+            background-image:url("/img/icon_delete_pressed.png")
+          }
+          .print-item-btn{
+            background-image:url("/img/icon_print_pressed.png")
+          }
+          .select-all-btn{
+            background-image:url("/img/icon_select all_pressed.png")
+          }
         }
         .task-color{
           width: 40px;
@@ -141,6 +174,7 @@ body{
           width: 25px;
           height: 20px;
           padding: 0 !important;
+          border-radius: 2px 2px 2px;
         }
         .type-color.driver{
           background-color:#f0c22f;
@@ -153,7 +187,9 @@ body{
         }
         .click-item{
           .type-color{
-            box-shadow: 1px 1px 1px #888888 inset;
+            outline: 1px solid;
+            box-shadow: 1px 1px 1px 1px #888888 inset;
+            border-radius: 0;
           }
         }
         .type-text{

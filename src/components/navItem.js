@@ -15,24 +15,14 @@ import {vehicleModel,vehicleData,vehicleCollection} from '../models/vehicleData'
 import {taskModel,taskList} from '../models/taskData'
 import {completedtaskModel,completedtaskList} from '../models/CompletedTaskData'
 import {TaskArrangement,CompletedArrangement} from './taskArrangement'
+import {TaskContent} from './taskArrangement'
 import { Row, Col ,Collapse,Icon} from 'antd';
+
 //任务管理
 const TaskManage = React.createClass({
     render(){
         return (
-            <div className="main-task">
-                    <Row className="row">
-                        <Col span="18">
-                            <div className="main-task-content">
-                                <TaskArrangement collection={taskList} model={taskModel}/>
-                            </div>
-                        </Col>
-                        <Col span="6" className="main-task-right">
-                            <CompletedArrangement collection={completedtaskList} model={completedtaskModel}/>
-                        </Col>
-                    </Row>
-            </div>
-
+            <TaskContent />
         )
     }
 });

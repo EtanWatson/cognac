@@ -631,7 +631,6 @@ const VehicleSetting = React.createClass({
 });
 //任务管理卡片显示设置
 const TaskSetting = React.createClass({
-    //mixins: [BackboneReactMixin],
     getInitialState(){
         return{
             headerColor:'yellow'

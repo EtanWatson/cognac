@@ -8,7 +8,8 @@ import _ from 'underscore'
 import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, Checkbox, Radio ,Tooltip,DatePicker,Collapse,Upload,Menu,Cascader,TimePicker} from 'antd';
 import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from "./selectAutoCompletion"
-import {staffs} from "../../models/staffInfo"
+import {staffs} from "../../models/staffInfo";
+import {validateMixin} from './validate'
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -84,7 +85,7 @@ let EditTable = React.createClass({
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>{staffInfo.Name.value}</h3>
+                            <h3>{staffInfo.name.value}</h3>
                             <Row type = "flex">
                                 <Col span = "4">
                                     <div className ="type-icon right icon"></div>
@@ -103,7 +104,7 @@ let EditTable = React.createClass({
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.Code.aliasName+"："} labelCol={{span: 8}} required>
+                               label={staffInfo.code.aliasName+"："} labelCol={{span: 8}} required>
                                <AntInput type="text" {...getFieldProps('Code')} placeholder=""/>
                            </FormItem>
                        </Col>
@@ -113,14 +114,14 @@ let EditTable = React.createClass({
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.Section.aliasName+"："} labelCol={{span: 8}}>
+                               label={staffInfo.section.aliasName+"："} labelCol={{span: 8}}>
                                <AntInput type="text" {...getFieldProps('Section')} placeholder=""/>
                            </FormItem>
                        </Col>
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.Gender.aliasName+"："} required>
+                               label={staffInfo.gender.aliasName+"："} required>
                                <RadioGroup {...getFieldProps('Gender', { initialValue: 'female' })}>
                                    <Radio value="0">男的</Radio>
                                    <Radio value="1">女的</Radio>
@@ -132,7 +133,7 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.Id.aliasName+"："} labelCol={{span: 8}} required>
+                               label={staffInfo.idNumber.aliasName+"："} labelCol={{span: 8}} required>
                                <AntInput type="text" placeholder="" {...getFieldProps('Id')} />
                            </FormItem>
                        </Col>
@@ -142,7 +143,7 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.Address.aliasName+"："} labelCol={{span: 8}}>
+                               label={staffInfo.address.aliasName+"："} labelCol={{span: 8}}>
                                <AntInput type="text" placeholder="" {...getFieldProps('Address')} />
                            </FormItem>
                        </Col>
@@ -152,14 +153,14 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.JoinData.aliasName+"："} labelCol={{span: 8}} >
+                               label={staffInfo.joinData.aliasName+"："} labelCol={{span: 8}} >
                                <DatePicker  {...getFieldProps('JoinData')}/>
                            </FormItem>
                        </Col>
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.PhoneNumber.aliasName+"："} required>
+                               label={staffInfo.phoneNumber.aliasName+"："} required>
                                <AntInput type="text" placeholder="" {...getFieldProps('PhoneNumber')} />
                            </FormItem>
                        </Col>
@@ -168,7 +169,7 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.Remark.aliasName+"："} labelCol={{span: 8}} required>
+                               label={staffInfo.remark.aliasName+"："} labelCol={{span: 8}} required>
                                <AntInput type="text" placeholder="" {...getFieldProps('Remark')} />
                            </FormItem>
                        </Col>
@@ -178,7 +179,7 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.OutAge.aliasName+":"} labelCol={{span: 8}}>
+                               label={staffInfo.outAge.aliasName+":"} labelCol={{span: 8}}>
                                <label className = "isOutage">
                                    <Checkbox {...getFieldProps('OutAge')} />
                                </label>
@@ -197,7 +198,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label={staffInfo.DrivingLicense.aliasName+"："} labelCol={{span: 8}} required>
+                                       label={staffInfo.drivingLicense.aliasName+"："} labelCol={{span: 8}} required>
                                        <AntInput type="text" placeholder="" {...getFieldProps('DrivingLicense')} />
                                    </FormItem>
                                </Col>
@@ -207,7 +208,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label={staffInfo.ValidDate.aliasName+"："} labelCol={{span: 8}} required>
+                                       label={staffInfo.validDate.aliasName+"："} labelCol={{span: 8}} required>
                                        <DatePicker {...getFieldProps('ValidDate')} />
                                    </FormItem>
                                </Col>
@@ -217,7 +218,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label={staffInfo.AuthorizedBy.aliasName+"："} labelCol={{span: 8}} required>
+                                       label={staffInfo.authorizedBy.aliasName+"："} labelCol={{span: 8}} required>
                                        <AntInput type="text" placeholder="" {...getFieldProps('AuthorizedBy')} />
                                    </FormItem>
                                </Col>
@@ -227,7 +228,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label={staffInfo.AnnualExamination.aliasName+"："} labelCol={{span: 8}} required>
+                                       label={staffInfo.annualExamination.aliasName+"："} labelCol={{span: 8}} required>
                                        <DatePicker  {...getFieldProps('AnnualExamination')}/>
                                    </FormItem>
                                </Col>
@@ -237,7 +238,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label={staffInfo.StartLicenseData.aliasName+"："} labelCol={{span: 8}} required>
+                                       label={staffInfo.startLicenseData.aliasName+"："} labelCol={{span: 8}} required>
                                        <DatePicker  {...getFieldProps('StartLicenseData')} />
                                    </FormItem>
                                </Col>
@@ -247,7 +248,7 @@ let EditTable = React.createClass({
                                <Col span = "12">
                                    <FormItem
                                        {...formItemLayout}
-                                       label={staffInfo.LicenseType.aliasName+"："} labelCol={{span: 8}} required>
+                                       label={staffInfo.licenseType.aliasName+"："} labelCol={{span: 8}} required>
                                        <Cascader  options={licenseTypeOptions} expandTrigger="hover" popupClassName="form-cascader"
                                                   displayRender={displayRender}  {...getFieldProps('LicenseType')} />
                                    </FormItem>
@@ -516,14 +517,11 @@ let EditTableVehicle = React.createClass({
                     </Row>
                 </div>
                 <div className = "footer-info" style={{backgroundColor:'#E6E5ED'}}>
-                    <Row type="flex" justify="space-around">
-                        <Col span = '8'>
-                            <AntButton type="primary" htmlType="submit" onClick={this.handleSubmit}>保存并添加</AntButton>
-                        </Col>
-                        <Col span = '8'>
+                    <Row>
+                        <Col span = '12' style={{textAlign:'left'}}>
                             <AntButton type="primary" htmlType="submit" onClick={this.handleSubmit}>保存</AntButton>
                         </Col>
-                        <Col span = '8'>
+                        <Col span = '12' style = {{textAlign:'right'}}>
                             <AntButton type ="primary" onClick={this.handleCancel}>退出</AntButton>
                         </Col>
                     </Row>
@@ -568,8 +566,6 @@ const EditDialog = React.createClass({
     },
     render(){
         let{pageShow,cardInfo} = this.props;
-        //console.log('editItem pageShow:'+pageShow);
-
         var editTable = function(){
             switch (pageShow){
                 case 'staff':
@@ -767,14 +763,17 @@ let AddTask = React.createClass({
 AddTask = Form.create()(AddTask);
 //添加条目table(staff)
 let AddTable = React.createClass({
-    mixins:[BackboneReactMixin],
+    mixins:[BackboneReactMixin,validateMixin],
     handleSubmit(e) {
         e.preventDefault();
         console.log('收到表单值：', this.props.form.getFieldsValue());
         let formValue = this.props.form.getFieldsValue().id='12233';
         this.getCollection().push(this.props.form.getFieldsValue());
-        //console.log('保存表单值'+this.state.collection);
         this.props.callbackParentOfAdd(true);
+    },
+    handleSaveAndSubmit(e){
+        console.log('收到表单值：', this.props.form.getFieldsValue());
+        this.props.form.resetFields();
     },
     handleCancel(){
         this.props.callbackParentOfAdd(false);
@@ -782,12 +781,22 @@ let AddTable = React.createClass({
     handleUpload(){
 
     },
-    createEntry: function (entry) {
+    getValidateStatus(field) {
+        const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
+
+        if (isFieldValidating(field)) {
+            return 'validating';
+        } else if (!!getFieldError(field)) {
+            return 'error';
+        } else if (getFieldValue(field)) {
+            return 'success';
+        }
     },
     render() {
-        const { getFieldProps } = this.props.form;
+        const  validateForm = this.validateForm();
+        const getFieldProps = validateForm.getFieldProps;
         return (
-            <Form horizontal onSubmit={this.handleSubmit} className = 'add-form'>
+            <Form horizontal onSubmit={this.handleSubmit} className = 'add-form' form={this.props.form}>
                 <div className = "up-info">
                     <Row type = 'flex' justify="center">
                         <Col span = '8' className = 'up-info-header-img'>
@@ -795,7 +804,6 @@ let AddTable = React.createClass({
                             <Upload name="logo" action="/upload.do" listType="picture" onChange={this.handleUpload}
                                 {...getFieldProps('upload', {
                                     valuePropName: 'fileList',
-                                    normalize: this.normFile
                                 })}
                                 >
                                 <img src="/img/icon_userpic.png" />
@@ -805,13 +813,15 @@ let AddTable = React.createClass({
                         <Col span = '12' className = 'up-info-header-text'>
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="姓名："  required>
-                                <AntInput type="text" {...getFieldProps('Name')} placeholder=""  />
+                                <AntInput type="text" {...validateForm.nameProps} id='name' placeholder=""  />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="职务："  required>
-                                <AntInput type="text" {...getFieldProps('Job')} placeholder=""  />
+                                <AntInput type="text" {...validateForm.jobProps} id='job' placeholder=""  />
                             </FormItem>
                         </Col>
                     </Row>
@@ -821,8 +831,9 @@ let AddTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="编码：" required>
-                                <AntInput type="text" {...getFieldProps('Code')} placeholder=""  />
+                                <AntInput type="text" {...validateForm.codeProps} id='code' placeholder=""  />
                             </FormItem>
                         </Col>
                         <Col span = '12'></Col>
@@ -832,14 +843,14 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="所在部门：">
-                                <AntInput type="text" {...getFieldProps('Section')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('section')} id = 'section'  placeholder="" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="性别：" required>
-                                <RadioGroup {...getFieldProps('Gender', { initialValue: 'female' })}>
+                                <RadioGroup {...getFieldProps('gender', { initialValue: 'male' })}>
                                     <Radio value="male">男的</Radio>
                                     <Radio value="female">女的</Radio>
                                 </RadioGroup>
@@ -850,8 +861,9 @@ let AddTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="身份证号："  required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('Id')} />
+                                <AntInput type="text" {...validateForm.idNumber} placeholder="" id = "idNumber" />
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -861,7 +873,7 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="家庭住址：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('Address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('address')} id = "address" />
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -871,14 +883,15 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="入职日期：" >
-                                <DatePicker placeholder="" {...getFieldProps('JoinData')} />
+                                <DatePicker placeholder="" {...getFieldProps('joinData')} id = "joinData"/>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
+                                hasFeedback
                                 label="手机：" required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('PhoneNumber')} />
+                                <AntInput type="text" placeholder="" {...validateForm.phoneNumber} id = 'phoneNumber' />
                             </FormItem>
                         </Col>
                     </Row>
@@ -886,8 +899,8 @@ let AddTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label="备注：" required>
-                                <AntInput type="text" placeholder="" {...getFieldProps('Remark')} />
+                                label="备注：">
+                                <AntInput type="text" placeholder="" {...getFieldProps('remark')} id = "remark" />
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -898,7 +911,7 @@ let AddTable = React.createClass({
                                 {...formItemLayout}
                                 label="是否停用:">
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('OutAge')} />
+                                    <Checkbox {...getFieldProps('outAge')} defaultChecked ={false} />
                                 </label>
                             </FormItem>
                         </Col>
@@ -915,8 +928,9 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
+                                        hasFeedback
                                         label="驾驶证号：" required>
-                                        <AntInput type="text" placeholder="" {...getFieldProps('DrivingLicense')} />
+                                        <AntInput type="text" placeholder="" {...validateForm.drivingLicense}id = "drivingLicense" />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -925,8 +939,9 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
+                                        hasFeedback
                                         label="有效期限：" required>
-                                        <DatePicker {...getFieldProps('ValidDate')} />
+                                        <DatePicker id = "validDate" {...validateForm.validDate} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -935,8 +950,9 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
+                                        hasFeedback
                                         label="发证机关：" required>
-                                        <AntInput type="text" placeholder="" {...getFieldProps('AuthorizedBy')} />
+                                        <AntInput type="text" placeholder="" id = "authorizedBy" {...validateForm.authorizedBy}/>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -945,8 +961,9 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
+                                        hasFeedback
                                         label="年审到期：" required>
-                                        <DatePicker  placeholder=""  {...getFieldProps('AnnualExamination')} />
+                                        <DatePicker  placeholder="" id = "annualExamination" {...validateForm.annualExamination} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -955,8 +972,9 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
+                                        hasFeedback
                                         label="领证日期："  required>
-                                        <DatePicker {...getFieldProps('StartLicenseData')} />
+                                        <DatePicker id = "startLicenseData" {...validateForm.annualExamination} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -965,8 +983,9 @@ let AddTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
+                                        hasFeedback
                                         label="准驾车型：" required>
-                                        <DatePicker {...getFieldProps('LicenseType')} />
+                                        <DatePicker id = "licenseType" {...validateForm.licenseType} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -977,7 +996,7 @@ let AddTable = React.createClass({
                 <div className = "footer-info" style={{backgroundColor:'#E6E5ED'}}>
                     <Row type="flex" justify="space-around">
                         <Col span = '8'>
-                            <AntButton type="primary" htmlType="submit" onClick={this.handleSubmit}>保存并添加</AntButton>
+                            <AntButton type="primary"  onClick={this.handleSaveAndSubmit}>保存并添加</AntButton>
                         </Col>
                         <Col span = '8'>
                             <AntButton type="primary" htmlType="submit" onClick={this.handleSubmit}>保存</AntButton>
@@ -1270,7 +1289,7 @@ const AddDialog  = React.createClass({
     },
     componentWillReceiveProps(nextProps){
         this.setState({
-            visible:nextProps.isAdd,
+            visible:nextProps.isAdd
         });
     },
     showModal(){
@@ -1443,7 +1462,7 @@ const SendMessageDialog = React.createClass({
             if(typeof item === 'object'){
                 return(
                     <li className = "select-item" key={index} data-id = {item.id}>
-                        <span className = "item-content">{item.Name?item.Name.value:item.vehicleCode.value}</span>
+                        <span className = "item-content">{item.name?item.name.value:item.vehicleCode.value}</span>
                         <span className = "item-remove" data-index={index} onClick={this.handleClickCancel}></span>
                     </li>
                 )
@@ -1529,7 +1548,7 @@ let LookTable = React.createClass({
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>{staffInfo.Name.value}</h3>
+                            <h3>{staffInfo.name.value}</h3>
                             <Row type = "flex">
                                 <Col span = "4">
                                     <div className ="type-icon right icon"></div>
@@ -1548,8 +1567,8 @@ let LookTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.Code.aliasName+"："} required>
-                                <p>{staffInfo.Code.value}</p>
+                                label={staffInfo.code.aliasName+"："} required>
+                                <p>{staffInfo.code.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'></Col>
@@ -1558,15 +1577,15 @@ let LookTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.Section.aliasName+"："} >
-                                <p>{staffInfo.Section.value}</p>
+                                label={staffInfo.section.aliasName+"："} >
+                                <p>{staffInfo.section.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.Gender.aliasName+"："} required>
-                                <p>{staffInfo.Gender.value}</p>
+                                label={staffInfo.gender.aliasName+"："} required>
+                                <p>{staffInfo.gender.value}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1574,8 +1593,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.Id.aliasName+"："} required>
-                                <p>{staffInfo.Id.value}</p>
+                                label={staffInfo.idNumber.aliasName+"："} required>
+                                <p>{staffInfo.idNumber.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1584,8 +1603,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.Address.aliasName+"："}>
-                                <p>{staffInfo.Address.value}</p>
+                                label={staffInfo.address.aliasName+"："}>
+                                <p>{staffInfo.address.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1594,15 +1613,15 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.JoinData.aliasName+"："}>
-                                <p>{staffInfo.JoinData.value}</p>
+                                label={staffInfo.joinData.aliasName+"："}>
+                                <p>{staffInfo.joinData.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.PhoneNumber.aliasName+"："} required>
-                                <p>{staffInfo.PhoneNumber.value}</p>
+                                label={staffInfo.phoneNumber.aliasName+"："} required>
+                                <p>{staffInfo.phoneNumber.value}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1610,8 +1629,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.Remark.aliasName+"："} required>
-                                <p>{staffInfo.Remark.value}</p>
+                                label={staffInfo.remark.aliasName+"："} required>
+                                <p>{staffInfo.remark.value}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1620,7 +1639,7 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.OutAge.aliasName+":"}>
+                                label={staffInfo.outAge.aliasName+":"}>
                                 <label className = "isOutage">
                                     <Checkbox {...getFieldProps('outage')} defaultChecked={false} disabled/>
                                 </label>
@@ -1639,8 +1658,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label={staffInfo.DrivingLicense.aliasName+"："}  required>
-                                        <p>{staffInfo.DrivingLicense.value}</p>
+                                        label={staffInfo.drivingLicense.aliasName+"："}  required>
+                                        <p>{staffInfo.drivingLicense.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1649,8 +1668,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label={staffInfo.ValidDate.aliasName+"："} required>
-                                        <p>{staffInfo.ValidDate.value}</p>
+                                        label={staffInfo.validDate.aliasName+"："} required>
+                                        <p>{staffInfo.validDate.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1659,8 +1678,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label={staffInfo.AuthorizedBy.aliasName+"："}  required>
-                                        <p>{staffInfo.AuthorizedBy.value}</p>
+                                        label={staffInfo.authorizedBy.aliasName+"："}  required>
+                                        <p>{staffInfo.authorizedBy.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1669,8 +1688,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label={staffInfo.AnnualExamination.aliasName+"："}  required>
-                                        <p>{staffInfo.AnnualExamination.value}</p>
+                                        label={staffInfo.annualExamination.aliasName+"："}  required>
+                                        <p>{staffInfo.annualExamination.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1679,8 +1698,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label={staffInfo.StartLicenseData.aliasName+"："} required>
-                                        <p>{staffInfo.StartLicenseData.value}</p>
+                                        label={staffInfo.startLicenseData.aliasName+"："} required>
+                                        <p>{staffInfo.startLicenseData.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1689,8 +1708,8 @@ let LookTable = React.createClass({
                                 <Col span = "12">
                                     <FormItem
                                         {...formItemLayout}
-                                        label={staffInfo.LicenseType.aliasName+"："}  required>
-                                        <p>{staffInfo.LicenseType.value}</p>
+                                        label={staffInfo.licenseType.aliasName+"："}  required>
+                                        <p>{staffInfo.licenseType.value}</p>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -2181,7 +2200,6 @@ const AdvancedSearchPanel = React.createClass({
                     </div>
                 )
         }
-        //let generalTableContentVehicle =
         return(
                 <div className = "advanced-search-panel">
                     {panel}
