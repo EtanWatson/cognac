@@ -122,6 +122,9 @@
       width: 75px;
       text-align: left; }
 
+.task-content {
+  background-color: #EEEEEE; }
+
 .table-popover-hidden {
   display: none; }
 

@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {render} from 'react-dom';
+import ReactDOM from 'react-dom';
 import 'pubsub-js';
 import {Router,Route,IndexRoute,Link,IndexLink,browserHistory} from 'react-router';
 import BackboneReactMixin from 'backbone-react-component';
@@ -22,7 +23,7 @@ import { Row, Col ,Collapse,Icon} from 'antd';
 const TaskManage = React.createClass({
     render(){
         return (
-            <TaskContent />
+            <TaskContent model = {taskModel} collection={taskList}/>
         )
     }
 });
@@ -98,18 +99,19 @@ const NavMenu = React.createClass({
             linkIcon:'link-icon'
       }
     },
+    navBtnStatus(selector){
+        console.log(ReactDOM.findDOMNode(this.refs[selector]));
+        let element = $(ReactDOM.findDOMNode(this.refs[selector]));
+        element.addClass('click');
+        element.find('.default').addClass('is-display');
+        element.find('.press').removeClass('is-display');
+    },
     componentDidMount(){
-       console.log(this.props.pageShow);
-       var navBtnStatus = function(selector){
-           $('.'+selector).addClass('click');
-           $('.'+selector+' .default').addClass('is-display');
-           $('.'+selector+' .press').removeClass('is-display');
-       };
       //直接在local中输入 /setting时候调用
       // 刷新页面保持nav的按钮状态
       switch (this.props.pageShow){
           case 'setting':
-              navBtnStatus('setting');
+              this.navBtnStatus('setting');
               this.setState({
                   navData : settingNavArray,
                   baseUrl : '/setting',
@@ -117,14 +119,14 @@ const NavMenu = React.createClass({
               });
               break;
           case 'task':
-              navBtnStatus('taskManage');
+              this.navBtnStatus('taskManage');
               this.setState({
                   navData : navArray,
                   baseUrl : ''
               });
               break;
           case 'staff':
-              navBtnStatus('staffInfo');
+              this.navBtnStatus('staffInfo');
               this.setState({
                   navData : navArray,
                   baseUrl : '',
@@ -132,7 +134,7 @@ const NavMenu = React.createClass({
               });
               break;
           case 'vehicle':
-              navBtnStatus('vehicleRecord');
+              this.navBtnStatus('vehicleRecord');
               this.setState({
                   navData : navArray,
                   baseUrl : '',
@@ -140,7 +142,7 @@ const NavMenu = React.createClass({
               });
               break;
           case 'maintenance':
-              navBtnStatus('maintenance');
+              this.navBtnStatus('maintenance');
               this.setState({
                   navData : navArray,
                   baseUrl : '',
@@ -148,7 +150,7 @@ const NavMenu = React.createClass({
               });
               break;
           case 'leaveRecord':
-              navBtnStatus('leaveRecord');
+              this.navBtnStatus('leaveRecord');
               this.setState({
                   navData : navArray,
                   baseUrl : '',
@@ -158,7 +160,6 @@ const NavMenu = React.createClass({
 
         }
     },
-
     componentWillReceiveProps(nextProps){
         switch (nextProps.pageShow){
             case 'setting':
@@ -168,7 +169,39 @@ const NavMenu = React.createClass({
                    linkIcon:'link-icon-setting'
                 });
                 break;
-            default:
+            case 'task':
+                this.navBtnStatus('taskManage');
+                this.setState({
+                    navData : navArray,
+                    baseUrl : ''
+                });
+                break;
+            case 'staff':
+                this.navBtnStatus('staffInfo');
+                this.setState({
+                    navData : navArray,
+                    baseUrl : '',
+                    linkIcon:'link-icon'
+                });
+                break;
+            case 'vehicle':
+                this.navBtnStatus('vehicleRecord');
+                this.setState({
+                    navData : navArray,
+                    baseUrl : '',
+                    linkIcon:'link-icon'
+                });
+                break;
+            case 'maintenance':
+                this.navBtnStatus('maintenance');
+                this.setState({
+                    navData : navArray,
+                    baseUrl : '',
+                    linkIcon:'link-icon'
+                });
+                break;
+            case 'leaveRecord':
+                this.navBtnStatus('leaveRecord');
                 this.setState({
                     navData : navArray,
                     baseUrl : '',
@@ -199,7 +232,7 @@ const NavMenu = React.createClass({
             if(item.key=='1'){
                 return(
                     <div className="link-box" key={item.key} >
-                        <IndexLink to={this.state.baseUrl+"/"} className={"link-style "+item.name} onClick={this.handleClick}>
+                        <IndexLink to={this.state.baseUrl+"/"} ref={item.name} className={"link-style "+item.name} onClick={this.handleClick}>
                             <div className ={this.state.linkIcon} >
                                 <div className ={item.icon+" icon default"}></div>
                                 <div className ={item.icon+"-press icon press is-display"}></div>
@@ -212,7 +245,7 @@ const NavMenu = React.createClass({
             }else{
                 return(
                     <div className="link-box" key={item.key} >
-                        <Link to={this.state.baseUrl+"/"+item.name} className={"link-style "+item.name} onClick={this.handleClick}>
+                        <Link to={this.state.baseUrl+"/"+item.name} ref={item.name} className={"link-style "+item.name} onClick={this.handleClick}>
                             <div className = {this.state.linkIcon}>
                                 <div className ={item.icon+" icon default"}></div>
                                 <div className ={item.icon+"-press icon press is-display"}></div>

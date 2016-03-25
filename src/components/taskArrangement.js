@@ -11,11 +11,13 @@ import {Search} from './operationItem';
 import {columns,data} from '../data/taskDetailsInfo';
 import {taskModel,taskList} from '../models/taskData'
 import {completedtaskModel,completedtaskList} from '../models/CompletedTaskData'
+import {ListShow} from './contentItem'
 const Task = React.createClass({
     mixins: [BackboneReactMixin],
     getInitialState(){
         return {
-            isEdit: false
+            isEdit: false,
+            isCanWithdraw:false
         }
     },
     componentDidMount(){
@@ -38,12 +40,18 @@ const Task = React.createClass({
     },
     handleEditClick(event){
         this.setState({
-            isEdit: !this.state.isEdit
+            isEdit: true
+        })
+    },
+    handleRegisterClick(event){
+        this.setState({
+            isCanWithdraw: true
         })
     },
     render(){
         let taskInfo = this.state.model;
         var type = taskInfo.Type;
+        var carType = taskInfo.carType;
         taskInfo = _.toArray(taskInfo);
         let getItemArray = function (starNum, endNum) {
             return taskInfo.slice(starNum, endNum);
@@ -62,13 +70,100 @@ const Task = React.createClass({
             });
             return ItemShow
         };
-        let isEdit = function () {
-            if (this.state.isEdit) {
-                $(".click-down").hide();
-                return (
-                    <EditDistribution />
+        let CanWithdraw = function(){
+            if(this.state.isCanWithdraw==true)
+            {
+                //alert(1);
+                return(
+                        <Form onSubmit={this.handleSubmit} className = ''>
+                            <ul>
+                                <li className="withdraw-form">
+                                    <Row type="flex" className="">
+                                        <Col span="12">
+                                            <span className="withdraw-label">回车时间</span>
+                                            <span>：</span>
+                                            <DatePicker className="" />
+                                        </Col>
+                                        <Col span="12">
+                                            <span className="withdraw-label">本次任务行程</span>
+                                            <span>：</span>
+                                            <input type="text"/>
+                                        </Col>
+                                    </Row>
+                                    <Row type="flex" className="">
+                                        <Col span="12">
+                                            <span className="withdraw-label">停车费</span>
+                                            <span>：</span>
+                                            <input type="text"/>
+                                        </Col>
+                                        <Col span="12">
+                                            <span className="withdraw-label">过路费</span>
+                                            <span>：</span>
+                                            <input type="text"/>
+                                        </Col>
+                                    </Row>
+                                    <Row type="flex" className="">
+                                        <Col span="12">
+                                            <span className="withdraw-label">回车停放位置</span>
+                                            <span>：</span>
+                                            <input type="text"/>
+                                        </Col>
+                                        <Col span="12">
+                                            <span className="withdraw-label">回车备注</span>
+                                            <span>：</span>
+                                            <input type="text"/>
+                                        </Col>
+                                    </Row>
+                                </li>
+                                <li className = "withdraw-checkbox">
+                                    <label className = "">
+                                        <Checkbox/>
+                                        这是被临时取消的任务
+                                    </label>
+                                </li>
+                                <li className = "withdraw-btn">
+                                    <button className = "save-btn">保存</button>
+                                    <button className = "close-btn">关闭</button>
+                                </li>
+                            </ul>
+                        </Form>
                 )
-            } else {
+            }
+        }.bind(this);
+        let isCanClickButton = function(){
+            if(type=="1"){
+                return(
+                    <div>
+                        <button className="withDraw">回车</button>
+                    </div>
+                )
+            }
+            else if(type=="2"){
+                return(
+                    <div>
+                        <button className="withDraw withDraw-car">回车</button>
+                    </div>
+                )
+            }
+        };
+        let enterRegistration = function(){
+            if(carType=="0"){
+                return(
+                    <div className="inline-block">
+                        <span onClick={this.handleRegisterClick}>回车登记</span>
+                    </div>
+                )
+            }
+            else{
+                return(
+                    <div className="inline-block">
+                        <span onClick={this.handleClick}>回车登记</span>
+                    </div>
+                )
+            }
+        }.bind(this);
+        let carTypeTask = function () {
+            if (carType == "0") {
                 return (
                     <div>
                         <Row type="flex" className="task-data">
@@ -80,103 +175,192 @@ const Task = React.createClass({
 
                         <div className="hide-data">
                             <Row type="flex" className="task-data">
-                                {itemShow(7, 11)}
+                                {itemShow(7, 10)}
                             </Row>
                             <Row type="flex" className="task-data">
-                                {itemShow(11, 15)}
+                                {itemShow(10, 13)}
                             </Row>
                             <Row type="flex" className="task-data">
-                                {itemShow(15, 16)}
-                            </Row>
-                            <Row type="flex" className="task-data">
-                                {itemShow(16, 17)}
+                                {itemShow(13, 15)}
                             </Row>
                         </div>
                     </div>
                 )
             }
-        }.bind(this);
-        var taskType = function(){
-            //console.log(type);
-            if (type === "0") {
+            else {
                 return (
                     <div>
-                        <div className="task-number_card red">
-                            <label>编号：</label>
-                            <span>1</span>
+                        <Row type="flex" className="task-data">
+                            {itemShow(1, 4)}
+                        </Row>
+                        <Row type="flex" className="task-data">
+                            {itemShow(4, 7)}
+                        </Row>
+
+                        <div className="hide-data">
+                            <Row type="flex" className="task-data">
+                                {itemShow(7, 10)}
+                            </Row>
+                            <Row type="flex" className="task-data">
+                                {itemShow(10, 13)}
+                            </Row>
+                            <Row type="flex" className="task-data">
+                                {itemShow(13, 15)}
+                            </Row>
+                            <ul className="arranged-task">
+                                <li>
+                                    <label forHTML="">编码：</label>
+                                    <span>3-1</span>
+                                    <Row type="flex" className="task-data task-adjustment1">
+                                        {itemShow(7, 9)}
+                                    </Row>
+                                    <Row type="flex" className="task-data task-adjustment2">
+                                        {itemShow(9, 11)}
+                                    </Row>
+                                    {isCanClickButton()}
+                                </li>
+                                <li>
+                                    <label forHTML="">编码：</label>
+                                    <span>3-1</span>
+                                    <Row type="flex" className="task-data task-adjustment1">
+                                        {itemShow(7, 9)}
+                                    </Row>
+                                    <Row type="flex" className="task-data task-adjustment2">
+                                        {itemShow(9, 11)}
+                                    </Row>
+                                    {isCanClickButton()}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                )
+            }
+        };
+            let isEdit = function () {
+                if (this.state.isEdit) {
+                    //$(".click-down").hide();
+                    return (
+                        <EditDistribution />
+                    )
+                } else if(this.state.isCanWithdraw){
+                    return(
+                        <div>
+                            {carTypeTask()}
+                            {CanWithdraw()}
+                        </div>
+                    )
+                }else {
+                    if (type == "0") {
+                        return (
+                            <div>
+                                <Row type="flex" className="task-data">
+                                    {itemShow(1, 4)}
+                                </Row>
+                                <Row type="flex" className="task-data">
+                                    {itemShow(4, 7)}
+                                </Row>
+
+                                <div className="hide-data">
+                                    <Row type="flex" className="task-data">
+                                        {itemShow(7, 10)}
+                                    </Row>
+                                </div>
+                            </div>
+                        )
+                    }
+                    else if (type == "1") {
+                        return(
+                            <div>
+                                {carTypeTask()}
+                            </div>
+                        )
+                    }
+                    else {
+                        return(
+                            <div>
+                                {carTypeTask()}
+                            </div>
+                        )
+                    }
+                }
+            }.bind(this);
+            var taskType = function () {
+                //console.log(type);
+                if (type === "0") {
+                    return (
+                        <div>
+                            <div className="task-number_card red">
+                                <label>编号：</label>
+                                <span>1</span>
                             <span className="edit-icon icon-red">
                                 <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
                             </span>
+                            </div>
+                            {isEdit()}
+                            <ul className="task-hover icon-red" onMouseLeave={this.handleMouseLeave}>
+                                <li className="task-hover-li-red">
+                                    <span className="edit-inner-icon"></span>
+                                    <span onClick={this.handleEditClick}>编辑派发</span>
+                                </li>
+                                <li>
+                                    <span className="edit-inner-icon"></span>
+                                    <span>取消任务</span>
+                                </li>
+                            </ul>
                         </div>
-                        {isEdit()}
-                        <ul className="task-hover icon-red" onMouseLeave={this.handleMouseLeave}>
-                            <li className="task-hover-li-red">
-                                <span className="edit-inner-icon"></span>
-                                <span onClick={this.handleEditClick}>编辑派发</span>
-                            </li>
-                            <li>
-                                <span className="edit-inner-icon"></span>
-                                <span>取消任务</span>
-                            </li>
-                        </ul>
-                    </div>
-                )
-            } else if (type === "1") {
-                return (
-                    <div>
-                        <div className="task-number_card blue">
-                            <label>编号：</label>
-                            <span>1</span>
+                    )
+                } else if (type === "1") {
+                    return (
+                        <div>
+                            <div className="task-number_card blue">
+                                <label>编号：</label>
+                                <span>1</span>
                             <span className="edit-icon icon-blue">
                                 <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
                             </span>
+                            </div>
+                            {isEdit()}
+                            <ul className="task-hover icon-orange" onMouseLeave={this.handleMouseLeave}>
+                                <li className="task-hover-li-blue">
+                                    <span className="edit-inner-icon"></span>
+                                    <span onClick={this.handleEditClick}>编辑派发</span>
+                                </li>
+                                <li>
+                                    <span className="edit-inner-icon"></span>
+                                    <span>取消任务</span>
+                                </li>
+                            </ul>
                         </div>
-                        {isEdit()}
-                        <ul className="task-hover icon-orange" onMouseLeave={this.handleMouseLeave}>
-                            <li className="task-hover-li-blue">
-                                <span className="edit-inner-icon"></span>
-                                <span onClick={this.handleEditClick}>编辑派发</span>
-                            </li>
-                            <li>
-                                <span className="edit-inner-icon"></span>
-                                <span>取消任务</span>
-                            </li>
-                        </ul>
-                    </div>
-                )
-            } else {
-                return (
-                    <div>
-                        <div className="task-number_card orange">
-                            <label>编号：</label>
-                            <span>1</span>
+                    )
+                } else {
+                    return (
+                        <div>
+                            <div className="task-number_card orange">
+                                <label>编号：</label>
+                                <span>1</span>
                             <span className="edit-icon icon-orange">
                                 <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
                             </span>
+                            </div>
+                            {isEdit()}
+                            <ul className="task-hover icon-blue" onMouseLeave={this.handleMouseLeave}>
+                                <li className="task-hover-li-orange">
+                                    <span className="edit-inner-icon"></span>
+                                    {enterRegistration()}
+                                </li>
+                            </ul>
                         </div>
-                        {isEdit()}
-                        <ul className="task-hover icon-blue" onMouseLeave={this.handleMouseLeave}>
-                            <li className="task-hover-li-orange">
-                                <span className="edit-inner-icon"></span>
-                                <span>回车登记</span>
-                            </li>
-                            <li>
-                                <span className="edit-inner-icon"></span>
-                                <span onClick={this.handleEditClick}>编辑派发</span>
-                            </li>
-                        </ul>
-                    </div>
-                )
-            }
-        }.bind(this);
-        return (
-            <div className="task-card">
-                {taskType()}
-                <span className="click-down" onClick={this.handleClick}></span>
-            </div>
-        )
-    }
-});
+                    )
+                }
+            }.bind(this);
+            return (
+                <div className="task-card">
+                    {taskType()}
+                    <span className="click-down" onClick={this.handleClick}></span>
+                </div>
+            )
+        }
+    });
 //任务管理列表
 const TaskArrangement = React.createClass({
     mixins:[BackboneReactMixin],
@@ -202,15 +386,32 @@ const TaskContent = React.createClass({
             showWay:'card',
         }
     },
+    componentWillMount(){
+        let listHeadTemp = [];
+        let model = this.getModel();
+        let listHeadKeys = model.keys();
+        model.values().map(function(list,index){
+            if(list.aliasName){
+                listHeadTemp.push({
+                    aliasName:list.aliasName,
+                    key:listHeadKeys[index]
+                })
+            }
+        });
+        this.setState({
+            listHeader:listHeadTemp,
+            listHeaderCopy:listHeadTemp
+        })
+    },
     componentDidMount(){
-        this.showWay_token = PubSub.subscribe('showWay',function(topic,showWay){
+        this.showHistory_token = PubSub.subscribe('show-history',function(topic,showWay){
             this.setState({
                 showWay:showWay
             })
         }.bind(this));
     },
     componentWillUnmount(){
-        PubSub.unsubscribe(this.showWay_token);
+        PubSub.unsubscribe(this.showHistory_token);
     },
     render(){
         var pageShow = this.props.pageShow;
@@ -233,32 +434,16 @@ const TaskContent = React.createClass({
                 )
             }else{
                 return(
-                    <ListShow collection={this.getCollection()} pageShow = {pageShow}/>
+                    <ListShow collection={this.getCollection()} pageShow = {pageShow} model = {this.getModel()}/>
                 )
             }
         }.bind(this);
         return (
-            <div id="content" className="content">
+            <div id="content" className="content task-content">
                 {handleShowWay()}
             </div>
         )
     }
-    //render(){
-    //    return(
-    //        <div className="main-task">
-    //            <Row className="row">
-    //                <Col span="18">
-    //                    <div className="main-task-content">
-    //                        <TaskArrangement collection={taskList} model={taskModel}/>
-    //                    </div>
-    //                </Col>
-    //                <Col span="6" className="main-task-right">
-    //                    <CompletedArrangement collection={completedtaskList} model={completedtaskModel}/>
-    //                </Col>
-    //            </Row>
-    //        </div>
-    //    )
-    //}
 });
 //最近已完成任务列表
 const CompletedArrangement = React.createClass({

@@ -5,6 +5,7 @@ import $ from 'jquery'
 import React from 'react';
 import {render} from 'react-dom';
 import ReactDOM from 'react-dom';
+import {browserHistory} from 'react-router'
 import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Checkbox,Collapse} from 'antd';
 import _ from 'underscore'
 import BackBone from 'backbone';
@@ -56,22 +57,6 @@ const AddItem = React.createClass({
             </li>
         )
     }
-});
-
-//历史任务
-const TaskHistory = React.createClass({
-    render(){
-    return (
-        <li>
-        <Button bsStyle="link">
-        <ul>
-        <li></li>
-        <li><h5>任务历史</h5></li>
-    </ul>
-    </Button>
-    </li>
-)
-}
 });
 //任务类型
 const TaskType = React.createClass({
@@ -132,6 +117,34 @@ const ToBeDistributed = React.createClass({
 )
 }
 });
+//任务管理列表显示
+const TaskListItem =React.createClass({
+    getInitialState(){
+        return{
+            showWay:false
+        }
+    },
+    handleClick(){
+            PubSub.publish('show-history','list');
+            this.props.callbackParent('list')
+    },
+    render(){
+        return(
+            <ul className = "list-inline">
+                <AddItem pageShow={this.props.pageShow} collection={staffs}/>
+                <li className ='operation-item-btn'>
+                    <Button bsStyle="link" onClick = {this.handleClick}>
+                        <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+                            <li className = "list-item-icon operation-item-icon list-item-icon-hover"></li>
+                            <li className = "card-show"><h5>任务历史</h5></li>
+                        </ul>
+                    </Button>
+                </li>
+                <TaskType />
+            </ul>
+        )
+    }
+});
 //列表
 const ListItem =React.createClass({
     getInitialState(){
@@ -165,7 +178,6 @@ const ListItem =React.createClass({
                         <li className = "list-item-icon operation-item-icon list-item-icon-hover"></li>
                         <li className = "card-show"><h5>切换展示</h5></li>
                      </ul>
-
                 </Button>
             </li>
         )
@@ -467,6 +479,7 @@ const PrintItem = React.createClass({
         )
     }
 });
+
 //人员信息
 const CarType = React.createClass({
     mixins:[BackboneReactMixin],
@@ -872,6 +885,12 @@ const OperationItem= React.createClass({
             })
         }
     },
+    handleClick(){
+        this.setState({
+            cardShow : true
+        })
+        PubSub.publish('show-history','card');
+    },
     render(){
         let pageShow = this.props.pageShow;
         var isCardShowContent = function(){
@@ -888,6 +907,28 @@ const OperationItem= React.createClass({
                   </ul>
               )
           }
+        }.bind(this);
+        var isTaskShowContent = function(){
+            if(this.state.cardShow){
+                return(
+                    <TaskListItem callbackParent={this.childListChange} pageShow={this.props.pageShow} collection={staffs}/>
+                )
+            }else{
+                return(
+                    <ul className = 'list-inline' style={{display:'inline-block'}}>
+                        <PrintItem showList={true}/>
+                        <DeleteItem showList={true}/>
+                        <Button  bsStyle="link" className=""  onClick={this.handleClick}>
+                            <ul className = "list-inline">
+                                <li className = "print-item-icon operation-item-icon"></li>
+                                <li>
+                                    <h5>返回</h5>
+                                </li>
+                            </ul>
+                        </Button>
+                    </ul>
+                )
+            }
         }.bind(this);
         var operaShowWay = function(){
             switch(pageShow){
@@ -942,11 +983,7 @@ const OperationItem= React.createClass({
                     return(
                         <ul className="list-inline operation">
                             <li className = "left-item">
-                                <ul className = "list-inline">
-                                    <AddItem pageShow={this.props.pageShow} collection={staffs}/>
-                                    <TaskHistory />
-                                    <TaskType />
-                                </ul>
+                                {isTaskShowContent()}
                             </li>
                             <li className = "task-right-item">
                                 <ul className = "list-inline">

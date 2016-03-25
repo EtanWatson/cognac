@@ -2,21 +2,15 @@ import Backbone from 'backbone';
 var task = Backbone.Model.extend({
     defaults:{
         id:'',
-        carUser : {
-            name:'carUser',
-            aliasName:'用车人',
-            value:'',
-            isShowInCard:''
-        },
         useDate:{
             name:'userDate',
             aliasName:'用车时间',
             value:'',
             isShowInCard:''
         },
-        useSection :{
-            name:'useSection',
-            aliasName:'用车部门',
+        carUser : {
+            name:'carUser',
+            aliasName:'用车人',
             value:'',
             isShowInCard:''
         },
@@ -26,27 +20,21 @@ var task = Backbone.Model.extend({
             value:'',
             isShowInCard:'1'
         },
-        destination : {
-            name:'destination',
-            aliasName:'目的地',
-            value:'',
-            isShowInCard:''
-        },
         aboutTime :{
             name:'aboutTime',
             aliasName:'估计用时',
             value:'',
             isShowInCard:''
         },
-        followNum :{
-            name:'followNum',
-            aliasName:'随车人数',
+        destination : {
+            name:'destination',
+            aliasName:'目的地',
             value:'',
-            isShowInCard:'1'
+            isShowInCard:''
         },
-        drawOutTime: {
-            name:'drawOutTiem',
-            aliasName:'出车时间',
+        useCarRemark : {
+            name:'outCarRemark',
+            aliasName:'用车备注',
             value:'',
             isShowInCard:''
         },
@@ -56,15 +44,33 @@ var task = Backbone.Model.extend({
             value:'',
             isShowInCard:''
         },
-        drawInTime: {
-            name:'drawInTime',
-            aliasName:'回车时间',
+        followNum :{
+            name:'followNum',
+            aliasName:'随车人数',
             value:'',
             isShowInCard:'1'
+        },
+        cycleTask: {
+            name:'cycleTask',
+            aliasName:'周期性任务',
+            value:'',
+            isShowInCard:'1'
+        },
+        drawOutTime: {
+            name:'drawOutTiem',
+            aliasName:'出车时间',
+            value:'',
+            isShowInCard:''
         },
         plateNumber :{
             name:'plateNumber',
             aliasName:'车牌号',
+            value:'',
+            isShowInCard:''
+        },
+        driver :{
+            name:'driver',
+            aliasName:'司机',
             value:'',
             isShowInCard:''
         },
@@ -74,21 +80,33 @@ var task = Backbone.Model.extend({
             value:'',
             isShowInCard:''
         },
-        cycleTask: {
-            name:'cycleTask',
-            aliasName:'周期任务',
+        backInTime: {
+            name:'backInTime ',
+            aliasName:'预计回车时间',
             value:'',
-            isShowInCard:'1'
+            isShowInCard:''
         },
-        outCarRemark : {
-            name:'outCarRemark',
-            aliasName:'出车备注',
+        mileage: {
+            name:'mileage ',
+            aliasName:'出车里程',
+            value:'',
+            isShowInCard:''
+        },
+        alreadyEnter: {
+            name:'alreadyEnter ',
+            aliasName:'已回车',
             value:'',
             isShowInCard:''
         },
         Type : {
             name:'Type',
             aliasName:'任务类型',
+            value:'',
+            isShowInCard:''
+        },
+        carType:{
+            name:'carType',
+            aliasName:'出车任务类型',
             value:'',
             isShowInCard:''
         }
@@ -98,25 +116,19 @@ var taskCollection = Backbone.Collection.extend({
     model:task
 });
 const taskInfo=[];
-for(let i = 0 ; i < 5 ; i ++){
+for(let i = 0 ; i < 100 ; i ++){
     taskInfo.push({
         id:i,
-        carUser : {
-            name:'carUser',
-            aliasName:'用车人',
-            value:`用车人${i}`,
-            isShowInCard:''
-        },
         useDate:{
             name:'userDate',
             aliasName:'用车时间',
             value:`用车时间${i}`,
             isShowInCard:''
         },
-        useSection :{
-            name:'useSection',
-            aliasName:'用车部门',
-            value:`用车部门${i}`,
+        carUser : {
+            name:'carUser',
+            aliasName:'用车人',
+            value:`用车人${i}`,
             isShowInCard:''
         },
         useCase :{
@@ -125,28 +137,22 @@ for(let i = 0 ; i < 5 ; i ++){
             value:`用车原因${i}`,
             isShowInCard:'1'
         },
-        destination : {
-            name:'destination',
-            aliasName:'目的地',
-            value:`目的地${i}`,
-            isShowInCard:''
-        },
         aboutTime :{
             name:'aboutTime',
             aliasName:'估计用时',
             value:`估计用时${i}`,
             isShowInCard:''
         },
-        followNum :{
-            name:'followNum',
-            aliasName:'随车人数',
-            value:`随车人数${i}`,
-            isShowInCard:'1'
+        destination : {
+            name:'destination',
+            aliasName:'目的地',
+            value:`目的地${i}`,
+            isShowInCard:''
         },
-        drawOutTime: {
-            name:'drawOutTiem',
-            aliasName:'出车时间',
-            value:`出车时间${i}`,
+        useCarRemark : {
+            name:'outCarRemark',
+            aliasName:'用车备注',
+            value:`用车备注${i}`,
             isShowInCard:''
         },
         applyCarType:{
@@ -155,16 +161,34 @@ for(let i = 0 ; i < 5 ; i ++){
             value:`申请车型${i}`,
             isShowInCard:''
         },
-        drawInTime: {
-            name:'drawInTime',
-            aliasName:'回车时间',
-            value:`回车时间${i}`,
+        followNum :{
+            name:'followNum',
+            aliasName:'随车人数',
+            value:`随车人数${i}`,
             isShowInCard:'1'
+        },
+        cycleTask: {
+            name:'cycleTask',
+            aliasName:'周期性任务',
+            value:`周期性任务${i}`,
+            isShowInCard:'1'
+        },
+        drawOutTime: {
+            name:'drawOutTiem',
+            aliasName:'出车时间',
+            value:`出车时间${i}`,
+            isShowInCard:''
         },
         plateNumber :{
             name:'plateNumber',
             aliasName:'车牌号',
             value:`车牌号${i}`,
+            isShowInCard:''
+        },
+        driver :{
+            name:'driver',
+            aliasName:'司机',
+            value:`司机${i}`,
             isShowInCard:''
         },
         collectionPosition: {
@@ -173,19 +197,26 @@ for(let i = 0 ; i < 5 ; i ++){
             value:`取车位置${i}`,
             isShowInCard:''
         },
-        cycleTask: {
-            name:'cycleTask',
-            aliasName:'周期任务',
-            value:`周期任务${i}`,
-            isShowInCard:'1'
-        },
-        outCarRemark : {
-            name:'outCarRemark',
-            aliasName:'出车备注',
-            value:`出车备注${i}`,
+        backInTime: {
+            name:'backInTime ',
+            aliasName:'预计回车时间',
+            value:`预计回车时间${i}`,
             isShowInCard:''
         },
-        Type : `${i%3}`
+        mileage: {
+            name:'mileage ',
+            aliasName:'出车里程',
+            value:`出车里程${i}`,
+            isShowInCard:''
+        },
+        alreadyEnter: {
+            name:'alreadyEnter ',
+            aliasName:'已回车',
+            value:`已回车${i}`,
+            isShowInCard:''
+        },
+        Type : `${i%3}`,
+        carType : `${i%2}`
     })
 }
 var taskList = new taskCollection(taskInfo);

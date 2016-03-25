@@ -58,28 +58,38 @@ const HoverItem = React.createClass({
         })
    },
    onChildChangeEdit(isEdit){
-       console.log('关闭编辑回调:'+isEdit);
+       //console.log('关闭编辑回调:'+isEdit);
         this.setState({
             isEdit:false
         });
        this.props.callbackParent(isEdit);
    },
    onChildChangeSendMessage(isSendMessage){
-       console.log('i am send message '+isSendMessage);
        this.setState({
            isSendMessage:isSendMessage
        });
    },
    render(){
-       //console.log('鼠标滑入卡片时的cardInfo:'+this.props.cardInfo);
+       //根据pageShow显示不同的鼠标滑过按钮
+       let messageMaintenance = '';
+       switch (this.props.pageShow){
+           case 'staff':
+               messageMaintenance =  <li>
+                                         <Button  bsStyle="link" onClick={this.handleSendMessage}><img src="/img/icon_send.png" /></Button>
+                                     </li>;
+               break;
+           case 'vehicle':
+               messageMaintenance =  <li>
+                                        <Button  bsStyle="link" ><img src="/img/maintenance.png" /></Button>
+                                    </li>;
+               break;
+       }
        return(
            <ul className = "list-inline operation-in-card">
                 <li>
                     <Button  bsStyle="link" onClick={this.handleEditClick}><img src="/img/icon_edit.png" /></Button>
                 </li>
-                <li>
-                    <Button  bsStyle="link" onClick={this.handleSendMessage}><img src="/img/icon_send.png" /></Button>
-                </li>
+                {messageMaintenance}
                 <li>
                     <Button  bsStyle="link" onClick={this.handleDeleteClick}><img src="/img/icon_delete.png" /></Button>
                 </li>
@@ -286,12 +296,15 @@ const Card = React.createClass({
                     switch (type){
                         case "0":
                             typeText = "客车";
+                            colorIcon = '/img/card_title_driver.png';
                             break;
                         case "1":
                             typeText = "货车";
+                            colorIcon = '/img/card_title_manage.png';
                             break;
                         case "2":
                             typeText="其他";
+                            colorIcon = '/img/card_title_others.png';
                             break;
                     }
                 }
@@ -782,6 +795,4 @@ const Content = React.createClass({
         )
     }
 });
-
-
-export{Content}
+export{Content,ListShow}

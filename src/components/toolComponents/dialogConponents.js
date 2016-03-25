@@ -9,93 +9,79 @@ import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, 
 import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from "./selectAutoCompletion"
 import {staffs} from "../../models/staffInfo";
-import {validateMixin} from './validate'
+import {validateMixin} from './validate';
+import {typeStatusStaffMixin} from './typeStatus'
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 //form的整体布局
 const formItemLayout = {
     labelCol: { span: 8 },
-    wrapperCol: { span: 14 }
+    wrapperCol: { span: 14}
 };
-//准驾车型options
-const licenseTypeOptions=[
-    {
-    value: 'A',
-    label: 'A',
-    children: [
-        {
-            value: 'A1',
-            label: 'A1'
-        },
-        {
-            value: 'A2',
-            label: 'A2'
-        }
-    ]
-}, {
-    value: 'B',
-    label: 'B',
-    children: [
-        {
-            value: 'B1',
-            label: 'B1'
-        },
-        {
-            value: 'B2',
-            label: 'B2'
-        }
-    ]
-}];
-//准驾车型，只展示最后一项
-function displayRender(label) {
-    return label[label.length - 1];
-}
 let EditTable = React.createClass({
-    mixins:[BackboneReactMixin],
+    mixins:[BackboneReactMixin,validateMixin,typeStatusStaffMixin],
+    //
     componentDidMount(){
+    },
+    componentWillReceiveProps(){
+
     },
     handleSubmit(e) {
         e.preventDefault();
         console.log('收到表单值：', this.props.form.getFieldsValue());
         let modifyForm  = this.props.form.getFieldsValue();
-        for( var modifyItem in modifyForm){
-            if(modifyForm[modifyItem]){
-                if(typeof modifyForm[modifyItem]=='object'){
-                    modifyForm[modifyItem]=modifyForm[modifyItem].toString();
-                }
-                this.getModel().get(modifyItem).value=modifyForm[modifyItem]
-            }
-        }
+        //for( var modifyItem in modifyForm){
+        //    if(modifyForm[modifyItem]){
+        //        if(typeof modifyForm[modifyItem]=='object'){
+        //            modifyForm[modifyItem]=modifyForm[modifyItem].toString();
+        //        }
+        //        this.getModel().get(modifyItem).value=modifyForm[modifyItem]
+        //    }
+        //}
         this.props.callbackParentOfEdit('edit');
     },
     handleCancel(){
         this.props.callbackParentOfEdit('noEdit');
     },
+    getValidateStatus(field) {
+        const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
+
+        if (isFieldValidating(field)) {
+            return 'validating';
+        } else if (!!getFieldError(field)) {
+            return 'error';
+        } else if (getFieldValue(field)) {
+            return 'success';
+        }
+    },
     render() {
-        const { getFieldProps } = this.props.form;
-        let staffInfo = this.state.model;
+        const  validateForm = this.validateFormEdit(this.state.model,this.props.form.getFieldProps);
+        const  getFieldProps = validateForm.getFieldProps;
+        const  staffInfo = validateForm.staffInfo;
+        let isDriver = this.typeStatusInfo(staffInfo,validateForm).isDriver;
+        let typeStatus =this.typeStatusInfo(staffInfo,validateForm).typeStatus;
         return (
-            <Form horizontal onSubmit={this.handleSubmit} className = 'edit-form'>
+            <Form horizontal onSubmit={this.handleSubmit} className = 'edit-form'  form={this.props.form}>
                <div className = "up-info">
                    <Row type = 'flex' justify="center">
                         <Col span = "8">
                             <div className = "header-icon">
-                                <img src= "/img/icon_user_head_50_50_have_9.png" />
+                                {/*<FormItem>
+                                    <Upload name="logo" action="/upload.do" listType="picture" onChange={this.handleUpload}
+                                        {...getFieldProps('upload', {
+                                            valuePropName: 'fileList'
+                                        })}
+                                        >
+                                        <img src="/img/icon_userpic.png" className = "add-img-front" />
+                                    </Upload>
+                                </FormItem>*/}
+                                <img src= {staffInfo.headImg} className = "header-img" />
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
                             <h3>{staffInfo.name.value}</h3>
-                            <Row type = "flex">
-                                <Col span = "4">
-                                    <div className ="type-icon right icon"></div>
-                                    <div className = "type-text right">司机</div>
-                                </Col>
-                                <Col span = "12">
-                                    <div className = "status-icon right icon"></div>
-                                    <div className = "status-text right">出车</div>
-                                </Col>
-                            </Row>
+                            {typeStatus}
                         </Col>
                    </Row>
                </div>
@@ -104,8 +90,9 @@ let EditTable = React.createClass({
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
+                               hasFeedback={true}
                                label={staffInfo.code.aliasName+"："} labelCol={{span: 8}} required>
-                               <AntInput type="text" {...getFieldProps('Code')} placeholder=""/>
+                               <AntInput type="text" {...validateForm.codeProps} placeholder="" />
                            </FormItem>
                        </Col>
                        <Col span = '12'></Col>
@@ -115,16 +102,16 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label={staffInfo.section.aliasName+"："} labelCol={{span: 8}}>
-                               <AntInput type="text" {...getFieldProps('Section')} placeholder=""/>
+                               <AntInput type="text" {...getFieldProps('section',{initialValue:staffInfo.section.value})} placeholder=""/>
                            </FormItem>
                        </Col>
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
                                label={staffInfo.gender.aliasName+"："} required>
-                               <RadioGroup {...getFieldProps('Gender', { initialValue: 'female' })}>
-                                   <Radio value="0">男的</Radio>
-                                   <Radio value="1">女的</Radio>
+                               <RadioGroup {...getFieldProps('gender', { initialValue: "0" })}>
+                                   <Radio value="0">男</Radio>
+                                   <Radio value="1">女</Radio>
                                </RadioGroup>
                            </FormItem>
                        </Col>
@@ -133,8 +120,9 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
+                               hasFeedback
                                label={staffInfo.idNumber.aliasName+"："} labelCol={{span: 8}} required>
-                               <AntInput type="text" placeholder="" {...getFieldProps('Id')} />
+                               <AntInput type="text" placeholder="" {...validateForm.idNumberProps} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -144,7 +132,7 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label={staffInfo.address.aliasName+"："} labelCol={{span: 8}}>
-                               <AntInput type="text" placeholder="" {...getFieldProps('Address')} />
+                               <AntInput type="text" placeholder="" {...getFieldProps('address',{initialValue:staffInfo.address.value})} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -154,14 +142,15 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                label={staffInfo.joinData.aliasName+"："} labelCol={{span: 8}} >
-                               <DatePicker  {...getFieldProps('JoinData')}/>
+                               <DatePicker  {...getFieldProps('joinData',{initialValue:'2015-01-01'})}/>
                            </FormItem>
                        </Col>
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
+                               hasFeedback
                                label={staffInfo.phoneNumber.aliasName+"："} required>
-                               <AntInput type="text" placeholder="" {...getFieldProps('PhoneNumber')} />
+                               <AntInput type="text" placeholder="" {...validateForm.phoneNumberProps} />
                            </FormItem>
                        </Col>
                    </Row>
@@ -169,8 +158,8 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.remark.aliasName+"："} labelCol={{span: 8}} required>
-                               <AntInput type="text" placeholder="" {...getFieldProps('Remark')} />
+                               label={staffInfo.remark.aliasName+"："} labelCol={{span: 8}} >
+                               <AntInput type="text" placeholder="" {...getFieldProps('remark',{initialValue:staffInfo.remark.value})} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -181,82 +170,13 @@ let EditTable = React.createClass({
                                {...formItemLayout}
                                label={staffInfo.outAge.aliasName+":"} labelCol={{span: 8}}>
                                <label className = "isOutage">
-                                   <Checkbox {...getFieldProps('OutAge')} />
+                                   <Checkbox {...getFieldProps('outAge')} />
                                </label>
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
                    </Row>
-                   <Collapse defaultActiveKey={['1']} className = "is-driver">
-                       <Panel header={(
-                       <div className ="" style={{width:'110%',position:'relative',right:'38px',borderBottom:'10px solid #E6E5ED'}}>
-                           <span className = 'driver-text' style={{position:'relative',left:'185px'}}>司机</span>
-                           <Icon type="circle-down" />
-                       </div>
-                       )}>
-                         <Row type = 'flex' justify="center">
-                               <Col span = "12">
-                                   <FormItem
-                                       {...formItemLayout}
-                                       label={staffInfo.drivingLicense.aliasName+"："} labelCol={{span: 8}} required>
-                                       <AntInput type="text" placeholder="" {...getFieldProps('DrivingLicense')} />
-                                   </FormItem>
-                               </Col>
-                               <Col span = "12"></Col>
-                          </Row>
-                           <Row type = 'flex' justify="center">
-                               <Col span = "12">
-                                   <FormItem
-                                       {...formItemLayout}
-                                       label={staffInfo.validDate.aliasName+"："} labelCol={{span: 8}} required>
-                                       <DatePicker {...getFieldProps('ValidDate')} />
-                                   </FormItem>
-                               </Col>
-                               <Col span = "12"></Col>
-                           </Row>
-                           <Row type = 'flex' justify="center">
-                               <Col span = "12">
-                                   <FormItem
-                                       {...formItemLayout}
-                                       label={staffInfo.authorizedBy.aliasName+"："} labelCol={{span: 8}} required>
-                                       <AntInput type="text" placeholder="" {...getFieldProps('AuthorizedBy')} />
-                                   </FormItem>
-                               </Col>
-                               <Col span = "12"></Col>
-                           </Row>
-                           <Row type = 'flex' justify="center">
-                               <Col span = "12">
-                                   <FormItem
-                                       {...formItemLayout}
-                                       label={staffInfo.annualExamination.aliasName+"："} labelCol={{span: 8}} required>
-                                       <DatePicker  {...getFieldProps('AnnualExamination')}/>
-                                   </FormItem>
-                               </Col>
-                               <Col span = "12"></Col>
-                           </Row>
-                           <Row type = 'flex' justify="center">
-                               <Col span = "12">
-                                   <FormItem
-                                       {...formItemLayout}
-                                       label={staffInfo.startLicenseData.aliasName+"："} labelCol={{span: 8}} required>
-                                       <DatePicker  {...getFieldProps('StartLicenseData')} />
-                                   </FormItem>
-                               </Col>
-                               <Col span = "12"></Col>
-                           </Row>
-                           <Row type = 'flex' justify="center">
-                               <Col span = "12">
-                                   <FormItem
-                                       {...formItemLayout}
-                                       label={staffInfo.licenseType.aliasName+"："} labelCol={{span: 8}} required>
-                                       <Cascader  options={licenseTypeOptions} expandTrigger="hover" popupClassName="form-cascader"
-                                                  displayRender={displayRender}  {...getFieldProps('LicenseType')} />
-                                   </FormItem>
-                               </Col>
-                               <Col span = "12"></Col>
-                           </Row>
-                       </Panel>
-                   </Collapse>
+                   {isDriver}
                </div>
                 <div className = "footer-info" style={{backgroundColor:'#E6E5ED'}}>
                     <Row>
@@ -295,7 +215,7 @@ let EditTableVehicle = React.createClass({
                     <Row type = 'flex' justify="center">
                         <Col span = "8">
                             <div className = "header-icon">
-                                <img src= "/img/icon_user_head_50_50_have_9.png" />
+                                <img src= {cardInfo.headImg} />
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
@@ -425,11 +345,12 @@ let EditTableVehicle = React.createClass({
                         </Col>
                     </Row>
                     <Row type = "flex" justify="center">
-                        <Col span = "12">
+                        <Col span = "12" className = "oil-input">
                             <FormItem
                                 {...formItemLayout}
                                 label="油耗：" >
                                 <AntInput type="text" placeholder="" {...getFieldProps('fuelEfficient')} />
+                                <span className = "unit">升/百公里</span>
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -441,11 +362,12 @@ let EditTableVehicle = React.createClass({
                         </Col>
                     </Row>
                     <Row type = "flex" justify="center">
-                        <Col span = "12">
+                        <Col span = "12" className = "continue-input">
                             <FormItem
                                 {...formItemLayout}
-                                label={<div><p>续航里程：</p><p>（电车）</p></div>}>
+                                label="续航里程：">
                                 <AntInput type="text" placeholder="" {...getFieldProps('continuation')} />
+                                <span className = "unit">KM</span>
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -510,7 +432,7 @@ let EditTableVehicle = React.createClass({
                                 {...formItemLayout}
                                 wrapperCol={{span:14,offset:8}}
                                 label="备注：">
-                                <AntInput  type="textarea"   {...getFieldProps('remark')} placeholder="随便写" id="textarea-more" name="textarea" className = 'vehicle-more'/>
+                                <AntInput  type="textarea"   {...getFieldProps('remark')} placeholder="请输入..." id="textarea-more" name="textarea" className = 'vehicle-more'/>
                             </FormItem>
 
                         </Col>
@@ -793,7 +715,7 @@ let AddTable = React.createClass({
         }
     },
     render() {
-        const  validateForm = this.validateForm();
+        const  validateForm = this.validateFormAdd(this.props.form.getFieldProps);
         const getFieldProps = validateForm.getFieldProps;
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'add-form' form={this.props.form}>
@@ -803,7 +725,7 @@ let AddTable = React.createClass({
                             <FormItem>
                             <Upload name="logo" action="/upload.do" listType="picture" onChange={this.handleUpload}
                                 {...getFieldProps('upload', {
-                                    valuePropName: 'fileList',
+                                    valuePropName: 'fileList'
                                 })}
                                 >
                                 <img src="/img/icon_userpic.png" />
@@ -1253,7 +1175,7 @@ let AddTableOfVehicle = React.createClass({
                                 {...formItemLayout}
                                 wrapperCol={{span:14,offset:8}}
                                 label="备注：">
-                                <AntInput  type="textarea" placeholder="随便写" id="textarea-more" name="textarea" className = 'vehicle-more' />
+                                <AntInput  type="textarea" placeholder="请输入..." id="textarea-more" name="textarea" className = 'vehicle-more' />
                             </FormItem>
 
                         </Col>
@@ -1366,7 +1288,6 @@ const SendMessageDialog = React.createClass({
         //console.log(this.props.isSendMessage);
         if(this.props.isSendMessage){
             if(this.state.model){
-                //console.log('test send-model');
                 if(!_.contains(this.state.inputValue,this.state.model)){
                     inputValueTemp.push(this.state.model);
                 }
@@ -1386,7 +1307,7 @@ const SendMessageDialog = React.createClass({
             }
         }else{
             this.setState({
-                visible:false,
+                visible:false
             })
         }
 
@@ -1481,7 +1402,7 @@ const SendMessageDialog = React.createClass({
                 <Modal  visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel} footer="" closable={false} className="send-message-modal">
                     <Row>
                         <Col span = "4"><span>短信接收人员:</span></Col>
-                        <Col span ="16" >
+                        <Col span ="18" >
                             <span className = 'send-select-warp' onClick={this.handleSelectFocus}>
                                 <span className = "send-select-span">
                                      <ul className='send-select-content'>
@@ -1495,30 +1416,30 @@ const SendMessageDialog = React.createClass({
                                 </span>
                             </span>
                         </Col>
-                        <Col span ="4" className = "plus-icon-box">
+                        <Col span ="2" className = "plus-icon-box">
                             <Icon type="plus-circle-o" className="plus-icon" onClick={this.handleIconClick} />
                             <div className="search-select is-display" >
                                 <div className = "search-select-title">添加新的联系人</div>
                                 <SearchInput placeholder="搜索关键字" callbackParent = {this.handleSelectChoose} />
-                                <AntButton type="primary" size="large" style={{position:'absolute',bottom:'10px',left:'30px'}} onClick={this.handleAddName}>确认添加</AntButton>
+                                <AntButton type="primary" size="large" className = "confirmation-btn" style={{position:'absolute',bottom:'10px',left:'30px'}} onClick={this.handleAddName}>确认添加</AntButton>
                             </div>
                         </Col>
                     </Row>
                     <Row type="flex" justify="start">
-                        <Col span ="16" offset="4" className = "input-tip"><span className = "">使用"@姓名"可以快速添加短信内容</span></Col>
+                        <Col span ="18" offset="4" className = "input-tip"><span className = "">使用"@姓名"可以快速添加短信内容</span></Col>
                     </Row>
                     <Row className ="send-content">
                         <Col span = "4"><span>消息内容:</span></Col>
-                        <Col span ="16" className = "input-textarea" ><AntInput type="textarea" placeholder="" /></Col>
+                        <Col span ="18" className = "input-textarea" ><AntInput type="textarea" placeholder="" /></Col>
                     </Row>
                     <Row className = "send-message-er-box">
-                        <Col span = "4"><span>消息创建人:</span></Col>
-                        <Col span ="4" ><div className = "send-message-er">张三</div></Col>
+                        <Col span = "4" offset ="17"><span>消息创建人:</span></Col>
+                        <Col span ="3" ><div className = "send-message-er">张三</div></Col>
                     </Row>
 
                     <Row className = "send-btn">
-                        <Col span = "4"><AntButton type="primary" onClick = {this.handleOK}>发送</AntButton></Col>
-                        <Col span = "4" offset="16"><AntButton type="primary" onClick ={this.handleCancel}>退出</AntButton></Col>
+                        <Col span = "6"><AntButton type="primary" onClick = {this.handleOK}>发送</AntButton></Col>
+                        <Col span = "6" offset="12"><AntButton type="primary" onClick ={this.handleCancel}>退出</AntButton></Col>
                     </Row>
                 </Modal>
             </div>
@@ -1971,7 +1892,7 @@ let LookTableVehicle = React.createClass({
                                 {...formItemLayout}
                                 wrapperCol={{span:14,offset:8}}
                                 label="备注：">
-                                <AntInput  type="textarea" placeholder="随便写" id="textarea-more" name="textarea" className = 'vehicle-more' />
+                                <AntInput  type="textarea" placeholder="请输入..." id="textarea-more" name="textarea" className = 'vehicle-more' />
                             </FormItem>
 
                         </Col>
