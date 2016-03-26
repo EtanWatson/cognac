@@ -1,8 +1,9 @@
 import Backbone from 'backbone';
 var cardKey = Backbone.Model.extend({
    defaults:{
-       Name:'',
-       Value:''
+       index:'',
+       name:'',
+       value:''
    }
 });
 var cardList = Backbone.Collection.extend({
@@ -70,36 +71,45 @@ var cardsDriver =[
         value:'年审到期'
     }
 ];
-var cardsStaff =[
+
+const cardsStaff =[
     {
-    name:'Code',
-    value:'编码'
+        index:'0',
+        name:'code',
+        value:'编码'
     },
     {
+        index:'1',
         name:'Section',
         value:'所在部门'
     },
     {
+        index:'2',
         name:'Gender',
         value:'性别'
     },
     {
-        name:'id',
+        index:'3',
+        name:'idNumber',
         value:'身份证号'
     },
     {
+        index:'4',
         name:'phoneNumber',
         value:'手机'
     },
     {
+        index:'5',
         name:'address',
         value:'家庭住址'
     },
     {
+        index:'6',
         name:'joinData',
         value:'入职日期'
     },
     {
+        index:'7',
         name:'remark',
         value:'备注'
     }
@@ -218,5 +228,86 @@ var cardVehicle = [
         value:'电卡编号'
     }
 ];
-
-export{cardList,cardsDriver,cardsStaff,cardVehicle}
+var cardTask = [
+    {
+        index:'0',
+        name:'carUser',
+        value:'用车人'
+    },
+    {
+        index:'1',
+        name:'userDate',
+        value:'用车时间'
+    },
+    {
+        index:'2',
+        name:'useSection',
+        value:'用车部门'
+    },
+    {
+        index:'3',
+        name:'useCase',
+        value:'用车原因'
+    },
+    {
+        index:'4',
+        name:'destination',
+        value:'目的地'
+    },
+    {
+        index:'5',
+        name:'aboutTime',
+        value:'估计用时'
+    },
+    {
+        index:'6',
+        name:'followNum',
+        value:'随车人数'
+    },
+    {
+        index:'7',
+        name:'drawOutTiem',
+        value:'出车时间'
+    },
+    {
+        name:'applyCarType',
+        aliasName:'申请车型',
+        value:'申请车型'
+    },
+    {
+        index:'8',
+        name:'drawInTime',
+        value:'回车时间'
+    },
+    {
+        index:'9',
+        name:'plateNumber',
+        value:'车牌号'
+    },
+    {
+        index:'10',
+        name:'collectionPosition ',
+        value:'取车位置'
+    },
+    {
+        index:'11',
+        name:'cycleTask',
+        value:'周期任务'
+    },
+    {
+        index:'12',
+        name:'outCarRemark',
+        value:'出车备注'
+    },
+    {
+        index:'13',
+        name:'vehicleCount',
+        value:'出车数'
+    },
+    {
+        index:'14',
+        name:"hasReturn",
+        value:'已回车'
+    }
+];
+export{cardList,cardsDriver,cardsStaff,cardVehicle,cardTask}

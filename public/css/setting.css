@@ -22,6 +22,8 @@
         .setting-content .setting-layout .setting-container .inner-container .left-select {
           padding-right: 20px;
           text-align: right; }
+        .setting-content .setting-layout .setting-container .inner-container .not-choose-item {
+          opacity: 0.5; }
         .setting-content .setting-layout .setting-container .inner-container .right-view {
           margin-top: 20px;
           width: 182px;
@@ -49,13 +51,21 @@
         padding: 20px 20px 20px 0px; }
       .setting-content .setting-layout .setting-footer .btn-left {
         padding: 20px 0 20px 20px; }
+      .setting-content .setting-layout .setting-footer .ant-btn-primary {
+        background-color: #dfe3ef;
+        color: #000;
+        border-color: #dfe3ef; }
+      .setting-content .setting-layout .setting-footer .ant-btn-primary:hover, .setting-content .setting-layout .setting-footer .ant-btn-primary:focus {
+        background-color: #2ba2da;
+        border-color: #2ba2da;
+        color: #fff; }
   .setting-content .task-setting {
     width: 85%; }
     .setting-content .task-setting .task-setting-content {
       padding: 10px;
       border: 15px solid #FFF; }
-      .setting-content .task-setting .task-setting-content .no-choose-item > li:not(:first-child) {
-        color: #949597; }
+      .setting-content .task-setting .task-setting-content .not-choose-item > li:not(:first-child) {
+        opacity: 0.5; }
       .setting-content .task-setting .task-setting-content .setting-task-card {
         padding-top: 10px; }
         .setting-content .task-setting .task-setting-content .setting-task-card .setting-task-code {

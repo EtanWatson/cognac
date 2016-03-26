@@ -8,71 +8,14 @@ import {Checkbox,Button,Collapse,Row,Col,Icon} from 'antd';
 import {cardList,cardsDriver,cardsStaff,cardVehicle} from '../models/cardKey';
 import {taskSettingModel,taskSetting} from '../models/taskSetting';
 import {taskModelTest,task} from '../models/taskDataTest';
+import {settingCheckMinx} from './mixin/settingCheck'
 const CheckboxGroup = Checkbox.Group;
 const Panel = Collapse.Panel;
 const Setting = React.createClass({
-    handleDefaultChecked(index){
-        let selectArray =this.state.selectArrayIndex;
-        for(let i = 0 ; i < selectArray.length;i++){
-            if(index ==  this.state.selectArrayIndex[i]){
-                return true;
-            }
-        }
-    },
-    handelAtOfIndex(array){
-        let arrayTemp = [];
-        for(let i = 0; i < array.length ; i++){
-            arrayTemp.push(this.state.cardKey[array[i]])
-        }
-        return arrayTemp;
-    },
-    handleCheck(e){
-        Array.prototype.indexOf = function(val) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] == val) return i;
-            }
-            return -1;
-        };
-        Array.prototype.remove = function(val) {
-            var index = this.indexOf(val);
-            if (index > -1) {
-                this.splice(index, 1);
-            }
-        };
-        let selectArray =this.state.selectArrayIndex;
-        if(selectArray.length < 5){
-            if(e.target.checked){
-                selectArray.push(e.target.value);
-                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }else{
-                selectArray.remove(e.target.value);
-                var selectedArrayTemp =this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }
-        }else{
-            if(e.target.checked){
-                this.setState({
-                    selectArrayIndex:selectArray
-                })
-            }else{
-                selectArray.remove(e.target.value);
-                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }
-        }
+    componentDidMount(){
+      PubSub.publish('settingMount','')
     },
    render(){
-       //let{settingContent} = this.props.settingContent;
        return(
            <div className = 'setting-content'>
                    {this.props.children}
@@ -165,35 +108,23 @@ const SettingCard = React.createClass({
 });
 //司机卡片显示设置
 const DriverSetting = React.createClass({
+    mixins:[settingCheckMinx],
     getInitialState(){
         return{
-            selectArrayIndex:[1,4,7,8,11],
-            selectedArray:[
-                {
-                    name:'Code',
-                    value:'编码'
-                },
-                {
-                    name:'phoneNumber',
-                    value:'手机'
-                },
-                {
-                    name:'remark',
-                    value:'备注'
-                },
-                {
-                    name:'driverLicense',
-                    value:'驾驶证号'
-                },
-                {
-                    name:'licenseType',
-                    value:'准驾车型'
-                }
-            ]
+            selectItemKeys:['code','phoneNumber','remark','driverLicense','licenseType'],
+            selectedArray:[]
         }
     },
     contextTypes: {
         router: React.PropTypes.object.isRequired
+    },
+    componentDidMount(){
+        console.log('driverSettingMount');
+        PubSub.publish('driverSettingMount','');
+        let selectArray = this.handelAtOfName(this.state.selectItemKeys);
+        this.setState({
+            selectedArray:selectArray
+        })
     },
     componentWillMount(){
         BackboneReactMixin.on(this,{
@@ -205,73 +136,13 @@ const DriverSetting = React.createClass({
     componentWillUnmount(){
         BackboneReactMixin.off(this);
     },
-    handleDefaultChecked(index){
-        let selectArray =this.state.selectArrayIndex;
-        for(let i = 0 ; i < selectArray.length;i++){
-            if(index ==  this.state.selectArrayIndex[i]){
-                return true;
-            }
-        }
-    },
-    handelAtOfIndex(array){
-        let arrayTemp = [];
-        for(let i = 0; i < array.length ; i++){
-            arrayTemp.push(this.state.cardKey[array[i]])
-        }
-        return arrayTemp;
-    },
-    handleCheck(e){
-        Array.prototype.indexOf = function(val) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] == val) return i;
-            }
-            return -1;
-        };
-        Array.prototype.remove = function(val) {
-            var index = this.indexOf(val);
-            if (index > -1) {
-                this.splice(index, 1);
-            }
-        };
-        let selectArray =this.state.selectArrayIndex;
-        if(selectArray.length < 5){
-            if(e.target.checked){
-                selectArray.push(e.target.value);
-                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }else{
-                selectArray.remove(e.target.value);
-                var selectedArrayTemp =this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }
-        }else{
-            if(e.target.checked){
-                this.setState({
-                    selectArrayIndex:selectArray
-                })
-            }else{
-                selectArray.remove(e.target.value);
-                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }
-        }
-    },
     render(){
         let generateSelectList= function(){
             let cardSelectItem = this.state.cardKey.map((item,index)=>{
                 return(
                     <div className = "item-space" key={index}>
                         <lebal >
-                            <Checkbox value={index} checked={this.handleDefaultChecked(index)} onChange={this.handleCheck}/>
+                            <Checkbox value={item.name} checked={this.handleDefaultChecked(item.name)} onChange={this.handleCheck}/>
                             {item.value}
                         </lebal>
                     </div>
@@ -290,7 +161,7 @@ const DriverSetting = React.createClass({
                             <p className = "item-space">可选择项（最多五项）:</p>
                         </Col>
                         <Col span = '16'>
-                            <ul className = "list-inline">
+                            <ul className = "list-inline not-choose-item">
                                 <li>姓名</li>
                                 <li>状态</li>
                                 <li>职务</li>
@@ -321,24 +192,19 @@ const DriverSetting = React.createClass({
 });
 //职员卡片显示设置
 const StaffSetting = React.createClass({
+    mixins:[settingCheckMinx],
     getInitialState(){
        return{
-           selectArrayIndex:[1,4,7],
-           selectedArray:[
-               {
-                   name:'Code',
-                   value:'编码'
-               },
-               {
-                   name:'phoneNumber',
-                   value:'手机'
-               },
-               {
-                   name:'remark',
-                   value:'备注'
-               }
-           ]
+           selectItemKeys:['code','phoneNumber','remark'],
+           selectedArray:[]
        }
+    },
+    componentDidMount(){
+        PubSub.publish('staffSettingMount','')
+        let selectArray = this.handelAtOfName(this.state.selectItemKeys);
+        this.setState({
+            selectedArray:selectArray
+        })
     },
     componentWillMount(){
         BackboneReactMixin.on(this,{
@@ -350,73 +216,13 @@ const StaffSetting = React.createClass({
     componentWillUnmount(){
         BackboneReactMixin.off(this);
     },
-    handleDefaultChecked(index){
-        let selectArray =this.state.selectArrayIndex;
-        for(let i = 0 ; i < selectArray.length;i++){
-            if(index ==  this.state.selectArrayIndex[i]){
-                return true;
-            }
-        }
-    },
-    handelAtOfIndex(array){
-        let arrayTemp = [];
-        for(let i = 0; i < array.length ; i++){
-            arrayTemp.push(this.state.cardKey[array[i]])
-        }
-        return arrayTemp;
-    },
-    handleCheck(e){
-        Array.prototype.indexOf = function(val) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] == val) return i;
-            }
-            return -1;
-        };
-        Array.prototype.remove = function(val) {
-            var index = this.indexOf(val);
-            if (index > -1) {
-                this.splice(index, 1);
-            }
-        };
-        let selectArray =this.state.selectArrayIndex;
-        if(selectArray.length < 5){
-            if(e.target.checked){
-                selectArray.push(e.target.value);
-                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }else{
-                selectArray.remove(e.target.value);
-                var selectedArrayTemp =this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }
-        }else{
-            if(e.target.checked){
-                this.setState({
-                    selectArrayIndex:selectArray
-                })
-            }else{
-                selectArray.remove(e.target.value);
-                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }
-        }
-    },
     render(){
         let generateSelectList= function(){
             let cardSelectItem = this.state.cardKey.map((item,index)=>{
                 return(
                     <div className = "item-space" key={index}>
                         <lebal >
-                            <Checkbox value={index} checked={this.handleDefaultChecked(index)} onChange={this.handleCheck}/>
+                            <Checkbox value={item.name} checked={this.handleDefaultChecked(item.name)} onChange={this.handleCheck}/>
                             {item.value}
                         </lebal>
                     </div>
@@ -433,7 +239,7 @@ const StaffSetting = React.createClass({
                             <p className = "item-space">可选择项（最多五项）:</p>
                         </Col>
                         <Col span = '16'>
-                            <ul className = "list-inline">
+                            <ul className = "list-inline not-choose-item">
                                 <li>姓名</li>
                                 <li>状态</li>
                                 <li>职务</li>
@@ -462,32 +268,19 @@ const StaffSetting = React.createClass({
 });
 //车辆卡片显示设置
 const VehicleSetting = React.createClass({
+    mixins:[settingCheckMinx],
     getInitialState(){
         return{
-            selectArrayIndex:[0,1,4,7,9],
-            selectedArray:[
-                {
-                    name:'vehicleCode',
-                    value:'车辆编码'
-                },
-                {
-                    name:'vehicleNumber',
-                    value:'车牌号'
-                },
-                {
-                    name:'vehicleType',
-                    value:'车辆类型'
-                },
-                {
-                    name:'vehicleLoad',
-                    value:'载重（吨）'
-                },
-                {
-                    name:'seatNumber',
-                    value:'座位数'
-                }
-            ]
+            selectItemKeys:['vehicleCode','vehicleNumber','vehicleType','vehicleLoad','seatNumber'],
+            selectedArray:[]
         }
+    },
+    componentDidMount(){
+        PubSub.publish('vehicleSettingMount','');
+        let selectArray = this.handelAtOfName(this.state.selectItemKeys);
+        this.setState({
+            selectedArray:selectArray
+        })
     },
     componentWillMount(){
         BackboneReactMixin.on(this,{
@@ -499,66 +292,6 @@ const VehicleSetting = React.createClass({
     componentWillUnmount(){
         BackboneReactMixin.off(this);
     },
-    handleDefaultChecked(index){
-        let selectArray =this.state.selectArrayIndex;
-        for(let i = 0 ; i < selectArray.length;i++){
-            if(index ==  this.state.selectArrayIndex[i]){
-                return true;
-            }
-        }
-    },
-    handelAtOfIndex(array){
-        let arrayTemp = [];
-        for(let i = 0; i < array.length ; i++){
-            arrayTemp.push(this.state.cardKey[array[i]])
-        }
-        return arrayTemp;
-    },
-    handleCheck(e){
-        Array.prototype.indexOf = function(val) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] == val) return i;
-            }
-            return -1;
-        };
-        Array.prototype.remove = function(val) {
-            var index = this.indexOf(val);
-            if (index > -1) {
-                this.splice(index, 1);
-            }
-        };
-        let selectArray =this.state.selectArrayIndex;
-        if(selectArray.length < 5){
-            if(e.target.checked){
-                selectArray.push(e.target.value);
-                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }else{
-                selectArray.remove(e.target.value);
-                var selectedArrayTemp =this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }
-        }else{
-            if(e.target.checked){
-                this.setState({
-                    selectArrayIndex:selectArray
-                })
-            }else{
-                selectArray.remove(e.target.value);
-                var selectedArrayTemp = this.handelAtOfIndex(selectArray);
-                this.setState({
-                    selectArrayIndex:selectArray,
-                    selectedArray:selectedArrayTemp
-                })
-            }
-        }
-    },
     render(){
         let leftItem = '';
         let rightItem = '';
@@ -567,7 +300,7 @@ const VehicleSetting = React.createClass({
                 return(
                     <div className =" item-space"  key={index}>
                         <lebal>
-                            <Checkbox value={index} checked={this.handleDefaultChecked(index)} onChange={this.handleCheck}/>
+                            <Checkbox value={item.name} checked={this.handleDefaultChecked(item.name)} onChange={this.handleCheck}/>
                             {item.value}
                         </lebal>
                     </div>
@@ -579,7 +312,7 @@ const VehicleSetting = React.createClass({
                 return(
                     <div className =" item-space"  key={index}>
                         <lebal>
-                            <Checkbox value={index} checked={this.handleDefaultChecked(index)} onChange={this.handleCheck}/>
+                            <Checkbox value={item.name} checked={this.handleDefaultChecked(item.name)} onChange={this.handleCheck}/>
                             {item.value}
                         </lebal>
                     </div>
@@ -595,7 +328,7 @@ const VehicleSetting = React.createClass({
                             <p className = "item-space">可选择项（最多五项）:</p>
                         </Col>
                         <Col span = '16'>
-                            <ul className = "list-inline">
+                            <ul className = "list-inline not-choose-item">
                                 <li>姓名</li>
                                 <li>状态</li>
                                 <li>职务</li>
@@ -631,9 +364,15 @@ const VehicleSetting = React.createClass({
 });
 //任务管理卡片显示设置
 const TaskSetting = React.createClass({
+    mixins:[settingCheckMinx],
     getInitialState(){
         return{
-            headerColor:'yellow'
+            headerColor:'yellow',
+            selectItemKeys:[{single:['vehicleCount','hasReturn','drawOutTime','outCarRemark','carUser','destination','selectedArray']},
+                {multi:['vehicleCount','hasReturn','drawOutTime','outCarRemark','carUser','destination']},
+                {distributing:['drawOutTime','outCarRemark','carUser','destination','aboutTime','useCase']}
+            ],
+            selectedArray:[]
         }
     },
     componentWillMount(){
@@ -642,12 +381,15 @@ const TaskSetting = React.createClass({
                 taskModel:taskModelTest,
                 taskSetting:taskSettingModel
             }
-        })
+        });
+        //初始值
+
     },
     componentWillUnmount () {
         BackboneReactMixin.off(this);
     },
     componentDidMount(){
+        PubSub.publish('taskSettingMount','');
         var documentHeight = $(document).height()+20;
         $('.setting-content').css('height',documentHeight);
     },
@@ -673,15 +415,17 @@ const TaskSetting = React.createClass({
         return headerData
     },
     handleOnChange(e){
-        console.log(e.target);
         let type = $(e.target).attr('data-type');
         let key = $(e.target).attr('data-key');
         let checked =e.target.checked;
         let taskSettingTemp = this.state.taskSetting;
-        taskSettingTemp =taskSettingTemp[type][key] =checked;
-        this.setState({
-            //taskSetting:taskSettingTemp
-        })
+        let taskSettingTempArray = _.compact(_.toArray(taskSettingTemp[type]));
+        //if(taskSettingTempArray.length < 5){
+            taskSettingTemp =taskSettingTemp[type][key] =checked;
+            this.setState({
+                //taskSetting:taskSettingTemp
+            });
+        //}
     },
     //处理多选框列表
     handleCheckboxList(type,notChooseOptionKeys){
@@ -709,7 +453,6 @@ const TaskSetting = React.createClass({
                 return(
                     <div key = {index}>
                         {item.map(function(item,index){
-                            console.log(taskType[item]);
                             return(
                                 <div style={{width:'20%',display:'inline-block'}} key={index}>
                                    <label>
@@ -737,8 +480,7 @@ const TaskSetting = React.createClass({
           notChooseOptionKeys = ['drawOutTime','hasReturn','vehicleCount'];
           headerData =this.findHeaderKey('single');
           checkboxList = this.handleCheckboxList('single',notChooseOptionKeys);
-          //过滤不可选项keys
-          cardHeader=<div  className = "setting-task-code yellow">
+          cardHeader= <div  className = "setting-task-code yellow">
                             <span className = 'code'>编码：1</span>
                             <div className = "setting-task-icon yellow-icon">
                                 <img src = "/img/edit_task.png" />
@@ -793,7 +535,7 @@ const TaskSetting = React.createClass({
         });
         return(
             <div>
-                <ul className = "list-inline no-choose-item">
+                <ul className = "list-inline not-choose-item">
                     {notChooseElement}
                 </ul>
                 <div className = "setting-task-card">
@@ -809,7 +551,6 @@ const TaskSetting = React.createClass({
         )
     },
     render(){
-        console.log(this.state.taskSetting);
         return(
             <div className = 'setting-layout task-setting'>
                 <Row className = "task-setting-content">

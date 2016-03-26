@@ -9,8 +9,8 @@ import {Button as AntButton,Modal,Row, Col,Input as AntInput,Icon,Form, Select, 
 import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from "./selectAutoCompletion"
 import {staffs} from "../../models/staffInfo";
-import {validateMixin} from './validate';
-import {typeStatusStaffMixin} from './typeStatus'
+import {validateMixin} from './../mixin/validate';
+import {typeStatusStaffMixin} from './../mixin/typeStatus'
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;

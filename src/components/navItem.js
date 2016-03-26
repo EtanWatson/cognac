@@ -21,6 +21,10 @@ import { Row, Col ,Collapse,Icon} from 'antd';
 
 //任务管理
 const TaskManage = React.createClass({
+    componentDidMount(){
+        console.log('TaskMount');
+        PubSub.publish('taskMount','')
+    },
     render(){
         return (
             <TaskContent model = {taskModel} collection={taskList}/>
@@ -42,6 +46,7 @@ const StaffInfo = React.createClass({
                 typeCollection:typeList
             })
         }.bind(this));
+        PubSub.publish('staffInfoMount','');
     },
     componentWillUnmount(){
         PubSub.unsubscribe(this.typeCollectio_token)
@@ -57,6 +62,7 @@ const StaffInfo = React.createClass({
 const VehicleRecord = React.createClass({
     //在render之前，发布事件
     componentDidMount(){
+        PubSub.publish('vehicleMount','');
     },
     render(){
         return (
@@ -66,11 +72,13 @@ const VehicleRecord = React.createClass({
 });
 //维修保养
 const Maintenance = React.createClass({
+    componentDidMount(){
+        PubSub.publish('maintenance','');
+    },
     render(){
         console.log("Maintenance is called");
         return (
             <div>
-                <div>Maintenance</div>
                 {this.props.children}
             </div>
         )
@@ -78,6 +86,9 @@ const Maintenance = React.createClass({
 });
 //病事假记录
 const LeaveRecord = React.createClass({
+    componentDidMount(){
+        PubSub.publish('leaveRecord','');
+    },
     render(){
         return (
             <div>
@@ -100,65 +111,88 @@ const NavMenu = React.createClass({
       }
     },
     navBtnStatus(selector){
-        console.log(ReactDOM.findDOMNode(this.refs[selector]));
-        let element = $(ReactDOM.findDOMNode(this.refs[selector]));
+        //let element = $(ReactDOM.findDOMNode(this.refs[selector]));
+        let element = $('.'+selector);
         element.addClass('click');
         element.find('.default').addClass('is-display');
         element.find('.press').removeClass('is-display');
     },
     componentDidMount(){
-      //直接在local中输入 /setting时候调用
-      // 刷新页面保持nav的按钮状态
-      switch (this.props.pageShow){
-          case 'setting':
-              this.navBtnStatus('setting');
-              this.setState({
-                  navData : settingNavArray,
-                  baseUrl : '/setting',
-                  linkIcon:'link-icon-setting'
-              });
-              break;
-          case 'task':
-              this.navBtnStatus('taskManage');
-              this.setState({
-                  navData : navArray,
-                  baseUrl : ''
-              });
-              break;
-          case 'staff':
-              this.navBtnStatus('staffInfo');
-              this.setState({
-                  navData : navArray,
-                  baseUrl : '',
-                  linkIcon:'link-icon'
-              });
-              break;
-          case 'vehicle':
-              this.navBtnStatus('vehicleRecord');
-              this.setState({
-                  navData : navArray,
-                  baseUrl : '',
-                  linkIcon:'link-icon'
-              });
-              break;
-          case 'maintenance':
-              this.navBtnStatus('maintenance');
-              this.setState({
-                  navData : navArray,
-                  baseUrl : '',
-                  linkIcon:'link-icon'
-              });
-              break;
-          case 'leaveRecord':
-              this.navBtnStatus('leaveRecord');
-              this.setState({
-                  navData : navArray,
-                  baseUrl : '',
-                  linkIcon:'link-icon'
-              });
-              break;
-
-        }
+        //主页面
+        PubSub.subscribe('taskMount',function(topic,data){
+            this.navBtnStatus('taskManage');
+            this.setState({
+                navData : navArray,
+                baseUrl : '',
+                linkIcon:'link-icon'
+            });
+        }.bind(this));
+        PubSub.subscribe('staffInfoMount',function(topic,data){
+            this.setState({
+                navData : navArray,
+                baseUrl : '',
+                linkIcon:'link-icon'
+            });
+            this.navBtnStatus('staffInfo');
+        }.bind(this));
+        PubSub.subscribe('vehicleMount',function(topic,data){
+            this.setState({
+                navData : navArray,
+                baseUrl : '',
+                linkIcon:'link-icon'
+            });
+            this.navBtnStatus('vehicleRecord');
+        }.bind(this));
+        PubSub.subscribe('maintenance',function(topic,data){
+            this.setState({
+                navData : navArray,
+                baseUrl : '',
+                linkIcon:'link-icon'
+            });
+            this.navBtnStatus('maintenance');
+        }.bind(this));
+        PubSub.subscribe('leaveRecord',function(topic,data){
+            this.setState({
+                navData : navArray,
+                baseUrl : '',
+                linkIcon:'link-icon'
+            });
+            this.navBtnStatus('leaveRecord');
+        }.bind(this));
+        //系统设置页面
+        PubSub.subscribe('driverSettingMount',function(topic,data){
+            this.setState({
+                navData : settingNavArray,
+                baseUrl : '/setting',
+                linkIcon:'link-icon-setting'
+            });
+            this.navBtnStatus('driverSetting');
+        }.bind(this));
+        PubSub.subscribe('staffSettingMount',function(topic,data){
+            this.setState({
+                navData : settingNavArray,
+                baseUrl : '/setting',
+                linkIcon:'link-icon-setting'
+            });
+            this.navBtnStatus('staffSetting');
+        }.bind(this));
+        PubSub.subscribe('vehicleSettingMount',function(topic,data){
+            this.setState({
+                navData : settingNavArray,
+                baseUrl : '/setting',
+                linkIcon:'link-icon-setting'
+            });
+            this.navBtnStatus('vehicleSetting');
+        }.bind(this));
+        PubSub.subscribe('taskSettingMount',function(topic,data){
+            console.log('test task mount');
+            this.setState({
+                navData : settingNavArray,
+                baseUrl : '/setting',
+                linkIcon:'link-icon-setting'
+            });
+            this.navBtnStatus('taskSetting');
+        }.bind(this));
     },
     componentWillReceiveProps(nextProps){
         switch (nextProps.pageShow){
@@ -170,14 +204,12 @@ const NavMenu = React.createClass({
                 });
                 break;
             case 'task':
-                this.navBtnStatus('taskManage');
                 this.setState({
                     navData : navArray,
                     baseUrl : ''
                 });
                 break;
             case 'staff':
-                this.navBtnStatus('staffInfo');
                 this.setState({
                     navData : navArray,
                     baseUrl : '',
@@ -185,7 +217,6 @@ const NavMenu = React.createClass({
                 });
                 break;
             case 'vehicle':
-                this.navBtnStatus('vehicleRecord');
                 this.setState({
                     navData : navArray,
                     baseUrl : '',
@@ -193,7 +224,6 @@ const NavMenu = React.createClass({
                 });
                 break;
             case 'maintenance':
-                this.navBtnStatus('maintenance');
                 this.setState({
                     navData : navArray,
                     baseUrl : '',
@@ -201,7 +231,6 @@ const NavMenu = React.createClass({
                 });
                 break;
             case 'leaveRecord':
-                this.navBtnStatus('leaveRecord');
                 this.setState({
                     navData : navArray,
                     baseUrl : '',
@@ -211,7 +240,6 @@ const NavMenu = React.createClass({
         }
     },
     handleClick(e){
-        //e.preventDefault();
         let linkBox = $('.link-box');
         let aDefault =  $(linkBox).find('.link-style');
         $(aDefault).removeClass('click');

@@ -14,7 +14,6 @@ import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from './toolComponents/selectAutoCompletion';
 import {SendMessageDialog} from './toolComponents/dialogConponents'
 import {AddDialog} from './toolComponents/dialogConponents';
-import {staffs} from '../models/staffInfo'
 import {staffData} from '../models/staffData'
 import {vehicleData} from '../models/vehicleData'
 const Panel = Collapse.Panel;
@@ -53,7 +52,7 @@ const AddItem = React.createClass({
                         </li>
                    </ul>
                 </Button>
-                <AddDialog isAdd={this.state.lgShow} callbackParentOfAdd = {this.onChildChangeAdd} pageShow={this.props.pageShow} collection={staffs}/>
+                <AddDialog isAdd={this.state.lgShow} callbackParentOfAdd = {this.onChildChangeAdd} pageShow={this.props.pageShow} collection={staffData}/>
             </li>
         )
     }
@@ -131,7 +130,7 @@ const TaskListItem =React.createClass({
     render(){
         return(
             <ul className = "list-inline">
-                <AddItem pageShow={this.props.pageShow} collection={staffs}/>
+                <AddItem pageShow={this.props.pageShow} collection={staffData}/>
                 <li className ='operation-item-btn'>
                     <Button bsStyle="link" onClick = {this.handleClick}>
                         <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
@@ -896,7 +895,7 @@ const OperationItem= React.createClass({
         var isCardShowContent = function(){
           if(this.state.cardShow){
               return(
-                      <BatchOperation pageShow = {pageShow} collection={staffs}/>
+                      <BatchOperation pageShow = {pageShow} collection={staffData}/>
               )
           }else{
               return(
@@ -911,7 +910,7 @@ const OperationItem= React.createClass({
         var isTaskShowContent = function(){
             if(this.state.cardShow){
                 return(
-                    <TaskListItem callbackParent={this.childListChange} pageShow={this.props.pageShow} collection={staffs}/>
+                    <TaskListItem callbackParent={this.childListChange} pageShow={this.props.pageShow} collection={staffData}/>
                 )
             }else{
                 return(
@@ -937,7 +936,7 @@ const OperationItem= React.createClass({
                         <ul className="list-inline operation">
                             <li className = "left-item">
                                 <ul className = "list-inline">
-                                    <AddItem pageShow={this.props.pageShow} collection={staffs}/>
+                                    <AddItem pageShow={this.props.pageShow} collection={staffData}/>
                                     <ListItem callbackParent={this.childListChange}/>
                                     {isCardShowContent()}
                                 </ul>

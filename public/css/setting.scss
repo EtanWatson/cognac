@@ -25,6 +25,9 @@
           padding-right: 20px;
           text-align: right;
         }
+        .not-choose-item{
+          opacity: 0.5;
+        }
         .right-view{
           margin-top: 20px;
           width: 182px;
@@ -62,6 +65,16 @@
       .btn-left{
         padding:20px 0 20px 20px;
       }
+      .ant-btn-primary{
+        background-color: #dfe3ef;
+        color: #000;
+        border-color:#dfe3ef;
+      }
+      .ant-btn-primary:hover, .ant-btn-primary:focus{
+        background-color: #2ba2da;
+        border-color: #2ba2da;
+        color: #fff;
+      }
     }
   }
   .task-setting{
@@ -69,8 +82,8 @@
     .task-setting-content{
       padding: 10px;
       border: 15px solid #FFF;
-      .no-choose-item>li:not(:first-child){
-        color: #949597;
+      .not-choose-item>li:not(:first-child){
+        opacity: 0.5;
       }
       .setting-task-card{
         padding-top: 10px;
