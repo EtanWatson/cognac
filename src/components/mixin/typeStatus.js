@@ -44,6 +44,7 @@ const typeStatusStaffMixin = {
       }
       let isDriver = '';
       let typeStatus = '';
+      console.log(staffInfo.type);
       switch (staffInfo.type){
           //司机
           case '0':
@@ -175,6 +176,135 @@ const typeStatusStaffMixin = {
           typeStatus:typeStatus,
           isDriver:isDriver
       }
-  }
+  },
+    typeStatusInfoLook(staffInfo){
+        let isDriver = '';
+        let typeStatus = '';
+        switch (staffInfo.type){
+            //司机
+            case '0':
+                isDriver = (
+                    <Collapse defaultActiveKey={['1']} className = "is-driver">
+                        <Panel header={(
+                       <div className ="" style={{width:'110%',position:'relative',right:'38px',borderBottom:'10px solid #E6E5ED'}}>
+                           <span className = 'driver-text' style={{position:'relative',left:'185px'}}>司机</span>
+                           <Icon type="circle-down" />
+                       </div>
+                       )}>
+                            <Row type = 'flex' justify="center">
+                                <Col span = "12">
+                                    <FormItem
+                                        {...formItemLayout}
+                                        label={staffInfo.drivingLicense.aliasName+"："}  required>
+                                        <p>{staffInfo.drivingLicense.value}</p>
+                                    </FormItem>
+                                </Col>
+                                <Col span = "12"></Col>
+                            </Row>
+                            <Row type = 'flex' justify="center">
+                                <Col span = "12">
+                                    <FormItem
+                                        {...formItemLayout}
+                                        label={staffInfo.validDate.aliasName+"："} required>
+                                        <p>{staffInfo.validDate.value}</p>
+                                    </FormItem>
+                                </Col>
+                                <Col span = "12"></Col>
+                            </Row>
+                            <Row type = 'flex' justify="center">
+                                <Col span = "12">
+                                    <FormItem
+                                        {...formItemLayout}
+                                        label={staffInfo.authorizedBy.aliasName+"："}  required>
+                                        <p>{staffInfo.authorizedBy.value}</p>
+                                    </FormItem>
+                                </Col>
+                                <Col span = "12"></Col>
+                            </Row>
+                            <Row type = 'flex' justify="center">
+                                <Col span = "12">
+                                    <FormItem
+                                        {...formItemLayout}
+                                        label={staffInfo.annualExamination.aliasName+"："}  required>
+                                        <p>{staffInfo.annualExamination.value}</p>
+                                    </FormItem>
+                                </Col>
+                                <Col span = "12"></Col>
+                            </Row>
+                            <Row type = 'flex' justify="center">
+                                <Col span = "12">
+                                    <FormItem
+                                        {...formItemLayout}
+                                        label={staffInfo.startLicenseData.aliasName+"："} required>
+                                        <p>{staffInfo.startLicenseData.value}</p>
+                                    </FormItem>
+                                </Col>
+                                <Col span = "12"></Col>
+                            </Row>
+                            <Row type = 'flex' justify="center">
+                                <Col span = "12">
+                                    <FormItem
+                                        {...formItemLayout}
+                                        label={staffInfo.licenseType.aliasName+"："}  required>
+                                        <p>{staffInfo.licenseType.value}</p>
+                                    </FormItem>
+                                </Col>
+                                <Col span = "12"></Col>
+                            </Row>
+                        </Panel>
+                    </Collapse>
+                );
+                switch (staffInfo.status){
+
+                }
+                typeStatus = (
+                    <Row type = "flex">
+                        <Col span = "4">
+                            <div className ="type-icon right icon"></div>
+                            <div className = "type-text right">司机</div>
+                        </Col>
+                        <Col span = "12">
+                            <div className = "status-icon right icon"></div>
+                            <div className = "status-text right">出车</div>
+                        </Col>
+                    </Row>
+                );
+                break;
+            //管理员
+            case '1':
+                typeStatus =(
+                    <Row type = "flex">
+                        <Col span = "4">
+                            <div className ="type-icon right icon"></div>
+                            <div className = "type-text right">管理</div>
+                        </Col>
+                        <Col span = "12">
+                            <div className = "status-icon right icon"></div>
+                            <div className = "status-text right">上班</div>
+                        </Col>
+                    </Row>
+                );
+                break;
+            //其他
+            case '2':
+                typeStatus =(
+                    <Row type = "flex">
+                        <Col span = "4">
+                            <div className ="type-icon right icon"></div>
+                            <div className = "type-text right">其他</div>
+                        </Col>
+                        <Col span = "12">
+                            <div className = "status-icon right icon"></div>
+                            <div className = "status-text right">上班</div>
+                        </Col>
+                    </Row>
+                );
+                break;
+        }
+        return{
+            typeStatus:typeStatus,
+            isDriver:isDriver
+        }
+    }
 };
 export {typeStatusStaffMixin}

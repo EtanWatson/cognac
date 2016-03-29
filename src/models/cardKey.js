@@ -116,114 +116,142 @@ const cardsStaff =[
 ];
 var cardVehicle = [
     {
+        index:'0',
         name:'vehicleCode',
         value:'车辆编码'
     },
     {
+        index:'1',
         name:'vehicleNumber',
         value:'车牌号'
     },
     {
+        index:'2',
         name:'vehicleBrand',
         value:'车辆品牌'
     },
     {
+        index:'3',
         name:'vehicleModel',
         value:'车辆型号'
     },
     {
+        index:'4',
         name:'vehicleType',
         value:'车辆类型'
     },
     {
+        index:'5',
         name:'tag',
         value:'标签'
     },
     {
+        index:'6',
         name:'color',
         value:'颜色'
     },
     {
+        index:'7',
         name:'vehicleLoad',
         value:'载重（吨）'
     },
     {
+        index:'8',
         name:'vehicleStatus',
         value:'车辆状态'
     },
     {
+        index:'9',
         name:'seatNumber',
         value:'座位数'
     },
     {
+        index:'9',
         name:'fuelEfficient',
         value:'油耗'
     },
     {
+        index:'10',
         name:'ownerPhone',
         value:'车主手机'
     },
     {
+        index:'11',
         name:'ownerTeam',
         value:'所属车队'
     },
     {
+        index:'12',
         name:'oilCard',
         value:'油卡编号'
     },
     {
+        index:'13',
         name:'continuation',
         value:'续航里程（电车）'
     },
     {
+        index:'14',
         name:' initialMileage',
         value:'初始里程'
     },
     {
+        index:'15',
         name:'engineCode',
         value:'发动机号'
     },
     {
+        index:'16',
         name:'frameCode',
         value:'车架号'
     },
     {
+        index:'17',
         name:'buyCompany',
         value:'购入单位'
     },
     {
+        index:'18',
         name:'price',
         value:'购入价格'
     },
     {
+        index:'19',
         name:'buyData',
         value:'购入日期'
     },
     {
+        index:'20',
         name:'driver',
         value:'司机'
     },
     {
+        index:'21',
         name:'driverPhone',
         value:'司机手机'
     },
     {
+        index:'22',
         name:'section',
         value:'所属部门'
     },
     {
+        index:'23',
         name:'onwerPeople',
         value:'所属车主'
     },
     {
+        index:'24',
         name:'outAge',
         value:'是否停用'
     },
     {
+        index:'25',
         name:'remark',
         value:'备注'
     },
     {
+        index:'26',
         name:' electricCard',
         value:'电卡编号'
     }
@@ -266,48 +294,50 @@ var cardTask = [
     },
     {
         index:'7',
-        name:'drawOutTiem',
+        name:'drawOutTime',
         value:'出车时间'
     },
     {
+        index:'8',
         name:'applyCarType',
-        aliasName:'申请车型',
         value:'申请车型'
     },
     {
-        index:'8',
+        index:'9',
         name:'drawInTime',
         value:'回车时间'
     },
     {
-        index:'9',
-        name:'plateNumber',
+        index:'10',
+        name:'vehicleNumber',
         value:'车牌号'
     },
     {
-        index:'10',
-        name:'collectionPosition ',
+        index:'11',
+        name:'collectionPosition',
         value:'取车位置'
     },
     {
-        index:'11',
+        index:'12',
         name:'cycleTask',
         value:'周期任务'
     },
     {
-        index:'12',
+        index:'13',
         name:'outCarRemark',
         value:'出车备注'
     },
     {
-        index:'13',
+        index:'14',
         name:'vehicleCount',
         value:'出车数'
     },
     {
-        index:'14',
+        index:'15',
         name:"hasReturn",
         value:'已回车'
     }
+
+
 ];
 export{cardList,cardsDriver,cardsStaff,cardVehicle,cardTask}

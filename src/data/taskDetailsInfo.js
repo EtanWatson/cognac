@@ -2,30 +2,41 @@
  * Created by zhaiyujia on 2016/3/22.
  */
 import React from 'react';
-const columns = [{
-    title: '所属车队',
-    dataIndex: 'motorcade',
-}, {
-    title: '姓名',
-    dataIndex: 'name',
-}, {
-    title: '驾照类别',
-    dataIndex: 'licensetype',
-}
-    , {
-        title: '人员状态',
-        dataIndex: 'peoplestatus',
-    }
-    , {
-        title: '备注',
-        dataIndex: 'marker',
-    }
-    , {
-        title: '家庭住址',
-        dataIndex: 'address',
+const columns = [
+    {
+        key:'0',
+        title: <div className="blank"></div>
+
     },
     {
-        title:<div className = "div"></div>
+        key:'1',
+        title: '所属车队',
+        dataIndex: 'motorcade'
+    },
+    {
+        key:'2',
+        title: '车辆类型',
+        dataIndex: 'carType'
+    },
+    {
+        key:'3',
+        title: '编码',
+        dataIndex: 'code'
+    },
+    {
+        key:'4',
+        title: '车牌号',
+        dataIndex: 'numberPlate'
+    },
+    {
+        key:'5',
+        title: '车辆吨位',
+        dataIndex: 'vehicleTonnage'
+    },
+    {
+        key:'6',
+        title: '续航里程',
+        dataIndex: 'rechargeMileage'
     }
 ];
 

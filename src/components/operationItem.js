@@ -148,7 +148,17 @@ const TaskListItem =React.createClass({
 const ListItem =React.createClass({
     getInitialState(){
         return{
-            showWay:false
+            showWay:false,
+            pageShow:this.props.pageShow
+        }
+    },
+    componentWillReceiveProps(nextProps){
+        if(nextProps.pageShow != this.state.pageShow){
+            this.setState({
+                pageShow:nextProps.pageShow,
+                showWay:false
+            });
+            this.props.callbackParent('card')
         }
     },
     handleMouseEnter:function(event){
@@ -158,8 +168,7 @@ const ListItem =React.createClass({
         $('.operation-item-btn').removeClass('item-hover');
     },
     handleClick(e){
-        //$('.operation-item-btn').removeClass('item-click');
-        //$(e.target).parents('.operation-item-btn').addClass('item-click');
+        console.log(this.state.showWay);
         this.state.showWay? this.setState({showWay:false}):this.setState({showWay:true});
         if(this.state.showWay){
             PubSub.publish('showWay','card');
@@ -188,13 +197,16 @@ const BatchOperation = React.createClass({
     getInitialState(){
       return {
           show:false,
-          pageShow:'staff'
+          pageShow:this.props.pageShow
       }
     },
     componentWillReceiveProps(nextProps){
-        this.setState({
-            pageShow: nextProps.pageShow
-        });
+        if(nextProps.pageShow != this.state.pageShow){
+            this.setState({
+                pageShow: nextProps.pageShow,
+                show:false
+            });
+        }
     },
     toggle(e){
       this.setState({
@@ -266,17 +278,25 @@ const SelectAll = React.createClass({
         }
     },
     handleClick(e){
-      this.setState({
-         isAllSelect:!this.state.isAllSelect
-      },function(){
-          PubSub.publish('selectAll',this.state.isAllSelect)
-      });
-     //由于setState在这里还没有生效，所以判断的时候使用！
-     if(!this.state.isAllSelect){
-         $(e.target).parents('.batch-btn-warp').addClass('btn-click');
-     }else{
-         $(e.target).parents('.batch-btn-warp').removeClass('btn-click');
-     }
+     this.selectAll_Token = PubSub.publish('select-all','');
+    },
+    componentDidMount(){
+        PubSub.subscribe('select-all-back',function(topic,isAllSelect){
+            console.log(isAllSelect);
+            if(isAllSelect){
+               $('.select-all-batch').addClass('btn-click');
+            }else{
+                $('.select-all-batch').removeClass('btn-click');
+            }
+            if(this.isMounted()){
+                this.setState({
+                    isAllSelect:isAllSelect
+                });
+            }
+        }.bind(this));
+    },
+    componentWillUnMount(){
+        PubSub.unsubscribe(this.selectAll_Token);
     },
     handleMouseEnter(e){
         $(e.target).parents('.batch-btn-warp').addClass('btn-hover');
@@ -286,7 +306,7 @@ const SelectAll = React.createClass({
     },
     render(){
         return(
-            <li className = "batch-btn-warp">
+            <li className = "batch-btn-warp select-all-batch">
                 <Button bsStyle="link" className="select-all-btn batch-btn" onClick={this.handleClick}
                         onMouseEnter={this.handleMouseEnter} onMouseLeave = {this.handleMouseLeave}
                     ></Button>
@@ -433,7 +453,7 @@ const PrintItem = React.createClass({
     handleClick(){
         PubSub.publish('print-data','');
     },
-    componentDidMount(){
+    componentWillMount(){
         if(this.props.showList){
             this.setState({
                 isListShow:true
@@ -444,11 +464,13 @@ const PrintItem = React.createClass({
             })
         }
     },
+    componentDidMount(){
+    },
     handleMouseEnter(e){
         $(e.target).parents('.batch-btn-warp').addClass('btn-hover')
     },
     handleMouseLeave(e){
-
+        $(e.target).parents('.batch-btn-warp').removeClass('btn-hover')
     },
     render(){
         var isListShow = function(){
@@ -505,7 +527,7 @@ const Driver = React.createClass({
         }
 
     },
-    componentDidMount(){
+    componentWillMount(){
         switch (this.props.pageShow){
             case 'staff':
                 this.setState({
@@ -518,6 +540,8 @@ const Driver = React.createClass({
                 });
                 break;
         }
+    },
+    componentDidMount(){
     },
     componentWillReceiveProps(nextProps){
        switch (nextProps.pageShow){
@@ -589,19 +613,21 @@ const Manager = React.createClass({
             showText:'管理'
         }
     },
+    componentWillMount(){
+        switch (this.props.pageShow){
+            case 'staff':
+                this.setState({
+                    showText:'管理'
+                });
+                break;
+            case 'vehicle':
+                this.setState({
+                    showText:'货车'
+                });
+                break;
+        }
+    },
     componentDidMount(){
-      switch (this.props.pageShow){
-          case 'staff':
-              this.setState({
-                 showText:'管理'
-              });
-              break;
-          case 'vehicle':
-              this.setState({
-                 showText:'货车'
-              });
-              break;
-      }
     },
     componentWillReceiveProps(nextProps){
         switch (nextProps.pageShow){
@@ -742,9 +768,6 @@ const Search = React.createClass({
     componentWillUnMount(){
         PubSub.unsubscribe(this.advancedSearchData_token)
     },
-    handleSelectChoose(value){
-
-    },
     focusAdvancedSearch(e){
         let advancedSearchItem =$(e.target);
         $(advancedSearchItem).addClass('click');
@@ -799,7 +822,8 @@ const Search = React.createClass({
 const AdvancedSearchIcon = React.createClass({
     getInitialState(){
      return{
-            moveHeight:'90px'
+            moveHeight:'90px',
+            pageShow:this.props.pageShow
         }
     },
     handleClick(){
@@ -809,6 +833,14 @@ const AdvancedSearchIcon = React.createClass({
            {moveHeight:'90px'}
        );
        PubSub.publish('advanceSearch',this.state.moveHeight)
+    },
+    componentWillReceiveProps(nextProps){
+        //if(nextProps.pageShow != this.state.pageShow){
+        //    this.setState({
+        //        pageShow:nextProps.pageShow,
+        //        moveHeight:'-520px'
+        //    })
+        //}
     },
     render(){
         return(
@@ -828,13 +860,15 @@ const OutageRecord = React.createClass({
             isOutAgeCollection:''
         }
     },
-    componentDidMount(){
+    componentWillMount(){
         var isOutAgeCollection = this.getCollection().filter(function(item) {
             return item.get("outAge").value === "1";
         });
-      this.setState({
-          isOutAgeCollection:isOutAgeCollection
-      })
+        this.setState({
+            isOutAgeCollection:isOutAgeCollection
+        })
+    },
+    componentDidMount(){
     },
     handleChange(event){
 
@@ -864,14 +898,6 @@ const OperationItem= React.createClass({
       }
     },
     componentWillReceiveProps(nextProps){
-    //  console.log()
-    ////使用props中的pageShow在页面切换的时候初始化操作栏
-    //    if(nextProps.pageShow != this.state.pageShow){
-    //        this.setState({
-    //            cardShow:true,
-    //            pageShow:nextProps.pageShow
-    //        })
-    //    }
     },
     childListChange(showWay){
         if(showWay=='card'){
@@ -887,7 +913,7 @@ const OperationItem= React.createClass({
     handleClick(){
         this.setState({
             cardShow : true
-        })
+        });
         PubSub.publish('show-history','card');
     },
     render(){
@@ -937,7 +963,7 @@ const OperationItem= React.createClass({
                             <li className = "left-item">
                                 <ul className = "list-inline">
                                     <AddItem pageShow={this.props.pageShow} collection={staffData}/>
-                                    <ListItem callbackParent={this.childListChange}/>
+                                    <ListItem callbackParent={this.childListChange} pageShow={this.props.pageShow} />
                                     {isCardShowContent()}
                                 </ul>
                             </li>
@@ -945,7 +971,7 @@ const OperationItem= React.createClass({
                                 <ul className = "list-inline">
                                     <CarType collection={staffData} pageShow ={this.props.pageShow}/>
                                     <Search />
-                                    <AdvancedSearchIcon />
+                                    <AdvancedSearchIcon pageShow = {this.props.pageShow}/>
                                     <OutageRecord collection = {staffData}/>
                                 </ul>
                             </li>
@@ -958,7 +984,7 @@ const OperationItem= React.createClass({
                             <li className = "left-item">
                                 <ul className = "list-inline">
                                     <AddItem pageShow={this.props.pageShow} collection={vehicleData}/>
-                                    <ListItem callbackParent={this.childListChange}/>
+                                    <ListItem callbackParent={this.childListChange} pageShow={this.props.pageShow} />
                                     {isCardShowContent()}
                                 </ul>
                             </li>
@@ -966,7 +992,7 @@ const OperationItem= React.createClass({
                                 <ul className = "list-inline">
                                     <CarType collection={vehicleData} pageShow={this.props.pageShow} />
                                     <Search />
-                                    <AdvancedSearchIcon />
+                                    <AdvancedSearchIcon pageShow = {this.props.pageShow}/>
                                     <OutageRecord collection = {vehicleData}/>
                                 </ul>
                             </li>
@@ -987,7 +1013,7 @@ const OperationItem= React.createClass({
                             <li className = "task-right-item">
                                 <ul className = "list-inline">
                                     <Search />
-                                    <AdvancedSearchIcon />
+                                    <AdvancedSearchIcon pageShow = {this.props.pageShow}/>
                                 </ul>
                             </li>
                         </ul>

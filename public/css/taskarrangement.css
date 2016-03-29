@@ -157,10 +157,10 @@ html, body {
               left: 50%;
               display: none; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-details, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-details {
-              background: #F3F6FB;
-              padding: 5px 0;
-              margin-top: 10px;
               display: none; }
+              html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-details .completed-cars-task, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-details .completed-cars-task {
+                padding: 5px 0;
+                background: #F3F6FB; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-types, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .task-types {
               background: url("/img/mutiple.png") no-repeat;
               width: 47px;
@@ -200,6 +200,12 @@ html, body {
               background: url("/img/card.png") no-repeat; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-car, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-car {
               background: url("/img/Oval.png") no-repeat; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-driver, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-driver {
+              background: url("/img/driver.png") no-repeat; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-destination, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-destination {
+              background: url("/img/destination.png") no-repeat; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-list-default, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-list-default {
+              background: url("/img/icon_list_default.png") no-repeat; }
       html .content-relative .main-task .main-task-content, body .content-relative .main-task .main-task-content {
         width: 89%;
         margin-left: 10%;
@@ -250,8 +256,16 @@ html, body {
             background: #ECF5FE;
             width: 100%;
             padding-top: 5px; }
+            html .content-relative .main-task .main-task-content .task-card .arranged-task .task-adjustment, body .content-relative .main-task .main-task-content .task-card .arranged-task .task-adjustment {
+              width: 68%;
+              margin-left: 23%; }
+            html .content-relative .main-task .main-task-content .task-card .arranged-task .withdraw-adjustment, body .content-relative .main-task .main-task-content .task-card .arranged-task .withdraw-adjustment {
+              display: inline-block; }
+            html .content-relative .main-task .main-task-content .task-card .arranged-task .dotted, body .content-relative .main-task .main-task-content .task-card .arranged-task .dotted {
+              border-bottom: 1px dashed #C6C6D0; }
+            html .content-relative .main-task .main-task-content .task-card .arranged-task .return-detail span, body .content-relative .main-task .main-task-content .task-card .arranged-task .return-detail span {
+              color: #B4BDC6; }
             html .content-relative .main-task .main-task-content .task-card .arranged-task li, body .content-relative .main-task .main-task-content .task-card .arranged-task li {
-              border-bottom: 1px dashed #C6C6D0;
               margin-left: 58px;
               padding: 5px 0;
               position: relative; }
@@ -261,7 +275,7 @@ html, body {
               html .content-relative .main-task .main-task-content .task-card .arranged-task li .task-adjustment1, body .content-relative .main-task .main-task-content .task-card .arranged-task li .task-adjustment1 {
                 margin-left: 153px; }
               html .content-relative .main-task .main-task-content .task-card .arranged-task li .task-adjustment2, body .content-relative .main-task .main-task-content .task-card .arranged-task li .task-adjustment2 {
-                margin-left: 205px; }
+                margin-left: 184px; }
               html .content-relative .main-task .main-task-content .task-card .arranged-task li .withDraw, body .content-relative .main-task .main-task-content .task-card .arranged-task li .withDraw {
                 position: absolute;
                 top: 16px;
@@ -286,20 +300,37 @@ html, body {
             html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table, body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table {
               margin: 7px;
               width: 99%; }
+              html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table .blank, body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table .blank {
+                display: inline-block; }
               html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table th, body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table th {
                 background: #2AA2DE;
                 color: white;
                 padding: 8px 0px;
                 text-align: center;
-                width: 200px; }
+                width: 196px;
+                display: inline-block;
+                border-right: 1px solid #D6F6FF;
+                border-bottom: none; }
+              html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table th:nth-child(1), body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table th:nth-child(1) {
+                width: 50px; }
               html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table tr:nth-child(odd), body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table tr:nth-child(odd) {
                 background: #EEEEEE; }
               html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table tr:nth-child(even), body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table tr:nth-child(even) {
                 background: white; }
+              html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table .active, body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table .active {
+                background: #D0EAF7 !important; }
               html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table td, body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table td {
                 padding: 8px 0px;
                 text-align: center;
-                width: 200px; }
+                width: 200px;
+                border-right: 1px solid #303C4C; }
+                html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table td i, body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table td i {
+                  width: 8px;
+                  height: 14px;
+                  background: url("/img/triangle_right.png");
+                  display: inline-block; }
+              html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table td:nth-child(1), body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table td:nth-child(1) {
+                width: 50px; }
               html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table .div, body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table .div {
                 width: 82px; }
             html .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table-body, body .content-relative .main-task .main-task-content .task-card .addtask-modal .task-details-list-c .ant-table-body {
@@ -409,36 +440,41 @@ html, body {
                 padding: 5px 0; }
                 html .content-relative .main-task .main-task-content .task-card .edit-car-task .add-task-details .add-task-d-li .add-task-row .icon, body .content-relative .main-task .main-task-content .task-card .edit-car-task .add-task-details .add-task-d-li .add-task-row .icon {
                   margin: 0 5px; }
-              html .content-relative .main-task .main-task-content .task-card .edit-car-task .add-task-details .add-task-d-li a, body .content-relative .main-task .main-task-content .task-card .edit-car-task .add-task-details .add-task-d-li a {
+              html .content-relative .main-task .main-task-content .task-card .edit-car-task .add-task-details .add-task-d-li .delete-btn, body .content-relative .main-task .main-task-content .task-card .edit-car-task .add-task-details .add-task-d-li .delete-btn {
                 position: absolute;
                 right: 14px;
-                top: 12px; }
+                top: 12px;
+                color: #3F9BCA;
+                cursor: pointer; }
             html .content-relative .main-task .main-task-content .task-card .edit-car-task .only-current-task, body .content-relative .main-task .main-task-content .task-card .edit-car-task .only-current-task {
               margin-top: 18px;
-              margin-left: 825px; }
-          html .content-relative .main-task .main-task-content .task-card .periodic-task .btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn {
+              text-align: right;
+              display: inline-block;
+              width: 100%; }
+          html .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn {
             width: 80%;
             margin-left: 76px;
-            padding: 15px 0 20px 0; }
-            html .content-relative .main-task .main-task-content .task-card .periodic-task .btn button, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn button {
+            padding: 15px 0 20px 0;
+            position: relative; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn button, body .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn button {
               height: 28px;
               border: none;
               border-radius: 3px;
               padding: 5px 3px;
               height: 30px; }
-            html .content-relative .main-task .main-task-content .task-card .periodic-task .btn .save-send-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn .save-send-btn {
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn .save-send-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn .save-send-btn {
               float: left;
               background: #29A3DD;
               color: white; }
-            html .content-relative .main-task .main-task-content .task-card .periodic-task .btn .save-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn .save-btn {
-              margin: 0 auto;
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn .save-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn .save-btn {
               background: #DFE3EE;
-              width: 100px;
-              width: 75px; }
-            html .content-relative .main-task .main-task-content .task-card .periodic-task .btn .close-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .btn .close-btn {
+              width: 75px;
+              position: absolute;
+              left: 50%;
+              margin-left: -37px; }
+            html .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn .close-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .edit-btn .close-btn {
               float: right;
               background: #DFE3EE;
-              width: 100px;
               width: 75px; }
           html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-btn {
             margin-left: 75px; }
@@ -466,12 +502,18 @@ html, body {
               width: 100%;
               padding: 10px 0;
               margin-top: 10px; }
-              html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li {
+              html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li:nth-child(2), body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li:nth-child(2) {
                 margin: 7px 29px; }
-                html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li .endDate, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li .endDate {
-                  margin-left: 400px; }
-                html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li .ant-checkbox, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li .ant-checkbox {
+                html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li:nth-child(2) .ant-checkbox, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate li:nth-child(2) .ant-checkbox {
                   margin-left: 60px; }
+              html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate .startDate-endDate, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate .startDate-endDate {
+                width: 83%;
+                height: 50px;
+                padding: 7px 29px; }
+                html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate .startDate-endDate .startDate-endDate-left, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate .startDate-endDate .startDate-endDate-left {
+                  float: left; }
+                html .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate .startDate-endDate .startDate-endDate-right, body .content-relative .main-task .main-task-content .task-card .periodic-task .periodic-task-details .startDate .startDate-endDate .startDate-endDate-right {
+                  float: right; }
           html .content-relative .main-task .main-task-content .task-card .task-edit-page, body .content-relative .main-task .main-task-content .task-card .task-edit-page {
             width: 85%;
             margin: 0 auto; }
@@ -507,6 +549,8 @@ html, body {
             background: url("/img/Triangle.png") no-repeat; }
           html .content-relative .main-task .main-task-content .task-card .hide-data, body .content-relative .main-task .main-task-content .task-card .hide-data {
             display: none; }
+            html .content-relative .main-task .main-task-content .task-card .hide-data .hide-btn2, body .content-relative .main-task .main-task-content .task-card .hide-data .hide-btn2 {
+              display: none; }
           html .content-relative .main-task .main-task-content .task-card .edit-inner-icon, body .content-relative .main-task .main-task-content .task-card .edit-inner-icon {
             background: url("/img/edit_task.png") no-repeat;
             background-size: cover;

@@ -29,9 +29,27 @@ var completedTask = Backbone.Model.extend({
             value:'',
             isShowInCard:''
         },
-        carType: {
-            name:'carType ',
-            aliasName:'车辆类型',
+        driver: {
+            name:'driver',
+            aliasName:'司机',
+            value:'',
+            isShowInCard:''
+        },
+        userPerson :{
+            name:'userPerson',
+            aliasName:'用车人',
+            value:'',
+            isShowInCard:''
+        },
+        mileage: {
+            name:'mileage',
+            aliasName:'里程',
+            value:'',
+            isShowInCard:''
+        },
+        destination: {
+            name:'destination',
+            aliasName:'地点',
             value:'',
             isShowInCard:''
         },
@@ -53,7 +71,7 @@ for(let i = 0 ; i < 10; i ++){
         taskNum:{
             name:'taskNum',
             aliasName:'任务编码',
-            value:'',
+            value:`3-${i}`,
             isShowInCard:''
         },
         useDate:{
@@ -66,7 +84,7 @@ for(let i = 0 ; i < 10; i ++){
             name:'drawInTime',
             aliasName:'回车日期',
             value:`回车日期${i}`,
-            isShowInCard:'1'
+            isShowInCard:''
         },
         plateNumber :{
             name:'plateNumber',
@@ -74,10 +92,28 @@ for(let i = 0 ; i < 10; i ++){
             value:`车牌号码${i}`,
             isShowInCard:''
         },
-        carType: {
-            name:'carType',
-            aliasName:'车辆类型',
-            value:`车辆类型${i}`,
+        driver: {
+            name:'driver',
+            aliasName:'司机',
+            value:`司机${i}`,
+            isShowInCard:''
+        },
+        userPerson :{
+            name:'userPerson',
+            aliasName:'用车人',
+            value:`用车人${i}`,
+            isShowInCard:''
+        },
+        mileage: {
+            name:'mileage',
+            aliasName:'里程',
+            value:`里程${i}`,
+            isShowInCard:''
+        },
+        destination: {
+            name:'destination',
+            aliasName:'地点',
+            value:`杭州长江汽车有限公司${i}`,
             isShowInCard:''
         },
         Type : `${i%2}`

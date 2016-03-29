@@ -130,6 +130,12 @@
       height: 140px; }
 .ant-modal-container .add-modal .add-form .up-info-header-img {
   padding: 20px; }
+  .ant-modal-container .add-modal .add-form .up-info-header-img .upLoad-img-btn {
+    position: relative;
+    top: -18px; }
+  .ant-modal-container .add-modal .add-form .up-info-header-img .ant-upload.ant-upload-select-picture-card {
+    border: 0;
+    background-color: #ffffff; }
 .ant-modal-container .add-modal .add-form .up-info-header-text {
   padding-top: 25px;
   padding-bottom: 25px; }

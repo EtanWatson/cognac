@@ -1,4 +1,5 @@
 body .operation-content {
+  min-width: 1024px;
   border-bottom: 1px solid #e2e2e4; }
   body .operation-content .operation {
     clear: both;

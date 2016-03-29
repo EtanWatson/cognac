@@ -180,6 +180,14 @@
     .add-form{
       .up-info-header-img{
         padding: 20px;
+        .upLoad-img-btn{
+          position: relative;
+          top:-18px
+        }
+        .ant-upload.ant-upload-select-picture-card{
+          border: 0;
+          background-color: #ffffff;
+        }
       }
       .up-info-header-text{
         padding-top: 25px;

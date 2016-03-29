@@ -5,7 +5,7 @@ import {browserHistory,Link} from 'react-router'
 import  BackboneReactMixin  from 'backbone-react-component';
 import _ from 'underscore'
 import {Checkbox,Button,Collapse,Row,Col,Icon} from 'antd';
-import {cardList,cardsDriver,cardsStaff,cardVehicle} from '../models/cardKey';
+import {cardList,cardsDriver,cardsStaff,cardVehicle,cardTask} from '../models/cardKey';
 import {taskSettingModel,taskSetting} from '../models/taskSetting';
 import {taskModelTest,task} from '../models/taskDataTest';
 import {settingCheckMinx} from './mixin/settingCheck'
@@ -150,8 +150,6 @@ const DriverSetting = React.createClass({
             });
             return cardSelectItem;
         }.bind(this);
-
-
         return(
             <div className = "setting-layout">
                 <Row type="flex" className = 'setting-container' justify="end">
@@ -172,7 +170,7 @@ const DriverSetting = React.createClass({
                     <Col span = '10' className = "inner-container">
                         <p>效果预览：</p>
                         <div className = "right-view">
-                            <SettingCard selectedArray = {this.state.selectedArray} type={"0"}/>
+                            <SettingCard selectedArray = {this.softByIndex(this.state.selectedArray,'index')} type={"0"}/>
                         </div>
                     </Col>
                 </Row>
@@ -200,7 +198,7 @@ const StaffSetting = React.createClass({
        }
     },
     componentDidMount(){
-        PubSub.publish('staffSettingMount','')
+        PubSub.publish('staffSettingMount','');
         let selectArray = this.handelAtOfName(this.state.selectItemKeys);
         this.setState({
             selectedArray:selectArray
@@ -250,7 +248,7 @@ const StaffSetting = React.createClass({
                     <Col span = '10' className = "inner-container">
                         <p>效果预览：</p>
                         <div className = "right-view">
-                            <SettingCard selectedArray = {this.state.selectedArray} type={"1"}/>
+                            <SettingCard selectedArray = {this.softByIndex(this.state.selectedArray,'index')} type={"1"}/>
                         </div>
                     </Col>
                 </Row>
@@ -346,7 +344,7 @@ const VehicleSetting = React.createClass({
                     <Col span = '10' className = "inner-container">
                         <p>效果预览：</p>
                         <div className = "right-view">
-                            <SettingCard selectedArray = {this.state.selectedArray} type={"0"}/>
+                            <SettingCard selectedArray = {this.softByIndex(this.state.selectedArray,'index')} type={"0"}/>
                         </div>
                     </Col>
                 </Row>
@@ -368,18 +366,18 @@ const TaskSetting = React.createClass({
     getInitialState(){
         return{
             headerColor:'yellow',
-            selectItemKeys:[{single:['vehicleCount','hasReturn','drawOutTime','outCarRemark','carUser','destination','selectedArray']},
-                {multi:['vehicleCount','hasReturn','drawOutTime','outCarRemark','carUser','destination']},
-                {distributing:['drawOutTime','outCarRemark','carUser','destination','aboutTime','useCase']}
-            ],
+            selectItemKeys: {
+            single:['vehicleCount', 'hasReturn', 'drawOutTime', 'outCarRemark', 'carUser', 'destination'],
+            multi:['vehicleCount', 'hasReturn', 'drawOutTime', 'outCarRemark', 'carUser', 'destination'],
+            distributing:['drawOutTime', 'outCarRemark', 'carUser', 'destination', 'aboutTime', 'useCase']
+    },
             selectedArray:[]
         }
     },
     componentWillMount(){
         BackboneReactMixin.on(this,{
-            models:{
-                taskModel:taskModelTest,
-                taskSetting:taskSettingModel
+            collections:{
+                cardKey:new cardList(cardTask)
             }
         });
         //初始值
@@ -395,59 +393,88 @@ const TaskSetting = React.createClass({
     },
     //找出所有卡片显示条目
     findHeaderKey(type){
-        let  taskType  = this.state.taskSetting[type];
-        let taskData = this.state.taskModel;
+        let  taskType  = this.state.selectItemKeys[type];
+        let selectArray = this.handelAtOfName(taskType);
+        selectArray = this.softByIndex(selectArray,'index');
         let headerData = [[],[]];
-        let keysArray =  _.keys(taskType);
-        keysArray.map(function(item,index){
-            if(taskType[item]){
-                if(headerData[0].length < 3){
-                    headerData[0].push({
-                        aliasName:taskData[item].aliasName
-                    })
-                }else{
-                    headerData[1].push({
-                        aliasName:taskData[item].aliasName
-                    })
-                }
+        selectArray.map(function(item,index){
+            if(headerData[0].length < 3){
+                headerData[0].push({
+                    aliasName:item.value
+                })
+            }else{
+                headerData[1].push({
+                    aliasName:item.value
+                })
             }
         });
         return headerData
     },
     handleOnChange(e){
+        Array.prototype.indexOf = function(val) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == val) return i;
+            }
+            return -1;
+        };
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+        let selectItemKeysTemp = this.state.selectItemKeys;
         let type = $(e.target).attr('data-type');
         let key = $(e.target).attr('data-key');
         let checked =e.target.checked;
-        let taskSettingTemp = this.state.taskSetting;
-        let taskSettingTempArray = _.compact(_.toArray(taskSettingTemp[type]));
-        //if(taskSettingTempArray.length < 5){
-            taskSettingTemp =taskSettingTemp[type][key] =checked;
-            this.setState({
-                //taskSetting:taskSettingTemp
-            });
-        //}
+        let typeSelected = this.state.selectItemKeys[type];
+        if(selectItemKeysTemp[type].length > 5){
+            if(_.contains(typeSelected,key)){
+                selectItemKeysTemp[type].remove(key);
+                this.setState({
+                    selectItemKeys:selectItemKeysTemp
+                })
+            }else{
+                return
+            }
+        }else{
+            if(_.contains(typeSelected,key)){
+                selectItemKeysTemp[type].remove(key);
+                this.setState({
+                    selectItemKeys:selectItemKeysTemp
+                })
+            }else{
+                selectItemKeysTemp[type].push(key);
+                this.setState({
+                    selectItemKeys:selectItemKeysTemp
+                })
+            }
+        }
+    },
+    handleTaskCheck(name,selectedName){
+        if(_.contains(selectedName,name)){
+            return true
+        }
     },
     //处理多选框列表
     handleCheckboxList(type,notChooseOptionKeys){
-        let  taskType  = this.state.taskSetting[type];
-        let taskData = this.state.taskModel;
-        let checkboxListArray = _.omit(taskType,notChooseOptionKeys);
-        let checkboxListKeys  =  _.keys(checkboxListArray);
-        let checkboxListKeysHeight = Array();
+        let taskType  =_.difference(this.state.selectItemKeys[type],notChooseOptionKeys);
+        let listCheckboxItem = this.deleteAtOfName(notChooseOptionKeys);
+        let dimensional = Array();
         //构建二维数组
         let k = 0;
-        for(let i = 0 ; i < (checkboxListKeys.length/5 + 1) ; i++){
-            checkboxListKeysHeight[i] = checkboxListKeysHeight[i] || [];
+        for(let i = 0 ; i <  Math.ceil(listCheckboxItem.length/5) ; i++){
+            dimensional[i] = dimensional[i] || [];
             for(let j = 0 ; j < 5 ; j ++){
-                if(checkboxListKeys[k]){
-                    checkboxListKeysHeight[i][j] = checkboxListKeys[k];
+                if(listCheckboxItem[k]){
+                    dimensional[i][j] = listCheckboxItem[k];
                 }else{
                     break
                 }
                 k++
             }
         }
-        let checkboxList = checkboxListKeysHeight.map(function(item,index){
+        let checkboxList = dimensional.map(function(item,index){
             if(item.length > 0){
                 let self =this;
                 return(
@@ -456,8 +483,8 @@ const TaskSetting = React.createClass({
                             return(
                                 <div style={{width:'20%',display:'inline-block'}} key={index}>
                                    <label>
-                                        <Checkbox onChange = {self.handleOnChange} data-key ={item} data-type={type} checked = {taskType[item]}/>
-                                        {taskData[item].aliasName}
+                                        <Checkbox onChange = {self.handleOnChange} data-key ={item.name} data-type={type} checked = {self.handleTaskCheck(item.name,taskType)} onChange={self.handleOnChange} />
+                                        {item.value}
                                    </label>
                                 </div>
                             )
@@ -477,7 +504,7 @@ const TaskSetting = React.createClass({
         let checkboxList = '';   //多选框列表
       if(type == 0){
           notChooseOption =['不可选择项：','出车时间','司机','车牌号','编码'];
-          notChooseOptionKeys = ['drawOutTime','hasReturn','vehicleCount'];
+          notChooseOptionKeys = ['hasReturn','vehicleCount','vehicleNumber','drawOutTime','useSection','userDate'];
           headerData =this.findHeaderKey('single');
           checkboxList = this.handleCheckboxList('single',notChooseOptionKeys);
           cardHeader= <div  className = "setting-task-code yellow">
@@ -487,7 +514,7 @@ const TaskSetting = React.createClass({
                             </div>
                       </div>
       }else if(type == 1){
-          notChooseOptionKeys = ['drawOutTime','hasReturn','vehicleCount'];
+          notChooseOptionKeys = ['hasReturn','vehicleCount','drawOutTime','useSection','userDate'];
           notChooseOption =['不可选择项：','车辆总数','已回车','出车时间','编码'];
           headerData =this.findHeaderKey('multi');
           checkboxList = this.handleCheckboxList('multi',notChooseOptionKeys);
@@ -499,7 +526,7 @@ const TaskSetting = React.createClass({
                      </div>
       }else{
           notChooseOption =['不可选择项：','出车时间','司机','车牌号','编码'];
-          notChooseOptionKeys = ['drawOutTime','hasReturn','vehicleCount','useCase','collectionPosition','drawInTime'];
+          notChooseOptionKeys =['hasReturn','vehicleCount','vehicleNumber','drawOutTime','userDate','drawInTime','collectionPosition','useCase'];
           headerData =this.findHeaderKey('distributing');
           checkboxList = this.handleCheckboxList('distributing',notChooseOptionKeys);
           cardHeader=<div  className = "setting-task-code red">
@@ -551,6 +578,7 @@ const TaskSetting = React.createClass({
         )
     },
     render(){
+        console.log(this.state.selectItemKeys);
         return(
             <div className = 'setting-layout task-setting'>
                 <Row className = "task-setting-content">

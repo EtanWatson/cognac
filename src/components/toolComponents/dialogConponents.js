@@ -10,7 +10,8 @@ import BackboneReactMixin from 'backbone-react-component';
 import {SearchInput} from "./selectAutoCompletion"
 import {staffs} from "../../models/staffInfo";
 import {validateMixin} from './../mixin/validate';
-import {typeStatusStaffMixin} from './../mixin/typeStatus'
+import {typeStatusStaffMixin} from './../mixin/typeStatus';
+import {advanceSearchMixin} from  './../mixin/advanceSearch';
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -59,8 +60,10 @@ let EditTable = React.createClass({
         const  validateForm = this.validateFormEdit(this.state.model,this.props.form.getFieldProps);
         const  getFieldProps = validateForm.getFieldProps;
         const  staffInfo = validateForm.staffInfo;
+        console.log(staffInfo);
         let isDriver = this.typeStatusInfo(staffInfo,validateForm).isDriver;
         let typeStatus =this.typeStatusInfo(staffInfo,validateForm).typeStatus;
+        console.log(typeStatus);
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'edit-form'  form={this.props.form}>
                <div className = "up-info">
@@ -530,6 +533,9 @@ let AddTask = React.createClass({
         //this.props.callbackParentOfAdd(true);
     },
     handleCancel(){
+        this.setState({
+            visible:false
+        })
         this.props.callbackParentOfAdd(false);
     },
     handleUpload(){
@@ -547,12 +553,54 @@ let AddTask = React.createClass({
                 isCreateTask:true
             });
     } ,
+    handleAlertCancel(event){
+        this.setState({
+            isCreateTask:false
+        });
+    },
+    handleClickOk(event){
+        this.setState({
+            isCreateTask:false,
+            visible:false
+        });
+        this.props.callbackParentOfAdd(false);
+    },
     render() {
         const { getFieldProps } = this.props.form;
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        var week = date.getDay();
+        var today = year+"-"+month+"-"+day;
+        var todayWeek = '';
+        switch(week){
+            case 0:
+                todayWeek='日';
+                break;
+            case 1:
+                todayWeek='一';
+                break;
+            case 2:
+                todayWeek='二';
+                break;
+            case 3:
+                todayWeek='三';
+                break;
+            case 4:
+                todayWeek='四';
+                break;
+            case 5:
+                todayWeek='五';
+                break;
+            case 6:
+                todayWeek='六';
+                break;
+        }
+        var showWeek = "(周"+todayWeek+")";
         let addTaskShow = function (){
             if(this.state.isCreateTask)
             {
-                //alert(1);
                 return(
                     <div className="popup-windows">
                          <div className="popup-windows-show">
@@ -564,8 +612,8 @@ let AddTask = React.createClass({
                                     <ul>
                                         <li>
                                             <span>今天是</span>
-                                            <span>xxxx-xx-xx</span>
-                                            <span>(周x)</span>
+                                            <span>{today}</span>
+                                            <span>{showWeek}</span>
                                         </li>
                                         <li>
                                             <span>周期任务</span>
@@ -580,8 +628,8 @@ let AddTask = React.createClass({
                                     </ul>
                                 </li>
                                 <li className="popup-windows-show-btn">
-                                    <button className="okbtn">确认</button>
-                                    <button className="canclebtn">取消</button>
+                                    <button className="okbtn" onClick={this.handleClickOk}>确认</button>
+                                    <button className="canclebtn" onClick={this.handleAlertCancel}>取消</button>
                                 </li>
                             </ul>
                          </div>
@@ -672,7 +720,7 @@ let AddTask = React.createClass({
                         <li className="creator">任务创建人：admin</li>
                         <li className="create-task-submit">
                             <button className="btn create-btn" onClick={this.handleCreateTask}>创建任务</button>
-                            <button className="btn cancel-btn">取消</button>
+                            <button className="btn cancel-btn" onClick ={this.handleCancel}>取消</button>
                         </li>
                     </ul>
                 </div>
@@ -701,8 +749,8 @@ let AddTable = React.createClass({
         this.props.callbackParentOfAdd(false);
     },
     handleUpload(){
-
     },
+
     getValidateStatus(field) {
         const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
 
@@ -717,18 +765,18 @@ let AddTable = React.createClass({
     render() {
         const  validateForm = this.validateFormAdd(this.props.form.getFieldProps);
         const getFieldProps = validateForm.getFieldProps;
+        const upLoadProps = {
+            action: '/upload.do',
+            listType: 'picture-card'
+        };
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'add-form' form={this.props.form}>
                 <div className = "up-info">
                     <Row type = 'flex' justify="center">
                         <Col span = '8' className = 'up-info-header-img'>
                             <FormItem>
-                            <Upload name="logo" action="/upload.do" listType="picture" onChange={this.handleUpload}
-                                {...getFieldProps('upload', {
-                                    valuePropName: 'fileList'
-                                })}
-                                >
-                                <img src="/img/icon_userpic.png" />
+                            <Upload {...upLoadProps}>
+                                <img className = "upLoad-img-btn" src="/img/icon_userpic.png" />
                             </Upload>
                             </FormItem>
                         </Col>
@@ -1284,9 +1332,7 @@ const SendMessageDialog = React.createClass({
     },
     componentWillReceiveProps(nextProps){
         let inputValueTemp = this.state.inputValue;
-        //卡片上点击发送
-        //console.log(this.props.isSendMessage);
-        if(this.props.isSendMessage){
+        if(nextProps.isSendMessage){
             if(this.state.model){
                 if(!_.contains(this.state.inputValue,this.state.model)){
                     inputValueTemp.push(this.state.model);
@@ -1297,12 +1343,10 @@ const SendMessageDialog = React.createClass({
                 });
             }
             //发送批量操作
-            //console.log(this.props.selectItem);
-            if(this.props.selectItem){
-                //console.log('test send-batch');
+            if(nextProps.selectItem){
                 this.setState({
                     visible:true,
-                    selectValueArray:this.props.selectItem
+                    selectValueArray:nextProps.selectItem
                 })
             }
         }else{
@@ -1448,7 +1492,7 @@ const SendMessageDialog = React.createClass({
 });
 //查看信息table（staff）
 let LookTable = React.createClass({
-    mixins:[BackboneReactMixin],
+    mixins:[BackboneReactMixin,typeStatusStaffMixin],
     handleEdit(e) {
         e.preventDefault();
         this.props.callbackParentOfLook('isEdit');
@@ -1459,6 +1503,8 @@ let LookTable = React.createClass({
     render() {
         const { getFieldProps } = this.props.form;
         let staffInfo = this.state.model;
+        let isDriver = this.typeStatusInfoLook(staffInfo).isDriver;
+        let typeStatus = this.typeStatusInfoLook(staffInfo).typeStatus;
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'look-form'>
                 <div className = "up-info">
@@ -1470,16 +1516,7 @@ let LookTable = React.createClass({
                         </Col>
                         <Col span = "16" className="header-right">
                             <h3>{staffInfo.name.value}</h3>
-                            <Row type = "flex">
-                                <Col span = "4">
-                                    <div className ="type-icon right icon"></div>
-                                    <div className = "type-text right">司机</div>
-                                </Col>
-                                <Col span = "12">
-                                    <div className = "status-icon right icon"></div>
-                                    <div className = "status-text right">出车</div>
-                                </Col>
-                            </Row>
+                            {typeStatus}
                         </Col>
                     </Row>
                 </div>
@@ -1568,75 +1605,7 @@ let LookTable = React.createClass({
                         </Col>
                         <Col span = "12"></Col>
                     </Row>
-                    <Collapse defaultActiveKey={['1']} className = "is-driver">
-                        <Panel header={(
-                       <div className ="" style={{width:'110%',position:'relative',right:'38px',borderBottom:'10px solid #E6E5ED'}}>
-                           <span className = 'driver-text' style={{position:'relative',left:'185px'}}>司机</span>
-                           <Icon type="circle-down" />
-                       </div>
-                       )}>
-                            <Row type = 'flex' justify="center">
-                                <Col span = "12">
-                                    <FormItem
-                                        {...formItemLayout}
-                                        label={staffInfo.drivingLicense.aliasName+"："}  required>
-                                        <p>{staffInfo.drivingLicense.value}</p>
-                                    </FormItem>
-                                </Col>
-                                <Col span = "12"></Col>
-                            </Row>
-                            <Row type = 'flex' justify="center">
-                                <Col span = "12">
-                                    <FormItem
-                                        {...formItemLayout}
-                                        label={staffInfo.validDate.aliasName+"："} required>
-                                        <p>{staffInfo.validDate.value}</p>
-                                    </FormItem>
-                                </Col>
-                                <Col span = "12"></Col>
-                            </Row>
-                            <Row type = 'flex' justify="center">
-                                <Col span = "12">
-                                    <FormItem
-                                        {...formItemLayout}
-                                        label={staffInfo.authorizedBy.aliasName+"："}  required>
-                                        <p>{staffInfo.authorizedBy.value}</p>
-                                    </FormItem>
-                                </Col>
-                                <Col span = "12"></Col>
-                            </Row>
-                            <Row type = 'flex' justify="center">
-                                <Col span = "12">
-                                    <FormItem
-                                        {...formItemLayout}
-                                        label={staffInfo.annualExamination.aliasName+"："}  required>
-                                        <p>{staffInfo.annualExamination.value}</p>
-                                    </FormItem>
-                                </Col>
-                                <Col span = "12"></Col>
-                            </Row>
-                            <Row type = 'flex' justify="center">
-                                <Col span = "12">
-                                    <FormItem
-                                        {...formItemLayout}
-                                        label={staffInfo.startLicenseData.aliasName+"："} required>
-                                        <p>{staffInfo.startLicenseData.value}</p>
-                                    </FormItem>
-                                </Col>
-                                <Col span = "12"></Col>
-                            </Row>
-                            <Row type = 'flex' justify="center">
-                                <Col span = "12">
-                                    <FormItem
-                                        {...formItemLayout}
-                                        label={staffInfo.licenseType.aliasName+"："}  required>
-                                        <p>{staffInfo.licenseType.value}</p>
-                                    </FormItem>
-                                </Col>
-                                <Col span = "12"></Col>
-                            </Row>
-                        </Panel>
-                    </Collapse>
+                    {isDriver}
                 </div>
                 <div className = "footer-info" style={{backgroundColor:'#E6E5ED'}}>
                     <Row type='flex' justify="space-around">
@@ -1970,6 +1939,7 @@ const LookDialog = React.createClass({
 });
 //高级搜索下拉面板
 const AdvancedSearchPanel = React.createClass({
+    mixins:[advanceSearchMixin],
     getInitialState(){
         return{
             tableDataStaff:[{headerName:'车辆类型：',value_0:'A1执照',value_1:'A2执照',value_2:'B1执照',value_3:'B2执照',value_4:'C1执照',value_5:'C2执照',value_6:'C3执照'},
@@ -2042,7 +2012,7 @@ const AdvancedSearchPanel = React.createClass({
                             value={this.state.endValue}
                             placeholder="结束日期"
                             onChange={this.onChange.bind(this, 'endValue')} />
-            </div>
+            </div>;
         let panel ='';
         switch (this.props.pageShow){
             case 'staff':
@@ -2060,66 +2030,11 @@ const AdvancedSearchPanel = React.createClass({
                 );
                 break;
             case 'vehicle':
-                panel = (
-                    <div>
-                        <div className = 'table-title'>
-                            <span>所有车辆<Icon type="right" />共999个车辆</span>
-                        </div>
-                        <table className = "advanced-table">
-                            <tbody>
-                                <tr className = "car-type-up">
-                                    <td rowSpan="2">车辆类型：</td>
-                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
-                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
-                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
-                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
-                                    <td onClick={this.clickSearchTab}>1-15座客车</td>
-                                </tr>
-                                <tr className = "car-type-down">
-                                    <td onClick={this.clickSearchTab}>10-30吨客车</td>
-                                    <td onClick={this.clickSearchTab}>货车（冷藏）</td>
-                                    <td onClick={this.clickSearchTab}>货车（危险品）</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td onClick={this.clickSearchTab}>任务类型：</td>
-                                    <td onClick={this.clickSearchTab}>周期任务</td>
-                                    <td onClick={this.clickSearchTab}>普通任务</td>
-                                    <td onClick={this.clickSearchTab}>多车任务</td>
-                                    <td onClick={this.clickSearchTab}>单车任务</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>出车时间：</td>
-                                    <td className="vehicle-out-start">
-                                        <DatePicker className="car-out-start" disabledDate={this.disableStartDate}
-                                                    value={this.state.startValue}
-                                                    placeholder="开始日期"
-                                                    onChange={this.onChange.bind(this, 'startValue')} />
-                                    </td>
-                                    <td>至</td>
-                                    <td className="vehicle-out-start">
-                                        <DatePicker  className="car-out-start" disabledDate={this.disableEndDate}
-                                                     value={this.state.endValue}
-                                                     placeholder="结束日期"
-                                                     onChange={this.onChange.bind(this, 'endValue')} />
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>回车时间：</td>
-                                    <td><TimePicker onChange={this.timeOnChange} /></td>
-                                    <td>至</td>
-                                    <td><TimePicker onChange={this.timeOnChange} /></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                )
+                panel = this.advanceSearch();
+                break;
+            case 'task':
+                panel = this.advanceSearch();
+                break;
         }
         return(
                 <div className = "advanced-search-panel">

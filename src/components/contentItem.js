@@ -13,6 +13,8 @@ import {EditDialog,SendMessageDialog,LookDialog} from './toolComponents/dialogCo
 import {staffModel} from '../models/staffData';
 import {vehicleModel} from '../models/vehicleData'
 import FixedDataTable from 'fixed-data-table';
+import {cardSelectMinx} from './mixin/cardSelect';
+import {cardTypeMinx} from './mixin/cardType'
 const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
 //card hover状态
@@ -48,7 +50,7 @@ const HoverItem = React.createClass({
                self.getCollection().remove(self.getModel());
            },
            onCancel(){
-               self.props.callbackParent('noDelete');
+               //self.props.callbackParent('noDelete');
            }
        })
    },
@@ -58,7 +60,6 @@ const HoverItem = React.createClass({
         })
    },
    onChildChangeEdit(isEdit){
-       //console.log('关闭编辑回调:'+isEdit);
         this.setState({
             isEdit:false
         });
@@ -102,7 +103,7 @@ const HoverItem = React.createClass({
 });
 //card显示组件
 const Card = React.createClass({
-   mixins:[BackboneReactMixin],
+   mixins:[BackboneReactMixin,cardTypeMinx],
     getInitialState(){
        return {
            isOpen:"item-close",
@@ -145,9 +146,9 @@ const Card = React.createClass({
             $('.card-select-img').addClass('is-display')
         }
     },
-    componentWillUnmount(){
-        PubSub.unsubscribe(this.pubsub_tokenAll);
-    },
+    //componentWillUnmount(){
+    //    PubSub.unsubscribe(this.pubsub_tokenAll);
+    //},
     handleMouseOver(){
         this.setState({
             isOpen:"item-open",
@@ -179,7 +180,7 @@ const Card = React.createClass({
             this.setState({
                 selectIcon:'/img/card_icon_default.png',
                 isSelect:!this.state.isSelect
-            })
+            });
         }else{
             this.setState({
                 selectIcon:'/img/card_icon_pressed.png',
@@ -191,16 +192,6 @@ const Card = React.createClass({
     onChildChange(isChange){
         //console.log('卡片事件回调:isChange：'+isChange);
         switch (isChange){
-            case 'delete':
-                this.setState({
-                   isDelete:true
-                });
-                break;
-            case 'no-delete':
-                this.setState({
-                    isDelete:false
-                });
-                break;
             case 'edit':
                 this.setState({
                     passLookEdit:false
@@ -223,9 +214,7 @@ const Card = React.createClass({
         this.setState({
             isLook:false
         });
-        //console.log('contentComPassLookEdit:'+isChange);
         if(isChange=='isEdit'){
-            //console.log('用户点击了编辑');
             this.setState({
                 passLookEdit:true
             })
@@ -236,89 +225,7 @@ const Card = React.createClass({
     },
    render(){
        let item = this.state.model;
-       var staffType = function(){
-            let typeIcon = ''; //卡片底部类别icon
-            let typeText = '';//卡片文案
-            let colorIcon ='';//卡片颜色
-            let type = item.type;
-            if(this.props.pageShow == 'staff'){
-               if(item.outAge.value ==1){
-                   colorIcon = "/img/card_title_stop.png";
-                   typeIcon = <img src="/img/icon_stop.png" />;
-                   switch (type){
-                       case "0":
-                           typeText = "司机";
-                           break;
-                       case "1":
-                           typeText = "管理员";
-                           break;
-                       case "2":
-                           typeText = "其他";
-                           break
-                   }
-               }else{
-                   switch (type){
-                       case "0":
-                           typeIcon = <img src="/img/staff-driver.png" />;
-                           typeText = "司机";
-                           colorIcon = '/img/card_title_driver.png';
-                           break;
-                       case "1":
-                           typeIcon = <img src="/img/icon_driver.png" />;
-                           typeText = "管理员";
-                           colorIcon = '/img/card_title_manage.png';
-                           break;
-                       case "2":
-                           typeIcon = <img src="/img/icon_driver.png" />;
-                           typeText = "其他";
-                           colorIcon = '/img/card_title_others.png';
-                           break
-                   }
-               }
-
-           }else{
-                if(item.outAge.value ==1){
-                    colorIcon = "/img/card_title_stop.png";
-                    typeIcon = <img src="icon_stop.png" />;
-                    switch (type){
-                        case "0":
-                            typeText = "客车";
-                            break;
-                        case "1":
-                            typeText = "货车";
-                            break;
-                        case "2":
-                            typeText = "其他";
-                            break
-                    }
-                }else{
-                    typeIcon = <img src="/img/vehicle-icon.png" style={{width:'80%'}} />;
-                    switch (type){
-                        case "0":
-                            typeText = "客车";
-                            colorIcon = '/img/card_title_driver.png';
-                            break;
-                        case "1":
-                            typeText = "货车";
-                            colorIcon = '/img/card_title_manage.png';
-                            break;
-                        case "2":
-                            typeText="其他";
-                            colorIcon = '/img/card_title_others.png';
-                            break;
-                    }
-                }
-           }
-           return(
-               <div className = "footer-img">
-                   <img src = {colorIcon} />
-                   <div className = "type-text">{typeText}</div>
-                   <div className = "type-icon">
-                       {typeIcon}
-                   </div>
-               </div>
-           )
-       }.bind(this);
+       var cardType = this.cardType(item);
        //遍历卡片展示条目
        var findShowItem = function(){
            var showItem = [];
@@ -369,7 +276,7 @@ const Card = React.createClass({
                    </ul>
                    {showItem}
                </div>
-               {staffType()}
+               {cardType}
                <div  className ={"default-style "+this.state.isOpen}>
                    <HoverItem cardInfo={item} callbackParent={this.onChildChange} passLookEdit={this.state.passLookEdit} pageShow = {this.props.pageShow} model={this.getModel()}/>
                </div>
@@ -393,7 +300,7 @@ const ListShow = React.createClass({
             tableWidth:1024,
             tableHeight:500,
             isLook:false,
-            staffInfo:'',
+            showInfo:'',
             //listModel:staffModel,
             listHeader:[],
             listHeaderCopy:[]
@@ -442,6 +349,7 @@ const ListShow = React.createClass({
        this.deleteItemToken = PubSub.subscribe('delete-item',function(topic,data){
            this.removeCheckItems();
        }.bind(this));
+        //todo 性能需要优化处
         $(window).resize(function(){
             this.setState({
                 tableHeight:$(window).height()*0.8,
@@ -505,12 +413,10 @@ const ListShow = React.createClass({
             this.setState({
                 allChecked:true,
                 checkClassName:'',
-                oneChecked:'selected'
+                oneChecked:'selected',
+                selectedRowKeys:selectedTemp
             })
         }
-        this.setState({
-            selectedRowKeys:selectedTemp
-        });
     },
    //行单击事件
    handleRowClick(e){
@@ -524,18 +430,26 @@ const ListShow = React.createClass({
    //行双击事件
    handleDoubleClick(e){
        var staffId = $(e.target).parents('.public_fixedDataTableCell_main').find('.table-cell').attr('data-id');
-       var staffInfo = this.getCollection().get(staffId);
+       var showInfo = this.getCollection().get(staffId);
        this.setState({
-           staffInfo:staffInfo
+           showInfo:showInfo
        },function(){
             this.setState({
                 isLook:true
             })
        });
+       this.setState({
+           isLook:true
+       })
    },
-    onChildChangeLook(){
+    onChildChangeLook(isEdit){
+        console.log('isEdit:'+isEdit);
+        if(isEdit == 'isEdit'){
+
+        }
         this.setState({
-            isLook:false
+            isLook:false,
+            isEdit:true
         })
     },
     //动态添加与删除表头
@@ -559,6 +473,11 @@ const ListShow = React.createClass({
                 listHeader:listHeadTemp
             })
         }
+    },
+    onChildChangeEdit(){
+        this.setState({
+            isEdit:false
+        })
     },
    render(){
        let listHeader = this.state.listHeader;
@@ -626,15 +545,15 @@ const ListShow = React.createClass({
                        />
                    {listTable}
                </Table>
-               <EditDialog isEdit={this.state.isEdit}  pageShow={this.props.pageShow} callbackParent = {this.onChildChangeEdit} model={this.getModel()} />
-               <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} model={this.state.staffInfo} pageShow = {this.props.pageShow} />
+               <EditDialog isEdit={this.state.isEdit}  pageShow={this.props.pageShow} callbackParent={this.onChildChangeEdit} model={this.state.showInfo} />
+               <LookDialog isLook={this.state.isLook} callbackParent = {this.onChildChangeLook} model={this.state.showInfo} pageShow = {this.props.pageShow} />
            </div>
        )
    }
 });
 //內容主容器
 const Content = React.createClass({
-    mixins:[BackboneReactMixin],
+    mixins:[BackboneReactMixin,cardSelectMinx],
     getInitialState(){
       return{
           showWay:'card',
@@ -681,21 +600,9 @@ const Content = React.createClass({
             })
         }.bind(this));
         //全选
-        this.pubsub_tokenAll = PubSub.subscribe('selectAll',function(topic,isSelectAll){
+        this.pubsub_tokenAll = PubSub.subscribe('select-all',function(topic,data){
             if(this.isMounted()){
-                if(!isSelectAll){
-                    this.setState({
-                        isSelectAll:isSelectAll,
-                        selectId:[]
-                    })
-                }else{
-                    this.state.collection.map(function(item,index){
-                        this.state.selectId.push(item.id)
-                    }.bind(this));
-                    this.setState({
-                        isSelectAll:isSelectAll
-                    })
-                }
+                this.selectAble()
             }
         }.bind(this));
         //发送消息
@@ -718,6 +625,11 @@ const Content = React.createClass({
             for(let i = 0 ;i < this.state.selectId.length ; i++){
                 this.getCollection().remove(this.getCollection().get(this.state.selectId[i]))
             }
+            this.setState({
+                isSelectAll:false,
+                selectId:[]
+            });
+            PubSub.publish('select-all-back',false);
         }.bind(this));
         //打印
         this.printData_token =  PubSub.subscribe('print-data',function(topic,data){
@@ -741,16 +653,22 @@ const Content = React.createClass({
         PubSub.unsubscribe(this.pubsub_tokenBatch);
         PubSub.unsubscribe(this.deleteItem_token);
         PubSub.unsubscribe(this.printData_token);
+        PubSub.unsubscribe(this.pubsub_tokenAll);
     },
     handleGoTop(){
         $('#content').animate({scrollTop:0},1000);
     },
     //回调函数，记录卡片被选中的card的ID
     cardSelectItem(id){
+       // todo 为了减少卡顿，这里的state采用直接赋值不刷新页面的方式（官方不推荐使用这种方式）
        if(_.contains(this.state.selectId,id)){
-           this.setState({selectId: _.without(this.state.selectId,id)})
+           this.state.selectId=_.without(this.state.selectId,id);
+           PubSub.publish('select-all-back',false);
        }else{
-           this.state.selectId.push(id)
+           this.state.selectId.push(id);
+           if(this.state.selectId.length == this.state.collection.length){
+               PubSub.publish('select-all-back',true);
+           }
        }
     },
     render(){
@@ -783,7 +701,7 @@ const Content = React.createClass({
                     )
                 }else{
                     return(
-                        <ListShow collection={this.getCollection()} pageShow = {pageShow} model = {this.getModel()} />
+                        <ListShow collection={this.getCollection()} pageShow = {pageShow}  model={this.getModel()} />
                     )
                 }
             }.bind(this);
