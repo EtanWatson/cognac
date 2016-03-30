@@ -11,7 +11,8 @@ import {Content} from './contentItem'
 import {staffInfo,staffTypeText} from '../data/cardData';
 import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
 import {navArray,settingNavArray} from '../data/navigation';
-import {staffData,staffCollection,staffModel} from '../models/staffData';
+//import {staffData,staffCollection,staffModel} from '../models/staffData';
+import {staffData,staffCollection,staffModel} from '../models/staff';
 import {vehicleModel,vehicleData,vehicleCollection} from '../models/vehicleData'
 import {taskModel,taskList} from '../models/taskData'
 import {completedtaskModel,completedtaskList} from '../models/CompletedTaskData'

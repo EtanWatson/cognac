@@ -14,17 +14,18 @@ const settingCheckMinx ={
             }
         };
         let selectItemKeys =this.state.selectItemKeys;
+        let cardKey =this.state.cardKey;
         if(selectItemKeys.length < 5){
             if(e.target.checked){
                 selectItemKeys.push(e.target.value);
-                var selectedArrayTemp = this.handelAtOfName(selectItemKeys);
+                var selectedArrayTemp = this.handelAtOfName(cardKey,selectItemKeys);
                 this.setState({
                     selectItemKeys:selectItemKeys,
                     selectedArray:selectedArrayTemp
                 })
             }else{
                 selectItemKeys.remove(e.target.value);
-                var selectedArrayTemp =this.handelAtOfName(selectItemKeys);
+                var selectedArrayTemp =this.handelAtOfName(cardKey,selectItemKeys);
                 this.setState({
                     selectItemKeys:selectItemKeys,
                     selectedArray:selectedArrayTemp
@@ -37,7 +38,7 @@ const settingCheckMinx ={
                 })
             }else{
                 selectItemKeys.remove(e.target.value);
-                var selectedArrayTemp = this.handelAtOfName(selectItemKeys);
+                var selectedArrayTemp = this.handelAtOfName(cardKey,selectItemKeys);
                 this.setState({
                     selectItemKeys:selectItemKeys,
                     selectedArray:selectedArrayTemp
@@ -53,9 +54,8 @@ const settingCheckMinx ={
             }
         }
     },
-    handelAtOfName(array){
+    handelAtOfName(cardKey,array){
         let arrayTemp = [];
-        let cardKey = this.state.cardKey;
         for(let i = 0; i < array.length ; i++){
             for(let j = 0 ; j < cardKey.length ; j ++){
                 if(array[i] == cardKey [j].name){
@@ -72,6 +72,7 @@ const settingCheckMinx ={
         for(let i = 0 ; i < cardKey.length ; i ++){
             let flag = true;
             for(let j = 0 ; j < array.length ; j ++){
+                console.log(cardKey[i].name,array[j])
                 if(cardKey[i].name == array[j]){
                     flag = false;
                     break;

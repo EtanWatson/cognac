@@ -5,9 +5,10 @@ const cardTypeMinx = {
         let typeIcon = ''; //卡片底部类别icon
         let typeText = '';//卡片文案
         let colorIcon ='';//卡片颜色
-        let type = item.type;
+        let type = item.role;
+       console.log(type);
         if(this.props.pageShow == 'staff'){
-            if(item.outAge.value ==1){
+            if(item.nonUse ==1){
                 colorIcon = "/img/card_title_stop.png";
                 typeIcon = <img src="/img/icon_stop.png" />;
                 switch (type){
@@ -42,7 +43,7 @@ const cardTypeMinx = {
             }
 
         }else{
-            if(item.outAge.value ==1){
+            if(item.nonUse ==1){
                 colorIcon = "/img/card_title_stop.png";
                 typeIcon = <img src="icon_stop.png" />;
                 switch (type){

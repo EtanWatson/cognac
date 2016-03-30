@@ -231,5 +231,5 @@ for(let i = 0; i < 100 ; i++){
 let staffData = new staffCollection(staffDataModel);
 let staffModel = new staff();
 export{
-    staffModel,staffData,staffCollection
+    staffModel,staffData,staffCollection,staffDataModel
 }

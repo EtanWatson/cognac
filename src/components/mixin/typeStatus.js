@@ -44,8 +44,7 @@ const typeStatusStaffMixin = {
       }
       let isDriver = '';
       let typeStatus = '';
-      console.log(staffInfo.type);
-      switch (staffInfo.type){
+      switch (staffInfo.role){
           //司机
           case '0':
               isDriver = (
@@ -61,8 +60,8 @@ const typeStatusStaffMixin = {
                                   <FormItem
                                       {...formItemLayout}
                                       hasFeedback
-                                      label={staffInfo.drivingLicense.aliasName+"："} labelCol={{span: 8}} required>
-                                      <AntInput type="text" placeholder="" {...validateForm.drivingLicenseProps} />
+                                      label="驾驶证号：" labelCol={{span: 8}} required>
+                                      <AntInput type="text" placeholder="" {...validateForm.licenseNo} />
                                   </FormItem>
                               </Col>
                               <Col span = "12"></Col>
@@ -72,8 +71,8 @@ const typeStatusStaffMixin = {
                                   <FormItem
                                       hasFeedback
                                       {...formItemLayout}
-                                      label={staffInfo.validDate.aliasName+"："} labelCol={{span: 8}} required>
-                                      <DatePicker {...getFieldProps('validDate')} />
+                                      label="有效期：" labelCol={{span: 8}} required>
+                                      <DatePicker {...getFieldProps('expirationDate')} />
                                   </FormItem>
                               </Col>
                               <Col span = "12"></Col>
@@ -83,8 +82,8 @@ const typeStatusStaffMixin = {
                                   <FormItem
                                       {...formItemLayout}
                                       hasFeedback
-                                      label={staffInfo.authorizedBy.aliasName+"："} labelCol={{span: 8}} required>
-                                      <AntInput type="text" placeholder="" {...validateForm.authorizedByProps} />
+                                      label="发证机关：" labelCol={{span: 8}} required>
+                                      <AntInput type="text" placeholder="" {...validateForm.licensingOrganization} />
                                   </FormItem>
                               </Col>
                               <Col span = "12"></Col>
@@ -94,8 +93,8 @@ const typeStatusStaffMixin = {
                                   <FormItem
                                       {...formItemLayout}
                                       hasFeedback
-                                      label={staffInfo.annualExamination.aliasName+"："} labelCol={{span: 8}} required>
-                                      <DatePicker  {...getFieldProps('annualExamination')}/>
+                                      label="年审到期：" labelCol={{span: 8}} required>
+                                      <DatePicker  {...getFieldProps('auditDate')}/>
                                   </FormItem>
                               </Col>
                               <Col span = "12"></Col>
@@ -105,8 +104,8 @@ const typeStatusStaffMixin = {
                                   <FormItem
                                       {...formItemLayout}
                                       hasFeedback
-                                      label={staffInfo.startLicenseData.aliasName+"："} labelCol={{span: 8}} required>
-                                      <DatePicker  {...getFieldProps('startLicenseData')} />
+                                      label="领证日期：" labelCol={{span: 8}} required>
+                                      <DatePicker  {...getFieldProps('licensingDate')} />
                                   </FormItem>
                               </Col>
                               <Col span = "12"></Col>
@@ -115,7 +114,7 @@ const typeStatusStaffMixin = {
                               <Col span = "12">
                                   <FormItem
                                       {...formItemLayout}
-                                      label={staffInfo.licenseType.aliasName+"："} labelCol={{span: 8}} required>
+                                      label="准驾类型：" labelCol={{span: 8}} required>
                                       <Cascader  options={licenseTypeOptions} expandTrigger="hover" popupClassName="form-cascader"
                                                  displayRender={displayRender}  {...getFieldProps('licenseType')} />
                                   </FormItem>

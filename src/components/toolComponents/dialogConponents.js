@@ -12,6 +12,7 @@ import {staffs} from "../../models/staffInfo";
 import {validateMixin} from './../mixin/validate';
 import {typeStatusStaffMixin} from './../mixin/typeStatus';
 import {advanceSearchMixin} from  './../mixin/advanceSearch';
+import {utilMixin} from './../mixin/util'
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -22,8 +23,36 @@ const formItemLayout = {
 };
 let EditTable = React.createClass({
     mixins:[BackboneReactMixin,validateMixin,typeStatusStaffMixin],
-    //
+    getInitialState(){
+      return{
+          //测试数据
+          editInfo:{
+              id:'1001',
+              avatar :'/img/icon_user_head_50_50_have_1.png',
+              code : 'code',
+              name :'王宇亭$',
+              sex:'0',
+              department:'部门',
+              duties:'职务',
+              IDCardNo:'身份证号',
+              tel:'w12312',
+              address:'地址',
+              employmentDate:'12313',
+              comment:'321312',
+              nonUse:'0',
+              status:'0',
+              role:'0',
+              licenseType:'准驾类型',
+              licenseNo:'你好',
+              expirationDate:'dsasda',
+              licensingOrganization:'dasda',
+              auditDate:'sda',
+              licensingDate:'ads'}
+      }
+    },
     componentDidMount(){
+        //发送请求获取数据
+        //对应aliasName
     },
     componentWillReceiveProps(){
 
@@ -32,14 +61,6 @@ let EditTable = React.createClass({
         e.preventDefault();
         console.log('收到表单值：', this.props.form.getFieldsValue());
         let modifyForm  = this.props.form.getFieldsValue();
-        //for( var modifyItem in modifyForm){
-        //    if(modifyForm[modifyItem]){
-        //        if(typeof modifyForm[modifyItem]=='object'){
-        //            modifyForm[modifyItem]=modifyForm[modifyItem].toString();
-        //        }
-        //        this.getModel().get(modifyItem).value=modifyForm[modifyItem]
-        //    }
-        //}
         this.props.callbackParentOfEdit('edit');
     },
     handleCancel(){
@@ -57,9 +78,9 @@ let EditTable = React.createClass({
         }
     },
     render() {
-        const  validateForm = this.validateFormEdit(this.state.model,this.props.form.getFieldProps);
+        const  validateForm = this.validateFormEdit(this.props.form.getFieldProps);
         const  getFieldProps = validateForm.getFieldProps;
-        const  staffInfo = validateForm.staffInfo;
+        const  staffInfo = this.state.editInfo;
         console.log(staffInfo);
         let isDriver = this.typeStatusInfo(staffInfo,validateForm).isDriver;
         let typeStatus =this.typeStatusInfo(staffInfo,validateForm).typeStatus;
@@ -79,11 +100,11 @@ let EditTable = React.createClass({
                                         <img src="/img/icon_userpic.png" className = "add-img-front" />
                                     </Upload>
                                 </FormItem>*/}
-                                <img src= {staffInfo.headImg} className = "header-img" />
+                                <img src= {staffInfo.avatar} className = "header-img" />
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>{staffInfo.name.value}</h3>
+                            <h3>{staffInfo.name}</h3>
                             {typeStatus}
                         </Col>
                    </Row>
@@ -94,8 +115,8 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                hasFeedback={true}
-                               label={staffInfo.code.aliasName+"："} labelCol={{span: 8}} required>
-                               <AntInput type="text" {...validateForm.codeProps} placeholder="" />
+                               label="编码：" labelCol={{span: 8}} required>
+                               <AntInput type="text" {...validateForm.code} placeholder="" />
                            </FormItem>
                        </Col>
                        <Col span = '12'></Col>
@@ -104,15 +125,15 @@ let EditTable = React.createClass({
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.section.aliasName+"："} labelCol={{span: 8}}>
-                               <AntInput type="text" {...getFieldProps('section',{initialValue:staffInfo.section.value})} placeholder=""/>
+                               label="部门：" labelCol={{span: 8}}>
+                               <AntInput type="text" {...getFieldProps('department',{initialValue:staffInfo.department})} placeholder=""/>
                            </FormItem>
                        </Col>
                        <Col span = '12'>
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.gender.aliasName+"："} required>
-                               <RadioGroup {...getFieldProps('gender', { initialValue: "0" })}>
+                               label="性别：" required>
+                               <RadioGroup {...getFieldProps('sex', { initialValue: "0" })}>
                                    <Radio value="0">男</Radio>
                                    <Radio value="1">女</Radio>
                                </RadioGroup>
@@ -124,8 +145,8 @@ let EditTable = React.createClass({
                            <FormItem
                                {...formItemLayout}
                                hasFeedback
-                               label={staffInfo.idNumber.aliasName+"："} labelCol={{span: 8}} required>
-                               <AntInput type="text" placeholder="" {...validateForm.idNumberProps} />
+                               label="身份证号：" labelCol={{span: 8}} required>
+                               <AntInput type="text" placeholder="" {...validateForm.IDCardNo} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -134,8 +155,8 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.address.aliasName+"："} labelCol={{span: 8}}>
-                               <AntInput type="text" placeholder="" {...getFieldProps('address',{initialValue:staffInfo.address.value})} />
+                               label="地址：" labelCol={{span: 8}}>
+                               <AntInput type="text" placeholder="" {...getFieldProps('address',{initialValue:staffInfo.address})} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -144,16 +165,16 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.joinData.aliasName+"："} labelCol={{span: 8}} >
-                               <DatePicker  {...getFieldProps('joinData',{initialValue:'2015-01-01'})}/>
+                               label="入职日期：" labelCol={{span: 8}} >
+                               <DatePicker  {...getFieldProps('employmentDate',{initialValue:'2015-01-01'})}/>
                            </FormItem>
                        </Col>
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
                                hasFeedback
-                               label={staffInfo.phoneNumber.aliasName+"："} required>
-                               <AntInput type="text" placeholder="" {...validateForm.phoneNumberProps} />
+                               label="电话号码：" required>
+                               <AntInput type="text" placeholder="" {...validateForm.tel} />
                            </FormItem>
                        </Col>
                    </Row>
@@ -161,8 +182,8 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.remark.aliasName+"："} labelCol={{span: 8}} >
-                               <AntInput type="text" placeholder="" {...getFieldProps('remark',{initialValue:staffInfo.remark.value})} />
+                               label="备注：" labelCol={{span: 8}} >
+                               <AntInput type="text" placeholder="" {...getFieldProps('comment',{initialValue:staffInfo.comment})} />
                            </FormItem>
                        </Col>
                        <Col span = "12"></Col>
@@ -171,9 +192,9 @@ let EditTable = React.createClass({
                        <Col span = "12">
                            <FormItem
                                {...formItemLayout}
-                               label={staffInfo.outAge.aliasName+":"} labelCol={{span: 8}}>
+                               label="是否停用：" labelCol={{span: 8}}>
                                <label className = "isOutage">
-                                   <Checkbox {...getFieldProps('outAge')} />
+                                   <Checkbox {...getFieldProps('nonUse')} />
                                </label>
                            </FormItem>
                        </Col>
@@ -199,6 +220,43 @@ EditTable = Form.create()(EditTable);
 
 let EditTableVehicle = React.createClass({
     mixins:[BackboneReactMixin],
+    getInitialState(){
+      return{
+          editInfo:{
+              id:i,
+              avatar:'/img/vehicle-header.png',
+              label:'车辆代号',
+              code:'编码',
+              brand: '车辆品牌',
+              model:'车辆型号',
+              type:'0',
+              tags:'车辆标签',
+              color:'车辆颜色',
+              capacity:'载重量',
+              seats:'座位数',
+              oilWear:'油耗',
+              enduranceMileage:'续航里程',
+              startMileage:'初始里程',
+              engineNo:'发动机号',
+              vin:'车架号',
+              vehicleNo:'车牌号',
+              purchaseCompany:'购入单位',
+              purchasePrice:'购入价格',
+              purchaseDate:'购入日期',
+              driverName:'司机',
+              driverTel:'手机手机',
+              department:'所属部门',
+              vehicleOwner:'所属车主',
+              vehicleOwnerTel:'车主手机',
+              vehicleGroup:'所属车队',
+              oilCardNo:'油卡编号',
+              electricCardNo:'电卡编号',
+              status:'0',
+              nonUse:'是否停用',
+              comment:'备注'
+          }
+      }
+    },
     componentDidMount(){
     },
     handleSubmit(e) {
@@ -211,24 +269,24 @@ let EditTableVehicle = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
-        let cardInfo =this.state.model;
+        let cardInfo =this.state.editInfo;
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'add-form'>
                 <div className = "up-info">
                     <Row type = 'flex' justify="center">
                         <Col span = "8">
                             <div className = "header-icon">
-                                <img src= {cardInfo.headImg} />
+                                <img src= {cardInfo.avatar} />
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>{cardInfo.vehicleCode.value}</h3>
+                            <h3>{cardInfo.code}</h3>
                             <Row type = "flex">
                                 <Col span = "4">
-                                    <div className = "type-text right">{cardInfo.vehicleNumber.aliasName}</div>
+                                    <div className = "type-text right">车牌号</div>
                                 </Col>
                                 <Col span = "12">
-                                    <div className = "status-text right">{cardInfo.vehicleNumber.value}</div>
+                                    <div className = "status-text right">{cardInfo.vehicleNo}</div>
                                 </Col>
                             </Row>
                         </Col>
@@ -240,14 +298,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆品牌：">
-                                <AntInput type="text" {...getFieldProps('vehicleBrand')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('brand')} placeholder="" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="司机：" >
-                                <AntInput type="text" {...getFieldProps('driver')} placeholder=""  />
+                                <AntInput type="text" {...getFieldProps('driverName')} placeholder=""  />
                             </FormItem>
                         </Col>
                     </Row>
@@ -256,14 +314,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆型号：">
-                                <AntInput type="text" {...getFieldProps('vehicleModel')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('model')} placeholder="" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="司机手机：">
-                                <AntInput type="text" {...getFieldProps('driverPhone')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('driverTel')} placeholder="" />
                             </FormItem>
                         </Col>
                     </Row>
@@ -272,14 +330,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆类型：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleType')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('type')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所在部门：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('section')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('department')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -288,14 +346,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="标签：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('tag')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('tags')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所属车主：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('onwerPeople')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleOwner')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -311,7 +369,7 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车主手机：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('ownerPhone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleOwnerTel')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -320,14 +378,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="载重（吨）：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleLoad')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('capacity')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所属车队：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('ownerTeam')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleGroup')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -336,14 +394,14 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="座位数：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('seatNumber')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('seats')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="油卡编号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('oilCard')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('oilCardNo')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -352,7 +410,7 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="油耗：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('fuelEfficient')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('oilWear')} />
                                 <span className = "unit">升/百公里</span>
                             </FormItem>
                         </Col>
@@ -360,7 +418,7 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="电卡编号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('electricCard')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('oilCardNo')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -369,7 +427,7 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="续航里程：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('continuation')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('enduranceMileage')} />
                                 <span className = "unit">KM</span>
                             </FormItem>
                         </Col>
@@ -377,7 +435,7 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆状态：">
-                                <Select defaultValue="0" {...getFieldProps('vehicleStatus')}>
+                                <Select defaultValue="0" {...getFieldProps('status')}>
                                     <Option value="0">可用</Option>
                                     <Option value="1">不可用</Option>
                                 </Select>
@@ -389,7 +447,7 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="初始里程：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('initialMileage')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('startMileage')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -397,7 +455,7 @@ let EditTableVehicle = React.createClass({
                                 {...formItemLayout}
                                 label="是否停用：" >
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('outAge')} />
+                                    <Checkbox {...getFieldProps('nonUse')} />
                                 </label>
                             </FormItem>
                         </Col>
@@ -407,27 +465,27 @@ let EditTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="发动机号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('engineCode')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('engineNo')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="车架号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('frameCode')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vin')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入单位：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('buyCompany')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('purchaseCompany')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入价格：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('price')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('purchasePrice')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入日期："  >
-                                <DatePicker  {...getFieldProps('buyData')} />
+                                <DatePicker  {...getFieldProps('purchaseDate')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -435,7 +493,7 @@ let EditTableVehicle = React.createClass({
                                 {...formItemLayout}
                                 wrapperCol={{span:14,offset:8}}
                                 label="备注：">
-                                <AntInput  type="textarea"   {...getFieldProps('remark')} placeholder="请输入..." id="textarea-more" name="textarea" className = 'vehicle-more'/>
+                                <AntInput  type="textarea"   {...getFieldProps('comment')} placeholder="请输入..." id="textarea-more" name="textarea" className = 'vehicle-more'/>
                             </FormItem>
 
                         </Col>
@@ -1640,6 +1698,7 @@ let LookTableVehicle = React.createClass({
     },
     render() {
         const { getFieldProps } = this.props.form;
+        console.log(this.state.model);
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'look-form'>
                 <div className = "up-info">

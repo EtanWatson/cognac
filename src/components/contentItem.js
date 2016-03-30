@@ -14,7 +14,10 @@ import {staffModel} from '../models/staffData';
 import {vehicleModel} from '../models/vehicleData'
 import FixedDataTable from 'fixed-data-table';
 import {cardSelectMinx} from './mixin/cardSelect';
-import {cardTypeMinx} from './mixin/cardType'
+import {cardTypeMinx} from './mixin/cardType';
+import {settingCheckMinx} from './mixin/settingCheck';
+//导入对照表
+import {cardsDriver,cardsStaff,cardVehicle} from '../models/cardKey'
 const {Table, Column, Cell} = FixedDataTable;
 const confirm = Modal.confirm;
 //card hover状态
@@ -103,7 +106,7 @@ const HoverItem = React.createClass({
 });
 //card显示组件
 const Card = React.createClass({
-   mixins:[BackboneReactMixin,cardTypeMinx],
+   mixins:[BackboneReactMixin,cardTypeMinx,settingCheckMinx],
     getInitialState(){
        return {
            isOpen:"item-close",
@@ -114,9 +117,42 @@ const Card = React.createClass({
            isSelectAll:false,
            isDelete:false,
            isLook:false,
-           passLookEdit:false
+           passLookEdit:false,
+           showItem:[]
        }
-   } ,
+   },
+    componentDidMount(){
+        //发送请求 获取数据
+        let showItemKeys = [];
+        let showItem = [];
+        switch (this.props.pageShow){
+            case 'staff':
+                switch (this.state.model.role){
+                    //发送ajax请求获取司机展示字段
+                    case '0':
+
+                         showItemKeys = ['department','tel','licenseType','licenseNo','comment'];
+                         showItem = this.handelAtOfName(cardsDriver,showItemKeys);
+                        break;
+                    default:
+                        showItemKeys = ['department','tel','comment'];
+                        showItem = this.handelAtOfName(cardsStaff,showItemKeys);
+                        break;
+                }
+                for(let i = 0 ; i < showItem.length ; i++){
+                    showItem[i].value =this.state.model[showItem[i].name]
+                }
+                break;
+            case 'vehicle':
+                    showItemKeys = ['vehicleCode','vehicleNumber','vehicleType','vehicleLoad','seatNumber'];
+                    showItem = this.handelAtOfName(cardVehicle,showItemKeys);
+                break;
+        }
+        console.log(showItem);
+        this.setState({
+            showItem:showItem
+        })
+    },
     componentWillReceiveProps(nextProps){
         if(nextProps.toggleBatch){
             $('.card-select-img').removeClass('is-display');
@@ -146,9 +182,6 @@ const Card = React.createClass({
             $('.card-select-img').addClass('is-display')
         }
     },
-    //componentWillUnmount(){
-    //    PubSub.unsubscribe(this.pubsub_tokenAll);
-    //},
     handleMouseOver(){
         this.setState({
             isOpen:"item-open",
@@ -220,24 +253,10 @@ const Card = React.createClass({
             })
         }
     },
-    handleToggleBatch(){
-
-    },
    render(){
        let item = this.state.model;
        var cardType = this.cardType(item);
-       //遍历卡片展示条目
-       var findShowItem = function(){
-           var showItem = [];
-           for(let attributeName in this.getModel().attributes){
-               if(this.getModel().get(attributeName).isShowInCard){
-                   showItem.push(this.getModel().get(attributeName))
-               }
-           }
-           return showItem
-       }.bind(this);
-       //卡片展示条目
-       var showItem = findShowItem().map(function(attrItem,index){
+       var showItem = this.state.showItem.map(function(attrItem,index){
            return(
                <ul className = "list-inline" key={index}>
                    <li className ='item-space'><h5>{attrItem.aliasName}</h5></li>
@@ -259,10 +278,10 @@ const Card = React.createClass({
                              onMouseLeave={this.handleMouseLeaveIcon}
                              onClick={this.handleClickIcon}/>
                        <li className = "header-img">
-                           <img src = {item.headImg}/>
+                           <img src = {item.avatar}/>
                        </li>
                        <li className = "header-left">
-                           <h3 className = "name">{item.name?item.name.value:item.vehicleCode.value}</h3>
+                           <h3 className = "name">{item.name}</h3>
                            <ul className = "list-inline">
                                <li className = "circle circle-g">
                                    <img src="/img/icon_trip_normal.png" />
@@ -565,8 +584,9 @@ const Content = React.createClass({
           listHeaderCopy:[],
           //listModel:staffModel,
           toggleBatch:false,
-          isSelectAll:false
-    }
+          isSelectAll:false,
+          showItemKeys:[]
+        }
     },
     componentWillMount(){
         let listHeadTemp = [];
@@ -583,7 +603,7 @@ const Content = React.createClass({
         this.setState({
             listHeader:listHeadTemp,
             listHeaderCopy:listHeadTemp
-        })
+        });
     },
     componentDidMount(){
         this.showWay_token = PubSub.subscribe('showWay',function(topic,showWay){
@@ -648,6 +668,7 @@ const Content = React.createClass({
         }.bind(this));
     },
     componentWillUnmount(){
+        //this.serverRequest.abort();
         PubSub.unsubscribe(this.showWay_token);
         PubSub.unsubscribe(this.sendMessage_token);
         PubSub.unsubscribe(this.pubsub_tokenBatch);

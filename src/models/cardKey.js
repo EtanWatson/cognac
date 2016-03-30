@@ -9,335 +9,416 @@ var cardKey = Backbone.Model.extend({
 var cardList = Backbone.Collection.extend({
     model:cardKey
 });
+//对照表
 var cardsDriver =[
     {
-        name:'Code',
-        value:'编码'
+        index:'1',
+        name:'code',
+        aliasName:'编码',
+        value:''
     },
     {
-        name:'Section',
-        value:'所在部门'
+        index:'2',
+        name:'name',
+        aliasName:'姓名',
+        value:''
     },
     {
-        name:'Gender',
-        value:'性别'
+        index:'3',
+        name:'sex',
+        aliasName:'性别',
+        value:''
     },
     {
-        name:'id',
-        value:'身份证号'
+        index:'4',
+        name:'department',
+        aliasName:'所在部门',
+        value:''
     },
     {
-        name:'phoneNumber',
-        value:'手机'
+        index:'5',
+        name:'duties',
+        aliasName:'职务',
+        value:''
     },
     {
+        index:'6',
+        name:'IDCardNo',
+        aliasName:'身份证号码',
+        value:''
+    },
+    {
+        index:'7',
+        name:'tel',
+        aliasName:'手机号码',
+        value:''
+    },
+    {
+        index:'8',
         name:'address',
-        value:'家庭住址'
+        aliasName:'家庭住址',
+        value:''
     },
     {
-        name:'joinData',
-        value:'入职日期'
+        index:'9',
+        name:'employmentDate',
+        aliasName:'入职日期',
+        value:''
     },
     {
-        name:'remark',
-        value:'备注'
+        index:'10',
+        name:'comment',
+        aliasName:'备注',
+        value:''
     },
     {
-        name:'driverLicense',
-        value:'驾驶证号'
+        index:'14',
+        name:'licenseNo',
+        aliasName:'驾驶证号',
+        value:''
     },
     {
-        name:'getData',
-        value:'领证日期'
-    },
-    {
-        name:'expiry',
-        value:'有效期限'
-    },
-    {
+        index:'15',
         name:'licenseType',
-        value:'准驾车型'
+        aliasName:'驾照类型',
+        value:''
     },
     {
-        name:'AuthorizedBy',
-        value:'发证机关'
+        index:'16',
+        name:'expirationDate',
+        aliasName:'有效期限',
+        value:''
     },
     {
-        name:'drivingAge',
-        value:'驾龄'
+        index:'17',
+        name:'licensingOrganization',
+        aliasName:'发证机关',
+        value:''
     },
     {
-        name:'annualExamination',
-        value:'年审到期'
+        index:'18',
+        name:'auditDate',
+        aliasName:'年审到期',
+        value:''
+    },
+    {
+        index:'19',
+        name:'licensingDate',
+        aliasName:'领证日期',
+        value:''
     }
 ];
 
 const cardsStaff =[
     {
-        index:'0',
-        name:'code',
-        value:'编码'
-    },
-    {
         index:'1',
-        name:'Section',
-        value:'所在部门'
-    },
-    {
-        index:'2',
-        name:'Gender',
-        value:'性别'
+        name:'code',
+        aliasName:'编码',
+        value:''
     },
     {
         index:'3',
-        name:'idNumber',
-        value:'身份证号'
+        name:'sex',
+        aliasName:'性别',
+        value:''
     },
     {
         index:'4',
-        name:'phoneNumber',
-        value:'手机'
-    },
-    {
-        index:'5',
-        name:'address',
-        value:'家庭住址'
+        name:'department',
+        aliasName:'所在部门',
+        value:''
     },
     {
         index:'6',
-        name:'joinData',
-        value:'入职日期'
+        name:'IDCardNo',
+        aliasName:'身份证号',
+        value:''
     },
     {
         index:'7',
-        name:'remark',
-        value:'备注'
+        name:'tel',
+        aliasName:'手机号码',
+        value:''
+    },
+    {
+        index:'8',
+        name:'address',
+        aliasName:'家庭住址',
+        value:''
+    },
+    {
+        index:'9',
+        name:'employmentDate',
+        aliasName:'入职日期',
+        value:''
+    },
+    {
+        index:'10',
+        name:'comment',
+        aliasName:'备注',
+        value:''
     }
 ];
 var cardVehicle = [
     {
-        index:'0',
-        name:'vehicleCode',
-        value:'车辆编码'
-    },
-    {
-        index:'1',
-        name:'vehicleNumber',
-        value:'车牌号'
-    },
-    {
         index:'2',
-        name:'vehicleBrand',
-        value:'车辆品牌'
+        name:'code',
+        aliasName:'编码',
+        value:''
     },
     {
         index:'3',
-        name:'vehicleModel',
-        value:'车辆型号'
+        name:'brand',
+        aliasName:'车辆品牌',
+        value:''
     },
     {
         index:'4',
-        name:'vehicleType',
-        value:'车辆类型'
+        name:'model',
+        aliasName:'车辆型号',
+        value:''
     },
     {
         index:'5',
-        name:'tag',
-        value:'标签'
+        name:'type',
+        aliasName:'车辆类型',
+        value:''
     },
     {
         index:'6',
-        name:'color',
-        value:'颜色'
+        name:'tags',
+        aliasName:'标签',
+        value:''
     },
     {
         index:'7',
-        name:'vehicleLoad',
-        value:'载重（吨）'
+        name:'color',
+        aliasName:'颜色',
+        value:''
     },
     {
         index:'8',
-        name:'vehicleStatus',
-        value:'车辆状态'
+        name:'capacity',
+        aliasName:'载重（吨）',
+        value:''
     },
     {
         index:'9',
-        name:'seatNumber',
-        value:'座位数'
-    },
-    {
-        index:'9',
-        name:'fuelEfficient',
-        value:'油耗'
+        name:'seats',
+        aliasName:'座位数',
+        value:''
     },
     {
         index:'10',
-        name:'ownerPhone',
-        value:'车主手机'
+        name:'oilWear',
+        aliasName:'油耗',
+        value:''
     },
     {
         index:'11',
-        name:'ownerTeam',
-        value:'所属车队'
+        name:'enduranceMileage',
+        aliasName:'续航里程',
+        value:''
     },
     {
         index:'12',
-        name:'oilCard',
-        value:'油卡编号'
+        name:'startMileage',
+        aliasName:'初始里程',
+        value:''
     },
     {
         index:'13',
-        name:'continuation',
-        value:'续航里程（电车）'
+        name:'engineNo',
+        aliasName:'发动机号',
+        value:''
     },
     {
         index:'14',
-        name:' initialMileage',
-        value:'初始里程'
+        name:'vin',
+        aliasName:'车架号',
+        value:''
     },
     {
         index:'15',
-        name:'engineCode',
-        value:'发动机号'
+        name:'purchaseCompany',
+        aliasName:'购入单位',
+        value:''
     },
     {
         index:'16',
-        name:'frameCode',
-        value:'车架号'
+        name:'purchasePrice',
+        aliasName:'购入价格',
+        value:''
     },
     {
         index:'17',
-        name:'buyCompany',
-        value:'购入单位'
+        name:'purchaseDate',
+        aliasName:'购入日期',
+        value:''
     },
     {
         index:'18',
-        name:'price',
-        value:'购入价格'
+        name:'driverName',
+        aliasName:'司机',
+        value:''
     },
     {
         index:'19',
-        name:'buyData',
-        value:'购入日期'
+        name:'driverTel',
+        aliasName:'司机手机',
+        value:''
     },
     {
         index:'20',
-        name:'driver',
-        value:'司机'
+        name:'department',
+        aliasName:'所属部门',
+        value:''
     },
     {
         index:'21',
-        name:'driverPhone',
-        value:'司机手机'
+        name:'vehicleOwner',
+        aliasName:'所属车主',
+        value:''
     },
     {
         index:'22',
-        name:'section',
-        value:'所属部门'
+        name:'vehicleGroup',
+        aliasName:'所属车队',
+        value:''
     },
     {
         index:'23',
-        name:'onwerPeople',
-        value:'所属车主'
+        name:'oilCardNo',
+        aliasName:'油卡编号',
+        value:''
     },
     {
         index:'24',
-        name:'outAge',
-        value:'是否停用'
+        name:'electricCardNo',
+        aliasName:'电卡编号',
+        value:''
     },
     {
         index:'25',
-        name:'remark',
-        value:'备注'
+        name:'status',
+        aliasName:'车辆状态',
+        value:''
     },
     {
         index:'26',
-        name:' electricCard',
-        value:'电卡编号'
+        name:'nonUse',
+        aliasName:'是否停用',
+        value:''
+    },
+    {
+        index:'27',
+        name:'comment',
+        aliasName:'备注',
+        value:''
     }
 ];
 var cardTask = [
     {
         index:'0',
-        name:'carUser',
-        value:'用车人'
+        name:'vehicleCount',
+        aliasName:'车辆总数',
+        value:''
+    },
+    {
+        index:'0',
+        name:'code',
+        aliasName:'编码',
+        value:''
     },
     {
         index:'1',
-        name:'userDate',
-        value:'用车时间'
+        name:'destination',
+        aliasName:'目的地',
+        value:''
     },
     {
         index:'2',
-        name:'useSection',
-        value:'用车部门'
+        name:'vehicleUser',
+        aliasName:'用车人',
+        value:''
     },
     {
         index:'3',
-        name:'useCase',
-        value:'用车原因'
+        name:'driverReturnCount',
+        aliasName:'已回车',
+        value:''
     },
     {
         index:'4',
-        name:'destination',
-        value:'目的地'
+        name:'vehicleUseTime',
+        aliasName:'用车时间',
+        value:''
     },
     {
         index:'5',
-        name:'aboutTime',
-        value:'估计用时'
+        name:'costTime',
+        aliasName:'估计用时',
+        value:''
     },
     {
         index:'6',
-        name:'followNum',
-        value:'随车人数'
+        name:'vehicleUseReason',
+        aliasName:'用车原因',
+        value:''
     },
     {
         index:'7',
-        name:'drawOutTime',
-        value:'出车时间'
+        name:'applyForVehicleModel',
+        aliasName:'申请车型',
+        value:''
     },
     {
         index:'8',
-        name:'applyCarType',
-        value:'申请车型'
+        name:'passengers',
+        aliasName:'随车人数',
+        value:''
     },
     {
         index:'9',
-        name:'drawInTime',
-        value:'回车时间'
+        name:'comment',
+        aliasName:'用车备注',
+        value:''
     },
     {
         index:'10',
-        name:'vehicleNumber',
-        value:'车牌号'
-    },
-    {
-        index:'11',
-        name:'collectionPosition',
-        value:'取车位置'
-    },
-    {
-        index:'12',
-        name:'cycleTask',
-        value:'周期任务'
-    },
-    {
-        index:'13',
-        name:'outCarRemark',
-        value:'出车备注'
-    },
-    {
-        index:'14',
-        name:'vehicleCount',
-        value:'出车数'
+        name:'scheduledMission',
+        aliasName:'周期任务',
+        value:''
     },
     {
         index:'15',
-        name:"hasReturn",
-        value:'已回车'
+        name:'mileage',
+        aliasName:'出车里程',
+        value:''
+    },
+    {
+        index:'16',
+        name:"returnDate",
+        aliasName:'预计回车时间',
+        value:''
+    },
+    {
+        index:'17',
+        name:'driveOutTime',
+        aliasName:'出车时间',
+        value:''
+    },
+    {
+        index:'18',
+        name:'placement',
+        aliasName:'取车位置',
+        value:''
+    },
+    {
+        index:'19',
+        name:'vehicleNo',
+        aliasName:'车牌号',
+        value:''
     }
-
-
 ];
 export{cardList,cardsDriver,cardsStaff,cardVehicle,cardTask}

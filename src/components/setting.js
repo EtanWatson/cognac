@@ -74,7 +74,7 @@ const SettingCard = React.createClass({
        var cardContent = selectedArray.map((attribute,index)=>{
            return(
                    <ul className = "list-inline"  key={index}>
-                       <li><h5>{attribute.value+'：'}</h5></li>
+                       <li><h5>{attribute.aliasName+'：'}</h5></li>
                        <li><h5>-</h5></li>
                    </ul>
            )
@@ -111,7 +111,7 @@ const DriverSetting = React.createClass({
     mixins:[settingCheckMinx],
     getInitialState(){
         return{
-            selectItemKeys:['code','phoneNumber','remark','driverLicense','licenseType'],
+            selectItemKeys:['code','tel','comment','licenseNo','licenseType'],
             selectedArray:[]
         }
     },
@@ -119,9 +119,9 @@ const DriverSetting = React.createClass({
         router: React.PropTypes.object.isRequired
     },
     componentDidMount(){
-        console.log('driverSettingMount');
         PubSub.publish('driverSettingMount','');
-        let selectArray = this.handelAtOfName(this.state.selectItemKeys);
+        //发送ajax请求 更新selectItems
+        let selectArray = this.handelAtOfName(this.state.cardKey,this.state.selectItemKeys);
         this.setState({
             selectedArray:selectArray
         })
@@ -136,6 +136,9 @@ const DriverSetting = React.createClass({
     componentWillUnmount(){
         BackboneReactMixin.off(this);
     },
+    handleClick(){
+
+    },
     render(){
         let generateSelectList= function(){
             let cardSelectItem = this.state.cardKey.map((item,index)=>{
@@ -143,7 +146,7 @@ const DriverSetting = React.createClass({
                     <div className = "item-space" key={index}>
                         <lebal >
                             <Checkbox value={item.name} checked={this.handleDefaultChecked(item.name)} onChange={this.handleCheck}/>
-                            {item.value}
+                            {item.aliasName}
                         </lebal>
                     </div>
                 )
@@ -176,7 +179,7 @@ const DriverSetting = React.createClass({
                 </Row>
                 <Row type = 'flex' justify = "center" className = "setting-footer">
                     <Col span = "12" className = 'btn-left'>
-                        <Button type="primary" size="large">保存</Button>
+                        <Button type="primary" size="large" onClick = {this.handleClick}>保存</Button>
                     </Col>
                     <Col span = "12" className = 'btn-right'>
                         <Link to="/">
@@ -193,13 +196,14 @@ const StaffSetting = React.createClass({
     mixins:[settingCheckMinx],
     getInitialState(){
        return{
-           selectItemKeys:['code','phoneNumber','remark'],
+           selectItemKeys:['code','tel','comment'],
            selectedArray:[]
        }
     },
     componentDidMount(){
         PubSub.publish('staffSettingMount','');
-        let selectArray = this.handelAtOfName(this.state.selectItemKeys);
+        //发送ajax请求，更新selectItemKeys
+        let selectArray = this.handelAtOfName(this.state.cardKey,this.state.selectItemKeys);
         this.setState({
             selectedArray:selectArray
         })
@@ -214,6 +218,9 @@ const StaffSetting = React.createClass({
     componentWillUnmount(){
         BackboneReactMixin.off(this);
     },
+    handleClick(){
+
+    },
     render(){
         let generateSelectList= function(){
             let cardSelectItem = this.state.cardKey.map((item,index)=>{
@@ -221,7 +228,7 @@ const StaffSetting = React.createClass({
                     <div className = "item-space" key={index}>
                         <lebal >
                             <Checkbox value={item.name} checked={this.handleDefaultChecked(item.name)} onChange={this.handleCheck}/>
-                            {item.value}
+                            {item.aliasName}
                         </lebal>
                     </div>
                 )
@@ -254,7 +261,7 @@ const StaffSetting = React.createClass({
                 </Row>
                 <Row type = 'flex' justify = "center" className = "setting-footer">
                         <Col span = "12" className = 'btn-left'>
-                            <Button type="primary" size="large">保存</Button>
+                            <Button type="primary" size="large" onClick={this.handleClick}>保存</Button>
                         </Col>
                         <Col span = "12" className = 'btn-right'>
                                 <Button type="primary" size="large"  onClick={() => browserHistory.replace('/')}>返回</Button>
@@ -269,13 +276,13 @@ const VehicleSetting = React.createClass({
     mixins:[settingCheckMinx],
     getInitialState(){
         return{
-            selectItemKeys:['vehicleCode','vehicleNumber','vehicleType','vehicleLoad','seatNumber'],
+            selectItemKeys:['code','model','type','capacity','seats'],
             selectedArray:[]
         }
     },
     componentDidMount(){
         PubSub.publish('vehicleSettingMount','');
-        let selectArray = this.handelAtOfName(this.state.selectItemKeys);
+        let selectArray = this.handelAtOfName(this.state.cardKey,this.state.selectItemKeys);
         this.setState({
             selectedArray:selectArray
         })
@@ -299,7 +306,7 @@ const VehicleSetting = React.createClass({
                     <div className =" item-space"  key={index}>
                         <lebal>
                             <Checkbox value={item.name} checked={this.handleDefaultChecked(item.name)} onChange={this.handleCheck}/>
-                            {item.value}
+                            {item.aliasName}
                         </lebal>
                     </div>
                 );
@@ -367,9 +374,9 @@ const TaskSetting = React.createClass({
         return{
             headerColor:'yellow',
             selectItemKeys: {
-            single:['vehicleCount', 'hasReturn', 'drawOutTime', 'outCarRemark', 'carUser', 'destination'],
-            multi:['vehicleCount', 'hasReturn', 'drawOutTime', 'outCarRemark', 'carUser', 'destination'],
-            distributing:['drawOutTime', 'outCarRemark', 'carUser', 'destination', 'aboutTime', 'useCase']
+            single:['vehicleCount', 'driverReturnCount', 'driveOutTime', 'comment', 'vehicleUser', 'destination'],
+            multi:['vehicleCount', 'driverReturnCount', 'driveOutTime', 'comment', 'vehicleUser', 'destination'],
+            distributing:['driveOutTime', 'comment', 'vehicleUser', 'destination', 'costTime', 'vehicleUseReason']
     },
             selectedArray:[]
         }
@@ -394,17 +401,17 @@ const TaskSetting = React.createClass({
     //找出所有卡片显示条目
     findHeaderKey(type){
         let  taskType  = this.state.selectItemKeys[type];
-        let selectArray = this.handelAtOfName(taskType);
+        let selectArray = this.handelAtOfName(this.state.cardKey,taskType);
         selectArray = this.softByIndex(selectArray,'index');
         let headerData = [[],[]];
         selectArray.map(function(item,index){
             if(headerData[0].length < 3){
                 headerData[0].push({
-                    aliasName:item.value
+                    aliasName:item.aliasName
                 })
             }else{
                 headerData[1].push({
-                    aliasName:item.value
+                    aliasName:item.aliasName
                 })
             }
         });
@@ -484,7 +491,7 @@ const TaskSetting = React.createClass({
                                 <div style={{width:'20%',display:'inline-block'}} key={index}>
                                    <label>
                                         <Checkbox onChange = {self.handleOnChange} data-key ={item.name} data-type={type} checked = {self.handleTaskCheck(item.name,taskType)} onChange={self.handleOnChange} />
-                                        {item.value}
+                                        {item.aliasName}
                                    </label>
                                 </div>
                             )
@@ -504,7 +511,7 @@ const TaskSetting = React.createClass({
         let checkboxList = '';   //多选框列表
       if(type == 0){
           notChooseOption =['不可选择项：','出车时间','司机','车牌号','编码'];
-          notChooseOptionKeys = ['hasReturn','vehicleCount','vehicleNumber','drawOutTime','useSection','userDate'];
+          notChooseOptionKeys = ['driverReturnCount','vehicleCount','code','driveOutTime','mileage','vehicleUseTime','vehicleNo'];
           headerData =this.findHeaderKey('single');
           checkboxList = this.handleCheckboxList('single',notChooseOptionKeys);
           cardHeader= <div  className = "setting-task-code yellow">
@@ -514,7 +521,8 @@ const TaskSetting = React.createClass({
                             </div>
                       </div>
       }else if(type == 1){
-          notChooseOptionKeys = ['hasReturn','vehicleCount','drawOutTime','useSection','userDate'];
+          notChooseOptionKeys = ['code','driverReturnCount','vehicleCount','driveOutTime',
+                                'vehicleUseTime','mileage'];
           notChooseOption =['不可选择项：','车辆总数','已回车','出车时间','编码'];
           headerData =this.findHeaderKey('multi');
           checkboxList = this.handleCheckboxList('multi',notChooseOptionKeys);
@@ -526,7 +534,9 @@ const TaskSetting = React.createClass({
                      </div>
       }else{
           notChooseOption =['不可选择项：','出车时间','司机','车牌号','编码'];
-          notChooseOptionKeys =['hasReturn','vehicleCount','vehicleNumber','drawOutTime','userDate','drawInTime','collectionPosition','useCase'];
+          notChooseOptionKeys =['code','driverReturnCount','vehicleCount','driveOutTime',
+                                'returnDate','placement','vehicleUseReason','vehicleNo',
+                                'vehicleUseTime'];
           headerData =this.findHeaderKey('distributing');
           checkboxList = this.handleCheckboxList('distributing',notChooseOptionKeys);
           cardHeader=<div  className = "setting-task-code red">
@@ -578,7 +588,6 @@ const TaskSetting = React.createClass({
         )
     },
     render(){
-        console.log(this.state.selectItemKeys);
         return(
             <div className = 'setting-layout task-setting'>
                 <Row className = "task-setting-content">

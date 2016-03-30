@@ -168,7 +168,6 @@ const ListItem =React.createClass({
         $('.operation-item-btn').removeClass('item-hover');
     },
     handleClick(e){
-        console.log(this.state.showWay);
         this.state.showWay? this.setState({showWay:false}):this.setState({showWay:true});
         if(this.state.showWay){
             PubSub.publish('showWay','card');
