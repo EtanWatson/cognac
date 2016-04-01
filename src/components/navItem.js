@@ -13,12 +13,15 @@ import {vehicleInfo,vehicleTypeText} from '../data/vehicleInfo';
 import {navArray,settingNavArray} from '../data/navigation';
 //import {staffData,staffCollection,staffModel} from '../models/staffData';
 import {staffData,staffCollection,staffModel} from '../models/staff';
-import {vehicleModel,vehicleData,vehicleCollection} from '../models/vehicleData'
-import {taskModel,taskList} from '../models/taskData'
+import {vehicleModel,vehicleData,vehicleCollection} from '../models/vehicle';
+//import {vehicleModel,vehicleData,vehicleCollection} from '../models/vehicleData'
+//import {taskModel,taskList} from '../models/taskData'
 import {completedtaskModel,completedtaskList} from '../models/CompletedTaskData'
 import {TaskArrangement,CompletedArrangement} from './taskArrangement'
 import {TaskContent} from './taskArrangement'
 import { Row, Col ,Collapse,Icon} from 'antd';
+import {cardsDriver,cardsStaff,cardVehicle,cardTask} from '../models/cardKey'
+import {taskData,taskCollection,taskModel} from '../models/task';
 
 //任务管理
 const TaskManage = React.createClass({
@@ -28,7 +31,7 @@ const TaskManage = React.createClass({
     },
     render(){
         return (
-            <TaskContent model = {taskModel} collection={taskList}/>
+            <TaskContent model = {taskModel} collection={taskData} cardTask={cardTask}/>
         )
     }
 });
@@ -54,10 +57,13 @@ const StaffInfo = React.createClass({
     },
     render(){
         return (
-            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'} collection={this.state.typeCollection} model={staffModel}/>
+            <Content cardInfo = {staffInfo} typeTextInfo={staffTypeText} pageShow={'staff'}
+                     collection={this.state.typeCollection} model={staffModel}
+                     cardMap = {cardsDriver}
+                     cardStaff = {cardsStaff}
+                />
         )
     }
-
 });
 //车辆档案
 const VehicleRecord = React.createClass({
@@ -67,7 +73,10 @@ const VehicleRecord = React.createClass({
     },
     render(){
         return (
-           <Content cardInfo={vehicleInfo} typeTextInfo={vehicleTypeText} pageShow={'vehicle'} collection = {vehicleData} model = {vehicleModel}/>
+           <Content cardInfo={vehicleInfo} typeTextInfo={vehicleTypeText} pageShow={'vehicle'}
+                    collection = {vehicleData} model = {vehicleModel}
+                    cardMap = {cardVehicle}
+               />
         )
     }
 });

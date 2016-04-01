@@ -183,7 +183,7 @@ const validateMixin ={
             tel:tel,
             licenseType:licenseType,
             licensingDate:licensingDate,
-            annualExamination:annualExamination,
+            licensingOrganization:licensingOrganization,
             auditDate:auditDate,
             expirationDate:expirationDate,
             IDCardNo:IDCardNo,

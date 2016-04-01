@@ -318,12 +318,13 @@ const VehicleSetting = React.createClass({
                     <div className =" item-space"  key={index}>
                         <lebal>
                             <Checkbox value={item.name} checked={this.handleDefaultChecked(item.name)} onChange={this.handleCheck}/>
-                            {item.value}
+                            {item.aliasName}
                         </lebal>
                     </div>
                 );
             }
         });
+        console.log(this.state.selectedArray);
         return(
             <div className = "setting-layout">
                 <Row type="flex" className = 'setting-container' justify="center">
@@ -482,6 +483,7 @@ const TaskSetting = React.createClass({
             }
         }
         let checkboxList = dimensional.map(function(item,index){
+            console.log(item);
             if(item.length > 0){
                 let self =this;
                 return(
@@ -514,6 +516,7 @@ const TaskSetting = React.createClass({
           notChooseOptionKeys = ['driverReturnCount','vehicleCount','code','driveOutTime','mileage','vehicleUseTime','vehicleNo'];
           headerData =this.findHeaderKey('single');
           checkboxList = this.handleCheckboxList('single',notChooseOptionKeys);
+          console.log(checkboxList);
           cardHeader= <div  className = "setting-task-code yellow">
                             <span className = 'code'>编码：1</span>
                             <div className = "setting-task-icon yellow-icon">

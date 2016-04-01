@@ -6,7 +6,7 @@ import React from 'react';
 import {render,ReactDOM} from 'react-dom';
 import _ from 'underscore';
 import BackboneReactMixin from 'backbone-react-component';
-import { Row, Col,DatePicker,Checkbox,Form,Modal,Button,Table} from 'antd';
+import { Row, Col,DatePicker,Checkbox,Form,Modal,Button,Table,Input} from 'antd';
 import {Search} from './operationItem';
 import {columns} from '../data/taskDetailsInfo';
 import {taskModel,taskList} from '../models/taskData'
@@ -15,11 +15,15 @@ import {completedtaskModel,completedtaskList} from '../models/CompletedTaskData'
 import {ListShow} from './contentItem'
 import {carInfoList,carInfoModel} from '../models/plateInfo'
 import {driverColumns} from '../data/driverDetailsInfo'
+import {settingCheckMinx} from './mixin/settingCheck';
 //回车登记的表单组件
 const WithDrawForm =React.createClass({
+    handleFormClick(event){
+        event.stopPropagation();
+    },
     render(){
         return(
-            <Form onSubmit={this.handleSubmit} className = ''>
+            <Form onSubmit={this.handleSubmit} className = '' onClick={this.handleFormClick}>
                 <ul>
                     <li className="withdraw-form">
                         <Row type="flex" className="">
@@ -65,53 +69,98 @@ const WithDrawForm =React.createClass({
     }
 });
 const Task = React.createClass({
-    mixins: [BackboneReactMixin],
+    mixins: [BackboneReactMixin,settingCheckMinx],
     getInitialState(){
         return {
-            isEdit: false,
+            isEdit:false,
             isCanWithdraw:false,
             isWithdrawShow:false,
+            isCloseEditWindow:false,
+            isClick:true,
+            isClickWithDrawBtn:false
         }
     },
     handleMouseEnter(event){
-        $(event.target).parents('.task-card').find(".task-hover").show();
+        event.preventDefault();
+         $(event.target).parents('.task-card').find(".task-hover").show();
     },
     handleMouseLeave(event){
+        event.stopPropagation();
         $(event.target).parents('.task-card').find(".task-hover").hide();
     },
     handleClick(event){
+        event.preventDefault();
         let taskCard = $(event.target).parents('.task-card');
-        $(taskCard).find(".click-down").hide();
-        $(taskCard).find(".hide-data").show();
+        this.setState({
+            isClick:!this.state.isClick
+        })
+        if(this.state.isClick)
+        {
+            $(taskCard).find(".hide-data").show();
+        }else{
+            $(taskCard).find(".hide-data").hide();
+            $(taskCard).find(".withdraw-hide").hide();
+        }
     },
     handleEditClick(event){
+        event.stopPropagation();
         this.setState({
-            isEdit: true
+            isEdit: true,
+            isCloseEditWindow:false,
         })
+        PubSub.subscribe('isCloseEditWindow',function(topic,isCloseEditWindow){
+            this.setState({
+                isCloseEditWindow:isCloseEditWindow,
+                isClick:true
+            });
+        }.bind(this));
     },
     handleRegisterClick(event){
+        event.stopPropagation();
         this.setState({
-            isCanWithdraw: true
+            isCanWithdraw: true,
+            isClick:false
         })
+        let taskCard = $(event.target).parents('.task-card');
+        $(taskCard).find(".hide-data").show();
         $(".withdraw-hide").show();
+        console.log(this.state.isCloseEditWindow);
     },
     handleClose(event){
+        //let taskCard = $(event.target).parents('.task-card');
+        //$(taskCard).find(".hide-data").hide();
         $(".withdraw-hide").hide();
+        this.setState({
+            isCanWithdraw: false,
+            isClick:false
+        })
     },
     handleSubmit(){
+        event.stopPropagation();
         PubSub.publish('isSaveWithdraw',false);
         $(".hide-btn2").hide();
     },
     handleCloseReturn(e){
-        e.preventDefault();
+        event.stopPropagation();
         PubSub.publish('isWithdrawShow',false);
         $(".hide-btn2").hide();
     },
+    handleCheckBox(event){
+        event.stopPropagation();
+    },
+
     render(){
-        let taskInfo = this.state.model;
-        var type = taskInfo.Type;
-        var carType = taskInfo.carType;
-        taskInfo = _.toArray(taskInfo);
+        let task = this.state.model;
+        let taskInfo = this.getModel();
+        var type = task.status;
+        var carType=0;
+        //var carType = taskInfo.carType;
+        let listHeadKeys = taskInfo.keys();
+        let afterMapItem = this.handelAtOfName(this.props.cardTask,listHeadKeys);
+        for(let i = 0 ; i < afterMapItem.length ; i++){
+            afterMapItem[i].value =this.state.model[afterMapItem[i].name]
+        }
+        taskInfo = _.toArray(afterMapItem);
         let getItemArray = function (starNum, endNum) {
             return taskInfo.slice(starNum, endNum);
         };
@@ -119,7 +168,6 @@ const Task = React.createClass({
             let ItemShow;
             let itemArray = getItemArray(starNum, endNum);
             ItemShow = itemArray.map(function (item, index) {
-                //console.log(item);
                 return (
                     <Col span="8" order="4" key={index}>
                         <label>{item.aliasName}：</label>
@@ -129,16 +177,17 @@ const Task = React.createClass({
             });
             return ItemShow
         };
+
         let CanWithdraw = function(){
             if(this.state.isCanWithdraw==true)
             {
                 return(
                     <div className="withdraw-hide">
                         <WithDrawForm />
-                        <ul className = "">
+                        <ul className = "" onClick={this.handleCheckBox}>
                             <li className = "withdraw-checkbox">
                                 <label className = "">
-                                    <Checkbox/>
+                                    <Checkbox />
                                     这是被临时取消的任务
                                 </label>
                             </li>
@@ -171,7 +220,7 @@ const Task = React.createClass({
             if(type=="2"){
                 return(
                     <ul className = "hide-btn2">
-                        <li className = "withdraw-checkbox">
+                        <li className = "withdraw-checkbox" onClick={this.handleCheckBox}>
                             <label className = "">
                                 <Checkbox/>
                                 这是被临时取消的任务
@@ -241,10 +290,41 @@ const Task = React.createClass({
         }.bind(this);
             let isEdit = function () {
                 if (this.state.isEdit) {
-                    return (
-                        <EditDistribution model={this.getModel()} />
-                    )
-                } else if(this.state.isCanWithdraw){
+                    if(this.state.isCloseEditWindow)
+                    {
+                        if (type == "0") {
+                            return (
+                                <div>
+                                    <Row type="flex" className="task-data">
+                                        {itemShow(1, 4)}
+                                    </Row>
+                                    <Row type="flex" className="task-data">
+                                        {itemShow(4, 7)}
+                                    </Row>
+
+                                    <div className="hide-data">
+                                        <Row type="flex" className="task-data">
+                                            {itemShow(7, 10)}
+                                        </Row>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        else{
+                            return(
+                                <div>
+                                    {carTypeTask()}
+                                </div>
+                            )
+                        }
+                    }
+                    else{
+                        return (
+                            <EditDistribution model={this.getModel()} />
+                        )
+                    }
+                }
+                else if(this.state.isCanWithdraw){
                     return(
                         <div>
                             {carTypeTask()}
@@ -261,7 +341,6 @@ const Task = React.createClass({
                                 <Row type="flex" className="task-data">
                                     {itemShow(4, 7)}
                                 </Row>
-
                                 <div className="hide-data">
                                     <Row type="flex" className="task-data">
                                         {itemShow(7, 10)}
@@ -270,14 +349,7 @@ const Task = React.createClass({
                             </div>
                         )
                     }
-                    else if (type == "1") {
-                        return(
-                            <div>
-                                {carTypeTask()}
-                            </div>
-                        )
-                    }
-                    else {
+                    else{
                         return(
                             <div>
                                 {carTypeTask()}
@@ -293,18 +365,18 @@ const Task = React.createClass({
                             <div className="task-number_card red">
                                 <label>编号：</label>
                                 <span>1</span>
-                            <span className="edit-icon icon-red">
-                                <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
-                            </span>
+                                <span className="edit-icon icon-red" onMouseEnter={this.handleMouseEnter} >
+                                    <span className="inner-icon edit-inner-icon"></span>
+                                </span>
                             </div>
                             {isEdit()}
                             <ul className="task-hover icon-red" onMouseLeave={this.handleMouseLeave}>
                                 <li className="task-hover-li-red">
-                                    <span className="edit-inner-icon"></span>
+                                    <span className="inner-icon edit-inner-icon"></span>
                                     <span onClick={this.handleEditClick}>编辑派发</span>
                                 </li>
                                 <li>
-                                    <span className="edit-inner-icon"></span>
+                                    <span className="inner-icon cancel-task-icon"></span>
                                     <span>取消任务</span>
                                 </li>
                             </ul>
@@ -317,17 +389,17 @@ const Task = React.createClass({
                                 <label>编号：</label>
                                 <span>1</span>
                             <span className="edit-icon icon-blue">
-                                <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
+                                <span className="inner-icon edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
                             </span>
                             </div>
                             {isEdit()}
                             <ul className="task-hover icon-orange" onMouseLeave={this.handleMouseLeave}>
                                 <li className="task-hover-li-blue">
-                                    <span className="edit-inner-icon"></span>
+                                    <span className="inner-icon edit-inner-icon"></span>
                                     <span onClick={this.handleEditClick}>编辑派发</span>
                                 </li>
                                 <li>
-                                    <span className="edit-inner-icon"></span>
+                                    <span className="inner-icon cancel-task-icon"></span>
                                     <span>取消任务</span>
                                 </li>
                             </ul>
@@ -340,13 +412,13 @@ const Task = React.createClass({
                                 <label>编号：</label>
                                 <span>1</span>
                             <span className="edit-icon icon-orange">
-                                <span className="edit-inner-icon" onMouseEnter={this.handleMouseEnter}></span>
+                                <span className="inner-icon return-car-icon" onMouseEnter={this.handleMouseEnter}></span>
                             </span>
                             </div>
                             {isEdit()}
                             <ul className="task-hover icon-blue" onMouseLeave={this.handleMouseLeave}>
                                 <li className="task-hover-li-orange">
-                                    <span className="edit-inner-icon"></span>
+                                    <span className="inner-icon return-car-icon"></span>
                                     {enterRegistration()}
                                 </li>
                             </ul>
@@ -355,9 +427,8 @@ const Task = React.createClass({
                 }
             }.bind(this);
             return (
-                <div className="task-card">
+                <div className="task-card" onClick={this.handleClick} onMouseLeave={this.handleMouseLeave}>
                     {taskType()}
-                    <span className="click-down" onClick={this.handleClick}></span>
                 </div>
             )
         }
@@ -377,13 +448,13 @@ const ShowTaskDetailsList = React.createClass({
         PubSub.unsubscribe(this.saveWith_token);
     },
     handleClick(event){
-        event.preventDefault();
+        event.stopPropagation();
         this.setState({
             isEdit:true
         });
         this.props.parentCallback(this.state.model.id);
         $(".hide-btn2").show();
-
+        PubSub.publish('isClickWithDrawBtn',true);
         PubSub.subscribe('isWithdrawShow',function(topic,isWithdrawShow){
             this.setState({
                 isEdit:isWithdrawShow
@@ -524,12 +595,6 @@ const ShowTaskDetailsListMap = React.createClass({
         }
     },
     changeChildrenSave(id){
-        //PubSub.subscribe('isSaveWithdraw',function(topic,isSaveWithdraw){
-        //    this.setState({
-        //        isSaveId:id
-        //    })
-        //}.bind(this))
-        alert(id);
         this.setState({
             isSaveId:id
         })
@@ -569,7 +634,7 @@ const TaskArrangement = React.createClass({
        let taskList = this.state.collection;
        let taskShow = taskList.map(function(item,index){
            return (
-               <Task key={index} model={this.getCollection().get(item.id)}/>
+               <Task key={index} model={this.getCollection().get(item.id) } cardTask = {this.props.cardTask} />
            )
        }.bind(this));
        return(
@@ -617,14 +682,13 @@ const TaskContent = React.createClass({
     render(){
         var pageShow = this.props.pageShow;
         var handleShowWay=function(){
-            var self = this;
             if(this.state.showWay=='card'){
                 return(
                     <div className="main-task">
                         <Row className="row">
                             <Col span="18">
                                 <div className="main-task-content">
-                                    <TaskArrangement collection={taskList} model={taskModel}/>
+                                    <TaskArrangement collection={this.getCollection()} model={this.getModel()} cardTask = {this.props.cardTask}/>
                                 </div>
                             </Col>
                             <Col span="6" className="main-task-right">
@@ -635,7 +699,9 @@ const TaskContent = React.createClass({
                 )
             }else{
                 return(
-                    <ListShow collection={this.getCollection()} pageShow = {pageShow} model = {this.getModel()}/>
+                    <div className="task-list-show">
+                        <ListShow collection={this.getCollection()} pageShow = {pageShow} model = {this.getModel()} cardMap = {this.props.cardTask}/>
+                    </div>
                 )
             }
         }.bind(this);
@@ -727,7 +793,6 @@ const CompletedCarsTask = React.createClass({
         )
     }
 });
-
 const CompletedList = React.createClass({
     mixins:[BackboneReactMixin],
     getInitialState(){
@@ -800,7 +865,7 @@ const CompletedList = React.createClass({
             }
         }.bind(this);
         return(
-            <div className="completed-task-list" onMouseEnter={this.handleMouseEnter}>
+            <div className="completed-task-list" onMouseOver={this.handleMouseEnter}>
                 {completedTaskType()}
                 <span className="task-data1 task-number">11112234343</span>
                 <Row className="completed-task-list-row list-row">
@@ -831,7 +896,7 @@ const CompletedList = React.createClass({
                 <div className="task-details">
                     <Row className="completed-task-list-row list-row">
                         <Col span="12" className="completed-task-list-col">
-                            <span className="icon-out icon"></span>
+                            <span className="icon-time icon"></span>
                             <span>:</span>
                             {completeditemShow(7,8)}
                         </Col>
@@ -1112,11 +1177,13 @@ let EditDistribution = React.createClass({
     getInitialState(){
         return{
             carInfoList:[],
+            //isCloseEditWindow:false
         }
     },
     handleSubmit(e) {
         e.preventDefault();
-        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        PubSub.publish('isCloseEditWindow',true);
+        console.log('收到表单值：', this.props.form.getFieldsValue());
         //let formValue = this.props.form.getFieldsValue().id='12233';
         //this.getCollection().push(this.props.form.getFieldsValue());
         //console.log('保存表单值'+this.state.collection);
@@ -1125,8 +1192,9 @@ let EditDistribution = React.createClass({
     handleCancel(){
         //this.props.callbackParentOfAdd(false);
     },
+
     componentDidMount(){
-    if(this.state.model.Type==1){
+    if(this.state.model.status==1){
         let carInfo = [
             {
                 carNumber:'dfdfd',
@@ -1178,175 +1246,190 @@ let EditDistribution = React.createClass({
         });
     },
     handleCloseEditWindow(event){
-        PubSub.publish('close-edit-window',true);
+        PubSub.publish('isCloseEditWindow',true);
+       //alert(1);
     },
     render(){
         const { getFieldProps } = this.props.form;
         let  carInfoItems = this.state.carInfoList.map(function(item,index){
             return( <Addtaskdetails item = {item}  key = {index} model ={this.getModel()} />)
         }.bind(this));
+        let isEditOrShowStatus = function(){
+            if(this.state.isCloseEditWindow) {
+                return (
+                    <div>
+                        <Task collection={taskList} model={taskModel}/>
+                    </div>
+                )
+            }
+            else{
+                return(
+                    <Form onSubmit={this.handleSubmit} className = ''form={this.props.form}>
+                        <div className = 'task-edit-page'>
+                            <Row className="task-edit-row">
+                                <Col span="12" className="">
+                                    <label>用车人</label>
+                                    <span className="colon">:</span>
+                                    <Input type="text" {...getFieldProps('vehicleUser')}/>
+                                </Col>
+                                <Col span="12" className="task-edit-col">
+                                    <label>用车时间</label>
+                                    <span className="colon">:</span>
+                                    <DatePicker {...getFieldProps('vehicleUseTime')}/>
+                                </Col>
+                            </Row>
+                            <Row className="task-edit-row">
+                                <Col span="12" className="">
+                                    <label>估计用时</label>
+                                    <span className="colon">:</span>
+                                    <Input type="text" {...getFieldProps('costTime')}/>
+                                </Col>
+                                <Col span="12" className="task-edit-col">
+                                    <label>出车原因</label>
+                                    <span className="colon">:</span>
+                                    <Input type="text" {...getFieldProps('vehicleUseReason')}/>
+                                </Col>
+                            </Row>
+                            <Row className="task-edit-row">
+                                <Col span="12" className="">
+                                    <label>申请车型</label>
+                                    <span className="colon">:</span>
+                                    <Input type="text" {...getFieldProps('applyForVehicleModel')}/>
+                                </Col>
+                                <Col span="12" className="task-edit-col">
+                                    <label>目的地</label>
+                                    <span className="colon">:</span>
+                                    <Input type="text" {...getFieldProps('destination')}/>
+                                </Col>
+                            </Row>
+                            <Row className="task-edit-row">
+                                <Col span="12" className="">
+                                    <label>随车人数</label>
+                                    <span className="colon">:</span>
+                                    <Input type="text" {...getFieldProps('passengers')}/>
+                                </Col>
+                                <Col span="12" className="task-edit-col">
+                                    <label className="back-time-label">预计回车时间</label>
+                                    <span className="colon">:</span>
+                                    <DatePicker {...getFieldProps('returnDate')}/>
+                                </Col>
+                            </Row>
+                            <Row className="task-edit-row">
+                                <Col span="24" className="">
+                                    <label>出车里程</label>
+                                    <span className="colon">:</span>
+                                    <Input type="text" {...getFieldProps('mileage')}/>
+                                </Col>
+                            </Row>
+                            <Row className="task-edit-row">
+                                <Col span="24" className="">
+                                    <label>用车备注</label>
+                                    <span className="colon">:</span>
+                                    <Input className="vehicles-marker" type="text" {...getFieldProps('comment')}/>
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="edit-car-task">
+                            <Row className="edit-car-task-input">
+                                <Col span="8" className="">
+                                    <label>车牌号：</label>
+                                    <div className="div-inline">
+                                        <Input className="" type="text" id = "car-number"/>
+                                        <span className="plus-icon" onClick={this.handlePlateClick}></span>
+                                    </div>
+                                </Col>
+                                <Col span="8" className="adjustment">
+                                    <label>司机：</label>
+                                    <div className="div-inline">
+                                        <Input className="" type="text" id = "driver"/>
+                                        <span className="plus-icon" onClick={this.handleDriverClick}></span>
+                                    </div>
+                                </Col>
+                                <Col span="8" className="adjustment">
+                                    <label>取车位置：</label>
+                                    <Input className="" type="text" id = "position"/>
+                                </Col>
+                            </Row>
+                            <button onClick={this.handleAddtaskDetails}>添加</button>
+                            <ul className="add-task-details">{carInfoItems}</ul>
+                            <label className="only-current-task" >
+                                <Checkbox defaultChecked={false} {...getFieldProps('onlyCurrentTask')}/>
+                                仅限这次任务
+                            </label>
+                        </div>
+                        <ul className="periodic-task">
+                            <li className="periodic-task-btn">
+                                <label className="Perio-task">
+                                    <Checkbox defaultChecked={false} {...getFieldProps('scheduledMission')}/>
+                                    周期任务：
+                                </label>
+                                <button className="btn1">修改周期</button>
+                                <button className="btn2">结束周期任务</button>
+                            </li>
+                            <li className="periodic-task-details">
+                                <ul className="startDate">
+                                    <li className="startDate-endDate">
+                                        <ul>
+                                            <li className="startDate-endDate-left">
+                                                <label htmlFor="">起始日期：</label>
+                                                <DatePicker  placeholder="" {...getFieldProps('startData')} />
+                                            </li>
+                                            <li className="startDate-endDate-right">
+                                                <label className="endDate" htmlFor="">结束日期(选填)：</label>
+                                                <DatePicker  placeholder="" {...getFieldProps('endData')} />
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <label htmlFor="">起始日期：</label>
+                                        <label>
+                                            <Checkbox defaultChecked={false} {...getFieldProps('sunday')}/>
+                                            日
+                                        </label>
+                                        <label>
+                                            <Checkbox defaultChecked={false} {...getFieldProps('monday')}/>
+                                            一
+                                        </label>
+                                        <label>
+                                            <Checkbox defaultChecked={false} {...getFieldProps('tuesday')}/>
+                                            二
+                                        </label>
+                                        <label>
+                                            <Checkbox defaultChecked={false} {...getFieldProps('wednesday')}/>
+                                            三
+                                        </label>
+                                        <label>
+                                            <Checkbox defaultChecked={false} {...getFieldProps('thursday')}/>
+                                            四
+                                        </label>
+                                        <label>
+                                            <Checkbox defaultChecked={false} {...getFieldProps('friday')}/>
+                                            五
+                                        </label>
+                                        <label>
+                                            <Checkbox defaultChecked={false} {...getFieldProps('saturday')}/>
+                                            六
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li className="edit-btn">
+                                <Button className="save-send-btn">保存并继续派发</Button>
+                                <Button className="save-btn" onClick={this.handleSubmit}>保存</Button>
+                                <Button className="close-btn" onClick={this.handleCloseEditWindow}>关闭</Button>
+                            </li>
+                        </ul>
+                        <div className="addtask-modal">
+                            <ShowTaskDetails model = {carInfoModel} collection={carInfoList}/>
+                        </div>
+                    </Form>
+                )
+            }
+        }.bind(this);
         return(
-             <Form onSubmit={this.handleSubmit} className = ''>
-                 <div className = 'task-edit-page'>
-                     <Row className="task-edit-row">
-                         <Col span="12" className="">
-                             <label>用车人</label>
-                             <span className="colon">:</span>
-                             <input type="text"/>
-                         </Col>
-                         <Col span="12" className="task-edit-col">
-                             <label>用车时间</label>
-                             <span className="colon">:</span>
-                             <DatePicker />
-                         </Col>
-                     </Row>
-                     <Row className="task-edit-row">
-                         <Col span="12" className="">
-                             <label>估计用时</label>
-                             <span className="colon">:</span>
-                             <input type="text"/>
-                         </Col>
-                         <Col span="12" className="task-edit-col">
-                             <label>出车原因</label>
-                             <span className="colon">:</span>
-                             <input type="text"/>
-                         </Col>
-                     </Row>
-                     <Row className="task-edit-row">
-                         <Col span="12" className="">
-                             <label>申请车型</label>
-                             <span className="colon">:</span>
-                             <input type="text"/>
-                         </Col>
-                         <Col span="12" className="task-edit-col">
-                             <label>目的地</label>
-                             <span className="colon">:</span>
-                             <input type="text"/>
-                         </Col>
-                     </Row>
-                     <Row className="task-edit-row">
-                         <Col span="12" className="">
-                             <label>随车人数</label>
-                             <span className="colon">:</span>
-                             <input type="text"/>
-                         </Col>
-                         <Col span="12" className="task-edit-col">
-                             <label className="back-time-label">预计回车时间</label>
-                             <span className="colon">:</span>
-                             <DatePicker />
-                         </Col>
-                     </Row>
-                     <Row className="task-edit-row">
-                         <Col span="24" className="">
-                             <label>出车里程</label>
-                             <span className="colon">:</span>
-                             <input type="text"/>
-                         </Col>
-                     </Row>
-                     <Row className="task-edit-row">
-                         <Col span="24" className="">
-                             <label>用车备注</label>
-                             <span className="colon">:</span>
-                             <input className="vehicles-marker" type="text"/>
-                         </Col>
-                     </Row>
-                 </div>
-                 <div className="edit-car-task">
-                     <Row className="edit-car-task-input">
-                         <Col span="8" className="">
-                             <label>车牌号：</label>
-                             <div className="div-inline">
-                                 <input className="" type="text" id = "car-number"/>
-                                 <span className="plus-icon" onClick={this.handlePlateClick}></span>
-                             </div>
-                         </Col>
-                         <Col span="8" className="adjustment">
-                             <label>司机：</label>
-                             <div className="div-inline">
-                                 <input className="" type="text" id = "driver"/>
-                                 <span className="plus-icon" onClick={this.handleDriverClick}></span>
-                             </div>
-                         </Col>
-                         <Col span="8" className="adjustment">
-                             <label>取车位置：</label>
-                             <input className="" type="text" id = "position"/>
-                         </Col>
-                     </Row>
-                     <button onClick={this.handleAddtaskDetails}>添加</button>
-                     <ul className="add-task-details">{carInfoItems}</ul>
-                     <label className="only-current-task" >
-                         <Checkbox defaultChecked={false}/>
-                         仅限这次任务
-                     </label>
-                 </div>
-                 <ul className="periodic-task">
-                     <li className="periodic-task-btn">
-                         <label className="Perio-task">
-                             <Checkbox defaultChecked={false}/>
-                             周期任务：
-                         </label>
-                         <button className="btn1">修改周期</button>
-                         <button className="btn2">结束周期任务</button>
-                     </li>
-                     <li className="periodic-task-details">
-                         <ul className="startDate">
-                             <li className="startDate-endDate">
-                                 <ul>
-                                     <li className="startDate-endDate-left">
-                                         <label htmlFor="">起始日期：</label>
-                                         <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
-                                     </li>
-                                     <li className="startDate-endDate-right">
-                                         <label className="endDate" htmlFor="">结束日期(选填)：</label>
-                                         <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
-                                     </li>
-                                 </ul>
-                             </li>
-                             <li>
-                                 <label htmlFor="">起始日期：</label>
-                                 <label>
-                                     <Checkbox defaultChecked={false}/>
-                                     日
-                                 </label>
-                                 <label>
-                                     <Checkbox defaultChecked={false}/>
-                                     一
-                                 </label>
-                                 <label>
-                                     <Checkbox defaultChecked={false}/>
-                                     二
-                                 </label>
-                                 <label>
-                                     <Checkbox defaultChecked={false}/>
-                                     三
-                                 </label>
-                                 <label>
-                                     <Checkbox defaultChecked={false}/>
-                                     四
-                                 </label>
-                                 <label>
-                                     <Checkbox defaultChecked={false}/>
-                                     五
-                                 </label>
-                                 <label>
-                                     <Checkbox defaultChecked={false}/>
-                                     六
-                                 </label>
-                             </li>
-                         </ul>
-                     </li>
-                     <li className="edit-btn">
-                         <button className="save-send-btn">保存并继续派发</button>
-                         <button className="save-btn">保存</button>
-                         <button className="close-btn" onClick={this.handleCloseEditWindow}>关闭</button>
-                     </li>
-                 </ul>
-                 <div className="addtask-modal">
-                     <ShowTaskDetails model = {carInfoModel} collection={carInfoList}/>
-                 </div>
-             </Form>
+            <div>{isEditOrShowStatus()}</div>
         )
-    }
+       }
 });
 EditDistribution = Form.create()(EditDistribution);
 export{TaskContent}

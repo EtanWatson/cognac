@@ -126,7 +126,14 @@
       text-align: left; }
 
 .task-content {
-  background-color: #EEEEEE; }
+  background-color: #EEEEEE;
+  padding-top: 97px;
+  position: relative;
+  left: 94px;
+  width: 95%; }
+  .task-content .task-list-show {
+    margin-left: 10px;
+    margin-top: 5px; }
 
 .table-popover-hidden {
   display: none; }

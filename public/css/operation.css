@@ -56,12 +56,16 @@ body .operation-content {
         background-image: url("/img/icon_add_default.png"); }
       body .operation-content .operation .left-item .list-item-icon {
         background-image: url("/img/icon_card_default.png"); }
+      body .operation-content .operation .left-item .history-item-icon {
+        background-image: url("/img/icon_history.png"); }
       body .operation-content .operation .left-item .batch-item-icon {
         background-image: url("/img/icon_batch_deffault.png"); }
       body .operation-content .operation .left-item .delete-item-icon {
         background-image: url("/img/icon_delete_default.png"); }
       body .operation-content .operation .left-item .print-item-icon {
         background-image: url("/img/icon_print_default.png"); }
+      body .operation-content .operation .left-item .return-item-icon {
+        background-image: url("/img/icon_return.png"); }
       body .operation-content .operation .left-item .send-item-icon {
         background-image: url("/img/icon_send_default.png"); }
       body .operation-content .operation .left-item .select-all-btn {

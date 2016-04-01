@@ -130,13 +130,12 @@ const Card = React.createClass({
                 switch (this.state.model.role){
                     //发送ajax请求获取司机展示字段
                     case '0':
-
                          showItemKeys = ['department','tel','licenseType','licenseNo','comment'];
-                         showItem = this.handelAtOfName(cardsDriver,showItemKeys);
+                         showItem = this.handelAtOfName(this.props.cardMap,showItemKeys);
                         break;
                     default:
                         showItemKeys = ['department','tel','comment'];
-                        showItem = this.handelAtOfName(cardsStaff,showItemKeys);
+                        showItem = this.handelAtOfName(this.props.cardStaff,showItemKeys);
                         break;
                 }
                 for(let i = 0 ; i < showItem.length ; i++){
@@ -144,11 +143,13 @@ const Card = React.createClass({
                 }
                 break;
             case 'vehicle':
-                    showItemKeys = ['vehicleCode','vehicleNumber','vehicleType','vehicleLoad','seatNumber'];
-                    showItem = this.handelAtOfName(cardVehicle,showItemKeys);
+                showItemKeys = ['code','vehicleNo','type','capacity','seats'];
+                showItem = this.handelAtOfName(this.props.cardMap,showItemKeys);
+                for(let i = 0 ; i < showItem.length ; i++){
+                    showItem[i].value =this.state.model[showItem[i].name]
+                }
                 break;
         }
-        console.log(showItem);
         this.setState({
             showItem:showItem
         })
@@ -281,7 +282,7 @@ const Card = React.createClass({
                            <img src = {item.avatar}/>
                        </li>
                        <li className = "header-left">
-                           <h3 className = "name">{item.name}</h3>
+                           <h3 className = "name">{item.name||item.label}</h3>
                            <ul className = "list-inline">
                                <li className = "circle circle-g">
                                    <img src="/img/icon_trip_normal.png" />
@@ -306,7 +307,7 @@ const Card = React.createClass({
 });
 //列表显示组件
 const ListShow = React.createClass({
-   mixins:[BackboneReactMixin],
+    mixins:[BackboneReactMixin,settingCheckMinx],
    getInitialState(){
         return{
             selectedRowKeys: [],
@@ -331,14 +332,18 @@ const ListShow = React.createClass({
         var width = $(window).width();
         let listHeadTemp = [];
         let listHeadKeys = model.keys();
-        model.values().map(function(list,index){
+        let afterMapItem = this.handelAtOfName(this.props.cardMap,listHeadKeys);
+        console.log(afterMapItem);
+
+        afterMapItem.map(function(list,index){
             if(list.aliasName){
                 listHeadTemp.push({
                     aliasName:list.aliasName,
-                    key:listHeadKeys[index]
+                    key:list.name
                 })
             }
         });
+
         this.setState({
             listHeader:listHeadTemp,
             listHeaderCopy:listHeadTemp,
@@ -462,13 +467,13 @@ const ListShow = React.createClass({
        })
    },
     onChildChangeLook(isEdit){
-        console.log('isEdit:'+isEdit);
         if(isEdit == 'isEdit'){
-
+            this.setState({
+                isEdit:true
+            })
         }
         this.setState({
-            isLook:false,
-            isEdit:true
+            isLook:false
         })
     },
     //动态添加与删除表头
@@ -501,6 +506,7 @@ const ListShow = React.createClass({
    render(){
        let listHeader = this.state.listHeader;
        let listHeaderCopy = this.state.listHeaderCopy;
+       console.log(this.state.collection);
        let popoverCheckContent =listHeaderCopy.map(function(list,index){
                return(
                    <label key={index} className = "list-popover-check">
@@ -517,7 +523,7 @@ const ListShow = React.createClass({
        );
        const TextCell = ({rowIndex,data,col,...props})=>(
            <Cell data-id ={data[rowIndex].id} className = "table-cell text-name"   onClick={this.handleRowClick} onDoubleClick={this.handleDoubleClick}  {...props}>
-               {data[rowIndex][col].value}
+               {data[rowIndex][col]}
            </Cell>
        );
        let listTable = listHeader.map(function(list,index){
@@ -710,6 +716,8 @@ const Content = React.createClass({
                                                   model={self.getCollection().get(item.id)}
                                                   toggleBatch = {self.state.toggleBatch}
                                                   isSelectAll = {self.state.isSelectAll}
+                                                  cardMap = {self.props.cardMap}
+                                                  cardStaff = {self.props.cardStaff}
                                                 />
                                         </li>
                                     )
@@ -722,7 +730,10 @@ const Content = React.createClass({
                     )
                 }else{
                     return(
-                        <ListShow collection={this.getCollection()} pageShow = {pageShow}  model={this.getModel()} />
+                        <ListShow collection={this.getCollection()} pageShow = {pageShow}  model={this.getModel()}
+                                  cardMap = {this.props.cardMap}
+                                  cardStaff = {this.props.cardsStaff}
+                            />
                     )
                 }
             }.bind(this);

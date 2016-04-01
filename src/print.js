@@ -27,7 +27,6 @@ const PrintPage = React.createClass({
     },
     componentDidMount(){
       this.printShowToken =PubSub.subscribe('print-show',function(topic,data){
-        console.log(data.listHeader);
         this.setState({
             isShow:true,
             printData:data.printData,
@@ -44,7 +43,7 @@ const PrintPage = React.createClass({
     render(){
         const TextCell = ({rowIndex,data,col,...props})=>(
             <Cell {...props}>
-                {data[rowIndex][col].value}
+                {data[rowIndex][col]}
             </Cell>
         );
         let listTable = this.state.listHeader.map(function(list,index){

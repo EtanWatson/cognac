@@ -21,11 +21,14 @@
             .popup-windows-show-icon{
               background:#F7F7F7;
               text-align:left;
+              height:25px;
+              line-height:30px;
               .alert-icon{
-                background:url('/img/mutiple.png') no-repeat;
-                width: 20px;
-                height: 20px;
+                background:url('/img/alert.png') no-repeat;
+                width: 13px;
+                height: 13px;
                 display: inline-block;
+                margin-left:5px;
               }
             }
             .popup-windows-show-word{
@@ -59,7 +62,7 @@
            background-color:#F1F1F1;
            font-weight:bold;
         }
-        .task-content{
+        .task-dialog-content{
           width:561px;
           height:400px;
           background-color:white;
@@ -161,15 +164,13 @@ html,body{
     height:100%;
     .main-task {
       background-color: #EEEEEE;
-      margin-top:-133px;
-      margin-left:-181px;
       .row{
         height:100%;
       }
       .main-task-right{
         height:89%;
         background:white;
-        margin-top:102px;
+        margin-top:4px;
         .completed-task-content{
           width:100%;
           .title-grey{
@@ -185,7 +186,7 @@ html,body{
             text-align: center;
             position:fixed;
             bottom:0;
-            width:26%;
+            width:23%;
           }
           .completed-task-list{
             border-bottom:1px solid #A5B0C4;
@@ -258,6 +259,10 @@ html,body{
               background:url("/img/out.png") no-repeat;
 
             }
+            .icon-time{
+              background:url("/img/icon_time.png") no-repeat;
+
+            }
             .icon-back{
               background:url("/img/back.png") no-repeat;
             }
@@ -281,9 +286,7 @@ html,body{
 
       }
       .main-task-content {
-        width: 89%;
-        margin-left: 10%;
-        padding-top: 100px;
+        width: 99%;
         display:inline-block;
         .task-card {
           border-radius: 5px;
@@ -727,12 +730,20 @@ html,body{
               display:none;
             }
           }
-          .edit-inner-icon {
-            background: url("/img/edit_task.png") no-repeat;
+          .inner-icon{
             background-size: cover;
             display: inline-block;
             width: 15px;
             height: 15px;
+          }
+          .edit-inner-icon {
+            background: url("/img/edit_task.png") no-repeat;
+          }
+          .cancel-task-icon {
+             background: url("/img/icon_cancel.png") no-repeat;
+           }
+          .return-car-icon {
+            background: url("/img/icon_back.png") no-repeat;
           }
           .task-number_card {
             border-top-left-radius: 5px;
@@ -744,15 +755,15 @@ html,body{
             margin-bottom: 6px;
             padding-left: 43px;
             .edit-icon {
-              float: right;
-              display: inline-block;
-              width: 30px;
-              height: 30px;
-              line-height: 30px;
-              text-align: center;
-              background-color: #7ED320;
-              border-top-right-radius: 5px;
-            }
+                float: right;
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                background-color: #7ED320;
+                border-top-right-radius: 5px;
+              }
             .icon-red{
               background:#EC4C4E;
             }

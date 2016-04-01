@@ -18,12 +18,15 @@
         margin-top: 40px; }
         .ant-modal .ant-modal-content .ant-modal-body .add-task .popup-windows .popup-windows-show .popup-windows-show-icon {
           background: #F7F7F7;
-          text-align: left; }
+          text-align: left;
+          height: 25px;
+          line-height: 30px; }
           .ant-modal .ant-modal-content .ant-modal-body .add-task .popup-windows .popup-windows-show .popup-windows-show-icon .alert-icon {
-            background: url("/img/mutiple.png") no-repeat;
-            width: 20px;
-            height: 20px;
-            display: inline-block; }
+            background: url("/img/alert.png") no-repeat;
+            width: 13px;
+            height: 13px;
+            display: inline-block;
+            margin-left: 5px; }
         .ant-modal .ant-modal-content .ant-modal-body .add-task .popup-windows .popup-windows-show .popup-windows-show-word {
           margin: 58px 0px;
           font-size: 14px; }
@@ -47,69 +50,69 @@
       color: #495669;
       background-color: #F1F1F1;
       font-weight: bold; }
-    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content {
+    .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content {
       width: 561px;
       height: 400px;
       background-color: white;
       text-align: justify; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content ul {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content ul {
         padding-top: 2px; }
-        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content ul .creator {
+        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content ul .creator {
           text-align: center; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content li {
         margin-top: 10px; }
-        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li .startDate {
+        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content li .startDate {
           background-color: #EDF4FE;
           margin-top: -10px;
           width: 508px;
           margin: 0 auto;
           padding-bottom: 5px; }
-          .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li .startDate .ant-calendar-picker {
+          .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content li .startDate .ant-calendar-picker {
             width: 100px; }
-          .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li .startDate label {
+          .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content li .startDate label {
             margin-left: 20px; }
-          .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content li .startDate .endDate {
+          .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content li .startDate .endDate {
             margin-left: 96px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .create-task-submit {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .create-task-submit {
         margin: 5px auto;
         width: 508px; }
-        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .create-task-submit .btn {
+        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .create-task-submit .btn {
           width: 100px;
           height: 40px; }
-        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .create-task-submit .create-btn {
+        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .create-task-submit .create-btn {
           float: left;
           background-color: #2AA2DE;
           color: white; }
-        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .create-task-submit .cancel-btn {
+        .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .create-task-submit .cancel-btn {
           float: right;
           background-color: #DFE3EF; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content label {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content label {
         margin-left: 50px;
         color: #495669; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .Perio-task {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .Perio-task {
         margin-left: 27px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content span {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content span {
         color: #495669;
         font-weight: bold; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .span1 {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .span1 {
         margin-left: 50px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .span2 {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .span2 {
         margin-left: 24px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content input {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content input {
         border: 1px solid #C6C6C8;
         border-radius: 3px;
         height: 28px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .inputBox {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .inputBox {
         width: 150px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .ant-calendar-picker {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .ant-calendar-picker {
         width: 150px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .inputBox-long {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .inputBox-long {
         width: 410px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .number {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .number {
         margin-left: 10px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .destination {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .destination {
         margin-left: 191px; }
-      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-content .people {
+      .ant-modal .ant-modal-content .ant-modal-body .add-task .task-dialog-content .people {
         margin-left: 62px; }
 
 html, body {
@@ -119,15 +122,13 @@ html, body {
   html .content-relative, body .content-relative {
     height: 100%; }
     html .content-relative .main-task, body .content-relative .main-task {
-      background-color: #EEEEEE;
-      margin-top: -133px;
-      margin-left: -181px; }
+      background-color: #EEEEEE; }
       html .content-relative .main-task .row, body .content-relative .main-task .row {
         height: 100%; }
       html .content-relative .main-task .main-task-right, body .content-relative .main-task .main-task-right {
         height: 89%;
         background: white;
-        margin-top: 102px; }
+        margin-top: 4px; }
         html .content-relative .main-task .main-task-right .completed-task-content, body .content-relative .main-task .main-task-right .completed-task-content {
           width: 100%; }
           html .content-relative .main-task .main-task-right .completed-task-content .title-grey, body .content-relative .main-task .main-task-right .completed-task-content .title-grey {
@@ -141,7 +142,7 @@ html, body {
             text-align: center;
             position: fixed;
             bottom: 0;
-            width: 26%; }
+            width: 23%; }
           html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list {
             border-bottom: 1px solid #A5B0C4;
             position: relative; }
@@ -194,6 +195,8 @@ html, body {
               height: 13px; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-out, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-out {
               background: url("/img/out.png") no-repeat; }
+            html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-time, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-time {
+              background: url("/img/icon_time.png") no-repeat; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-back, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-back {
               background: url("/img/back.png") no-repeat; }
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-card, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-card {
@@ -207,9 +210,7 @@ html, body {
             html .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-list-default, body .content-relative .main-task .main-task-right .completed-task-content .completed-task-list .icon-list-default {
               background: url("/img/icon_list_default.png") no-repeat; }
       html .content-relative .main-task .main-task-content, body .content-relative .main-task .main-task-content {
-        width: 89%;
-        margin-left: 10%;
-        padding-top: 100px;
+        width: 99%;
         display: inline-block; }
         html .content-relative .main-task .main-task-content .task-card, body .content-relative .main-task .main-task-content .task-card {
           border-radius: 5px;
@@ -551,12 +552,17 @@ html, body {
             display: none; }
             html .content-relative .main-task .main-task-content .task-card .hide-data .hide-btn2, body .content-relative .main-task .main-task-content .task-card .hide-data .hide-btn2 {
               display: none; }
-          html .content-relative .main-task .main-task-content .task-card .edit-inner-icon, body .content-relative .main-task .main-task-content .task-card .edit-inner-icon {
-            background: url("/img/edit_task.png") no-repeat;
+          html .content-relative .main-task .main-task-content .task-card .inner-icon, body .content-relative .main-task .main-task-content .task-card .inner-icon {
             background-size: cover;
             display: inline-block;
             width: 15px;
             height: 15px; }
+          html .content-relative .main-task .main-task-content .task-card .edit-inner-icon, body .content-relative .main-task .main-task-content .task-card .edit-inner-icon {
+            background: url("/img/edit_task.png") no-repeat; }
+          html .content-relative .main-task .main-task-content .task-card .cancel-task-icon, body .content-relative .main-task .main-task-content .task-card .cancel-task-icon {
+            background: url("/img/icon_cancel.png") no-repeat; }
+          html .content-relative .main-task .main-task-content .task-card .return-car-icon, body .content-relative .main-task .main-task-content .task-card .return-car-icon {
+            background: url("/img/icon_back.png") no-repeat; }
           html .content-relative .main-task .main-task-content .task-card .task-number_card, body .content-relative .main-task .main-task-content .task-card .task-number_card {
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;

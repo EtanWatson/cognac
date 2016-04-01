@@ -12,7 +12,8 @@ import {staffs} from "../../models/staffInfo";
 import {validateMixin} from './../mixin/validate';
 import {typeStatusStaffMixin} from './../mixin/typeStatus';
 import {advanceSearchMixin} from  './../mixin/advanceSearch';
-import {utilMixin} from './../mixin/util'
+import {utilMixin} from './../mixin/util';
+import {staff} from '../../models/staff'
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -28,26 +29,26 @@ let EditTable = React.createClass({
           //测试数据
           editInfo:{
               id:'1001',
-              avatar :'/img/icon_user_head_50_50_have_1.png',
-              code : 'code',
-              name :'王宇亭$',
-              sex:'0',
-              department:'部门',
-              duties:'职务',
-              IDCardNo:'身份证号',
-              tel:'w12312',
-              address:'地址',
-              employmentDate:'12313',
-              comment:'321312',
-              nonUse:'0',
-              status:'0',
-              role:'0',
-              licenseType:'准驾类型',
-              licenseNo:'你好',
-              expirationDate:'dsasda',
-              licensingOrganization:'dasda',
-              auditDate:'sda',
-              licensingDate:'ads'}
+          avatar :'/img/icon_user_head_50_50_have_1.png',
+          code : 'code',
+          name :'王宇亭$',
+          sex:'0',
+          department:'部门',
+          duties:'职务',
+          IDCardNo:'身份证号',
+          tel:'w12312',
+          address:'地址',
+          employmentDate:'12313',
+          comment:'321312',
+          nonUse:'0',
+          status:'0',
+          role:'0',
+          licenseType:'准驾类型',
+          licenseNo:'你好',
+          expirationDate:'dsasda',
+          licensingOrganization:'dasda',
+          auditDate:'sda',
+          licensingDate:'ads'}
       }
     },
     componentDidMount(){
@@ -68,7 +69,6 @@ let EditTable = React.createClass({
     },
     getValidateStatus(field) {
         const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
-
         if (isFieldValidating(field)) {
             return 'validating';
         } else if (!!getFieldError(field)) {
@@ -223,7 +223,7 @@ let EditTableVehicle = React.createClass({
     getInitialState(){
       return{
           editInfo:{
-              id:i,
+              id:'1002',
               avatar:'/img/vehicle-header.png',
               label:'车辆代号',
               code:'编码',
@@ -575,7 +575,7 @@ const EditDialog = React.createClass({
 });
 //添加条目table(task)
 let AddTask = React.createClass({
-    mixins:[BackboneReactMixin],
+    mixins:[BackboneReactMixin,validateMixin],
     getInitialState(){
         return{
             visible : false,
@@ -583,23 +583,24 @@ let AddTask = React.createClass({
         }
     },
     handleSubmit(e) {
-        e.preventDefault();
-        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        this.setState({
+            isCreateTask:false,
+            visible:false
+        });
+        this.props.callbackParentOfAdd(false);
+        console.log('收到表单值：', this.props.form.getFieldsValue());
         //let formValue = this.props.form.getFieldsValue().id='12233';
         //this.getCollection().push(this.props.form.getFieldsValue());
         //console.log('保存表单值'+this.state.collection);
         //this.props.callbackParentOfAdd(true);
     },
+
     handleCancel(){
         this.setState({
             visible:false
         })
+        this.props.form.resetFields();
         this.props.callbackParentOfAdd(false);
-    },
-    handleUpload(){
-
-    },
-    createEntry: function (entry) {
     },
     showModal() {
         this.setState({
@@ -610,20 +611,18 @@ let AddTask = React.createClass({
             this.setState({
                 isCreateTask:true
             });
+
+        //console.log( $("#createTask").serializeArray());
     } ,
     handleAlertCancel(event){
         this.setState({
             isCreateTask:false
         });
-    },
-    handleClickOk(event){
-        this.setState({
-            isCreateTask:false,
-            visible:false
-        });
-        this.props.callbackParentOfAdd(false);
+        this.props.form.resetFields();
     },
     render() {
+        //const  validateForm = this.validateFormAdd(this.props.form.getFieldProps);
+        //const getFieldProps = validateForm.getFieldProps;
         const { getFieldProps } = this.props.form;
         var date = new Date();
         var year = date.getFullYear();
@@ -657,6 +656,7 @@ let AddTask = React.createClass({
         }
         var showWeek = "(周"+todayWeek+")";
         let addTaskShow = function (){
+
             if(this.state.isCreateTask)
             {
                 return(
@@ -686,7 +686,7 @@ let AddTask = React.createClass({
                                     </ul>
                                 </li>
                                 <li className="popup-windows-show-btn">
-                                    <button className="okbtn" onClick={this.handleClickOk}>确认</button>
+                                    <button className="okbtn" onClick={this.handleSubmit}>确认</button>
                                     <button className="canclebtn" onClick={this.handleAlertCancel}>取消</button>
                                 </li>
                             </ul>
@@ -696,41 +696,41 @@ let AddTask = React.createClass({
             }
         }.bind(this);
         return (
-            <Form onSubmit={this.handleSubmit} className = 'add-task'>
+            <Form id="createTask" className = 'add-task'onSubmit={this.handleSubmit}   form={this.props.form}>
                 <div className="title">添&nbsp;加&nbsp;任&nbsp;务</div>
-                <div className="task-content">
+                <div className="task-dialog-content">
                     <ul>
                         <li className="first-messsage">
                             <span className="span1">编</span><span className="span2">码：</span>
                             <span className="number">1</span>
                             <label htmlFor="" className="destination">&nbsp;目的地：</label>
-                            <input className="inputBox" type="text"/>
+                            <AntInput className="inputBox" type="text" {...getFieldProps('destination')} id='name'/>
                         </li>
                         <li>
                             <label className="people" htmlFor="">用车人：</label>
-                            <input className="inputBox" type="text"/>
+                            <AntInput className="inputBox" type="text" name="a2" {...getFieldProps('vehicleUser')}/>
                             <label htmlFor="">用车时间：</label>
-                            <DatePicker placeholder="" {...getFieldProps('JoinData')} />
+                            <DatePicker {...getFieldProps('vehicleUseTime')}/>
                         </li>
                         <li>
                             <label htmlFor="">估计用时：</label>
-                            <input className="inputBox" type="text"/>
+                            <AntInput className="inputBox" type="text" name="a3" {...getFieldProps('costTime')}/>
                             <label htmlFor="">用车原因：</label>
-                            <input className="inputBox" type="text"/>
+                            <AntInput className="inputBox" type="text" name="a4" {...getFieldProps('vehicleUseReason')}/>
                         </li>
                         <li>
                             <label htmlFor="">申请车型：</label>
-                            <input className="inputBox" type="text"/>
+                            <AntInput className="inputBox" type="text" name="a5" {...getFieldProps('applyForVehicleModel')}/>
                             <label htmlFor="">随车人数：</label>
-                            <input className="inputBox" type="text"/>
+                            <AntInput className="inputBox" type="text" name="a6" {...getFieldProps('passengers')}/>
                         </li>
                         <li>
                             <label htmlFor="">出车备注：</label>
-                            <input className="inputBox-long" type="text"/>
+                            <AntInput className="inputBox-long" type="text" name="a7" {...getFieldProps('comment')}/>
                         </li>
                         <li>
                             <label className="Perio-task">
-                                <Checkbox defaultChecked={false}/>
+                                <Checkbox defaultChecked={false} {...getFieldProps('scheduledMission')}/>
                                 周期任务
                             </label>
                         </li>
@@ -738,38 +738,37 @@ let AddTask = React.createClass({
                             <ul className="startDate">
                                 <li>
                                     <label htmlFor="">起始日期：</label>
-                                    <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
+                                    <DatePicker {...getFieldProps('startDate')}/>
                                     <label className="endDate" htmlFor="">结束日期(选填)：</label>
-                                    <DatePicker  placeholder="" {...getFieldProps('JoinData')} />
+                                    <DatePicker {...getFieldProps('endDate')} />
                                 </li>
                                 <li>
-                                    <label htmlFor="">起始日期：</label>
                                     <label>
-                                        <Checkbox defaultChecked={false}/>
+                                        <Checkbox defaultChecked={false} {...getFieldProps('sunday')}/>
                                         日
                                     </label>
                                     <label>
-                                        <Checkbox defaultChecked={false}/>
+                                        <Checkbox defaultChecked={false} {...getFieldProps('monday')}/>
                                         一
                                     </label>
                                     <label>
-                                        <Checkbox defaultChecked={false}/>
+                                        <Checkbox defaultChecked={false} {...getFieldProps('tuesday')}/>
                                         二
                                     </label>
                                     <label>
-                                        <Checkbox defaultChecked={false}/>
+                                        <Checkbox defaultChecked={false} {...getFieldProps('wednesday')}/>
                                         三
                                     </label>
                                     <label>
-                                        <Checkbox defaultChecked={false}/>
+                                        <Checkbox defaultChecked={false} {...getFieldProps('thursday')}/>
                                         四
                                     </label>
                                     <label>
-                                        <Checkbox defaultChecked={false}/>
+                                        <Checkbox defaultChecked={false} {...getFieldProps('friday')}/>
                                         五
                                     </label>
                                     <label>
-                                        <Checkbox defaultChecked={false}/>
+                                        <Checkbox defaultChecked={false} {...getFieldProps('saturday')}/>
                                         六
                                     </label>
                                 </li>
@@ -777,8 +776,8 @@ let AddTask = React.createClass({
                         </li>
                         <li className="creator">任务创建人：admin</li>
                         <li className="create-task-submit">
-                            <button className="btn create-btn" onClick={this.handleCreateTask}>创建任务</button>
-                            <button className="btn cancel-btn" onClick ={this.handleCancel}>取消</button>
+                            <AntButton className="btn create-btn" onClick={this.handleCreateTask}>创建任务</AntButton>
+                            <AntButton className="btn cancel-btn" onClick ={this.handleCancel}>取消</AntButton>
                         </li>
                     </ul>
                 </div>
@@ -795,6 +794,23 @@ let AddTable = React.createClass({
     handleSubmit(e) {
         e.preventDefault();
         console.log('收到表单值：', this.props.form.getFieldsValue());
+        let model = this.props.form.getFieldsValue();
+        model.isDriver = true;
+        //$.ajax(
+        //    {
+        //        type:'post',
+        //        url:'http://10.1.1.132:8080/api/staff/new',
+        //        data:model,
+        //        dataType:'json',
+        //        success:function(){
+        //
+        //        },
+        //        error:function(){
+        //
+        //        }
+        //    }
+        //);
+
         let formValue = this.props.form.getFieldsValue().id='12233';
         this.getCollection().push(this.props.form.getFieldsValue());
         this.props.callbackParentOfAdd(true);
@@ -811,7 +827,6 @@ let AddTable = React.createClass({
 
     getValidateStatus(field) {
         const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
-
         if (isFieldValidating(field)) {
             return 'validating';
         } else if (!!getFieldError(field)) {
@@ -843,13 +858,13 @@ let AddTable = React.createClass({
                                 {...formItemLayout}
                                 hasFeedback
                                 label="姓名："  required>
-                                <AntInput type="text" {...validateForm.nameProps} id='name' placeholder=""  />
+                                <AntInput type="text" {...validateForm.name} id='name' placeholder=""  />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 hasFeedback
                                 label="职务："  required>
-                                <AntInput type="text" {...validateForm.jobProps} id='job' placeholder=""  />
+                                <AntInput type="text" {...validateForm.duties} id='duties' placeholder=""  />
                             </FormItem>
                         </Col>
                     </Row>
@@ -861,7 +876,7 @@ let AddTable = React.createClass({
                                 {...formItemLayout}
                                 hasFeedback
                                 label="编码：" required>
-                                <AntInput type="text" {...validateForm.codeProps} id='code' placeholder=""  />
+                                <AntInput type="text" {...validateForm.code} id='code' placeholder=""  />
                             </FormItem>
                         </Col>
                         <Col span = '12'></Col>
@@ -871,16 +886,16 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="所在部门：">
-                                <AntInput type="text" {...getFieldProps('section')} id = 'section'  placeholder="" />
+                                <AntInput type="text" {...getFieldProps('department')} id = 'department'  placeholder="" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="性别：" required>
-                                <RadioGroup {...getFieldProps('gender', { initialValue: 'male' })}>
-                                    <Radio value="male">男的</Radio>
-                                    <Radio value="female">女的</Radio>
+                                <RadioGroup {...getFieldProps('sex', { initialValue: "male" })}>
+                                    <Radio value="male">男</Radio>
+                                    <Radio value="female">女</Radio>
                                 </RadioGroup>
                             </FormItem>
                         </Col>
@@ -891,7 +906,7 @@ let AddTable = React.createClass({
                                 {...formItemLayout}
                                 hasFeedback
                                 label="身份证号："  required>
-                                <AntInput type="text" {...validateForm.idNumber} placeholder="" id = "idNumber" />
+                                <AntInput type="text" {...validateForm.IDCardNo} placeholder="" id = "IDCardNo" />
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -911,7 +926,7 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="入职日期：" >
-                                <DatePicker placeholder="" {...getFieldProps('joinData')} id = "joinData"/>
+                                <DatePicker placeholder="" {...getFieldProps('employmentDate')} id = "employmentDate"/>
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -919,7 +934,7 @@ let AddTable = React.createClass({
                                 {...formItemLayout}
                                 hasFeedback
                                 label="手机：" required>
-                                <AntInput type="text" placeholder="" {...validateForm.phoneNumber} id = 'phoneNumber' />
+                                <AntInput type="text" placeholder="" {...validateForm.tel} id = 'tel' />
                             </FormItem>
                         </Col>
                     </Row>
@@ -928,7 +943,7 @@ let AddTable = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="备注：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('remark')} id = "remark" />
+                                <AntInput type="text" placeholder="" {...getFieldProps('comment')} id = "comment" />
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -939,7 +954,7 @@ let AddTable = React.createClass({
                                 {...formItemLayout}
                                 label="是否停用:">
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('outAge')} defaultChecked ={false} />
+                                    <Checkbox {...getFieldProps('nonUse',{ initialValue: false })} defaultChecked ={false}  />
                                 </label>
                             </FormItem>
                         </Col>
@@ -958,7 +973,7 @@ let AddTable = React.createClass({
                                         {...formItemLayout}
                                         hasFeedback
                                         label="驾驶证号：" required>
-                                        <AntInput type="text" placeholder="" {...validateForm.drivingLicense}id = "drivingLicense" />
+                                        <AntInput type="text" placeholder="" {...validateForm.licenseNo}id = "licenseNo" />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -969,7 +984,7 @@ let AddTable = React.createClass({
                                         {...formItemLayout}
                                         hasFeedback
                                         label="有效期限：" required>
-                                        <DatePicker id = "validDate" {...validateForm.validDate} />
+                                        <DatePicker id = "expirationDate" {...validateForm.expirationDate} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -980,7 +995,7 @@ let AddTable = React.createClass({
                                         {...formItemLayout}
                                         hasFeedback
                                         label="发证机关：" required>
-                                        <AntInput type="text" placeholder="" id = "authorizedBy" {...validateForm.authorizedBy}/>
+                                        <AntInput type="text" placeholder="" id = "licensingOrganization" {...validateForm.licensingOrganization}/>
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -991,7 +1006,7 @@ let AddTable = React.createClass({
                                         {...formItemLayout}
                                         hasFeedback
                                         label="年审到期：" required>
-                                        <DatePicker  placeholder="" id = "annualExamination" {...validateForm.annualExamination} />
+                                        <DatePicker  placeholder="" id = "auditDate" {...validateForm.auditDate} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1002,7 +1017,7 @@ let AddTable = React.createClass({
                                         {...formItemLayout}
                                         hasFeedback
                                         label="领证日期："  required>
-                                        <DatePicker id = "startLicenseData" {...validateForm.annualExamination} />
+                                        <DatePicker id = "licensingDate" {...validateForm.licensingDate} />
                                     </FormItem>
                                 </Col>
                                 <Col span = "12"></Col>
@@ -1044,7 +1059,7 @@ AddTable = Form.create()(AddTable);
 let AddTableOfVehicle = React.createClass({
     handleSubmit(e) {
         e.preventDefault();
-        //console.log('收到表单值：', this.props.form.getFieldsValue());
+        console.log('收到表单值：', this.props.form.getFieldsValue());
         this.props.callbackParentOfAdd(true);
     },
     handleCancel(){
@@ -1072,12 +1087,12 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆编码：" >
-                                <AntInput type="text" {...getFieldProps('carCode')} placeholder="" value="" />
+                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="" />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="车牌号：" >
-                                <AntInput type="text" {...getFieldProps('carNum')} placeholder="" value="" />
+                                <AntInput type="text" {...getFieldProps('vehicleNo')} placeholder="" value="" />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1088,14 +1103,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆品牌：">
-                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                                <AntInput type="text" {...getFieldProps('brand')} placeholder="" value="01" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="司机：" >
-                                <AntInput type="text" {...getFieldProps('code')} placeholder="" value="01" />
+                                <AntInput type="text" {...getFieldProps('driverName')} placeholder="" value="01" />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1104,14 +1119,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆型号：">
-                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('model')} placeholder="" />
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="司机手机：">
-                                <AntInput type="text" {...getFieldProps('section')} placeholder="" />
+                                <AntInput type="text" {...getFieldProps('driverTel')} placeholder="" />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1120,14 +1135,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆类型：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('type')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所在部门：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('department')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1136,14 +1151,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="标签：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('tags')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所属车主：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('address')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleOwner')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1152,14 +1167,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="颜色：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('color')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="车主手机：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleOwnerTel')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1168,14 +1183,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="载重（吨）：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('more')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('capacity')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所属车队：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vehicleGroup')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1184,14 +1199,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="座位数：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('seats')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="油卡编号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('oilCardNo')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1200,14 +1215,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="油耗：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('oilWear')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="电卡编号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('electricCardNo')} />
                             </FormItem>
                         </Col>
                     </Row>
@@ -1216,14 +1231,14 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label={<div><p>续航里程：</p><p>（电车）</p></div>}>
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('enduranceMileage')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆状态：">
-                                <Select defaultValue="0">
+                                <Select defaultValue="0" {...getFieldProps('status')} >
                                     <Option value="0">可用</Option>
                                     <Option value="1">不可用</Option>
                                 </Select>
@@ -1235,7 +1250,7 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="初始里程：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('startMileage')} />
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -1243,7 +1258,7 @@ let AddTableOfVehicle = React.createClass({
                                 {...formItemLayout}
                                 label="是否停用：" >
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('outage')} />
+                                    <Checkbox {...getFieldProps('nonUse')} />
                                 </label>
                             </FormItem>
                         </Col>
@@ -1253,26 +1268,26 @@ let AddTableOfVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="发动机号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('engineNo')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="车架号：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('vin')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入单位：">
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('purchaseCompany')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入价格：" >
-                                <AntInput type="text" placeholder="" {...getFieldProps('phone')} />
+                                <AntInput type="text" placeholder="" {...getFieldProps('purchasePrice')} />
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
-                                label="购入日期："  >
+                                label="购入日期：" {...getFieldProps('purchaseDate')} >
                                 <DatePicker  />
                             </FormItem>
                         </Col>
@@ -1281,7 +1296,9 @@ let AddTableOfVehicle = React.createClass({
                                 {...formItemLayout}
                                 wrapperCol={{span:14,offset:8}}
                                 label="备注：">
-                                <AntInput  type="textarea" placeholder="请输入..." id="textarea-more" name="textarea" className = 'vehicle-more' />
+                                <AntInput  type="textarea" placeholder="请输入..."
+                                    {...getFieldProps('comment')}
+                                           id="textarea-more" name="textarea" className = 'vehicle-more' />
                             </FormItem>
 
                         </Col>
@@ -1573,7 +1590,7 @@ let LookTable = React.createClass({
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>{staffInfo.name.value}</h3>
+                            <h3>{staffInfo.name}</h3>
                             {typeStatus}
                         </Col>
                     </Row>
@@ -1583,8 +1600,8 @@ let LookTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.code.aliasName+"："} required>
-                                <p>{staffInfo.code.value}</p>
+                                label="编码：" required>
+                                <p>{staffInfo.code}</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'></Col>
@@ -1593,15 +1610,15 @@ let LookTable = React.createClass({
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.section.aliasName+"："} >
-                                <p>{staffInfo.section.value}</p>
+                                label="部门：" >
+                                <p>{staffInfo.department}</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.gender.aliasName+"："} required>
-                                <p>{staffInfo.gender.value}</p>
+                                label="性别：" required>
+                                <p>{staffInfo.sex}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1609,8 +1626,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.idNumber.aliasName+"："} required>
-                                <p>{staffInfo.idNumber.value}</p>
+                                label="身份证号：" required>
+                                <p>{staffInfo.IDCardNo}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1619,8 +1636,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.address.aliasName+"："}>
-                                <p>{staffInfo.address.value}</p>
+                                label="地址：">
+                                <p>{staffInfo.address}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1629,15 +1646,15 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.joinData.aliasName+"："}>
-                                <p>{staffInfo.joinData.value}</p>
+                                label="入职：">
+                                <p>{staffInfo.employmentDate}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.phoneNumber.aliasName+"："} required>
-                                <p>{staffInfo.phoneNumber.value}</p>
+                                label="：" required>
+                                <p>{staffInfo.tel}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1645,8 +1662,8 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.remark.aliasName+"："} required>
-                                <p>{staffInfo.remark.value}</p>
+                                label="备注" required>
+                                <p>{staffInfo.comment}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12"></Col>
@@ -1655,9 +1672,9 @@ let LookTable = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={staffInfo.outAge.aliasName+":"}>
+                                label="是否停用">
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('outage')} defaultChecked={false} disabled/>
+                                    <Checkbox {...getFieldProps('nonUse')} defaultChecked={false} disabled/>
                                 </label>
                             </FormItem>
                         </Col>
@@ -1699,6 +1716,7 @@ let LookTableVehicle = React.createClass({
     render() {
         const { getFieldProps } = this.props.form;
         console.log(this.state.model);
+        const vehicleInfo = this.state.model;
         return (
             <Form horizontal onSubmit={this.handleSubmit} className = 'look-form'>
                 <div className = "up-info">
@@ -1709,13 +1727,13 @@ let LookTableVehicle = React.createClass({
                             </div>
                         </Col>
                         <Col span = "16" className="header-right">
-                            <h3>赵日天</h3>
+                            <h3>{vehicleInfo.label}</h3>
                             <Row type = "flex">
                                 <Col span = "4">
                                     <div className = "type-text right">车牌号：</div>
                                 </Col>
                                 <Col span = "12">
-                                    <div className = "status-text right">ABCDEFG</div>
+                                    <div className = "status-text right">{vehicleInfo.vehicleNo}</div>
                                 </Col>
                             </Row>
                         </Col>
@@ -1727,14 +1745,14 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆品牌：">
-                                <p>车辆品牌</p>
+                                <p>{vehicleInfo.brand}</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="司机：" >
-                                <p>司机</p>
+                                <p>{vehicleInfo.driverName}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1743,14 +1761,14 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆型号：">
-                                <p>车辆型号</p>
+                                <p>{vehicleInfo.model}</p>
                             </FormItem>
                         </Col>
                         <Col span = '12'>
                             <FormItem
                                 {...formItemLayout}
                                 label="司机手机：">
-                                <p>司机手机</p>
+                                <p>{vehicleInfo.driverTel}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1759,14 +1777,14 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆类型：">
-                                <p>车辆类型</p>
+                                <p>{vehicleInfo.type}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所在部门：">
-                                <p>所在部门</p>
+                                <p>{vehicleInfo.department}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1775,14 +1793,14 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="标签：">
-                                <p>标签</p>
+                                <p>{vehicleInfo.tags}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所属车主：">
-                                <p>所属车主</p>
+                                <p>{vehicleInfo.vehicleOwner}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1791,14 +1809,14 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="颜色：">
-                                <p>颜色</p>
+                                <p>{vehicleInfo.color}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="车主手机：" >
-                                <p>车主手机</p>
+                                <p>{vehicleInfo.driverTel}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1807,14 +1825,14 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="载重（吨）：" >
-                                <p>载重（吨）</p>
+                                <p>{vehicleInfo.capacity}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="所属车队：">
-                                <p>所属车队</p>
+                                <p>{vehicleInfo.vehicleGroup}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1823,14 +1841,14 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="座位数：">
-                                <p>座位数</p>
+                                <p>{vehicleInfo.seats}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="油卡编号：">
-                                <p>油卡编号</p>
+                                <p>{vehicleInfo.oilCardNo}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1839,14 +1857,14 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="油耗：" >
-                                <p>油耗</p>
+                                <p>{vehicleInfo.oilWear}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="电卡编号：">
-                                <p>电卡编号</p>
+                                <p>{vehicleInfo.electricCardNo}</p>
                             </FormItem>
                         </Col>
                     </Row>
@@ -1854,15 +1872,15 @@ let LookTableVehicle = React.createClass({
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
-                                label={<div><p>续航里程：</p><p>（电车）</p></div>}>
-                                <p>续航里程</p>
+                                label="续航里程">
+                                <p>{vehicleInfo.enduranceMileage}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
                             <FormItem
                                 {...formItemLayout}
                                 label="车辆状态：">
-                                <Select defaultValue="0" disabled>
+                                <Select defaultValue={vehicleInfo.status} disabled>
                                     <Option value="0">可用</Option>
                                     <Option value="1">不可用</Option>
                                 </Select>
@@ -1874,7 +1892,7 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="初始里程：">
-                                <p>初始里程</p>
+                                <p>{vehicleInfo.startMileage}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -1882,7 +1900,7 @@ let LookTableVehicle = React.createClass({
                                 {...formItemLayout}
                                 label="是否停用：" >
                                 <label className = "isOutage">
-                                    <Checkbox {...getFieldProps('outage')} defaultChecked={false} disabled />
+                                    <Checkbox {...getFieldProps('nonUse')} defaultChecked={false} disabled />
                                 </label>
                             </FormItem>
                         </Col>
@@ -1892,27 +1910,27 @@ let LookTableVehicle = React.createClass({
                             <FormItem
                                 {...formItemLayout}
                                 label="发动机号：">
-                                <p>发动机号</p>
+                                <p>{vehicleInfo.engineNo}</p>
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="车架号：">
-                                <p>车架号</p>
+                                <p>{vehicleInfo.vin}</p>
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入单位：">
-                                <p>购入单位</p>
+                                <p>{vehicleInfo.purchaseCompany}</p>
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入价格：" >
-                                <p>购入价格</p>
+                                <p>{vehicleInfo.purchasePrice}</p>
                             </FormItem>
                             <FormItem
                                 {...formItemLayout}
                                 label="购入日期："  >
-                                <p>购入日期</p>
+                                <p>{vehicleInfo.purchaseDate}</p>
                             </FormItem>
                         </Col>
                         <Col span = "12">
@@ -1920,7 +1938,7 @@ let LookTableVehicle = React.createClass({
                                 {...formItemLayout}
                                 wrapperCol={{span:14,offset:8}}
                                 label="备注：">
-                                <AntInput  type="textarea" placeholder="请输入..." id="textarea-more" name="textarea" className = 'vehicle-more' />
+                                <AntInput  type="textarea" placeholder="请输入..." id="textarea-more" name="textarea" className = 'vehicle-more' value={vehicleInfo.comment}/>
                             </FormItem>
 
                         </Col>

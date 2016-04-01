@@ -16,6 +16,7 @@ import {SendMessageDialog} from './toolComponents/dialogConponents'
 import {AddDialog} from './toolComponents/dialogConponents';
 import {staffData} from '../models/staffData'
 import {vehicleData} from '../models/vehicleData'
+import {settingCheckMinx} from './mixin/settingCheck';
 const Panel = Collapse.Panel;
 //添加
 const AddItem = React.createClass({
@@ -134,7 +135,7 @@ const TaskListItem =React.createClass({
                 <li className ='operation-item-btn'>
                     <Button bsStyle="link" onClick = {this.handleClick}>
                         <ul className = "list-inline" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-                            <li className = "list-item-icon operation-item-icon list-item-icon-hover"></li>
+                            <li className = "history-item-icon operation-item-icon list-item-icon-hover"></li>
                             <li className = "card-show"><h5>任务历史</h5></li>
                         </ul>
                     </Button>
@@ -944,7 +945,7 @@ const OperationItem= React.createClass({
                         <DeleteItem showList={true}/>
                         <Button  bsStyle="link" className=""  onClick={this.handleClick}>
                             <ul className = "list-inline">
-                                <li className = "print-item-icon operation-item-icon"></li>
+                                <li className = "return-item-icon operation-item-icon"></li>
                                 <li>
                                     <h5>返回</h5>
                                 </li>
