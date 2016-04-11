@@ -12,10 +12,10 @@ module.exports = {
             './src/print.js'
         ],
     output:{
-        path:__dirname+'/public/',
+        path:__dirname+'/public/js',
         filename:'[name].js',
         chunkFilename:'[id].chunk.js',
-        publicPath:'http://127.0.0.1:9090/public/'
+        publicPath:'http://127.0.0.1:9090/public/js'
     },
     resolve:{
         root:[process.cwd()+'/src', process.cwd() + '/node_modules'],
@@ -42,9 +42,6 @@ module.exports = {
             "window.jQuery": "jquery"
         }),
         new webpack.optimize.CommonsChunkPlugin('shared.js'),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-        }),
         new webpack.HotModuleReplacementPlugin()
     ]
 };

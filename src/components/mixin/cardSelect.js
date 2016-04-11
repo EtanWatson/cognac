@@ -19,6 +19,12 @@ const cardSelectMinx ={
           }.bind(this));
           PubSub.publish('select-all-back',true);
       }
+
+
+
+
+
+
   }
 };
 export {cardSelectMinx}

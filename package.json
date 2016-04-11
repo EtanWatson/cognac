@@ -13,10 +13,12 @@
     "backbone-react-component": "^0.10.0",
     "browser-sync": "^2.11.1",
     "browserify": "^13.0.0",
+    "compression": "^1.6.1",
     "express": "^4.13.4",
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.7",
     "icheck": "^1.0.2",
+    "if-env": "^1.0.0",
     "jquery": "^2.2.1",
     "path": "^0.12.7",
     "react": "^0.14.7",
@@ -64,7 +66,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --inline --content-base public/ --history-api-fallback --port 9090"
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:dev": "webpack-dev-server --inline --content-base . --history-api-fallback",
+    "start:prod": "webpack && node server.js"
   },
   "repository": {
     "type": "git",
